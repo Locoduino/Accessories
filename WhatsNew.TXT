@@ -1,0 +1,11 @@
+02/08/2016 V1
+	- Utilisation de la stratégie des événements déjà utilisée dans Commanders.
+	- Utilisation systématique des listes chaînées pour simplifier le codage en évitant de spécifier des tailles.
+	- Utilisation des constructeurs simples, et des fonction 'begin' pour construire et paramétrer
+	  les accessoires.
+	- Fonction loop simple qui gère tout !
+
+01/08/2016 V0
+	- Accessories est né de la séparation de UniversalAccessoryDecoder en deux bibliothèques : Accessories et Commanders.
+
+	- Accessories is born, from the split of UniversalAccessoryDecoder V4 in two parts : Accessories and Commanders.

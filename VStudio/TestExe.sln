@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestExe", "TestExe.vcxproj", "{9696B190-8A31-45BA-A43E-0287102EF438}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC} = {2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC}
+		{CC4048D1-7AC0-4D3D-98A3-2922D996B5AB} = {CC4048D1-7AC0-4D3D-98A3-2922D996B5AB}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArduiEmulator", "..\..\..\ArduiEmulator\ArduiEmulator\ArduiEmulator.vcxproj", "{2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DIO2", "..\..\DIO2\VStudio\DIO2.vcxproj", "{CC4048D1-7AC0-4D3D-98A3-2922D996B5AB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC} = {2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9696B190-8A31-45BA-A43E-0287102EF438}.Debug|x64.ActiveCfg = Debug|x64
+		{9696B190-8A31-45BA-A43E-0287102EF438}.Debug|x64.Build.0 = Debug|x64
+		{9696B190-8A31-45BA-A43E-0287102EF438}.Debug|x86.ActiveCfg = Debug|Win32
+		{9696B190-8A31-45BA-A43E-0287102EF438}.Debug|x86.Build.0 = Debug|Win32
+		{9696B190-8A31-45BA-A43E-0287102EF438}.Release|x64.ActiveCfg = Release|x64
+		{9696B190-8A31-45BA-A43E-0287102EF438}.Release|x64.Build.0 = Release|x64
+		{9696B190-8A31-45BA-A43E-0287102EF438}.Release|x86.ActiveCfg = Release|Win32
+		{9696B190-8A31-45BA-A43E-0287102EF438}.Release|x86.Build.0 = Release|Win32
+		{2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC}.Debug|x64.ActiveCfg = Debug|x64
+		{2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC}.Debug|x64.Build.0 = Debug|x64
+		{2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC}.Debug|x86.ActiveCfg = Debug|Win32
+		{2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC}.Debug|x86.Build.0 = Debug|Win32
+		{2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC}.Release|x64.ActiveCfg = Release|x64
+		{2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC}.Release|x64.Build.0 = Release|x64
+		{2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC}.Release|x86.ActiveCfg = Release|Win32
+		{2CEDFF9D-11AC-46B3-92B0-8B43CBCCFFAC}.Release|x86.Build.0 = Release|Win32
+		{CC4048D1-7AC0-4D3D-98A3-2922D996B5AB}.Debug|x64.ActiveCfg = Debug|x64
+		{CC4048D1-7AC0-4D3D-98A3-2922D996B5AB}.Debug|x64.Build.0 = Debug|x64
+		{CC4048D1-7AC0-4D3D-98A3-2922D996B5AB}.Debug|x86.ActiveCfg = Debug|Win32
+		{CC4048D1-7AC0-4D3D-98A3-2922D996B5AB}.Debug|x86.Build.0 = Debug|Win32
+		{CC4048D1-7AC0-4D3D-98A3-2922D996B5AB}.Release|x64.ActiveCfg = Release|x64
+		{CC4048D1-7AC0-4D3D-98A3-2922D996B5AB}.Release|x64.Build.0 = Release|x64
+		{CC4048D1-7AC0-4D3D-98A3-2922D996B5AB}.Release|x86.ActiveCfg = Release|Win32
+		{CC4048D1-7AC0-4D3D-98A3-2922D996B5AB}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
