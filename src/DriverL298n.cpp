@@ -16,21 +16,23 @@ DriverL298n::DriverL298n()
 #endif
 }
 
-void DriverL298n::beginPortMotor(byte inPort, int inPinA, int inPinB)
+DriverPortL298n *DriverL298n::beginPortMotor(byte inPort, int inPinA, int inPinB)
 {
 #ifndef NO_MOTOR_LIGHT
-	((DriverPortL298n *)(this->GetPort(MOTOR_LIGHT, inPort)))->begin(inPinA, inPinB);
+	DriverPortL298n *pPort = (DriverPortL298n *) this->GetPort(MOTOR_LIGHT, inPort);
+	pPort->begin(inPinA, inPinB);
+	return pPort;
 #endif
 }
 
-void DriverL298n::beginPortStepper(byte inPort, int inPinA, int inPinB)
+/*DriverPortStepper *DriverL298n::beginPortStepper(byte inPort, int inPinA, int inPinB)
 {
 #ifndef NO_STEPPER
-	((DriverPortL298n *)(this->GetPort(STEPPER, inPort)))->begin(inPinA, inPinB);
+	DriverPortStepper *pPort = (DriverPortStepper *) this->GetPort(STEPPER, inPort);
+	pPort->begin(inPinA, inPinB);
+	return pPort;
 #endif
 }
+*/
 
-void DriverL298n::begin()
-{
-}
 #endif

@@ -1,18 +1,11 @@
 /*************************************************************
-project: <DCC Accessory Decoder>
+project: <Accessories>
 author: <Thierry PARIS>
 description: <Demo for servo>
 *************************************************************/
 
-#include "UniversalAccessoryDecoder.h"
-
-/* kDCC_INTERRUPT values :
-Board         int.0   int.1   int.2   int.3   int.4   int.5
-Uno, Ethernet   2      3
-Mega2560        2      3      21      20      19      18
-Leonardo        3      2      0       1       7
-*/
-#define kDCC_INTERRUPT            5
+#include "Accessories.h"
+#include "Commanders.h"
 
 ///////////////////////////////////////////////////////////////
 // The target is to move a servo, allowing four buttons to change
@@ -20,28 +13,67 @@ Leonardo        3      2      0       1       7
 // And four other buttons to reach four different positions.
 // A classic button also toggle between min and max positions.
 
-// total number of accessories.
-#define AccessoryNumber		1
+// Commanders
 
-#define SERVO1				0
+#ifdef VISUALSTUDIO
+ButtonsCommanderKeyboard	action;
+ButtonsCommanderKeyboard	pos1;
+ButtonsCommanderKeyboard	pos2;
+ButtonsCommanderKeyboard	pos3;
+ButtonsCommanderKeyboard	pos4;
+ButtonsCommanderKeyboard	mode1;
+ButtonsCommanderKeyboard	mode2;
+ButtonsCommanderKeyboard	mode3;
+ButtonsCommanderKeyboard	mode4;
+#else
+ButtonsCommanderPush	action;
+ButtonsCommanderPush	pos1;
+ButtonsCommanderPush	pos2;
+ButtonsCommanderPush	pos3;
+ButtonsCommanderPush	pos4;
+ButtonsCommanderPush	mode1;
+ButtonsCommanderPush	mode2;
+ButtonsCommanderPush	mode3;
+ButtonsCommanderPush	mode4;
+#endif
 
 // Accessories
 
-Accessories accessories;
-DccCommander dccCommander;
-ButtonsCommander buttonsCommander;
-
 // Drivers
 
-// Only one servo dirver here, a l293d shield,
-// but we could use the arduino itself...	
-DriverL293d *arduino;
+// We could use the arduino itself...	
+DriverL293d driver;
 
 // current user define speed.
 int speed;
 
 // servo accessory.
-AccessoryServo *servo;
+AccessoryServo servo;
+
+void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
+{
+	switch (DCCID(inId))
+	{
+	case 101:	// Fast
+		servo.SetDuration(0);
+		Serial.println("Fast selected");
+		break;
+	case 102:	// Slow exclusive
+		servo.SetDuration(5);
+		Serial.println("Slow exclusive selected");
+		break;
+	case 103: // Slow with event memo
+		servo.SetDuration(10);
+		Serial.println("Slow selected");
+		break;
+	case 104: // Classic Slow. 
+		servo.SetDuration(30);
+		Serial.println("Classic slow selected");
+		break;
+	}
+
+	Accessories::ReceiveEvent(inId, (ACCESSORIES_EVENT_TYPE)inEventType, inEventData);
+}
 
 //////////////////////////////////
 //
@@ -49,92 +81,52 @@ AccessoryServo *servo;
 //
 void setup()
 {
-	UAD_StartSetup();
+	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
+	Commanders::SetEventHandler(ReceiveEvent);
+	Commanders::SetStatusLedPin(LED_BUILTIN);
 
-	dccCommander.Setup(0x00, 0x00, kDCC_INTERRUPT);
-	dccCommander.SetStatusLedPin(13);
+#ifdef VISUALSTUDIO
+	action.begin(DCCINT(22, 0), '0');
+	pos1.begin(DCCINT(30, 0), '1');
+	pos2.begin(DCCINT(30, 1), '2');
+	pos3.begin(DCCINT(31, 0), '3');
+	pos4.begin(DCCINT(31, 1), '4');
 
-	buttonsCommander.Setup(9,
-		new ButtonsCommanderPush(1),	// Classic action button
-		new ButtonsCommanderPush(1),	// Change position #1
-		new ButtonsCommanderPush(1),	// Change position #2
-		new ButtonsCommanderPush(1),	// Change position #3
-		new ButtonsCommanderPush(1),	// Change position #4
-		new ButtonsCommanderPush(1),	// Change mode #1
-		new ButtonsCommanderPush(1),	// Change mode #2
-		new ButtonsCommanderPush(1),	// Change mode #3
-		new ButtonsCommanderPush(1)		// Change mode #4
-		);
-	PUSH(buttonsCommander, 0)->AddDccId(22, 0);	// Classic action button
-	PUSH(buttonsCommander, 0)->AddDccId(30, 0);	// Change position #1
-	PUSH(buttonsCommander, 0)->AddDccId(30, 1);	// Change position #2
-	PUSH(buttonsCommander, 0)->AddDccId(31, 0);	// Change position #3
-	PUSH(buttonsCommander, 0)->AddDccId(31, 1);	// Change position #4
-	PUSH(buttonsCommander, 0)->AddDccId(101, 0);// Change mode #1
-	PUSH(buttonsCommander, 0)->AddDccId(102, 0);// Change mode #2
-	PUSH(buttonsCommander, 0)->AddDccId(103, 0);// Change mode #3
-	PUSH(buttonsCommander, 0)->AddDccId(104, 0);// Change mode #4
+	mode1.begin(DCCINT(101, 0), 'a');
+	mode2.begin(DCCINT(102, 0), 'z');
+	mode3.begin(DCCINT(103, 0), 'e');
+	mode4.begin(DCCINT(104, 0), 'r');
+#else
+	action.begin(DCCINT(22, 0), 40');
+	pos1.begin(DCCINT(30, 0), 30);
+	pos2.begin(DCCINT(30, 1), 31);
+	pos3.begin(DCCINT(31, 0), 32');
+	pos4.begin(DCCINT(31, 1), 33');
 
-	PUSH(buttonsCommander, 0)->Setup(40);	// Classic action button
-	PUSH(buttonsCommander, 0)->Setup(30);	// Change position #1
-	PUSH(buttonsCommander, 0)->Setup(31);	// Change position #2
-	PUSH(buttonsCommander, 0)->Setup(32);	// Change position #3
-	PUSH(buttonsCommander, 0)->Setup(33);	// Change position #4
-	PUSH(buttonsCommander, 0)->Setup(20);	// Change mode #1
-	PUSH(buttonsCommander, 0)->Setup(21);	// Change mode #2
-	PUSH(buttonsCommander, 0)->Setup(22);	// Change mode #3
-	PUSH(buttonsCommander, 0)->Setup(23);	// Change mode #4
+	mode1.begin(DCCINT(101, 0), 40);
+	mode2.begin(DCCINT(102, 0), 41);
+	mode3.begin(DCCINT(103, 0), 42);
+	mode4.begin(DCCINT(104, 0), 43);
+#endif
 
-	// Drivers setups
+	driver.begin();
 
-	arduino = new DriverL293d();
-	arduino->Setup();
-
-	// Buttons setups
+	DriverPort *pPort = driver.beginPortServo(L293D_PORT_SERVO1);
 
 	speed = 19;	// starting speed state : fast.
 
 	// Accessories setups
 
-	accessories.Setup(AccessoryNumber, 
-		new AccessoryServo(30, 0, 30, 1, speed));	// Servo with DCC id for minimum AND maximum
-
-	SERVO(accessories, SERVO1)->AddDccPosition(31, 0, 30);	// One more Dcc id for angle 30
-	SERVO(accessories, SERVO1)->AddDccPosition(31, 1, 90);	// One more Dcc id for angle 90
-
-	SERVO(accessories, SERVO1)->Setup(arduino, L293D_PORT_SERVO1, 10, 160);
-	
-	UAD_EndSetup();
+	servo.begin(pPort, 0, 40, 50, 4);
+	servo.AddMovingPosition(DCCINT(30, 0), 10);
+	servo.AddMovingPosition(DCCINT(30, 1), 20);
+	servo.AddMovingPosition(DCCINT(31, 0), 30);
+	servo.AddMovingPosition(DCCINT(31, 1), 40);
 }
 
 void loop()
 {
-	if (dccCommander.Loop())
-	{
-		accessories.Loop();
-		if (!buttonsCommander.Loop())
-		{
-			// If ButtonsCommander have found no correspondance between an accessory or a group state
-			// handle it manually.
-#ifdef DEBUG_MODE
-			Serial.print(F("Mode button :"));
-			Serial.println(buttonsCommander.GetLastSelectedButton()->GetDccIdDecoder());
-#endif
-			switch (buttonsCommander.GetLastSelectedButton()->GetDccIdDecoder())
-			{
-			case 101:	// Fast
-				servo->SetDuration(0);
-				break;
-			case 102:	// Slow exclusive
-				servo->SetDuration(5);
-				break;
-			case 103: // Slow with event memo
-				servo->SetDuration(10);
-				break;
-			case 104: // Classic Slow. 
-				servo->SetDuration(30);
-				break;
-			}
-		}
-	}
+	Accessories::loop();
+
+	Commanders::loop();
 }

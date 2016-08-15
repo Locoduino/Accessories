@@ -1,10 +1,10 @@
 /*************************************************************
-project: <DCC Accessory Decoder>
+project: <Accessoriesr>
 author: <Thierry PARIS>
 description: <2 servos and 3 leds driven by dcc arduino>
 *************************************************************/
 
-#include "UniversalAccessoryDecoder.h"
+#include "Accessories.h"
 
 /* kDCC_INTERRUPT values :
 Board         int.0   int.1   int.2   int.3   int.4   int.5

@@ -1,7 +1,18 @@
 #include "Arduino.h"
 #include "DIO2.h"
 
-#include "TestExe.ino"
+//#include "../examples/CANCommander/CANCommander.ino"
+//#include "../examples/Demo/Demo.ino"
+//#include "../examples/Full/Full.ino"
+//#include "../examples/Group/Group.ino"
+//#include "../examples/LightFading/LightFading.ino"
+#include "../examples/Servos/Servos.ino"
+//#include "../examples/SignalFrench/SignalFrench.ino"
+//#include "../examples/Signals4x3/Signals4x3.ino"
+//#include "../examples/SimpleLed/SimpleLed.ino"
+//#include "../examples/SimpleLedMulti/SimpleLedMulti.ino"
+
+//#include "TestExe.ino"
 
 using namespace System;
 using namespace System::Windows::Forms;

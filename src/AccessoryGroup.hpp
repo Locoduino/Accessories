@@ -28,7 +28,7 @@ class GroupState
 {
 	public:
 		unsigned long Id;
-		UADCHAINEDLIST<GroupStateItem> Items;
+		ACCSCHAINEDLIST<GroupStateItem> Items;
 		bool Synchrone;
 
 	private:
@@ -62,15 +62,15 @@ class AccessoryGroup
 
 	public:
 		AccessoryGroup *pNextGroup;
-		UADCHAINEDLIST<GroupState> States;
+		ACCSCHAINEDLIST<GroupState> States;
 
 	public:
 		AccessoryGroup();
 
 		void begin();
-		void begin(GroupState *inpFirstState, ...);
-		inline void AddState(GroupState *inpState) { this->States.AddItem(*inpState); }
-		inline void AddState(unsigned long inId, bool inSynchrone = true) { this->States.AddItem(*(new GroupState(inId, inSynchrone))); }
+		//void begin(GroupState *inpFirstState, ...);
+		inline void AddState(GroupState *inpState) { this->States.AddItem(inpState); }
+		inline void AddState(unsigned long inId, bool inSynchrone = true) { this->States.AddItem(new GroupState(inId, inSynchrone)); }
 		void AddStateItem(unsigned long inId, Accessory &inAccessory, ACC_STATE inState, unsigned int inDelay = 0);
 		void AddRange(const AccessoryGroup &inGroup);
 		GroupState *GetByID(unsigned long inId);

@@ -31,7 +31,7 @@ class Driver
 		Driver *pNextDriver;
 
 	protected:
-		UADCHAINEDLIST<DriverPort> Ports;
+		ACCSCHAINEDLIST<DriverPort> Ports;
 	
 	public:
 		Driver();
@@ -39,10 +39,10 @@ class Driver
 		inline PORT_STATE GetState(PORTTYPE inType, byte inPort) const { return this->GetPort(inType,inPort)->GetState(); }
 		inline int GetSpeed(PORTTYPE inType, byte inPort) const { return this->GetPort(inType, inPort)->GetSpeed(); }
 		int SetSpeed(PORTTYPE inType, byte inPort, int inSpeed);
+		DriverPort *GetPort(PORTTYPE inType, byte inPort) const;
 
 	protected:
 		void AddPort(DriverPort *inpPort);
-		DriverPort *GetPort(PORTTYPE inType, byte inPort) const;
 
 	public:
 		virtual void begin();

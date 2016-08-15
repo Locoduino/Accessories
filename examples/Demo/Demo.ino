@@ -1,40 +1,53 @@
 /*************************************************************
-project: <DCC Accessory Decoder>
+project: <Accessories>
 author: <Thierry PARIS>
-description: <Test for UAD library, with some turnouts and lights, controled by Dcc.>
+description: <Test for Accessories library, with some turnouts and lights, controled by Dcc.>
 *************************************************************/
 
-#include "UniversalAccessoryDecoder.h"
+#include "Commanders.h"
+#include "Accessories.h"
 
-/* kDCC_INTERRUPT values :
-Board         int.0   int.1   int.2   int.3   int.4   int.5
-Uno, Ethernet   2      3
-Mega2560        2      3      21      20      19      18
-Leonardo        3      2      0       1       7
-*/
-#define kDCC_INTERRUPT          5
+// Commanders
 
-// total number of pushbuttons / accessories.
-#define AccessoryNumber		7
-
-#define TURNOUT_LEFT		0
-#define TURNOUT_DC		1
-#define TURNOUT_RIGHT		2
-#define TURNOUT_EPS		3
-#define TURNOUT_TJD		4
-#define SERVO1			5
-#define LIGHT1			6
+#ifdef VISUALSTUDIO
+ButtonsCommanderKeyboard push0;
+ButtonsCommanderKeyboard push1;
+ButtonsCommanderKeyboard push2;
+ButtonsCommanderKeyboard push3;
+ButtonsCommanderKeyboard push4;
+ButtonsCommanderKeyboard push5;
+ButtonsCommanderKeyboard push6;
+ButtonsCommanderKeyboard push7;
+#else
+ButtonsCommanderPush push0;
+ButtonsCommanderPush push1;
+ButtonsCommanderPush push2;
+ButtonsCommanderPush push3;
+ButtonsCommanderPush push4;
+ButtonsCommanderPush push5;
+ButtonsCommanderPush push6;
+ButtonsCommanderPush push7;
+#endif
 
 // Accessories
 
-Accessories accessories;
-DccCommander dccCommander;
-ButtonsCommander buttonsCommander;
+AccessoryMotorTwoWays turnoutLeft;
+AccessoryMotorTwoWays turnoutRight;
+AccessoryMotorTwoWays turnoutDc;
+AccessoryMotorTwoWays turnoutEps;
+AccessoryMotorTwoWays turnoutTjd;
+AccessoryServo servo;
+AccessoryLight light;
 
 // Drivers
-	
-DriverL293d *l293d;
-DriverL298n *l298n;
+
+DriverL293d l293d;
+DriverL298n l298n;
+
+void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
+{
+	Accessories::ReceiveEvent(inId, (ACCESSORIES_EVENT_TYPE)inEventType, inEventData);
+}
 
 //////////////////////////////////
 //
@@ -42,88 +55,64 @@ DriverL298n *l298n;
 //
 void setup()
 {
-	UAD_StartSetup();
+	// Setup of the Dcc commander.
+	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
+	Commanders::SetEventHandler(ReceiveEvent);
+	Commanders::SetStatusLedPin(LED_BUILTIN);
 
-    // Setup of the Dcc commander.
-	dccCommander.Setup(0x00, 0x00, kDCC_INTERRUPT);
-	dccCommander.SetStatusLedPin(13);
-
-    // Setup of the buttons, one by accessory
-	buttonsCommander.Setup(7,
-		new ButtonsCommanderPush(1),
-		new ButtonsCommanderPush(1),
-		new ButtonsCommanderPush(1),
-		new ButtonsCommanderPush(1),
-		new ButtonsCommanderPush(1),
-		new ButtonsCommanderPush(1),
-		new ButtonsCommanderPush(1)
-		);
-    // Each button assigned to an accessory Dcc code.
-	PUSH(buttonsCommander, 0)->AddDccId(20, 0);
-	PUSH(buttonsCommander, 1)->AddDccId(20, 1);
-	PUSH(buttonsCommander, 2)->AddDccId(21, 0);
-	PUSH(buttonsCommander, 3)->AddDccId(21, 1);
-	PUSH(buttonsCommander, 4)->AddDccId(22, 0);
-	PUSH(buttonsCommander, 5)->AddDccId(22, 1);
-	PUSH(buttonsCommander, 6)->AddDccId(23, 0);
-
-    // Declare the Arduino pins.
-	PUSH(buttonsCommander, 0)->Setup(30);
-	PUSH(buttonsCommander, 1)->Setup(32);
-	PUSH(buttonsCommander, 2)->Setup(34);
-	PUSH(buttonsCommander, 3)->Setup(36);
-	PUSH(buttonsCommander, 4)->Setup(38);
-	PUSH(buttonsCommander, 5)->Setup(39);
-	PUSH(buttonsCommander, 6)->Setup(40);
-
+	// Each button assigned to an accessory Dcc code.
+#ifdef VISUALSTUDIO
+	push0.begin(DCCINT(20, 0), '0');
+	push1.begin(DCCINT(20, 1), '1');
+	push2.begin(DCCINT(21, 0), '2');
+	push3.begin(DCCINT(21, 1), '3');
+	push4.begin(DCCINT(22, 0), '4');
+	push5.begin(DCCINT(22, 1), '5');
+	push6.begin(DCCINT(23, 0), '6');
+	push7.begin(DCCINT(23, 1), '7');
+#else
+	push0.begin(DCCINT(20, 0), 30);
+	push1.begin(DCCINT(20, 1), 32);
+	push2.begin(DCCINT(21, 0), 34);
+	push3.begin(DCCINT(21, 1), 36);
+	push4.begin(DCCINT(22, 0), 38);
+	push5.begin(DCCINT(22, 1), 40);
+	push6.begin(DCCINT(23, 0), 42);
+	push7.begin(DCCINT(23, 1), 44);
+#endif
 	// Drivers setups
 
-    // four turnouts are connected to the l293d shield.
-	l293d = new DriverL293d();
-	l293d->Setup();
-	l293d->SetupPortMotor(L293D_PORT_M1, MOTOR12_1KHZ);	//TURNOUT_RIGHT
-	l293d->SetupPortMotor(L293D_PORT_M2, MOTOR12_1KHZ);	//TURNOUT_LEFT
-	l293d->SetupPortMotor(L293D_PORT_M3, MOTOR34_1KHZ);	//TURNOUT_TJD
-	l293d->SetupPortMotor(L293D_PORT_M4, MOTOR34_1KHZ);	//TURNOUT_EPS
-	
-    // one is on the l298n circuit, with the led.
-	l298n = new DriverL298n();
-	l298n->Setup();
-	l298n->SetupPortMotor(L298N_PORT_OUT1, 50, 52);		//TURNOUT_DC
-	l298n->SetupPortMotor(L298N_PORT_OUT2, 46, 48);		//LIGHT1
+	// four turnouts are connected to the l293d shield.
+	l293d.begin();
+	DriverPortL293d *pPortLeft = l293d.beginPortMotor(L293D_PORT_M1, MOTOR12_1KHZ);	//TURNOUT_LEFT				  
+	DriverPortL293d *pPortRight = l293d.beginPortMotor(L293D_PORT_M2, MOTOR12_1KHZ);	//TURNOUT_RIGHT
+	DriverPortL293d *pPortDc = l293d.beginPortMotor(L293D_PORT_M3, MOTOR34_1KHZ);	//TURNOUT_DC
+	DriverPortL293d *pPortEps = l293d.beginPortMotor(L293D_PORT_M4, MOTOR34_1KHZ);		//TURNOUT_EPS
+	DriverPortServoArduino *pPortServo = l293d.beginPortServo(L293D_PORT_SERVO1);		//SERVO
 
-	// Accessories setups
+																						// one is on the l298n circuit, with the led.										
+	l298n.begin();
+	DriverPortL298n *pPortTjd = l298n.beginPortMotor(L298N_PORT_OUT1, 50, 52);		//TURNOUT_TJD								 
+	DriverPortL298n *pPortLight = l298n.beginPortMotor(L298N_PORT_OUT2, 46, 48);		//LIGHT1
 
-    // Assign Dcc code for each accessory.
-	accessories.Setup(AccessoryNumber);
-	accessories.Add(new AccessoryMotorTwoWays(20, 0, 50));	// TURNOUT_LEFT	
-	accessories.Add(new AccessoryMotorTwoWays(20, 1, 50));	// TURNOUT_DC
-	accessories.Add(new AccessoryMotorTwoWays(21, 0, 300));	// TURNOUT_RIGHT
-	accessories.Add(new AccessoryMotorTwoWays(21, 1, 300));	// TURNOUT_EPS
-	accessories.Add(new AccessoryMotorTwoWays(22, 0, 300));	// TURNOUT_TJD
-	accessories.Add(new AccessoryServo(22, 1, 0));		// SERVO1
-	accessories.Add(new AccessoryLight(23, 0, 500));	// LIGHT1
+																						// Accessories setups
 
-   // Attach each accessory to its driver/port.
-	MOTOR2WAYS(accessories, TURNOUT_LEFT)->Setup(l293d, L293D_PORT_M1, 150);
-	MOTOR2WAYS(accessories, TURNOUT_RIGHT)->Setup(l293d, L293D_PORT_M2, 150);
-	MOTOR2WAYS(accessories, TURNOUT_EPS)->Setup(l293d, L293D_PORT_M3, 150);
-	MOTOR2WAYS(accessories, TURNOUT_TJD)->Setup(l293d, L293D_PORT_M4, 150);
-	MOTOR2WAYS(accessories, TURNOUT_DC)->Setup(l298n, L298N_PORT_OUT12, 150);
-	LIGHT(accessories, LIGHT1)->Setup(l298n, L298N_PORT_OUT34, 150);
-	SERVO(accessories, SERVO1)->Setup(l293d, L293D_PORT_SERVO1, 10, 150);
+																						// Assign Dcc code for each accessory.
+	turnoutLeft.begin(pPortLeft, DCCINT(20, 0), 50., 150);
+	turnoutRight.begin(pPortRight, DCCINT(20, 1), 3000, 150);
+	turnoutDc.begin(pPortDc, DCCINT(21, 0), 500, 150);
+	turnoutEps.begin(pPortEps, DCCINT(21, 1), 3000, 150);
 
-	UAD_EndSetup();
+	turnoutTjd.begin(pPortTjd, DCCINT(22, 0), 0, 150);
+	light.begin(pPortLight, DCCINT(21, 1), 500, 150);	// LIGHT1
+	servo.begin(pPortServo, 1000, 40, 50, 2);
+
+	servo.AddMinMaxMovingPositions(DCCINT(23, 0), DCCINT(23, 1));
 }
 
 void loop()
 {
-    // Dcc is run first, and if necessary, lets the accessories work.
-	if (dccCommander.Loop())
-	{
-		accessories.Loop();
+	Accessories::loop();
 
-		dccCommander.Loop();
-		buttonsCommander.Loop();
-	}
+	Commanders::loop();
 }

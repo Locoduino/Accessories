@@ -30,6 +30,8 @@
 
 #define L293D_DEFAULTDURATION	100
 
+class DriverPortServoArduino;
+
 class DriverL293d : public Driver
 {
 	public:
@@ -37,7 +39,9 @@ class DriverL293d : public Driver
 		
 	public:
 		void begin();
-		void beginPortMotor(byte inPort, uint8_t inFreq);
+		DriverPortL293d *beginPortMotor(byte inPort, uint8_t inFreq);
+		DriverPortServoArduino *beginPortServo(byte inPort);
+		//DriverPortStepper *beginPortStepper(byte inPort);
 };
 #endif	 
 

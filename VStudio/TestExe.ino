@@ -4,12 +4,9 @@ author: <Thierry PARIS>
 description: <2 servos and 3 leds driven by dcc arduino>
 *************************************************************/
 
-#include "Accessories.h"
-#ifdef VISUALSTUDIO
-#include "../../Commanders/src/Commanders.h"
-#else
+#include <Accessories.h>
+
 #include <Commanders.h>
-#endif
 
 #define kDCC_INTERRUPT      0
 

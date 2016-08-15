@@ -29,7 +29,7 @@ class AccessoryMotor : public Accessory
 		inline bool IsStopped() const { return this->IsNone(); }
 		
 		void begin(DriverPort *inpPort, unsigned long inId, int inSpeed, unsigned long inDurationMilli = 0);
-		void Event(ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0);
+		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0);
 
 	protected:
 		void SetState(ACC_STATE instate);

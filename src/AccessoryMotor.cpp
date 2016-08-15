@@ -18,6 +18,7 @@ void AccessoryMotor::begin(DriverPort *inpPort, unsigned long inId, int inSpeed,
 	Accessory::begin(STOP);
 	this->pPort->SetSpeed(inSpeed);
 	this->prevState = STOP;
+	this->AddMovingPosition(inId, RIGHT);
 }
 
 ACC_STATE AccessoryMotor::MoveToggle(unsigned long inDuration, int inSpeed)
@@ -63,7 +64,7 @@ ACC_STATE AccessoryMotor::InternalMove(ACC_STATE inStateToReach, unsigned long i
 	return this->state;
 }
 
-void AccessoryMotor::Event(ACCESSORIES_EVENT_TYPE inEvent, int inData)
+void AccessoryMotor::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
 {
 	switch (inEvent)
 	{

@@ -9,12 +9,9 @@ description: <Class for a two ways motorized accessory>
 #ifndef NO_MOTOR
 #ifndef NO_MOTORTWOWAYS
 
-AccessoryMotorTwoWays::AccessoryMotorTwoWays(unsigned long inId, unsigned long inDurationMilli)// : AccessoryMotor(inId, inDurationMilli)
+void AccessoryMotorTwoWays::begin(DriverPort *inpPort, unsigned long inIdRight, unsigned long inIdLeft, int speed, unsigned long inDurationMilli)
 {
-}
-
-AccessoryMotorTwoWays::AccessoryMotorTwoWays(unsigned long inIdRight, unsigned long inIdLeft, unsigned long inDurationMilli)// : AccessoryMotor(inIdRight, inDurationMilli)
-{
+	this->AccessoryMotor::begin(inpPort, inIdRight, speed, inDurationMilli);
 	this->AddMovingPosition(inIdLeft, LEFT);
 }
 

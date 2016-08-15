@@ -42,11 +42,42 @@ void DriverL293d::begin()
 #endif
 }
 
-void DriverL293d::beginPortMotor(byte inPort, uint8_t inFreq)
+DriverPortL293d * DriverL293d::beginPortMotor(byte inPort, uint8_t inFreq)
 {
 #if !defined(NO_MOTOR_LIGHT)
-	((DriverPortL293d *) this->GetPort(MOTOR_LIGHT, inPort))->begin(inFreq);
+	DriverPortL293d *pPort = (DriverPortL293d *) this->GetPort(MOTOR_LIGHT, inPort);
+	pPort->begin(inFreq);
+	return pPort;
 #endif
 }
+
+DriverPortServoArduino * DriverL293d::beginPortServo(byte inPort)
+{
+#if !defined(NO_SERVO)
+	DriverPortServoArduino *pPort = (DriverPortServoArduino *) this->GetPort(SERVO, inPort);
+#ifdef DEBUG_MODE
+	if (pPort->GetPin() == -1)
+	{
+		Serial.print(F("Port Servo Arduino "));
+		Serial.print(inPort);
+		Serial.print(F(" error in DriverL293d::beginPortServo : driver.begin() not called."));
+	}
+#endif
+
+	return pPort;
+#endif
+}
+
+/*
+DriverPortStepper * DriverL293d::beginPortStepper(byte inPort)
+{
+#if !defined(NO_STEPPER)
+	DriverPortStepper *pPort = (DriverPortStepper *) this->GetPort(STEPPER, inPort);
+	pPort->begin(0);
+	return pPort;
+#endif
+}
+*/
+
 #endif
 #endif

@@ -11,6 +11,8 @@ description: <Driver port for a servo on Arduino>
 DriverPortServoArduino::DriverPortServoArduino(byte inId) : DriverPortServo(inId)
 {
 	this->pin = -1;
+	this->servo.pin = -1;
+	this->servo.servoIndex = -1;
 }
 
 void DriverPortServoArduino::begin(int inPin, PORT_TYPE inType)

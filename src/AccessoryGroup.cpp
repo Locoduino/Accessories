@@ -56,7 +56,7 @@ void GroupState::begin()
 
 void GroupState::Add(Accessory *inpAccessory, ACC_STATE inState, unsigned int inDelay)
 { 
-	this->Items.AddItem(*(new GroupStateItem(inpAccessory, inState, inDelay))); 
+	this->Items.AddItem(new GroupStateItem(inpAccessory, inState, inDelay)); 
 }
 
 void GroupState::StartAction()
@@ -71,11 +71,11 @@ void GroupState::StartAction()
 
 	if (this->Synchrone)
 	{
-		UADCHAINEDLISTITEM<GroupStateItem> *pCurr = this->Items.pFirst;
+		ACCSCHAINEDLISTITEM<GroupStateItem> *pCurr = this->Items.pFirst;
 
 		while (pCurr != NULL)
 		{
-			pCurr->Obj.pAccessory->StartAction(pCurr->Obj.State);
+			pCurr->Obj->pAccessory->StartAction(pCurr->Obj->State);
 			pCurr = pCurr->pNext;
 		}
 
@@ -84,10 +84,10 @@ void GroupState::StartAction()
 	}
 
 	this->Items.StartCurrent();
-	if (this->Items.pCurrentItem->Obj.Delay != 0)
+	if (this->Items.pCurrentItem->Obj->Delay != 0)
 		this->startActionTime = millis();
 
-	this->Items.pCurrentItem->Obj.pAccessory->StartAction(this->Items.pCurrentItem->Obj.State);
+	this->Items.pCurrentItem->Obj->pAccessory->StartAction(this->Items.pCurrentItem->Obj->State);
 }
 
 void GroupState::loop()
@@ -95,11 +95,11 @@ void GroupState::loop()
 	if (!IsActionPending())
 		return;
 
-	if (this->Items.pCurrentItem->Obj.pAccessory->IsGroupActionPending())
+	if (this->Items.pCurrentItem->Obj->pAccessory->IsGroupActionPending())
 		return;
 
 	if (this->startActionTime != 0)
-		if (millis() - this->startActionTime < this->Items.pCurrentItem->Obj.Delay)
+		if (millis() - this->startActionTime < this->Items.pCurrentItem->Obj->Delay)
 			return;
 
 #ifdef DEBUG_MODE
@@ -109,7 +109,7 @@ void GroupState::loop()
 	this->Items.NextCurrent();
 
 	if (this->Items.HasCurrent())
-		this->Items.pCurrentItem->Obj.pAccessory->StartAction(this->Items.pCurrentItem->Obj.State);
+		this->Items.pCurrentItem->Obj->pAccessory->StartAction(this->Items.pCurrentItem->Obj->State);
 }
 
 /***********************************************************
@@ -163,7 +163,7 @@ void AccessoryGroup::AddGroup(AccessoryGroup *inGroup)
 
 void AccessoryGroup::AddRange(const AccessoryGroup &inGroup)
 {
-	UADCHAINEDLISTITEM<GroupState> *pCurr = inGroup.States.pFirst;
+	ACCSCHAINEDLISTITEM<GroupState> *pCurr = inGroup.States.pFirst;
 
 	while (pCurr != NULL)
 	{
@@ -174,12 +174,12 @@ void AccessoryGroup::AddRange(const AccessoryGroup &inGroup)
 
 GroupState *AccessoryGroup::GetByID(unsigned long inId)
 {
-	UADCHAINEDLISTITEM<GroupState> *pCurr = this->States.pFirst;
+	ACCSCHAINEDLISTITEM<GroupState> *pCurr = this->States.pFirst;
 
 	while (pCurr != NULL)
 	{
-		if(pCurr->Obj.Id == inId)
-			return &(pCurr->Obj);
+		if(pCurr->Obj->Id == inId)
+			return pCurr->Obj;
 		pCurr = pCurr->pNext;
 	}
 
@@ -198,14 +198,14 @@ void AccessoryGroup::StartAction(GroupState *inpState)
 	Serial.println(inpState->Id);
 #endif
 
-	UADCHAINEDLISTITEM<GroupState> *pCurr = this->States.pFirst;
+	ACCSCHAINEDLISTITEM<GroupState> *pCurr = this->States.pFirst;
 
 	while (pCurr != NULL)
 	{
-		if (&(pCurr->Obj) == inpState)
+		if (pCurr->Obj == inpState)
 		{
 			this->States.pCurrentItem = pCurr;
-			pCurr->Obj.StartAction();
+			pCurr->Obj->StartAction();
 			return;
 		}
 		pCurr = pCurr->pNext;
@@ -217,8 +217,8 @@ bool AccessoryGroup::loop()
 	if (!IsActionPending())
 		return false;	// nothing done !
 
-	this->States.pCurrentItem->Obj.loop();
-	if (!this->States.pCurrentItem->Obj.IsActionPending())
+	this->States.pCurrentItem->Obj->loop();
+	if (!this->States.pCurrentItem->Obj->IsActionPending())
 		this->States.ResetCurrent();
 	return true;
 }
@@ -251,11 +251,11 @@ void AccessoryGroup::EventAll(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent
 
 	while (pCurr != NULL)
 	{
-		UADCHAINEDLISTITEM<GroupState> *pCurrState = pCurr->States.pFirst;
+		ACCSCHAINEDLISTITEM<GroupState> *pCurrState = pCurr->States.pFirst;
 
 		while (pCurrState != NULL)
 		{
-			if (pCurrState->Obj.Id == inId)
+			if (pCurrState->Obj->Id == inId)
 				break;
 			pCurrState = pCurrState->pNext;
 		}
@@ -277,11 +277,11 @@ void AccessoryGroup::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 
 bool AccessoryGroup::Toggle(unsigned long inId)
 {
-	UADCHAINEDLISTITEM<GroupState> *pCurr = this->States.pFirst;
+	ACCSCHAINEDLISTITEM<GroupState> *pCurr = this->States.pFirst;
 
 	while (pCurr != NULL)
 	{
-		if (pCurr->Obj.Id == inId)
+		if (pCurr->Obj->Id == inId)
 			break;
 		pCurr = pCurr->pNext;
 	}
@@ -305,7 +305,7 @@ bool AccessoryGroup::Toggle(unsigned long inId)
 		Serial.println(F("No action pending..."));
 #endif
 		this->States.pCurrentItem = pCurr;
-		pCurr->Obj.StartAction();
+		pCurr->Obj->StartAction();
 	}
 
 	return true;

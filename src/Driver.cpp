@@ -38,16 +38,16 @@ Driver::Driver()
 
 void Driver::AddPort(DriverPort *inpPort)
 {
-	this->Ports.AddItem(*inpPort);
+	this->Ports.AddItem(inpPort);
 }
 
 DriverPort *Driver::GetPort(PORTTYPE inType, byte inId) const
 {
-	UADCHAINEDLISTITEM<DriverPort> *pCurr = this->Ports.pFirst;
+	ACCSCHAINEDLISTITEM<DriverPort> *pCurr = this->Ports.pFirst;
 	while (pCurr != NULL)
 	{
-		if (pCurr->Obj.GetType() == inType && pCurr->Obj.GetId() == inId)
-			return &(pCurr->Obj);
+		if (pCurr->Obj->GetType() == inType && pCurr->Obj->GetId() == inId)
+			return pCurr->Obj;
 		pCurr = pCurr->pNext;
 	}
 

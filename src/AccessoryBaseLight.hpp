@@ -15,7 +15,7 @@
 #define LIGHTBLINK	STATE_SECOND
 #define LIGHTOFF	STATE_NONE
 
-#define FADING_FULL_DELAY	(this->fadingStep == 0 ? 0 : ((255L / this->fadingStep)+1) * this->fadingDelay)
+#define FADING_FULL_DELAY	(this->fadingStep == 0 ? 0 : ((255UL / this->fadingStep)+1) * this->fadingDelay)
 
 // This class describes a basic light.
 

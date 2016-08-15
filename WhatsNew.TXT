@@ -1,9 +1,19 @@
-02/08/2016 V1
+15/08/2016 V0.15
+	- Correction de AccessoryMotorTwoWays, de AccessoryServo, de DriverL293d et Driver L298n, et de certains exemples.
+
+	- Fix of AccessoryMotorTwoWays, of AccessoryServo, of DriverL293d and Driver L298n, and some samples.
+	
+02/08/2016 V0.1
 	- Utilisation de la stratégie des événements déjà utilisée dans Commanders.
 	- Utilisation systématique des listes chaînées pour simplifier le codage en évitant de spécifier des tailles.
 	- Utilisation des constructeurs simples, et des fonction 'begin' pour construire et paramétrer
 	  les accessoires.
 	- Fonction loop simple qui gère tout !
+
+	- Use of event strategy already used in commanders.
+	- Use chained list to simplify user programmation
+	- Use of default constructors to allow simple object declarations, and 'begin' functions to set good arguments.
+	- Easy and simple function 'loop' handling everything.
 
 01/08/2016 V0
 	- Accessories est né de la séparation de UniversalAccessoryDecoder en deux bibliothèques : Accessories et Commanders.
