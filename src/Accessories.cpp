@@ -52,6 +52,10 @@ void Accessories::printEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventT
 
 void Accessories::ReceiveEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventType, int inEventData)
 {
+#ifdef VISUALSTUDIO
+	ArduiEmulator::ArduinoForm::_eventLog("Received", inId, inEventType, inEventData);
+#endif
+
 	AccessoriesClass::AccessoriesInstance.Event(inId, inEventType, inEventData);
 	AccessoryGroup::EventAll(inId, inEventType, inEventData);
 }

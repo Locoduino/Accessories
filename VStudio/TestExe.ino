@@ -21,9 +21,9 @@ SERIAL_COMMANDER(Serial);
 
 AccessoryServo servo1;
 AccessoryServo servo2;
-AccessoryLight light1;
-AccessoryLight light2;
-AccessoryLight light3;
+AccessoryLight green;
+AccessoryLight orange;
+AccessoryLight white;
 
 AccessoryGroup groupServos;
 AccessoryGroup groupLights;
@@ -98,24 +98,24 @@ void setup()
 	servo2.AddMovingPosition(DCCINT(314, 1), MAXIMUM);
 
 	// Attach the lights to their driver/ports.
-	light1.begin(pPortLight1, DCCINT(1, 0));
-	light2.begin(pPortLight2, DCCINT(1, 1));
-	light3.begin(pPortLight3, DCCINT(2, 0));
+	green.begin(pPortLight1, DCCINT(1, 0));
+	orange.begin(pPortLight2, DCCINT(1, 1));
+	white.begin(pPortLight3, DCCINT(2, 0));
 
 	// Declare light fading/dimming.
-	light1.SetFading(20, 10);
-	light2.SetFading(20, 10);
+	green.SetFading(20, 10);
+	orange.SetFading(20, 10);
 	//light3.SetFading(20, 10);
 
 	groupLights.AddState(DCCINT(319, 0));
-	groupLights.AddStateItem(DCCINT(319, 0), light1, LIGHTON);
-	groupLights.AddStateItem(DCCINT(319, 0), light2, LIGHTOFF);
-	groupLights.AddStateItem(DCCINT(319, 0), light3, LIGHTON);
+	groupLights.AddStateItem(DCCINT(319, 0), green, LIGHTON);
+	groupLights.AddStateItem(DCCINT(319, 0), orange, LIGHTOFF);
+	groupLights.AddStateItem(DCCINT(319, 0), white, LIGHTON);
 
 	groupLights.AddState(DCCINT(319, 1));
-	groupLights.AddStateItem(DCCINT(319, 1), light1, LIGHTOFF);
-	groupLights.AddStateItem(DCCINT(319, 1), light2, LIGHTON);
-	groupLights.AddStateItem(DCCINT(319, 1), light3, LIGHTOFF);
+	groupLights.AddStateItem(DCCINT(319, 1), green, LIGHTOFF);
+	groupLights.AddStateItem(DCCINT(319, 1), orange, LIGHTON);
+	groupLights.AddStateItem(DCCINT(319, 1), white, LIGHTOFF);
 
 	groupServos.AddState(DCCINT(320, 0), true);
 	groupServos.AddStateItem(DCCINT(320, 0), servo1, MINIMUM, 500);

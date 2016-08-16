@@ -1,25 +1,32 @@
 /*************************************************************
-project: <DCC Accessory Decoder>
+project: <Accessories>
 author: <Thierry PARIS>
 description: <Test for fading light with just one button>
 *************************************************************/
 
-#include "UniversalAccessoryDecoder.h"
+#include "Commanders.h"
+#include "Accessories.h"
 
-// total number of pushbuttons / accessories.
-#define AccessoryNumber		2
+// Commanders
 
-#define LIGHT1			0
-#define LIGHT2			1
+#ifdef VISUALSTUDIO
+ButtonsCommanderKeyboard	push;
+#else
+ButtonsCommanderPush push;
+#endif
 
 // Accessories
 
-Accessories accessories;
-ButtonsCommander buttonsCommander;
+AccessoryLight red, green;
 
 // Drivers
 	
-DriverArduino *arduino;
+DriverArduino arduino;
+
+void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
+{
+	Accessories::ReceiveEvent(inId, (ACCESSORIES_EVENT_TYPE)inEventType, inEventData);
+}
 
 //////////////////////////////////
 //
@@ -27,51 +34,43 @@ DriverArduino *arduino;
 //
 void setup()
 {
-	UAD_StartSetup();
+	Commanders::SetEventHandler(ReceiveEvent);
+	Commanders::SetStatusLedPin(LED_BUILTIN);
 
-    // One button
-	buttonsCommander.Setup(1,
-		new ButtonsCommanderPush(2)
-		);
+	// One button
     // This button will send commands to Dcc code 1/0 and 1/1, on pin 26
-	PUSH(buttonsCommander, 0)->AddDccId(1, 0);
-	PUSH(buttonsCommander, 0)->AddDccId(1, 1);
-	PUSH(buttonsCommander, 0)->Setup(26);
+#ifdef VISUALSTUDIO
+	push.begin(DCCINT(1, 0), '0');
+#else
+	push.begin(DCCINT(1, 0), 26);
+#endif
+	push.AddEvent(DCCINT(1, 1));
 
 	// Drivers setups
 
     // Two ports of the Arduino used by the leds, 10 and 11
-	arduino = new DriverArduino(2, 0);
-	arduino->Setup();
-	arduino->SetupPortMotor(0, 10, ANALOG_INVERTED);
-	arduino->SetupPortMotor(1, 11, ANALOG_INVERTED);
+	arduino.begin();
+	DriverPort *pPort0 = arduino.AddPortMotor(10, ANALOG_INVERTED);
+	DriverPort *pPort1 = arduino.AddPortMotor(11, ANALOG_INVERTED);
 
 	// Accessories setups
 
     // Two lights in the accessory list.
-	accessories.Setup(
-		AccessoryNumber,
-		new AccessoryLight(1, 0),
-		new AccessoryLight(1, 1)
-		);
+
+	red.begin(pPort0, DCCINT(1, 0), 0, 120);
+	green.begin(pPort1, DCCINT(1, 1), 0, 200);
 
     // Define fading/dimming effect
-	LIGHT(accessories, LIGHT1)->SetFading(20, 20);
-	LIGHT(accessories, LIGHT2)->SetFading(20, 20);
+	red.SetFading(20, 20);
+	green.SetFading(20, 20);
 
-    // Attach each led to its Arduino port, with a given intensity.
-	LIGHT(accessories, LIGHT1)->Setup(arduino, 0, 128);
-	LIGHT(accessories, LIGHT2)->Setup(arduino, 1, 200);
-
-    // Start with light2 on !
-	LIGHT(accessories, LIGHT2)->LightOn();
-
-	UAD_EndSetup();
+    // Start with light0 on !
+	red.LightOn();
 }
 
 void loop()
 {
-    // Only call UAD loops.
-	accessories.Loop();
-	buttonsCommander.Loop();
+	Accessories::loop();
+
+	Commanders::loop();
 }

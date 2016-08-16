@@ -1,3 +1,8 @@
+16/08/2016 V0.16
+	- Encore des exemples corrigés
+
+	- More samples adapted.
+
 15/08/2016 V0.15
 	- Correction de AccessoryMotorTwoWays, de AccessoryServo, de DriverL293d et Driver L298n, et de certains exemples.
 

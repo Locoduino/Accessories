@@ -21,12 +21,13 @@ AccessoryBaseLight::AccessoryBaseLight(Accessory *inpOwner)
 
 void AccessoryBaseLight::SetState(ACC_STATE inState)
 { 
+	if (inState == LIGHTBLINK && this->blinkingDelay == 0)
+		inState = LIGHTON;
+
 #ifdef DEBUG_MODE
 	Serial.print(F("AccessoryBaseLight SetState "));
 	Serial.println(inState == LIGHTON ? "ON" : inState == LIGHTOFF ? "OFF" : "BLINK");
 #endif
-	if (inState == LIGHTBLINK && this->blinkingDelay == 0)
-		inState = LIGHTON;
 
 	this->state = inState;
 }

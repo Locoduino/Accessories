@@ -4,49 +4,51 @@ author: <Thierry PARIS>
 description: <2 servos and 3 leds driven by dcc arduino>
 *************************************************************/
 
+#include "Commanders.h"
 #include "Accessories.h"
 
-/* kDCC_INTERRUPT values :
-Board         int.0   int.1   int.2   int.3   int.4   int.5
-Uno, Ethernet   2      3
-Mega2560        2      3      21      20      19      18
-Leonardo        3      2      0       1       7
-*/
-#define kDCC_INTERRUPT            3
+// DCC codes
+#define SERVO0		DCCINT(313, 0)
+#define SERVO1_MIN	DCCINT(314, 0)
+#define SERVO1_MAX	DCCINT(314, 1)
+#define SERVO1_45	DCCINT(315, 0)
+#define SERVO1_55	DCCINT(315, 1)
 
-///////////////////////////////////////////////////////////////
-// The target is to move 5 servos, by DCC adress
+#define SERVOS_MIN	DCCINT(330, 0)
+#define SERVOS_MAX	DCCINT(330, 1)
 
-#define AccessoryServoNumber      2
+#define LIGHTS_010	DCCINT(320, 0)
+#define LIGHTS_101	DCCINT(320, 1)
 
-#define SERVO1			0
-#define SERVO2			1
+// Commanders
 
-#define SERVO1_PORT		0
-#define SERVO2_PORT		1
+#ifdef VISUALSTUDIO
+ButtonsCommanderKeyboard	push;
+ButtonsCommanderKeyboard	switch0;
+ButtonsCommanderKeyboard	switch1;
+#else
+ButtonsCommanderPush push;
+ButtonsCommanderSwitch;
+#endif
 
-#define AccessoryMotorLightNumber      3
-
-#define LIGHT1			2
-#define LIGHT2			3
-#define LIGHT3			4
-
-#define LIGHT1_PORT		0
-#define LIGHT2_PORT		1
-#define LIGHT3_PORT		2
+ButtonsCommanderPotentiometer potar;
 
 // Accessories
 
-Accessories accessories;
-DccCommander dccCommander;
-ButtonsCommander buttonsCommander;
+AccessoryServo servo0, servo1;
+AccessoryLight light0, light1, light2;
 
 AccessoryGroup groupServos;
 AccessoryGroup groupLights;
 
 // Drivers
 
-DriverArduino *arduino;
+DriverArduino arduino;
+
+void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
+{
+	Accessories::ReceiveEvent(inId, (ACCESSORIES_EVENT_TYPE)inEventType, inEventData);
+}
 
 //////////////////////////////////
 //
@@ -54,124 +56,80 @@ DriverArduino *arduino;
 //
 void setup()
 {
-	UAD_StartSetup();
+	Commanders::SetEventHandler(ReceiveEvent);
+	Commanders::SetStatusLedPin(LED_BUILTIN);
 
     // Setup of Dcc commander
-	dccCommander.Setup(0x00, 0x00, kDCC_INTERRUPT);
-	dccCommander.SetStatusLedPin(13);
+	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
 
-    // Three buttons in this commander
-	buttonsCommander.Setup(3,
-		new ButtonsCommanderPush(2),
-		new ButtonsCommanderSwitch(2),
-		new ButtonsCommanderPotentiometer(321, 0, 20, 145)	// Link it to SERVO1, from 20 to 145 degrees
-		);
-    // The push button send two Dcc codes in turn, and is connected to pin 26.
-	PUSH(buttonsCommander, 0)->AddDccId(320, 1);
-	PUSH(buttonsCommander, 0)->AddDccId(320, 0);
-	PUSH(buttonsCommander, 0)->Setup(26);
-
-    // The switch have two positions, each one controls one Dcc code. Each one connected to its pin.
-	SWITCH(buttonsCommander, 1)->AddDccId(319, 0, 24);
-	SWITCH(buttonsCommander, 1)->AddDccId(319, 1, 25);
-	SWITCH(buttonsCommander, 1)->Setup();
-
-    // The potentiometer is on analog pin 8.
-	POTENTIOMETER(buttonsCommander, 2)->Setup(8);
+#ifdef VISUALSTUDIO
+	push.begin(SERVOS_MIN, '0');
+	switch0.begin(LIGHTS_010, '1');
+	switch1.begin(LIGHTS_101, '2');
+#else
+	push.begin(SERVOS_MIN, 26);
+	switch0.begin(LIGHTS_010, 24);
+	switch1.begin(LIGHTS_101, 25);
+#endif
+	push.AddEvent(SERVOS_MAX);
+	potar.begin(8, SERVO0, 20, 145);
 
 	// Drivers setups
 
     // List of the ports on the Arduino. Pors 9,10 and 11 are handled in analog mode for fading.
-	arduino = new DriverArduino(AccessoryMotorLightNumber, AccessoryServoNumber);
-	arduino->Setup();
-	arduino->SetupPortServo(SERVO1_PORT, 2);
-	arduino->SetupPortServo(SERVO2_PORT, 3);
-	arduino->SetupPortMotor(LIGHT1_PORT, 9, ANALOG);
-	arduino->SetupPortMotor(LIGHT2_PORT, 10, ANALOG);
-	arduino->SetupPortMotor(LIGHT3_PORT, 11, ANALOG);
+	arduino.begin();										 
+	DriverPort *pPortServo0 = arduino.AddPortServo(2);
+	DriverPort *pPortServo1 = arduino.AddPortServo(3);
+	DriverPort *pPortLight0 = arduino.AddPortMotor(9, ANALOG);
+	DriverPort *pPortLight1 = arduino.AddPortMotor(10, ANALOG);
+	DriverPort *pPortLight2 = arduino.AddPortMotor(11, ANALOG);
 
 	// Accessories setups
 
-    // Declare accessories with Dcc codes.
-	accessories.Setup(
-		AccessoryMotorLightNumber + AccessoryServoNumber,
-            // Servo1 will be activated with only one Dcc code 316/0 used as a toggle.
-            // 20ms is the duration of one degree movement.
-		new AccessoryServo(316, 0, 20),
-            // Servo2 use two Dcc codes: 314/0 for minimum position and 314/1 for maximum.
-		new AccessoryServo(314, 0, 314, 1, 20),
-		new AccessoryLight(1, 0),
-		new AccessoryLight(1, 1),
-		new AccessoryLight(2, 0)
-		);
-    
-    // Attach the servos to their driver/ports.
-    // Servo1 can move from 20 to 145 degrees.
-	SERVO(accessories, SERVO1)->Setup(arduino, SERVO1_PORT, 20, 145);
+    // Declare accessories.
+	servo0.begin(pPortServo0, 20, 20, 30, 2);
+	servo0.SetPowerCommand(49);
 
-    // Servo2 can move from 10 to 150 degrees. But there is also two more positions at 45 and 135 degrees,
-    // commanded by Dcc codes 315/0 and 315/1.
-	SERVO(accessories, SERVO2)->Setup(arduino, SERVO2_PORT, 10, 150, 4);
-	SERVO(accessories, SERVO2)->AddDccPosition(315, 0, 45);
-	SERVO(accessories, SERVO2)->AddDccPosition(315, 1, 135);
+	servo1.begin(pPortServo1, 20, 10, 40, 4);
+	servo1.AddMinMaxMovingPositions(SERVO1_MIN, SERVO1_MAX);
+	servo1.AddMovingPosition(SERVO1_45, 20);
+	servo1.AddMovingPosition(SERVO1_55, 30);
 
+	light0.begin(pPortLight0, 1);
+	light1.begin(pPortLight1, 2);
+	light2.begin(pPortLight2, 3);
+	
     // Servo1 has a pin 49 to control a relay giving power to the servo.
-	SERVO(accessories, SERVO1)->SetPowerCommand(49);
 
     // Declare light fading/dimming.
-	LIGHT(accessories, LIGHT1)->SetFading(20, 10);
-	LIGHT(accessories, LIGHT2)->SetFading(20, 10);
-	//LIGHT(accessories, LIGHT3)->SetFading(20, 10);
+	light0.SetFading(20, 10);
+	light1.SetFading(20, 10);
+	//light2.SetFading(20, 10);
 
-    // Attach the lights to their driver/ports.
-	LIGHT(accessories, LIGHT1)->Setup(arduino, LIGHT1_PORT);
-	LIGHT(accessories, LIGHT2)->Setup(arduino, LIGHT2_PORT);
-	LIGHT(accessories, LIGHT3)->Setup(arduino, LIGHT3_PORT);
+	groupServos.begin();
+	groupServos.AddState(SERVOS_MIN);
+	groupServos.AddStateItem(SERVOS_MIN, servo0, MINIMUM, 500);
+	groupServos.AddStateItem(SERVOS_MIN, servo1, MINIMUM, 500);
 
-    // One group state with servos at minimum is created, activated by 320/0 Dcc code.
-	GroupState *pServo1 = new GroupState(320, 0, false);
-	pServo1->Setup(2,
-		new GroupStateItem(accessories[SERVO1], MINIMUM, 500),
-		new GroupStateItem(accessories[SERVO2], MINIMUM, 500));
+	groupServos.AddState(SERVOS_MAX);
+	groupServos.AddStateItem(SERVOS_MAX, servo0, MAXIMUM, 500);
+	groupServos.AddStateItem(SERVOS_MAX, servo1, MAXIMUM, 500);
 
-    // Another group state with servos at maximum is created, activated by 320/1 Dcc code.
-	GroupState *pServo2 = new GroupState(320, 1, false);
-	pServo2->Setup(2,
-		new GroupStateItem(accessories[SERVO1], MAXIMUM, 500),
-		new GroupStateItem(accessories[SERVO2], MAXIMUM, 500));
+	groupLights.begin();
+	groupLights.AddState(LIGHTS_010);
+	groupServos.AddStateItem(LIGHTS_010, light0, LIGHTON);
+	groupServos.AddStateItem(LIGHTS_010, light1, LIGHTOFF);
+	groupServos.AddStateItem(LIGHTS_010, light2, LIGHTON);
 
-    // The two states are gourped in a ... group !
-	groupServos.Setup(2, pServo1, pServo2);
-
-    // One group state with lights on/off/on, for Dcc code 319/0.
-	GroupState *pLight1 = new GroupState(319, 0, true);
-	pLight1->Setup(3,
-		new GroupStateItem(accessories[LIGHT1], LIGHTON),
-		new GroupStateItem(accessories[LIGHT2], LIGHTOFF),
-		new GroupStateItem(accessories[LIGHT3], LIGHTON));
-
-    // The other group state with lights off/of/off, for Dcc code 319/1.
-	GroupState *pLight2 = new GroupState(319, 1, true);
-	pLight2->Setup(3,
-		new GroupStateItem(accessories[LIGHT1], LIGHTOFF),
-		new GroupStateItem(accessories[LIGHT2], LIGHTON),
-		new GroupStateItem(accessories[LIGHT3], LIGHTOFF));
-
-    // One group state with lights on/off/on, for Dcc code 319/0.
-	groupLights.Setup(2, pLight1, pLight2);
-
-	UAD_EndSetup();
+	groupLights.AddState(LIGHTS_101);
+	groupServos.AddStateItem(LIGHTS_101, light0, LIGHTOFF);
+	groupServos.AddStateItem(LIGHTS_101, light1, LIGHTON);
+	groupServos.AddStateItem(LIGHTS_101, light2, LIGHTOFF);
 }
 
 void loop()
 {
-    // Run the Loop on all items, if Dcc Loop agrees !
-	if (dccCommander.Loop())
-	{
-		accessories.Loop();
-		groupServos.Loop();
-		groupLights.Loop();
+	Accessories::loop();
 
-		buttonsCommander.Loop();
-	}
+	Commanders::loop();
 }

@@ -35,13 +35,13 @@ class AccessoryLight : public Accessory
 
 		inline void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0) { this->pLight->Event(inEvent, inData); }
 
-	private:
 		inline void SetState(ACC_STATE inState) { this->pLight->SetState(inState); }
 		inline ACC_STATE Toggle() { return this->pLight->Toggle(); }
 		inline void LightOn() { this->pLight->LightOn(); }
 		inline void LightOff() { this->pLight->LightOff(); }
 		inline void Blink() { this->pLight->Blink(); }
 
+	private:
 		inline bool IsGroupActionPending() { return this->pLight->IsGroupActionPending(); }
 		inline void StartAction() { this->pLight->StartAction(); }
 		inline bool ActionEnded() { return this->pLight->ActionEnded(); }
