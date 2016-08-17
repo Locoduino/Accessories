@@ -39,20 +39,21 @@ class AccessoryLightMulti : public Accessory
 		inline void SetFading(byte inIndex, byte inStep, byte inDelay) { this->pLights[inIndex].SetFading(inStep, inDelay); }
 		inline void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0) { this->pLights->Event(inEvent, inData); }
 
-	private:
-		inline void SetState(byte inIndex, ACC_STATE inState) { this->pLights[inIndex].SetState(inState); }
-		inline ACC_STATE Toggle(byte inIndex) { return this->pLights[inIndex].Toggle(); }
-
 		inline void LightOn(byte inIndex) { this->pLights[inIndex].LightOn(); }
 		inline void LightOff(byte inIndex) { this->pLights[inIndex].LightOff(); }
 		inline void Blink(byte inIndex) { this->pLights[inIndex].Blink(); }
-		inline bool IsGroupActionPending(byte inIndex) { return this->pLights[inIndex].IsGroupActionPending(); }
-		inline void StartAction(byte inIndex) { this->pLights[inIndex].StartAction(); }
-		inline bool ActionEnded(byte inIndex) { return this->pLights[inIndex].ActionEnded(); }
 
 		void LightOn();
 		void LightOff();
 		void Blink();
+
+	private:
+		inline void SetState(byte inIndex, ACC_STATE inState) { this->pLights[inIndex].SetState(inState); }
+		inline ACC_STATE Toggle(byte inIndex) { return this->pLights[inIndex].Toggle(); }
+
+		inline bool IsGroupActionPending(byte inIndex) { return this->pLights[inIndex].IsGroupActionPending(); }
+		inline void StartAction(byte inIndex) { this->pLights[inIndex].StartAction(); }
+		inline bool ActionEnded(byte inIndex) { return this->pLights[inIndex].ActionEnded(); }
 
 		bool ActionEnded();
 

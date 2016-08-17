@@ -1,14 +1,16 @@
 /*************************************************************
-project: <DCC Accessory Decoder sample>
+project: <Accessories>
 author: <Thierry PARIS>
 description: <10 leds for a french railroad signal>
 *************************************************************/
 
-#include <UniversalAccessoryDecoder.h>
+#include "Commanders.h"
+#include "Accessories.h"
 
 #define NB_LEDS_MAX			20
 #define PATTERN_NB_LEDS_MAX	4
 #define PATTERN_END_LIST	127
+#define DCCSTART			10
 
 //-------------------------------------------------------------------
 // This class defines a light signal by giving patterns of lights:
@@ -25,62 +27,56 @@ private:
 	int blinkDuration;
 
 public:
-	SignalArduinoPattern(DriverArduino *inpDriver, byte inNbLeds, const int *inpPins, int inFirstPort = 0);
-	void SetupSignal(int inStartingDcc, int inBlinkDuration, const byte *inPatterns, const byte *inpRealStates = 0);
-	void Move(int inDccId, byte inDccAccessory);
+	inline SignalArduinoPattern() {}
+	void beginSignal(DriverArduino *inpDriver, byte inNbLeds, const int *inpPins, int inStartingDcc, int inBlinkDuration, const byte *inPatterns, const byte *inpRealStates = 0);
+	void Move(unsigned long inId);
 
 	static int GetStatesNumber(const byte *pStates);
 };
 
-SignalArduinoPattern::SignalArduinoPattern(DriverArduino *inpDriver, byte inNbLeds, const int *inpPins, int inFirstPort) : AccessoryLightMulti(0, 0, inNbLeds, 0)
+void SignalArduinoPattern::beginSignal(DriverArduino *inpDriver, byte inNbLeds, const int *inpPins, int inStartingDcc, int inBlinkDuration, const byte *inPatterns, const byte *inpRealStates)
 {
+	begin(0, inNbLeds, 0);
 	for (int led = 0; led < inNbLeds; led++)
 	{
-		inpDriver->SetupPortMotor(inFirstPort + led, inpPins[led], DIGITAL);
+		DriverPort *pPort = inpDriver->AddPortMotor(inpPins[led], DIGITAL);
+		this->beginLight(led, pPort, 255);
 	}
 
-	for (int led = 0; led < inNbLeds; led++)
-	{
-		this->SetupLight(led, inpDriver, inFirstPort + led, 255);
-	}
-}
-
-void SignalArduinoPattern::SetupSignal(int inStartingDcc, int inBlinkDuration, const byte *inPatterns, const byte *inpRealStates)
-{
 	this->startingDcc = inStartingDcc;
 	this->blinkDuration = inBlinkDuration;
 	this->pPatterns = inPatterns;
 	this->pRealStates = inpRealStates;
 
-	this->Setup();
-
+/*#ifdef DEBUG_MODE
 	// Pass through all states during 5s to check
-	for (int i = 0; i < this->GetStatesNumber(this->pRealStates); i++)
+	for (int i = 0; i < SignalArduinoPattern::GetStatesNumber(this->pRealStates); i++)
 	{
 		this->Move(this->startingDcc + (i / 2), i % 2);
 		unsigned long start = millis();
-		while (millis() - start < 5000)
-			this->ActionEnded();
+		while (millis() - start < 1000)
+			Accessories::loop();
 
-		this->AccessoryLightMulti::Move(0); // 000
+		this->LightOff();
 		start = millis();
 		while (millis() - start < 1000)
-			this->ActionEnded();
+			Accessories::loop();
 	}
+#endif*/
 }
 
-void SignalArduinoPattern::Move(int inDccId, byte inDccAccessory)
+void SignalArduinoPattern::Move(unsigned long inId)
 {
 	int pospattern = 0;
-	int etat = (inDccId - this->startingDcc) * 2 + inDccAccessory;
+	int etat = (DCCID(inId) - this->startingDcc) * 2 + DCCACTIVATION(inId);
 
 	// All leds off
-	for (int led = 0; led < this->GetSize(); led++)
-		this->SetState(led, LIGHTOFF);
+	for (unsigned char led = 0; led < this->GetSize(); led++)
+		this->LightOff(led);
 
 	char symbText[16];
 	for (int i = 0; i < 16-1; i++)
-		symbText[i] = '-';
+		symbText[i] = '.';
 
 	symbText[15] = 0;
 
@@ -92,14 +88,14 @@ void SignalArduinoPattern::Move(int inDccId, byte inDccAccessory)
 		if (c > 0 && c <= 100)
 		{
 			this->SetBlinking(c-1, 0);
-			this->SetState(c-1, LIGHTON);
+			this->LightOn(c-1);
 			symbText[c-1] = 'O';
 		}
 		else
 			if (c > 100)
 			{
 				this->SetBlinking(c-101, this->blinkDuration);
-				this->SetState(c-101, LIGHTBLINK);
+				this->Blink(c-101);
 				symbText[c-101] = 'B';
 			}
 	}
@@ -232,30 +228,34 @@ const byte SignalFrStatesHorizontal[] PROGMEM = {
 
 const byte SignalFrHorizontal[] PROGMEM = { 0, 1, 2, PATTERN_END_LIST };
 
-/* kDCC_INTERRUPT values :
-Board         int.0   int.1   int.2   int.3   int.4   int.5
-Uno, Ethernet   2      3
-Mega2560        2      3      21      20      19      18
-Leonardo        3      2      0       1       7
-*/
-#define kDCC_INTERRUPT            5
+SignalArduinoPattern signal;
 
-SignalArduinoPattern* signal;
+// Commanders
+
+#ifdef VISUALSTUDIO
+ButtonsCommanderKeyboard	push;
+#else
+ButtonsCommanderPush push;
+#endif
 
 // Accessories
 
-Accessories accessories;
-DccCommander dccCommander;
-ButtonsCommander buttonsCommander;
-
 // Drivers
 
-DriverArduino *arduino;
+DriverArduino arduino;
 
-#define signalPattern	SignalFr7
+#define signalPattern	SignalFr9
 #define NB_LEDS			12
 
-int pins[NB_LEDS] = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+int pins[NB_LEDS] = { 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33 };
+
+void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
+{
+	if (DCCID(inId) >= DCCSTART && DCCID(inId) < DCCSTART + (SignalArduinoPattern::GetStatesNumber(signalPattern) + 1) / 2)
+		signal.Move(inId);
+
+	Accessories::ReceiveEvent(inId, (ACCESSORIES_EVENT_TYPE)inEventType, inEventData);
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -263,63 +263,48 @@ int pins[NB_LEDS] = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 //
 void setup()
 {
-	Serial.begin(115200);
-	UAD_StartSetup();
+	Commanders::SetEventHandler(ReceiveEvent);
+	Commanders::SetStatusLedPin(LED_BUILTIN);
 
-	// Le 'true' signifie que l'on va recevoir les codes dcc bruts. A voir si c'est gérable.
-	dccCommander.Setup(0x00, 0x00, kDCC_INTERRUPT, true);
-	dccCommander.SetStatusLedPin(4);
-	// Fonction qui sera appelée lors d'une réception de paquet accessoire.
-	// mais en réalité, la gestion des groupes fait ça très bien !
-	//dccCommander.SetBasicAccessoryDecoderPacketHandler(AccessoryDecoderPacket_Handler);
+	// Setup of Dcc commander
+	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
+
+	// UNDEFINED_ID here means that this id is not significant.
+#ifdef VISUALSTUDIO
+	push.begin(UNDEFINED_ID, '0');
+#else
+	push.begin(UNDEFINED_Id, 17);
+#endif
 
 	int nb_etats = SignalArduinoPattern::GetStatesNumber(signalPattern);
-	buttonsCommander.Setup(1,
-		new ButtonsCommanderPush(nb_etats)
-		);
 
 	// Ce petit bouton va permettre de passer en revue tous les codes dcc des feux en séquence...
 	
-	int dcc = 10;
+	int dcc = DCCSTART;
 	bool etat = false;
 	for (int i = 0; i < nb_etats; i++)
 	{
 		if (!etat)
 		{
-			PUSH(buttonsCommander, 0)->AddDccId(dcc, 0);
+			push.AddEvent(DCCINT(dcc, 0));
 			etat = true;
 		}
 		else
 		{
-			PUSH(buttonsCommander, 0)->AddDccId(dcc, 1);
+			push.AddEvent(DCCINT(dcc, 1));
 			dcc++;
 			etat = false;
 		}
 	}
 
-//	PUSH(buttonsCommander, 0)->AddDccId(dcc, etat == true ? 1 : 0);
+	arduino.begin();
 
-	PUSH(buttonsCommander, 0)->Setup(17);           // port A4
-
-	accessories.Setup(1);
-
-	arduino = new DriverArduino(NB_LEDS, 0);
-	arduino->Setup();
-
-	signal = new SignalArduinoPattern(arduino, NB_LEDS, pins, 0);
-	signal->SetupSignal(10, 300, SignalFrStates, signalPattern);
-	accessories.Add(signal);
-
-	UAD_EndSetup();
+	signal.beginSignal(&arduino, NB_LEDS, pins, DCCSTART, 500, SignalFrStates, signalPattern);
 }
 
 void loop()
 {
+	Accessories::loop();
 
-	if (dccCommander.Loop())
-	{
-		accessories.Loop();
-		buttonsCommander.Loop();
-		//signal->Loop();
-	}
+	Commanders::loop();
 }

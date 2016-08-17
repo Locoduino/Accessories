@@ -25,7 +25,7 @@ void AccessoriesClass::Add(Accessory *inpAccessory)
 		delay(500);
 
 		Serial.println(F(""));
-		Serial.println(F("Accessories V0.16"));
+		Serial.println(F("Accessories V0.17"));
 		Serial.println(F("Developed by Thierry Paris."));
 		Serial.println(F("(c) Locoduino 2016"));
 		Serial.println(F(""));
