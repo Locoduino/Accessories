@@ -77,9 +77,9 @@ ACC_STATE AccessoryServo::MoveToggle()
 #endif
 
 	if (this->prevState == MAXIMUM)
-		this->InternalMovePosition(this->minimumPosition);
+		this->MovePosition(this->minimumPosition);
 	else
-		this->InternalMovePosition(this->maximumPosition);
+		this->MovePosition(this->maximumPosition);
 
 	return this->state;
 }
@@ -96,14 +96,14 @@ void AccessoryServo::SetState(ACC_STATE inState)
 #ifdef DEBUG_MODE
 			Serial.println(F("MINIMUM)"));
 #endif
-			this->InternalMovePosition(this->minimumPosition);
+			this->MovePosition(this->minimumPosition);
 			break;
 
 		case MAXIMUM:
 #ifdef DEBUG_MODE
 			Serial.println(F("MAXIMUM)"));
 #endif
-			this->InternalMovePosition(this->maximumPosition);
+			this->MovePosition(this->maximumPosition);
 			break;
 
 		default:
@@ -133,7 +133,7 @@ void AccessoryServo::Move(unsigned long inId)
 
 void AccessoryServo::MovePosition(int inPosition)
 {
-	if (this->IsActionPending())
+	if (this->IsActionPending() && !ActionsStack::FillingStack)
 		return;
 
 	this->InternalMovePosition(inPosition);

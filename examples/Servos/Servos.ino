@@ -127,11 +127,19 @@ void setup()
 
 	// Accessories setups
 
-	servo.begin(pPort, 0, 40, 50, 4);
+	servo.begin(pPort, speed, 10, 80, 4);
 	servo.AddMovingPosition(POS1, 10);
 	servo.AddMovingPosition(POS2, 20);
 	servo.AddMovingPosition(POS3, 30);
 	servo.AddMovingPosition(POS4, 40);
+
+	// Uncomment to check event recording during a servo movement...
+	/*
+	Accessories::RaiseEvent(POS4);
+	Accessories::RaiseEvent(POS3);
+	Accessories::RaiseEvent(POS2);
+	Accessories::RaiseEvent(POS1);
+	*/
 }
 
 void loop()

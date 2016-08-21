@@ -1,3 +1,8 @@
+21/08/2016 V0.19
+	- Correction de la gestion de mémorisation d'événement durant un mouvement de servo.
+
+	- Fix event recording during a long servo movement.
+
 21/08/2016 V0.18
 	- Tous les exemples fonctionnent et ont été remaniés pour plus de clarté.
 	- Ajout de ACCESSORIES_EVENT_MOVEPOSITIONINDEX
