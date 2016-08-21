@@ -8,19 +8,21 @@ description: <2 servos and 3 leds driven by dcc arduino>
 #include "Accessories.h"
 
 // DCC codes
-#define SERVO0		DCCINT(313, 0)
-#define SERVO1_MIN	DCCINT(314, 0)
-#define SERVO1_MAX	DCCINT(314, 1)
-#define SERVO1_45	DCCINT(315, 0)
-#define SERVO1_55	DCCINT(315, 1)
+#define SERVO0		DCCINT(20, 0)
+#define SERVO1_MIN	DCCINT(21, 0)
+#define SERVO1_MAX	DCCINT(21, 1)
+#define SERVO1_45	DCCINT(22, 0)
+#define SERVO1_55	DCCINT(22, 1)
 
-#define SERVOS_MIN	DCCINT(330, 0)
-#define SERVOS_MAX	DCCINT(330, 1)
+#define SERVOS_MIN	DCCINT(25, 0)
+#define SERVOS_MAX	DCCINT(25, 1)
 
-#define LIGHTS_010	DCCINT(320, 0)
-#define LIGHTS_101	DCCINT(320, 1)
+#define LIGHTS_010	DCCINT(26, 0)
+#define LIGHTS_101	DCCINT(26, 1)
 
 // Commanders
+
+SERIAL_COMMANDER(Serial);
 
 #ifdef VISUALSTUDIO
 ButtonsCommanderKeyboard	push;
@@ -59,6 +61,7 @@ void setup()
 	Commanders::SetEventHandler(ReceiveEvent);
 	Commanders::SetStatusLedPin(LED_BUILTIN);
 
+	SerialCommander.begin(115200);
     // Setup of Dcc commander
 	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
 
@@ -87,7 +90,8 @@ void setup()
 	// Accessories setups
 
     // Declare accessories.
-	servo0.begin(pPortServo0, 20, 20, 30, 2);
+	servo0.begin(pPortServo0, 20, 20, 30, 1);
+	servo0.AddMovingPosition(SERVO0, UNDEFINED_POS);
 	servo0.SetPowerCommand(49);
 
 	servo1.begin(pPortServo1, 20, 10, 40, 4);
@@ -117,14 +121,14 @@ void setup()
 
 	groupLights.begin();
 	groupLights.AddState(LIGHTS_010);
-	groupServos.AddStateItem(LIGHTS_010, light0, LIGHTON);
-	groupServos.AddStateItem(LIGHTS_010, light1, LIGHTOFF);
-	groupServos.AddStateItem(LIGHTS_010, light2, LIGHTON);
+	groupLights.AddStateItem(LIGHTS_010, light0, LIGHTON);
+	groupLights.AddStateItem(LIGHTS_010, light1, LIGHTOFF);
+	groupLights.AddStateItem(LIGHTS_010, light2, LIGHTON);
 
 	groupLights.AddState(LIGHTS_101);
-	groupServos.AddStateItem(LIGHTS_101, light0, LIGHTOFF);
-	groupServos.AddStateItem(LIGHTS_101, light1, LIGHTON);
-	groupServos.AddStateItem(LIGHTS_101, light2, LIGHTOFF);
+	groupLights.AddStateItem(LIGHTS_101, light0, LIGHTOFF);
+	groupLights.AddStateItem(LIGHTS_101, light1, LIGHTON);
+	groupLights.AddStateItem(LIGHTS_101, light2, LIGHTOFF);
 }
 
 void loop()

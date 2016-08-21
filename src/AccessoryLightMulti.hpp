@@ -37,7 +37,7 @@ class AccessoryLightMulti : public Accessory
 		unsigned char AddMovingPosition(unsigned long inId, int inOnMask, int inBlinkMask);
 		inline void SetBlinking(byte inIndex, unsigned long inBlinkingDelay) { this->pLights[inIndex].SetBlinking(inBlinkingDelay); }
 		inline void SetFading(byte inIndex, byte inStep, byte inDelay) { this->pLights[inIndex].SetFading(inStep, inDelay); }
-		inline void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0) { this->pLights->Event(inEvent, inData); }
+		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0);
 
 		inline void LightOn(byte inIndex) { this->pLights[inIndex].LightOn(); }
 		inline void LightOff(byte inIndex) { this->pLights[inIndex].LightOff(); }

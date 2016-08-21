@@ -13,7 +13,7 @@ class AccessoryMotorTwoWays : public AccessoryMotor
 {
 	public:
 		inline AccessoryMotorTwoWays() {}
-		void begin(DriverPort *inpPort, unsigned long inIdRight, unsigned long inIdLeft, int inSpeed, unsigned long inDurationMilli = 0);
+		void beginTwoWays(DriverPort *inpPort, unsigned long inIdRight, unsigned long inIdLeft, int inSpeed, unsigned long inDurationMilli = 0);
 };
 #endif
 

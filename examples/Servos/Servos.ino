@@ -13,6 +13,17 @@ description: <Demo for servo>
 // And four other buttons to reach four different positions.
 // A classic button also toggle between min and max positions.
 
+// DCC codes
+#define ACTION		DCCINT(20,0)
+#define POS1		DCCINT(21,0)
+#define POS2		DCCINT(21,1)
+#define POS3		DCCINT(22,0)
+#define POS4		DCCINT(22,1)
+#define MODE1		DCCINT(23,0)
+#define MODE2		DCCINT(23,1)
+#define MODE3		DCCINT(24,0)
+#define MODE4		DCCINT(24,1)
+
 // Commanders
 
 #ifdef VISUALSTUDIO
@@ -39,6 +50,8 @@ ButtonsCommanderPush	mode4;
 
 // Accessories
 
+AccessoryServo servo;
+
 // Drivers
 
 // We could use the arduino itself...	
@@ -47,26 +60,23 @@ DriverL293d driver;
 // current user define speed.
 int speed;
 
-// servo accessory.
-AccessoryServo servo;
-
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
-	switch (DCCID(inId))
+	switch (inId)
 	{
-	case 101:	// Fast
+	case MODE1:	// Fast
 		servo.SetDuration(0);
 		Serial.println("Fast selected");
 		break;
-	case 102:	// Slow exclusive
+	case MODE2:	// Slow exclusive
 		servo.SetDuration(5);
 		Serial.println("Slow exclusive selected");
 		break;
-	case 103: // Slow with event memo
+	case MODE3: // Slow with event memo
 		servo.SetDuration(10);
 		Serial.println("Slow selected");
 		break;
-	case 104: // Classic Slow. 
+	case MODE4: // Classic Slow. 
 		servo.SetDuration(30);
 		Serial.println("Classic slow selected");
 		break;
@@ -86,27 +96,27 @@ void setup()
 	Commanders::SetStatusLedPin(LED_BUILTIN);
 
 #ifdef VISUALSTUDIO
-	action.begin(DCCINT(22, 0), '0');
-	pos1.begin(DCCINT(30, 0), '1');
-	pos2.begin(DCCINT(30, 1), '2');
-	pos3.begin(DCCINT(31, 0), '3');
-	pos4.begin(DCCINT(31, 1), '4');
+	action.begin(ACTION, '0');
+	pos1.begin(POS1, '1');
+	pos2.begin(POS2, '2');
+	pos3.begin(POS3, '3');
+	pos4.begin(POS4, '4');
 
-	mode1.begin(DCCINT(101, 0), 'a');
-	mode2.begin(DCCINT(102, 0), 'z');
-	mode3.begin(DCCINT(103, 0), 'e');
-	mode4.begin(DCCINT(104, 0), 'r');
+	mode1.begin(MODE1, 'a');
+	mode2.begin(MODE2, 'z');
+	mode3.begin(MODE3, 'e');
+	mode4.begin(MODE4, 'r');
 #else
-	action.begin(DCCINT(22, 0), 40');
-	pos1.begin(DCCINT(30, 0), 30);
-	pos2.begin(DCCINT(30, 1), 31);
-	pos3.begin(DCCINT(31, 0), 32');
-	pos4.begin(DCCINT(31, 1), 33');
+	action.begin(ACTION, 40);
+	pos1.begin(POS1, 30);
+	pos2.begin(POS2, 31);
+	pos3.begin(POS3, 32);
+	pos4.begin(POS4, 33);
 
-	mode1.begin(DCCINT(101, 0), 40);
-	mode2.begin(DCCINT(102, 0), 41);
-	mode3.begin(DCCINT(103, 0), 42);
-	mode4.begin(DCCINT(104, 0), 43);
+	mode1.begin(MODE1, 40);
+	mode2.begin(MODE2, 41);
+	mode3.begin(MODE3, 42);
+	mode4.begin(MODE4, 43);
 #endif
 
 	driver.begin();
@@ -118,10 +128,10 @@ void setup()
 	// Accessories setups
 
 	servo.begin(pPort, 0, 40, 50, 4);
-	servo.AddMovingPosition(DCCINT(30, 0), 10);
-	servo.AddMovingPosition(DCCINT(30, 1), 20);
-	servo.AddMovingPosition(DCCINT(31, 0), 30);
-	servo.AddMovingPosition(DCCINT(31, 1), 40);
+	servo.AddMovingPosition(POS1, 10);
+	servo.AddMovingPosition(POS2, 20);
+	servo.AddMovingPosition(POS3, 30);
+	servo.AddMovingPosition(POS4, 40);
 }
 
 void loop()

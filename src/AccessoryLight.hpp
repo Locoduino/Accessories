@@ -30,10 +30,8 @@ class AccessoryLight : public Accessory
 		inline bool IsOn() const { return this->pLight->IsOn(); }
 		inline bool IsFlashing() const { return this->pLight->IsBlinking(); }
 		inline bool IsFading() const { return this->pLight->IsFading(); }
-		//inline Driver *GetDriver() const { return this->pLight->pDriver; }
-		//inline unsigned char GetPort() const { return this->pLight->GetPort(); }
 
-		inline void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0) { this->pLight->Event(inEvent, inData); }
+		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0);
 
 		inline void SetState(ACC_STATE inState) { this->pLight->SetState(inState); }
 		inline ACC_STATE Toggle() { return this->pLight->Toggle(); }

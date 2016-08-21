@@ -140,10 +140,10 @@ void AccessoryBaseLight::Event(ACCESSORIES_EVENT_TYPE inEvent, int inData)
 
 	case ACCESSORIES_EVENT_MOVEPOSITION:
 		{
-		int oldValue = this->pPort->GetSpeed();
-		this->pPort->SetSpeed(inData);
-		this->LightOn();
-		this->pPort->SetSpeed(oldValue);
+			int oldValue = this->pPort->GetSpeed();
+			this->pPort->SetSpeed(inData);
+			this->LightOn();
+			this->pPort->SetSpeed(oldValue);
 		}
 		break;
 

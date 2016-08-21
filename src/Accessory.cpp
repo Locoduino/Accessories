@@ -53,13 +53,22 @@ unsigned char Accessory::AddMovingPosition(unsigned long inId, int inPosition)
 	return this->movingPositionsAddCounter - 1;
 }
 
-int Accessory::IndexOfMovingPosition(unsigned long inId)
+int Accessory::IndexOfMovingPosition(unsigned long inId) const
+{
+	for (int i = 0; i < this->movingPositionsSize; i++)
+		if (this->pMovingPositions[i].Id == inId)
+			return i;
+
+	return -1;
+}
+
+int Accessory::GetMovingPosition(unsigned long inId) const
 {
 	for (int i = 0; i < this->movingPositionsSize; i++)
 		if (this->pMovingPositions[i].Id == inId)
 			return this->pMovingPositions[i].Position;
 
-	return -1;
+	return UNDEFINED_POS;
 }
 
 void Accessory::StartAction()

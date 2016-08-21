@@ -40,6 +40,10 @@ void Accessories::printEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventT
 		Serial.print(F("MOVEPOSITION : "));
 		Serial.println(inEventData, DEC);
 		break;
+	case ACCESSORIES_EVENT_MOVEPOSITIONINDEX:
+		Serial.print(F("MOVEPOSITIONINDEX : "));
+		Serial.println(inEventData, DEC);
+		break;
 	case ACCESSORIES_EVENT_CONFIG:
 		Serial.print(F("CONFIG : "));
 		Serial.print(ACCESSORIESCONFIGADDRESS(inEventData), DEC);
@@ -49,6 +53,11 @@ void Accessories::printEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventT
 	}
 }
 #endif
+
+void Accessories::RaiseEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
+{
+	ReceiveEvent(inId, inEvent, inData);
+}
 
 void Accessories::ReceiveEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventType, int inEventData)
 {

@@ -1,3 +1,20 @@
+21/08/2016 V0.18
+	- Tous les exemples fonctionnent et ont été remaniés pour plus de clarté.
+	- Ajout de ACCESSORIES_EVENT_MOVEPOSITIONINDEX
+	- Ajout de Accessories::RaiseEvent()
+	- Ajout de UNDEFINED_POS
+	- Ajout de AccessoryMotor::beginTwoWays()
+	- Correction du clignotement dans AccessoryLightMulti
+	- Correction de la duree dans DriverPortL298n
+
+	- All samples are now fixed, and partially rewritten.
+	- Added ACCESSORIES_EVENT_MOVEPOSITIONINDEX
+	- Added Accessories::RaiseEvent()
+	- Added UNDEFINED_POS
+	- Added AccessoryMotor::beginTwoWays()
+	- Fix blinking in AccessoryLightMulti
+	- Fix duration in DriverPortL298n
+
 17/08/2016 V0.17
 	- Exemple SignalFrench corrigé
 

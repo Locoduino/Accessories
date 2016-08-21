@@ -21,12 +21,10 @@ void AccessoryLightMulti::begin(unsigned long inId, byte inSize, unsigned long i
 	this->lightsSize = inSize;
 
 	this->pLights = new AccessoryBaseLight[inSize];
+	this->SetDuration(inBlinkDuration);
 
 	for (byte i = 0; i < inSize; i++)
-	{
 		this->pLights[i].pOwner = this;
-		this->pLights[i].SetBlinking(inBlinkDuration);
-	}
 
 	this->pMovingPositionBlinks = NULL;
 }
@@ -130,7 +128,7 @@ void AccessoryLightMulti::Move(unsigned long inId)
 
 	if (positionIndex != -1)
 	{
-		int position = this->GetMovingPosition(positionIndex).Position;
+		int position = this->GetMovingPosition(inId);
 		if (this->pMovingPositionBlinks != NULL)
 			MoveBlink(position, this->pMovingPositionBlinks[positionIndex]);
 		else
@@ -143,4 +141,14 @@ void AccessoryLightMulti::Move(unsigned long inId)
 	}
 }
 
+void AccessoryLightMulti::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData) 
+{ 
+	if (inEvent == ACCESSORIES_EVENT_MOVEPOSITIONINDEX)
+	{
+		this->MoveBlink(this->GetMovingPosition(inId), this->pMovingPositionBlinks[inData]);
+		return;
+	}
+
+	this->pLights->Event(inEvent, inData);
+}
 #endif

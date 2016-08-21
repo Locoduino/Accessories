@@ -38,7 +38,7 @@ void DriverPortL298n::MoveLeftDir(unsigned long inDuration)
 	Serial.print(F(" / "));
 	Serial.print(this->pinB);
 	Serial.print(F(" DriverPortL298n MoveLeftDir() "));
-	if (inDuration != 0)
+	if (inDuration != -1)
 	{
 		Serial.print(F("for "));
 		Serial.print(inDuration);
@@ -51,7 +51,7 @@ void DriverPortL298n::MoveLeftDir(unsigned long inDuration)
 	digitalWrite2f(this->pinA, HIGH);
 	digitalWrite2f(this->pinB, LOW);
 
-	if (inDuration != 0)
+	if (inDuration!= -1)
 	{
 		delay(inDuration);
 
@@ -71,7 +71,7 @@ void DriverPortL298n::MoveRightDir(unsigned long inDuration)
 	Serial.print(F(" / "));
 	Serial.print(this->pinB);
 	Serial.print(F(" DriverPortL298n MoveRightDir() "));
-	if (inDuration != 0)
+	if (inDuration != -1)
 	{
 		Serial.print(F("for "));
 		Serial.print(inDuration);
@@ -84,7 +84,7 @@ void DriverPortL298n::MoveRightDir(unsigned long inDuration)
 	digitalWrite2f(this->pinA, LOW);
 	digitalWrite2f(this->pinB, HIGH);
 
-	if (inDuration != 0)
+	if (inDuration != -1)
 	{
 		delay(inDuration);
 

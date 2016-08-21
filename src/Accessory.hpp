@@ -16,6 +16,10 @@
 #define UNDEFINED_ID	((unsigned long)-1)
 #endif
 
+#ifndef UNDEFINED_POS
+#define UNDEFINED_POS	(-32767)
+#endif
+
 // The two next enums are identical to the enums in Commanders library.
 enum ACCESSORIES_MOVE_TYPE
 {
@@ -35,11 +39,12 @@ enum ACCESSORIES_MOVE_TYPE
 
 enum ACCESSORIES_EVENT_TYPE
 {
-	ACCESSORIES_EVENT_NONE = 0,			// Should never appear
-	ACCESSORIES_EVENT_TOGGLE = 1,		// If a push button or similar is pressed, invert the state/position
-	ACCESSORIES_EVENT_MOVE = 2,			// If a push 'left' button or similar is pressed, data is a COMMANDERS_MOVE_TYPE
-	ACCESSORIES_EVENT_MOVEPOSITION = 3,	// If a potentiometer or similar is moved, data is the position to reach
-	ACCESSORIES_EVENT_CONFIG = 4,		// Data is the configuration address and value
+	ACCESSORIES_EVENT_NONE = 0,				// Should never appear
+	ACCESSORIES_EVENT_TOGGLE = 1,			// If a push button or similar is pressed, invert the state/position
+	ACCESSORIES_EVENT_MOVE = 2,				// If a push 'left' button or similar is pressed, data is a COMMANDERS_MOVE_TYPE
+	ACCESSORIES_EVENT_MOVEPOSITION = 3,		// Move to a given position value given by data.
+	ACCESSORIES_EVENT_MOVEPOSITIONINDEX = 4,// Move to an indexed position from pMovingPosition given by data.
+	ACCESSORIES_EVENT_CONFIG = 5,			// Data is the configuration address and value
 
 	// Part of events not common with Commanders library events.
 	ACCESSORIES_EVENT_DIRECTION = 20,	// Move in positive or negative direction.
@@ -76,8 +81,6 @@ private:
 	unsigned long lastMoveTime;
 
 protected:
-	//Driver *pDriver;
-	//byte driverPort;
 	DriverPort *pPort;
 
 	ACC_STATE state;
@@ -93,8 +96,6 @@ public:
 
 	inline ACCESSORYTYPE GetAccessoryType() const { return this->type; }
 
-	//inline Driver *GetDriver() { return this->pDriver; }
-	//inline byte GetDriverPort() { return this->driverPort; }
 	inline DriverPort *GetDriverPort() { return this->pPort; }
 
 	inline ACC_STATE GetState() const { return this->state; }
@@ -115,7 +116,11 @@ public:
 	inline virtual void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0) {}
 
 public:	//but should be protected !
-	int IndexOfMovingPosition(unsigned long inId);
+	void AdjustMovingPositionsSize(int inNewSize);
+	inline bool IsEmpty() const { return this->pMovingPositions == 0; }
+	int IndexOfMovingPosition(unsigned long inId) const;
+	int GetMovingPosition(unsigned long inId) const;
+	inline int GetMovingPositionByIndex(int inIndex) const { return this->pMovingPositions[inIndex].Position; }
 	inline const MovingPosition &GetLastMovingPosition() const { return this->lastMovingPosition; }
 	inline const int GetMovingPositionSize() const { return this->movingPositionsSize; }
 	inline void SetLastMovingPosition(unsigned long inId) { this->lastMovingPosition.Id = inId; }
@@ -146,12 +151,9 @@ public:	//but should be protected !
 
 	inline virtual bool CanBePositionnal() const { return false; }
 	inline virtual void MovePosition(int inPosition) {}
-	inline bool IsEmpty() const { return this->pMovingPositions == 0; }
-	inline const MovingPosition &GetMovingPosition(int inIndex) { return this->pMovingPositions[inIndex]; }
 
 	inline virtual void SetState(ACC_STATE inNewState) { this->state = inNewState; }
 
-	void AdjustMovingPositionsSize(int inNewSize);
 	inline void SetStartingMillis() { this->startingMillis = millis(); }
 	inline void ResetStartingMillis() { this->startingMillis = 0; }
 };

@@ -15,10 +15,15 @@ description: <Demo for groups>
 // returning to the first one when finished.
 
 // DCC codes
-#define ALLON			DCCINT(15,0)
-#define ALLOFF			DCCINT(15,1)
-#define ALLONFIRSTBLINK	DCCINT(16,0)
-#define ALLOFFLASTBLINK	DCCINT(16,1)
+#define ALLON			DCCINT(20,0)
+#define ALLOFF			DCCINT(20,1)
+#define ALLONFIRSTBLINK	DCCINT(21,0)
+#define ALLOFFLASTBLINK	DCCINT(21,1)
+
+#define RED_TOGGLE		DCCINT(22,0)
+#define ORANGE_TOGGLE	DCCINT(22,1)
+#define GREEN_TOGGLE	DCCINT(23,0)
+#define WHITE_TOGGLE	DCCINT(23,1)
 
 // Commanders
 
@@ -27,6 +32,8 @@ ButtonsCommanderKeyboard	push;
 #else
 ButtonsCommanderPush push;
 #endif
+
+SERIAL_COMMANDER(Serial);
 
 // Accessories
 
@@ -55,6 +62,8 @@ void setup()
 	Commanders::SetEventHandler(ReceiveEvent);
 	Commanders::SetStatusLedPin(LED_BUILTIN);
 
+	SerialCommander.begin(115200);
+
 #ifdef VISUALSTUDIO
 	push.begin(ALLON, '0');
 #else
@@ -78,10 +87,10 @@ void setup()
 
 	// Accessories setups
 
-	red.begin(pPortRed, DCCINT(20, 0), 500);
-	orange.begin(pPortOrange, DCCINT(20, 1));
-	green.begin(pPortGreen, DCCINT(21, 0));
-	white.begin(pPortWhite, DCCINT(21, 1), 500);
+	red.begin(pPortRed, RED_TOGGLE, 500);
+	orange.begin(pPortOrange, ORANGE_TOGGLE);
+	green.begin(pPortGreen, GREEN_TOGGLE);
+	white.begin(pPortWhite, WHITE_TOGGLE, 500);
 
 	// Describe the four differents states
 	group.begin();

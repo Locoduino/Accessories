@@ -65,7 +65,7 @@ class AccessoryServo : public Accessory
 		inline int GetMaximumPosition() const { return this->maximumPosition; }
 		inline int GetCurrentPosition() const { return this->currentPosition; }
 		inline void SetMinMax(int inMinimum, int inMaximum) { this->minimumPosition = inMinimum; this->maximumPosition = inMaximum; }
-		inline void AddMinMaxMovingPositions(unsigned long inIdMin, unsigned long inIdMax) { this->AddMovingPosition(inIdMin, MINIMUM); this->AddMovingPosition(inIdMax, MAXIMUM); }
+		inline void AddMinMaxMovingPositions(unsigned long inIdMin, unsigned long inIdMax) { this->AddMovingPosition(inIdMin, this->minimumPosition); this->AddMovingPosition(inIdMax, this->maximumPosition); }
 		
 		inline bool IsMinimumOrLowerPosition() const { return this->currentPosition <= this->minimumPosition; }
 		inline bool IsMaximumOrGreaterPosition() const { return this->currentPosition >= this->maximumPosition; }

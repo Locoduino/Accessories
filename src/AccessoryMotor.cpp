@@ -94,6 +94,14 @@ void AccessoryMotor::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 		}
 		break;
 
+	case ACCESSORIES_EVENT_MOVEPOSITION:
+		this->SetState((ACC_STATE) inData);
+		break;
+
+	case ACCESSORIES_EVENT_MOVEPOSITIONINDEX:
+		this->SetState((ACC_STATE)this->GetMovingPositionByIndex(inData));
+		break;
+
 	case ACCESSORIES_EVENT_SETSPEED:
 		this->pPort->SetSpeed(inData);
 		break;

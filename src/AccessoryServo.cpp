@@ -123,7 +123,7 @@ void AccessoryServo::Move(unsigned long inId)
 		return;
 	}
 
-	int position = this->IndexOfMovingPosition(inId);
+	int position = this->GetMovingPosition(inId);
 
 	if (position == MINIMUM || position == MAXIMUM)
 		this->SetState((ACC_STATE)position);
@@ -182,6 +182,10 @@ void AccessoryServo::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 
 	case ACCESSORIES_EVENT_MOVEPOSITION:
 		this->MovePosition(inData);
+		break;
+
+	case ACCESSORIES_EVENT_MOVEPOSITIONINDEX:
+		this->MovePosition(this->GetMovingPositionByIndex(inData));
 		break;
 
 	case ACCESSORIES_EVENT_SETSPEED:

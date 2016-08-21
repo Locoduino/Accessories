@@ -6,7 +6,26 @@ author: <Thierry PARIS>
 #include <Commanders.h>
 #include <Accessories.h>
 
-#define kDCC_INTERRUPT      0
+#define SERVO0_MIN	DCCINT(20, 0)
+#define SERVO0_MAX	DCCINT(20, 1)
+#define SERVO1_MIN	DCCINT(21, 0)
+#define SERVO1_MAX	DCCINT(21, 1)
+#define SERVO2_MIN	DCCINT(22, 0)
+#define SERVO2_MAX	DCCINT(22, 1)
+#define SERVO3_MIN	DCCINT(23, 0)
+#define SERVO3_MAX	DCCINT(23, 1)
+#define SERVO4_MIN	DCCINT(24, 0)
+#define SERVO4_MAX	DCCINT(24, 1)
+#define SERVO5_MIN	DCCINT(25, 0)
+#define SERVO5_MAX	DCCINT(25, 1)
+#define SERVO6_MIN	DCCINT(26, 0)
+#define SERVO6_MAX	DCCINT(26, 1)
+#define SERVO7_MIN	DCCINT(27, 0)
+#define SERVO7_MAX	DCCINT(27, 1)
+
+// Commanders
+
+SERIAL_COMMANDER(Serial);
 
 // Drivers
 
@@ -41,7 +60,8 @@ void setup()
 	Commanders::SetEventHandler(ReceiveEvent);
 	Commanders::SetStatusLedPin(LED_BUILTIN);
 
-	DccCommander.begin(0x00, 0x00, kDCC_INTERRUPT);
+	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(2));
+	SerialCommander.begin(115200);
 
 	CANCommander.begin(10, CAN_125KBPS, digitalPinToInterrupt(3), 100);
 
@@ -62,23 +82,23 @@ void setup()
 
 	speed = 19;	// starting speed state : fast.
 
-	servo0.begin(pPort0, speed, 0, 180, 2);
-	servo1.begin(pPort1, speed, 0, 180, 2);
-	servo2.begin(pPort2, speed, 0, 180, 2);
-	servo3.begin(pPort3, speed, 0, 180, 2);
-	servo4.begin(pPort4, speed, 0, 180, 2);
-	servo5.begin(pPort5, speed, 0, 180, 2);
-	servo6.begin(pPort6, speed, 0, 180, 2);
-	servo7.begin(pPort7, speed, 0, 180, 2);
+	servo0.begin(pPort0, speed, 0, 10, 2);
+	servo1.begin(pPort1, speed, 0, 10, 2);
+	servo2.begin(pPort2, speed, 0, 10, 2);
+	servo3.begin(pPort3, speed, 0, 10, 2);
+	servo4.begin(pPort4, speed, 0, 10, 2);
+	servo5.begin(pPort5, speed, 0, 10, 2);
+	servo6.begin(pPort6, speed, 0, 10, 2);
+	servo7.begin(pPort7, speed, 0, 10, 2);
 
-	servo0.AddMinMaxMovingPositions(DCCINT(30, 0), DCCINT(30, 1));
-	servo1.AddMinMaxMovingPositions(DCCINT(31, 0), DCCINT(31, 1));
-	servo2.AddMinMaxMovingPositions(DCCINT(32, 0), DCCINT(32, 1));
-	servo3.AddMinMaxMovingPositions(DCCINT(33, 0), DCCINT(33, 1));
-	servo4.AddMinMaxMovingPositions(DCCINT(34, 0), DCCINT(34, 1));
-	servo5.AddMinMaxMovingPositions(DCCINT(35, 0), DCCINT(35, 1));
-	servo6.AddMinMaxMovingPositions(DCCINT(36, 0), DCCINT(36, 1));
-	servo7.AddMinMaxMovingPositions(DCCINT(37, 0), DCCINT(37, 1));
+	servo0.AddMinMaxMovingPositions(SERVO0_MIN, SERVO0_MAX);
+	servo1.AddMinMaxMovingPositions(SERVO1_MIN, SERVO1_MAX);
+	servo2.AddMinMaxMovingPositions(SERVO2_MIN, SERVO2_MAX);
+	servo3.AddMinMaxMovingPositions(SERVO3_MIN, SERVO3_MAX);
+	servo4.AddMinMaxMovingPositions(SERVO4_MIN, SERVO4_MAX);
+	servo5.AddMinMaxMovingPositions(SERVO5_MIN, SERVO5_MAX);
+	servo6.AddMinMaxMovingPositions(SERVO6_MIN, SERVO6_MAX);
+	servo7.AddMinMaxMovingPositions(SERVO7_MIN, SERVO7_MAX);
 }
 
 void loop()

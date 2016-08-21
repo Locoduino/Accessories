@@ -25,7 +25,7 @@ void AccessoriesClass::Add(Accessory *inpAccessory)
 		delay(500);
 
 		Serial.println(F(""));
-		Serial.println(F("Accessories V0.17"));
+		Serial.println(F("Accessories V0.18"));
 		Serial.println(F("Developed by Thierry Paris."));
 		Serial.println(F("(c) Locoduino 2016"));
 		Serial.println(F(""));
@@ -224,5 +224,16 @@ void AccessoriesClass::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent,
 	Accessory *acc = this->GetById(inId);
 
 	if (acc != NULL)
-		acc->Event(inId, inEvent, inData);
+	{
+		int position = acc->IndexOfMovingPosition(inId);
+		if (position != -1)
+		{
+			if (acc->GetMovingPositionSize() < 2)
+				acc->Event(inId);
+			else
+				acc->Event(inId, ACCESSORIES_EVENT_MOVEPOSITIONINDEX, position);
+		}
+		else
+			acc->Event(inId, inEvent, inData);
+	}
 }

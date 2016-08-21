@@ -138,7 +138,12 @@ void AccessoryGroup::AddStateItem(unsigned long inId, Accessory &inAccessory, AC
 	GroupState *pState = this->GetByID(inId);
 
 	if (pState == NULL)
+	{
+#ifdef DEBUG_MODE
+		Serial.println(F("   AccessoryGroup wrong state id !"));
+#endif
 		return;
+	}
 
 	pState->Add(&inAccessory, inState, inDelay);
 }

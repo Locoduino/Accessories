@@ -1,9 +1,15 @@
 /*************************************************************
-project: <DCC Accessory Decoder>
+project: <Accessories>
 author: <Thierry PARIS>
 description: <Sample for four 3 leds signals on a Uno>
 *************************************************************/
-#include "UniversalAccessoryDecoder.h"
+
+#include "Commanders.h"
+#include "Accessories.h"
+
+#define NB_LEDS		3
+#define NB_FEUX		4
+#define DCCSTART	20
 
 //------------------------------------------------------------------------------
 // SignalArduino declaration
@@ -11,30 +17,22 @@ description: <Sample for four 3 leds signals on a Uno>
 class SignalArduino : public AccessoryLightMulti
 {
 public:
-	SignalArduino(DriverArduino *inpDriver, byte inNbLeds, int *inpPins, int inFirstPort = 0);
-	void SetupSignal(int inStartingDcc);
+	inline SignalArduino() {}
+	void beginSignal(DriverArduino *inpDriver, byte inNbLeds, int *inpPins, int inStartingDcc);
 };
 
 //------------------------------------------------------------------------------
 // SignalArduino definition
 
-SignalArduino::SignalArduino(DriverArduino *inpDriver, byte inNbLeds, int *inpPins, int inFirstPort) : AccessoryLightMulti(0, 0, inNbLeds, 0)
+void SignalArduino::beginSignal(DriverArduino *inpDriver, byte inNbLeds, int *inpPins, int inStartingDcc)
 {
-	for (int led = 0; led < inNbLeds; led++)
-	{
-		inpDriver->SetupPortMotor(inFirstPort + led, inpPins[led], DIGITAL);
-	}
+	this->begin(0, NB_LEDS, 0);
 
 	for (int led = 0; led < inNbLeds; led++)
 	{
-		// Led number is also port number...
-		this->SetupLight(led, inpDriver, inFirstPort + led, 255);
+		DriverPort *pPort = inpDriver->AddPortMotor(inpPins[led], DIGITAL);
+		this->beginLight(led, pPort);
 	}
-}
-
-void SignalArduino::SetupSignal(int inStartingDcc)
-{
-	this->Setup();
 
 	int led_on = 0;
 
@@ -45,75 +43,73 @@ void SignalArduino::SetupSignal(int inStartingDcc)
 	// inStartingDcc+1 / 0  off off  on
 	// inStartingDcc+1 / 1  off off  off
 
-	this->AdjustDccPositionsSize(this->GetSize()+1);
+	this->AdjustMovingPositionsSize(inNbLeds + 1);
 
 	int dcc = inStartingDcc;
 	bool etat = false;
-	for (int i = 0; i < this->GetSize(); i++)
+	for (int i = 0; i < inNbLeds; i++)
 	{
 		if (!etat)
 		{
-			this->AddDccPosition(dcc, 0, 1<<i);
+			this->AddMovingPosition(DCCINT(dcc, 0), 1<<i, 0);
 			etat = true;
 		}
 		else
 		{
-			this->AddDccPosition(dcc, 1, 1<<i);
+			this->AddMovingPosition(DCCINT(dcc, 1), 1<<i, 0);
 			dcc++;
 			etat = false;
 		}
 	}
 	
-	this->AddDccPosition(dcc, etat==true?1:0, 0);
+	this->AddMovingPosition(DCCINT(dcc, etat==true?1:0), 0, 0);
 
 	// Light on at startup
-
-	this->Move(7); // 111
-	unsigned long start = millis();
-	while(millis() - start < 1000)
-		this->ActionEnded();
-	
-	this->Move(0); // 000
-	start = millis();
-	while(millis() - start < 1000)
-		this->ActionEnded();
+	/*
+	for (int i = 0; i < inNbLeds; i++)
+	{
+		this->LightOn(i);
+		unsigned long start = millis();
+		while (millis() - start < 1000)
+			Accessories::loop();
+	}
+	*/
+	for (int i = 0; i < inNbLeds; i++)
+		this->LightOff(i);
 }
 
 //------------------------------------------------------------------------------
 // Classic INO area
 
-/* kDCC_INTERRUPT values :
-Board         int.0   int.1   int.2   int.3   int.4   int.5
-Uno, Ethernet   2      3
-Mega2560        2      3      21      20      19      18
-Leonardo        3      2      0       1       7
-*/
-#define kDCC_INTERRUPT            5
+// Commanders
 
-#define NB_LEDS		3
-#define NB_ETATS	4
-#define NB_FEUX		4
-
-SignalArduino* signaux[NB_FEUX];
+#ifdef VISUALSTUDIO
+ButtonsCommanderKeyboard	push;
+#else
+ButtonsCommanderPush push;
+#endif
 
 // Accessories
 
-Accessories accessories;
-DccCommander dccCommander;
-ButtonsCommander buttonsCommander;
+SignalArduino signaux[NB_FEUX];
 
 // Drivers
 
-DriverArduino *arduino;
+DriverArduino arduino;
 
 int pins[NB_FEUX][NB_LEDS] = {
-	{ 2, 3, 4 },
-	{ 5, 6, 7 },
-	{ 8, 9, 10 },
-	{ 11, 12, 13 },
+	{ 22, 23, 24 },
+	{ 25, 26, 27 },
+	{ 28, 29, 30 },
+	{ 31, 32, 33 },
 };
 
 int dcc_codes[NB_FEUX] = { 10, 12, 14, 16 };
+
+void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
+{
+	Accessories::ReceiveEvent(inId, (ACCESSORIES_EVENT_TYPE)inEventType, inEventData);
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -121,15 +117,19 @@ int dcc_codes[NB_FEUX] = { 10, 12, 14, 16 };
 //
 void setup()
 {
-	UAD_StartSetup();
+	Commanders::SetEventHandler(ReceiveEvent);
+	Commanders::SetStatusLedPin(LED_BUILTIN);
 
-	dccCommander.Setup(0x00, 0x00, kDCC_INTERRUPT);
-	dccCommander.SetStatusLedPin(18);
+	// Setup of Dcc commander
+	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
 
 	// Small push button to check all signal states manually.
-	buttonsCommander.Setup(1,
-		new ButtonsCommanderPush(NB_FEUX * NB_ETATS)
-		);
+	// UNDEFINED_ID here means that this id is not significant.
+#ifdef VISUALSTUDIO
+	push.begin(UNDEFINED_ID, '0');
+#else
+	push.begin(UNDEFINED_Id, 17);
+#endif
 
 	for (int feu = 0; feu < NB_FEUX; feu++)
 	{
@@ -139,44 +139,31 @@ void setup()
 		{
 			if (!etat)
 			{
-				PUSH(buttonsCommander, 0)->AddDccId(dcc, 0);
+				push.AddEvent(DCCINT(dcc, 0));
 				etat = true;
 			}
 			else
 			{
-				PUSH(buttonsCommander, 0)->AddDccId(dcc, 1);
+				push.AddEvent(DCCINT(dcc, 1));
 				dcc++;
 				etat = false;
 			}
 		}
 		
-		PUSH(buttonsCommander, 0)->AddDccId(dcc, etat==true?1:0);
+		push.AddEvent(DCCINT(dcc, etat == true ? 1 : 0));
 	}
 
-	PUSH(buttonsCommander, 0)->Setup(17);           // port A4
-
-													// NB_LEDS * NB_FEUX ports to initialize
-	arduino = new DriverArduino(NB_LEDS * NB_FEUX, 0);
-	arduino->Setup();
-
-	accessories.Setup(NB_FEUX);
+	arduino.begin ();
 
 	for (int feu = 0; feu < NB_FEUX; feu++)
 	{
-		signaux[feu] = new SignalArduino(arduino, NB_LEDS, pins[feu], feu * NB_LEDS);
-		signaux[feu]->SetupSignal(dcc_codes[feu]);
-
-		accessories.Add(signaux[feu]);
+		signaux[feu].beginSignal(&arduino, NB_LEDS, pins[feu], dcc_codes[feu]);
 	}
-
-	UAD_EndSetup();
 }
 
 void loop()
 {
-	if (dccCommander.Loop())
-	{
-		accessories.Loop();
-		buttonsCommander.Loop();
-	}
+	Accessories::loop();
+
+	Commanders::loop();
 }

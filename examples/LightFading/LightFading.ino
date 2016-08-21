@@ -7,6 +7,10 @@ description: <Test for fading light with just one button>
 #include "Commanders.h"
 #include "Accessories.h"
 
+// DCC codes
+#define RED_TOGGLE		DCCINT(20,0)
+#define GREEN_TOGGLE	DCCINT(20,1)
+
 // Commanders
 
 #ifdef VISUALSTUDIO
@@ -14,6 +18,8 @@ ButtonsCommanderKeyboard	push;
 #else
 ButtonsCommanderPush push;
 #endif
+
+SERIAL_COMMANDER(Serial);
 
 // Accessories
 
@@ -37,14 +43,16 @@ void setup()
 	Commanders::SetEventHandler(ReceiveEvent);
 	Commanders::SetStatusLedPin(LED_BUILTIN);
 
+	Serial.begin(115200);
+
 	// One button
-    // This button will send commands to Dcc code 1/0 and 1/1, on pin 26
+    // This button will send commands to Dcc code 20/0 and 20/1, on pin 26
 #ifdef VISUALSTUDIO
-	push.begin(DCCINT(1, 0), '0');
+	push.begin(RED_TOGGLE, '0');
 #else
-	push.begin(DCCINT(1, 0), 26);
+	push.begin(RED_TOGGLE, 26);
 #endif
-	push.AddEvent(DCCINT(1, 1));
+	push.AddEvent(GREEN_TOGGLE);
 
 	// Drivers setups
 
@@ -57,8 +65,8 @@ void setup()
 
     // Two lights in the accessory list.
 
-	red.begin(pPort0, DCCINT(1, 0), 0, 120);
-	green.begin(pPort1, DCCINT(1, 1), 0, 200);
+	red.begin(pPort0, RED_TOGGLE, 0, 120);
+	green.begin(pPort1, GREEN_TOGGLE, 0, 200);
 
     // Define fading/dimming effect
 	red.SetFading(20, 20);
