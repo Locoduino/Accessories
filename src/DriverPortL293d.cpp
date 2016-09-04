@@ -10,7 +10,7 @@ description: <Driver port for L293n>
 
 #ifndef NO_L293D
 
-DriverPortL293d::DriverPortL293d(byte inId, unsigned char inOutPort, uint8_t inSpeed, uint8_t inFreq) : DriverPort(MOTOR_LIGHT, inId)
+DriverPortL293d::DriverPortL293d(uint8_t inId, unsigned char inOutPort, uint8_t inSpeed, uint8_t inFreq) : DriverPort(MOTOR_LIGHT, inId)
 {
 	this->pmotor = new AF_DCMotor(inOutPort, inFreq);
 	this->pmotor->setSpeed(inSpeed);
@@ -34,7 +34,7 @@ int DriverPortL293d::SetSpeed(uint8_t inSpeed)
 
 void DriverPortL293d::MoveLeftDir(unsigned long inDuration)
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F(" DriverPortL293d MoveLeftDir() "));
 	if (inDuration != 0)
 	{
@@ -57,7 +57,7 @@ void DriverPortL293d::MoveLeftDir(unsigned long inDuration)
 
 void DriverPortL293d::MoveRightDir(unsigned long inDuration)
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	//Serial.print(this->pmotor->motornum);
 	Serial.print(F(" DriverPortL293d MoveRightDir() "));
 	if (inDuration != 0)

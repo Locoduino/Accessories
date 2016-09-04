@@ -19,7 +19,7 @@ public:
 	int pin;
 };
 #else
-#include "Servo.hpp"
+#include "Servo.h"
 #endif
 #endif
 
@@ -28,14 +28,14 @@ public:
 //-------------------------------------------------------------------
 
 #ifndef NO_SERVO
-class DriverPortServoArduino : public DriverPortServo
+class DriverPortServoBase : public DriverPortServo
 {
 	protected:      
 		int pin;    
 		Servo servo;
 
 	public:
-		DriverPortServoArduino(byte inId);
+		DriverPortServoBase(uint8_t inId);
 		
 		void begin(int inPin, PORT_TYPE inType);
 		void beginByAccessory(int inStartingPosition);

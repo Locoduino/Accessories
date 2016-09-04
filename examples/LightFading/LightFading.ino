@@ -40,10 +40,15 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 //
 void setup()
 {
-	Commanders::SetEventHandler(ReceiveEvent);
-	Commanders::SetStatusLedPin(LED_BUILTIN);
-
 	Serial.begin(115200);
+	while (!Serial);		// For Leonardo only. No effect on other Arduino.
+
+	Commanders::begin(ReceiveEvent, LED_BUILTIN);
+	Accessories::begin();
+
+	// Commanders setup
+
+	SerialCommander.begin();
 
 	// One button
     // This button will send commands to Dcc code 20/0 and 20/1, on pin 26

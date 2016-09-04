@@ -18,13 +18,13 @@ class SignalArduino : public AccessoryLightMulti
 {
 public:
 	inline SignalArduino() {}
-	void beginSignal(DriverArduino *inpDriver, byte inNbLeds, int *inpPins, int inStartingDcc);
+	void beginSignal(DriverArduino *inpDriver, uint8_t inNbLeds, int *inpPins, int inStartingDcc);
 };
 
 //------------------------------------------------------------------------------
 // SignalArduino definition
 
-void SignalArduino::beginSignal(DriverArduino *inpDriver, byte inNbLeds, int *inpPins, int inStartingDcc)
+void SignalArduino::beginSignal(DriverArduino *inpDriver, uint8_t inNbLeds, int *inpPins, int inStartingDcc)
 {
 	this->begin(0, NB_LEDS, 0);
 
@@ -33,8 +33,6 @@ void SignalArduino::beginSignal(DriverArduino *inpDriver, byte inNbLeds, int *in
 		DriverPort *pPort = inpDriver->AddPortMotor(inpPins[led], DIGITAL);
 		this->beginLight(led, pPort);
 	}
-
-	int led_on = 0;
 
 	// Used dcc codes are
 	//                 Led  0    1    2
@@ -117,10 +115,14 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 //
 void setup()
 {
-	Commanders::SetEventHandler(ReceiveEvent);
-	Commanders::SetStatusLedPin(LED_BUILTIN);
+	Serial.begin(115200);
+	while (!Serial);		// For Leonardo only. No effect on other Arduino.
 
-	// Setup of Dcc commander
+	Commanders::begin(ReceiveEvent, LED_BUILTIN);
+	Accessories::begin();
+
+	// Commanders setup
+
 	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
 
 	// Small push button to check all signal states manually.
@@ -128,7 +130,7 @@ void setup()
 #ifdef VISUALSTUDIO
 	push.begin(UNDEFINED_ID, '0');
 #else
-	push.begin(UNDEFINED_Id, 17);
+	push.begin(UNDEFINED_ID, 17);
 #endif
 
 	for (int feu = 0; feu < NB_FEUX; feu++)

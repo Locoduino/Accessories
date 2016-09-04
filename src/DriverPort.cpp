@@ -6,7 +6,7 @@ description: <Driver port>
 
 #include "Accessories.h"
 
-DriverPort::DriverPort(PORTTYPE inType, byte inPort)
+DriverPort::DriverPort(PORTTYPE inType, uint8_t inPort)
 {
 	this->type = inType;
 	this->id = inPort;

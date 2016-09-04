@@ -1,20 +1,19 @@
 //-------------------------------------------------------------------
-#ifndef __driverPortRelay_H__
-#define __driverPortRelay_H__
+#ifndef __driverPortMotor_H__
+#define __driverPortMotor_H__
 //-------------------------------------------------------------------
 
 #include "DriverPort.hpp"
 
 //-------------------------------------------------------------------
 
-#ifndef NO_RELAY
-class DriverPortRelay : public DriverPort
+class DriverPortMotor : public DriverPort
 {
 	protected:
 		GPIO_pin_t pin;
 
 	public:
-		DriverPortRelay(byte inId);
+		DriverPortMotor(uint8_t inId);
 		
 		void begin(int inPin);
 		
@@ -26,8 +25,6 @@ class DriverPortRelay : public DriverPort
 		void MoveRightDir(unsigned long inDuration = 0);
 		void MoveStop(); 
 };
-#endif
-
 
 //-------------------------------------------------------------------
 #endif

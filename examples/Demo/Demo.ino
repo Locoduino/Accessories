@@ -66,11 +66,16 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 //
 void setup()
 {
-	// Setup of the Dcc commander.
-	SerialCommander.begin(115200);
+	Serial.begin(115200);
+//	while (!Serial);		// For Leonardo only. No effect on other Arduino.
+
+	Commanders::begin(ReceiveEvent, LED_BUILTIN);
+	Accessories::begin();
+
+	// Commanders setup
+
+	SerialCommander.begin();
 	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
-	Commanders::SetEventHandler(ReceiveEvent);
-	Commanders::SetStatusLedPin(LED_BUILTIN);
 
 	// Each button assigned to an accessory Dcc code.
 #ifdef VISUALSTUDIO

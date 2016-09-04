@@ -14,23 +14,23 @@ DriverArduino::DriverArduino() : Driver()
 
 DriverPortArduino *DriverArduino::AddPortMotor(int inPin, PORT_TYPE inType)
 {
-	DriverPortArduino *port = new DriverPortArduino((byte) inPin);
+	DriverPortArduino *port = new DriverPortArduino((uint8_t) inPin);
 	this->AddPort(port);
 	port->begin(inPin, inType);
 
 	return port;
 }
 
+#if !defined(NO_SERVO)
 DriverPortServo *DriverArduino::AddPortServo(int inPin, PORT_TYPE inType)
 {
-#if !defined(NO_SERVO)
-	DriverPortServoArduino *port = new DriverPortServoArduino((byte)inPin);
+	DriverPortServoBase *port = new DriverPortServoBase((uint8_t)inPin);
 	this->AddPort(port);
 	port->begin(inPin, inType);
 
 	return port;
-#endif
 }
+#endif
 
 
 #endif

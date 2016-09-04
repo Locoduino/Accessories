@@ -16,6 +16,7 @@ AccessoryMotor 			KEYWORD1
 AccessoryMotorOneWay 	KEYWORD1
 AccessoryMotorTwoWays 	KEYWORD1
 AccessoryServo 			KEYWORD1
+AccessoryStepper		KEYWORD1
 
 GroupState 				KEYWORD1
 GroupStateItem 			KEYWORD1
@@ -25,15 +26,20 @@ DriverArduino 			KEYWORD1
 DriverL293d 			KEYWORD1
 DriverL298n 			KEYWORD1
 DriverRelay 			KEYWORD1
+DriverULN2003 			KEYWORD1
+DriverLMD18200 			KEYWORD1
+DriverL9110 			KEYWORD1
 
 DriverPort 				KEYWORD1
 DriverPorts 			KEYWORD1
 DriverPortArduino 		KEYWORD1
 DriverPortL293d 		KEYWORD1
-DriverPortL298n 		KEYWORD1
-DriverPortRelay 		KEYWORD1
+DriverPortLMD18200 		KEYWORD1
+DriverPort2Pins 		KEYWORD1
+DriverPortMotor 		KEYWORD1
 DriverPortServo 		KEYWORD1
-DriverPortServoArduino 	KEYWORD1
+DriverPortServoBase 	KEYWORD1
+DriverPortStepper 		KEYWORD1
 
 ACCESSORYTYPE 			KEYWORD1
 ACC_STATE 				KEYWORD1
@@ -49,8 +55,6 @@ MovePosition 	KEYWORD2
 Setup 			KEYWORD2
 Loop 			KEYWORD2
 Add 			KEYWORD2
-Accessories_StartSetup 	KEYWORD2
-Accessories_EndSetup 	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
@@ -62,6 +66,9 @@ NO_SERVO 			LITERAL1
 NO_LIGHT 			LITERAL1
 NO_L293D 			LITERAL1
 NO_L298N 			LITERAL1
+NO_LMD18200			LITERAL1
+NO_ULN2003 			LITERAL1
+NO_L9110 			LITERAL1
 NO_RELAY 			LITERAL1
 NO_ARDUINODRIVER 	LITERAL1
 NO_STEPPER 			LITERAL1
@@ -120,4 +127,3 @@ L298N_PORT_OUT1			LITERAL1
 L298N_PORT_OUT2			LITERAL1
 L298N_PORT_OUT12		LITERAL1
 L298N_PORT_OUT34		LITERAL1
-

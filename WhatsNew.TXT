@@ -1,3 +1,34 @@
+04/09/2016 0.20
+	- Plus d'initialisation de Serial, pour le DUE. Serial.begin() doit être fait dans le .ino .
+	- Ajout de l'événement ACCESSORIES_EVENT_MOVEPOSITIONID.
+	- un begin() ajouté pour Accessories.
+	- sur une (fausse) intuition, retrait de tous les 'byte' remplacés par des uint8_t .
+	- Ajout de AccessoryStepper
+	- Ajout de DriverLMD18200
+	- Ajout de DriverL9110
+	- Ajout de DriverULN2003
+	- Renommage de DriverPortRelay en DriverPortMotor
+	- Renommage de DriverPortL298n en DriverPort2Pins
+	- Renommage de DriverPortServoArduino en DriverPortServoBase
+	- Renommage de DEBUG_MODE en ACCESSORIES_DEBUG_MODE
+	- Correction de ActionStack pour les servos.
+
+	- No more internal begin() of Serial class, to avoid problems with the DUE.
+	  Serial.begin must be done, if necessary, in .ino file .
+	- Added event ACCESSORIES_EVENT_MOVEPOSITIONID.
+	- Added a begin() function for Accessories.
+	- Based on a false deduction, replacement of all 'byte' by 'uint8_t'. It is not wrong, but it 
+	  could have been avoided...
+	- Added AccessoryStepper
+	- Added DriverLMD18200
+	- Added DriverL9110
+	- Added DriverULN2003
+	- Renaming of DriverPortRelay to DriverPortMotor
+	- Renaming of DriverPortL298n to DriverPort2Pins
+	- Renaming of DriverPortServoArduino to DriverPortServoBase
+	- Renaming of DEBUG_MODE to ACCESSORIES_DEBUG_MODE
+	- Fix ActionStack for servos.
+
 21/08/2016 V0.19
 	- Correction de la gestion de mémorisation d'événement durant un mouvement de servo.
 

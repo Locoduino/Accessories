@@ -33,7 +33,7 @@ class DriverPortL293d : public DriverPort
 		AF_DCMotor *pmotor;
 
 	public:
-		DriverPortL293d(byte inId, unsigned char inOutPort, uint8_t inSpeed, uint8_t inFreq);
+		DriverPortL293d(uint8_t inId, unsigned char inOutPort, uint8_t inSpeed, uint8_t inFreq);
 		
 		void begin(uint8_t inFreq);
 		

@@ -157,6 +157,7 @@
     <ClCompile Include="..\..\Commanders\src\I2CCommander.cpp" />
     <ClCompile Include="..\..\Commanders\src\TextInterpreter.cpp" />
     <ClCompile Include="..\..\Commanders\VStudio\ButtonsCommanderKeyboard.cpp" />
+    <ClCompile Include="..\src\LocoStepper.cpp" />
     <ClCompile Include="..\src\Accessories.cpp" />
     <ClCompile Include="..\src\AccessoriesClass.cpp" />
     <ClCompile Include="..\src\Accessory.cpp" />
@@ -168,19 +169,25 @@
     <ClCompile Include="..\src\AccessoryMotorOneWay.cpp" />
     <ClCompile Include="..\src\AccessoryMotorTwoWays.cpp" />
     <ClCompile Include="..\src\AccessoryServo.cpp" />
+    <ClCompile Include="..\src\AccessoryStepper.cpp" />
     <ClCompile Include="..\src\ActionsStack.cpp" />
     <ClCompile Include="..\src\Driver.cpp" />
     <ClCompile Include="..\src\DriverArduino.cpp" />
     <ClCompile Include="..\src\DriverL293d.cpp" />
     <ClCompile Include="..\src\DriverL298n.cpp" />
+    <ClCompile Include="..\src\DriverL9110.cpp" />
+    <ClCompile Include="..\src\DriverLMD18200.cpp" />
     <ClCompile Include="..\src\DriverPort.cpp" />
     <ClCompile Include="..\src\DriverPortArduino.cpp" />
     <ClCompile Include="..\src\DriverPortL293d.cpp" />
-    <ClCompile Include="..\src\DriverPortL298n.cpp" />
-    <ClCompile Include="..\src\DriverPortRelay.cpp" />
+    <ClCompile Include="..\src\DriverPort2Pins.cpp" />
+    <ClCompile Include="..\src\DriverPortLMD18200.cpp" />
+    <ClCompile Include="..\src\DriverPortMotor.cpp" />
     <ClCompile Include="..\src\DriverPortServo.cpp" />
-    <ClCompile Include="..\src\DriverPortServoArduino.cpp" />
+    <ClCompile Include="..\src\DriverPortServoBase.cpp" />
+    <ClCompile Include="..\src\DriverPortStepper.cpp" />
     <ClCompile Include="..\src\DriverRelay.cpp" />
+    <ClCompile Include="..\src\DriverULN2003.cpp" />
     <ClCompile Include="InoProject.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +215,7 @@
     <ClInclude Include="..\..\Commanders\VStudio\DCC_Decoder.hpp" />
     <ClInclude Include="..\..\Commanders\VStudio\mcp_can.h" />
     <ClInclude Include="..\..\Commanders\VStudio\mcp_can_dfs.h" />
+    <ClInclude Include="..\src\LocoStepper.h" />
     <ClInclude Include="..\src\Accessories.h" />
     <ClInclude Include="..\src\Accessories.hpp" />
     <ClInclude Include="..\src\AccessoriesClass.hpp" />
@@ -220,20 +228,26 @@
     <ClInclude Include="..\src\AccessoryMotorOneWay.hpp" />
     <ClInclude Include="..\src\AccessoryMotorTwoWays.hpp" />
     <ClInclude Include="..\src\AccessoryServo.hpp" />
+    <ClInclude Include="..\src\AccessoryStepper.hpp" />
     <ClInclude Include="..\src\ActionsStack.hpp" />
     <ClInclude Include="..\src\Chain.hpp" />
     <ClInclude Include="..\src\Driver.hpp" />
     <ClInclude Include="..\src\DriverArduino.hpp" />
     <ClInclude Include="..\src\DriverL293d.hpp" />
     <ClInclude Include="..\src\DriverL298n.hpp" />
+    <ClInclude Include="..\src\DriverL9110.hpp" />
+    <ClInclude Include="..\src\DriverLMD18200.hpp" />
     <ClInclude Include="..\src\DriverPort.hpp" />
     <ClInclude Include="..\src\DriverPortArduino.hpp" />
     <ClInclude Include="..\src\DriverPortL293d.hpp" />
-    <ClInclude Include="..\src\DriverPortL298n.hpp" />
-    <ClInclude Include="..\src\DriverPortRelay.hpp" />
+    <ClInclude Include="..\src\DriverPort2Pins.hpp" />
+    <ClInclude Include="..\src\DriverPortLMD18200.hpp" />
+    <ClInclude Include="..\src\DriverPortMotor.hpp" />
     <ClInclude Include="..\src\DriverPortServo.hpp" />
-    <ClInclude Include="..\src\DriverPortServoArduino.hpp" />
+    <ClInclude Include="..\src\DriverPortServoBase.hpp" />
+    <ClInclude Include="..\src\DriverPortStepper.hpp" />
     <ClInclude Include="..\src\DriverRelay.hpp" />
+    <ClInclude Include="..\src\DriverULN2003.hpp" />
     <ClInclude Include="InoProject.h" />
   </ItemGroup>
   <ItemGroup>

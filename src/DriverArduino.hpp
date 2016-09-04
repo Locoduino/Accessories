@@ -19,7 +19,9 @@ class DriverArduino : public Driver
 
 		// In Arduino ports, the pin is also the id of the port !
 		DriverPortArduino *AddPortMotor(int inPin, PORT_TYPE inType = DIGITAL);
+#ifndef NO_SERVO
 		DriverPortServo *AddPortServo(int inPin, PORT_TYPE inType = ANALOG);
+#endif
 };
 #endif
 

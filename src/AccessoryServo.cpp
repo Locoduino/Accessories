@@ -51,7 +51,7 @@ void AccessoryServo::SetPowerCommand(int inPin, unsigned long inDelay)
 
 void AccessoryServo::MoveMinimum()
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F("AccessoryServo MoveMinimum()"));
 #endif
 
@@ -60,7 +60,7 @@ void AccessoryServo::MoveMinimum()
 
 void AccessoryServo::MoveMaximum()
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F("AccessoryServo MoveMaximum()"));
 #endif
 
@@ -72,7 +72,7 @@ ACC_STATE AccessoryServo::MoveToggle()
 	if (this->IsActionPending())
 		return this->GetState();
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F("AccessoryServo MoveToggle() : "));
 #endif
 
@@ -86,21 +86,21 @@ ACC_STATE AccessoryServo::MoveToggle()
 
 void AccessoryServo::SetState(ACC_STATE inState) 
 { 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F("AccessoryServo SetState("));
 #endif
 
 	switch (inState)
 	{
 		case MINIMUM:
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 			Serial.println(F("MINIMUM)"));
 #endif
 			this->MovePosition(this->minimumPosition);
 			break;
 
 		case MAXIMUM:
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 			Serial.println(F("MAXIMUM)"));
 #endif
 			this->MovePosition(this->maximumPosition);
@@ -113,7 +113,7 @@ void AccessoryServo::SetState(ACC_STATE inState)
 
 void AccessoryServo::Move(unsigned long inId)
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F("AccessoryServo Move()"));
 #endif
 
@@ -123,6 +123,7 @@ void AccessoryServo::Move(unsigned long inId)
 		return;
 	}
 
+	this->SetLastMovingPosition(this->IndexOfMovingPosition(inId));
 	int position = this->GetMovingPosition(inId);
 
 	if (position == MINIMUM || position == MAXIMUM)
@@ -148,7 +149,7 @@ void AccessoryServo::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 		break;
 
 	case ACCESSORIES_EVENT_MOVE:
-		switch ((ACCESSORIES_MOVE_TYPE)inData)
+		switch (inData)
 		{
 		case ACCESSORIES_MOVE_STRAIGHT:
 		case ACCESSORIES_MOVE_TOP:
@@ -184,8 +185,12 @@ void AccessoryServo::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 		this->MovePosition(inData);
 		break;
 
+	case ACCESSORIES_EVENT_MOVEPOSITIONID:
+		this->Move(inId);
+		break;
+
 	case ACCESSORIES_EVENT_MOVEPOSITIONINDEX:
-		this->MovePosition(this->GetMovingPositionByIndex(inData));
+		this->Move(this->GetMovingPositionIdByIndex(inData));
 		break;
 
 	case ACCESSORIES_EVENT_SETSPEED:
@@ -201,13 +206,13 @@ void AccessoryServo::InternalMovePosition(int inPosition)
 {
 	if (this->currentPosition == inPosition)
 	{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 		Serial.println(F("AccessoryServo::MovePosition : same position - no move!"));
 #endif
 		return;
 	}
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F("AccessoryServo InternalMovePosition()"));
 #endif
 
@@ -274,7 +279,7 @@ bool AccessoryServo::ActionEnded()
 				ActionsStack::FillingStack = false;
 				if (this->powerState == PowerRunning && this->powerCommandPin != DP_INVALID)
 				{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 					Serial.println(F("AccessoryServo after running"));
 #endif
 					this->powerState = PowerAfterRunning;
@@ -296,7 +301,7 @@ bool AccessoryServo::ActionEnded()
 				ActionsStack::FillingStack = false;
 				if (this->powerState == PowerRunning && this->powerCommandPin != DP_INVALID)
 				{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 					Serial.println(F("AccessoryServo after running"));
 #endif
 					this->powerState = PowerAfterRunning;
@@ -313,7 +318,7 @@ bool AccessoryServo::ActionEnded()
 	{
 		if (this->powerState == PowerNoAction)
 		{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 			Serial.println(F("AccessoryServo start power command"));
 #endif
 			digitalWrite2f(this->powerCommandPin, LOW);
@@ -327,7 +332,7 @@ bool AccessoryServo::ActionEnded()
 		{
 			if (this->powerState == PowerBeforeRunning)
 			{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 				Serial.println(F("AccessoryServo running"));
 #endif
 				this->powerState = PowerRunning;
@@ -337,7 +342,7 @@ bool AccessoryServo::ActionEnded()
 
 			if (this->powerState == PowerAfterRunning)
 			{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 				Serial.println(F("AccessoryServo end running"));
 #endif
 				this->powerState = PowerNoAction;

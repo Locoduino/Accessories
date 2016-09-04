@@ -44,7 +44,13 @@ class ActionsStack
 		static bool FillingStack;
 
 	private:
-		void CheckIndex(unsigned char inIndex, const __FlashStringHelper *infunc) const;
+#ifdef ACCESSORIES_DEBUG_MODE
+#ifdef ARDUINO_ARCH_SAM
+		void CheckIndex(uint8_t inIndex, const char *infunc) const;
+#else
+		void CheckIndex(uint8_t inIndex, const __FlashStringHelper *infunc) const;
+#endif
+#endif
 };
 
 

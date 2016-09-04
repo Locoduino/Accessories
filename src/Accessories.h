@@ -1,26 +1,25 @@
 ////////////////////////////////////////////////////////
 // Add a '//' at the beginning of the line to be in 
 // release mode.
-//#define DEBUG_MODE
+#define ACCESSORIES_DEBUG_MODE
 
 ///////////////////////////////////////////////////////
 // Verbose mode lets you see all actions done by the 
 // library, but with a real flood of text to console...
-// Has no effect if DEBUG_MODE is not activated.
+// Has no effect if ACCESSORIES_DEBUG_MODE is not activated.
 //#define DEBUG_VERBOSE_MODE
 
 #define  GPIO2_PREFER_SPEED    1
 
 #ifdef VISUALSTUDIO
-#define DEBUG_MODE
+#define ACCESSORIES_DEBUG_MODE
 #include "../../DIO2/VStudio/DIO2.h"
 #else
 #include "DIO2.h"
 #endif
 
-#define ACTION_STACK_SIZE	5
 
-#define NO_STEPPER
+#define ACTION_STACK_SIZE	5
 
 //////////////////////////////////////////
 //  Exclusion area
@@ -67,8 +66,8 @@
 //	AccessoryServo.hpp
 //	DriverPortServo.cpp
 //	DriverPortServo.hpp
-//	DriverPortServoArduino.cpp
-//	DriverPortServoArduino.hpp
+//	DriverPortServoBase.cpp
+//	DriverPortServoBase.hpp
 //	Servo.cpp
 //	Servo.hpp
 //
@@ -78,34 +77,68 @@
 //	DriverPortL293d.cpp
 //	DriverPortL293d.hpp
 //
+//NO_L9110
+//	DriverL9110.cpp
+//	DriverL9110.hpp
+//
 //NO_L298D
 //	DriverL298n.cpp
 //	DriverL298n.hpp
-//	DriverPortL298n.cpp
-//	DriverPortL298n.hpp
+//
+//NO_LMD18200
+//	DriverLMD18200.cpp
+//	DriverLMD18200.hpp
+//	DriverPortLMD18200.cpp
+//	DriverPortLMD18200.hpp
+//
+//NO_ULN2003
+//	DriverULN2003.cpp
+//	DriverULN2003.hpp
 //
 //NO_RELAY
 //	DriverRelay.cpp
 //	DriverRelay.hpp
-//	DriverPortRelay.cpp
-//	DriverPortRelay.hpp
+//	DriverPortMotor.cpp
+//	DriverPortMotor.hpp
+//
+//NO_STEPPER
+//	AccessoryStepper.cpp
+//	AccessoryStepper.hpp
+//	DriverStepper.cpp
+//	DriverStepper.hpp
+//	DriverPortStepper.cpp
+//	DriverPortStepper.hpp
 //
 
 //#define NO_GROUP
 //#define NO_MOTOR
 //#define NO_SERVO
+//#define NO_STEPPER
 //#define NO_LIGHT
 //#define NO_L293D
+//#define NO_L9110
 //#define NO_L298N
+//#define NO_ULN2003
+//#define NO_LMD18200
 //#define NO_RELAY
 //#define NO_ARDUINODRIVER
 
 #ifdef NO_MOTOR
-#ifndef NO_MOTORONEWAY
-#define NO_MOTORONEWAY
+	#ifdef NO_LIGHT
+		#define NO_MOTOR_LIGHT
+	#endif
+	#ifndef NO_MOTORONEWAY
+		#define NO_MOTORONEWAY
+	#endif
+	#ifndef NO_MOTORTWOWAYS
+		#define NO_MOTORTWOWAYS
+	#endif
 #endif
-#ifndef NO_MOTORTWOWAYS
-#define NO_MOTORTWOWAYS
+
+// For Accessories library, L293D is not compatible with Arduino Due for the moment...
+#ifdef ARDUINO_ARCH_SAM
+#ifndef NO_L293D
+	#define NO_L293D
 #endif
 #endif
 
@@ -122,6 +155,9 @@
 #ifndef NO_SERVO
 #include "AccessoryServo.hpp"
 #endif
+#ifndef NO_STEPPER
+#include "AccessoryStepper.hpp"
+#endif
 #ifndef NO_LIGHT
 #include "AccessoryLight.hpp"
 #include "AccessoryLightMulti.hpp"
@@ -132,18 +168,21 @@
 #endif
 
 #include "DriverPortArduino.hpp"
+#include "DriverPortMotor.hpp"
+#include "DriverPort2Pins.hpp"
+
 #ifndef NO_L293D
 #include "DriverPortL293d.hpp"
 #endif
-#ifndef NO_L298N
-#include "DriverPortL298n.hpp"
-#endif
-#ifndef NO_RELAY
-#include "DriverPortRelay.hpp"
+#ifndef NO_LMD18200
+#include "DriverPortLMD18200.hpp"
 #endif
 #ifndef NO_SERVO
 #include "DriverPortServo.hpp"
-#include "DriverPortServoArduino.hpp"
+#include "DriverPortServoBase.hpp"
+#endif
+#ifndef NO_STEPPER
+#include "DriverPortStepper.hpp"
 #endif
 
 #ifndef NO_ARDUINODRIVER
@@ -152,8 +191,17 @@
 #ifndef NO_L293D
 #include "DriverL293d.hpp"
 #endif
+#ifndef NO_L9110
+#include "DriverL9110.hpp"
+#endif
 #ifndef NO_L298N
 #include "DriverL298n.hpp"
+#endif
+#ifndef NO_ULN2003
+#include "DriverULN2003.hpp"
+#endif
+#ifndef NO_LMD18200
+#include "DriverLMD18200.hpp"
 #endif
 #ifndef NO_RELAY
 #include "DriverRelay.hpp"

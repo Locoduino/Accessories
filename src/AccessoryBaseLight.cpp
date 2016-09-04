@@ -24,7 +24,7 @@ void AccessoryBaseLight::SetState(ACC_STATE inState)
 	if (inState == LIGHTBLINK && this->blinkingDelay == 0)
 		inState = LIGHTON;
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F("AccessoryBaseLight SetState "));
 	Serial.println(inState == LIGHTON ? "ON" : inState == LIGHTOFF ? "OFF" : "BLINK");
 #endif
@@ -32,13 +32,13 @@ void AccessoryBaseLight::SetState(ACC_STATE inState)
 	this->state = inState;
 }
 
-void AccessoryBaseLight::SetFading(byte inStep, byte inDelay)
+void AccessoryBaseLight::SetFading(uint8_t inStep, uint8_t inDelay)
 {
 	this->fadingStep = inStep;
 	this->fadingDelay = inDelay;
 	this->fadingCurrentValue = 0;
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	if (this->blinkingDelay > 0 && FADING_FULL_DELAY > this->blinkingDelay)
 		Serial.println(F("Light fading duration greater than blinking duration !"));
 #endif
@@ -46,16 +46,16 @@ void AccessoryBaseLight::SetFading(byte inStep, byte inDelay)
 
 void AccessoryBaseLight::begin(DriverPort *inpPort, int inIntensity, Accessory *inpOwner)
 {
-	if (inpOwner != 0)
+	if (inpOwner != NULL)
 		this->pOwner = inpOwner;
 	this->pPort = inpPort;
 	this->pPort->SetSpeed(inIntensity);
 	this->LightOff();
 }
 
-void AccessoryBaseLight::LightFadingRaw(byte inValue)
+void AccessoryBaseLight::LightFadingRaw(uint8_t inValue)
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 #ifdef DEBUG_VERBOSE_MODE
 	Serial.print(F("AccessoryBaseLight Fading at "));
 	Serial.println(inValue);
@@ -78,7 +78,7 @@ void AccessoryBaseLight::LightOffRaw()
 
 void AccessoryBaseLight::LightOn()
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F("AccessoryBaseLight ON"));
 #endif
 	this->state = LIGHTON;
@@ -86,7 +86,7 @@ void AccessoryBaseLight::LightOn()
 
 void AccessoryBaseLight::LightOff()
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F("AccessoryBaseLight OFF"));
 #endif
 	this->state = LIGHTOFF;
@@ -111,7 +111,7 @@ void AccessoryBaseLight::Event(ACCESSORIES_EVENT_TYPE inEvent, int inData)
 		break;
 
 	case ACCESSORIES_EVENT_MOVE:
-		switch ((ACCESSORIES_MOVE_TYPE)inData)
+		switch (inData)
 		{
 		case ACCESSORIES_MOVE_STRAIGHT:
 		case ACCESSORIES_MOVE_TOP:
@@ -163,7 +163,7 @@ void AccessoryBaseLight::StartAction()
 		this->startingMillis = millis();
 	}
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 #ifdef DEBUG_VERBOSE_MODE
 	Serial.print(F("AccessoryBaseLight start action "));
 	Serial.println(this->startingMillis);
@@ -173,7 +173,7 @@ void AccessoryBaseLight::StartAction()
 
 bool AccessoryBaseLight::ActionEnded()
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 #ifdef DEBUG_VERBOSE_MODE
 	Serial.println(F("End action of light."));
 #endif
@@ -186,7 +186,7 @@ bool AccessoryBaseLight::ActionEnded()
 	if (this->state == LIGHTOFF && this->currentState == LIGHT_OFF)
 		return true;
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 #ifdef DEBUG_VERBOSE_MODE
 	Serial.print(F("Light current state : "));
 	switch (this->currentState)

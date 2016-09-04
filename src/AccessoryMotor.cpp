@@ -42,7 +42,7 @@ ACC_STATE AccessoryMotor::InternalMove(ACC_STATE inStateToReach, unsigned long i
 
 	if (inStateToReach == RIGHT)
 	{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 		Serial.println(F("AccessoryMotor InternalMove() RIGHT"));
 #endif
 		this->pPort->SetSpeed(inSpeed);
@@ -51,7 +51,7 @@ ACC_STATE AccessoryMotor::InternalMove(ACC_STATE inStateToReach, unsigned long i
 	}
 	else
 	{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 		Serial.println(F("AccessoryMotor InternalMove() LEFT"));
 #endif
 		this->pPort->SetSpeed(inSpeed);
@@ -73,7 +73,7 @@ void AccessoryMotor::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 		break;
 
 	case ACCESSORIES_EVENT_MOVE:
-		switch ((ACCESSORIES_MOVE_TYPE)inData)
+		switch (inData)
 		{
 		case ACCESSORIES_MOVE_STRAIGHT:
 		case ACCESSORIES_MOVE_TOP:
@@ -98,7 +98,13 @@ void AccessoryMotor::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 		this->SetState((ACC_STATE) inData);
 		break;
 
+	case ACCESSORIES_EVENT_MOVEPOSITIONID:
+		this->SetLastMovingPosition(this->IndexOfMovingPosition(inId));
+		this->SetState((ACC_STATE)this->GetMovingPosition(inId));
+		break;
+
 	case ACCESSORIES_EVENT_MOVEPOSITIONINDEX:
+		this->SetLastMovingPosition(inData);
 		this->SetState((ACC_STATE)this->GetMovingPositionByIndex(inData));
 		break;
 

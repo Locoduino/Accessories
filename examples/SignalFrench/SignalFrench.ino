@@ -21,20 +21,20 @@ description: <10 leds for a french railroad signal>
 class SignalArduinoPattern : public AccessoryLightMulti
 {
 private:
-	const byte *pPatterns;
-	const byte *pRealStates;
+	const uint8_t *pPatterns;
+	const uint8_t *pRealStates;
 	int startingDcc;
 	int blinkDuration;
 
 public:
 	inline SignalArduinoPattern() {}
-	void beginSignal(DriverArduino *inpDriver, byte inNbLeds, const int *inpPins, int inStartingDcc, int inBlinkDuration, const byte *inPatterns, const byte *inpRealStates = 0);
+	void beginSignal(DriverArduino *inpDriver, uint8_t inNbLeds, const int *inpPins, int inStartingDcc, int inBlinkDuration, const uint8_t *inPatterns, const uint8_t *inpRealStates = 0);
 	void Move(unsigned long inId);
 
-	static int GetStatesNumber(const byte *pStates);
+	static int GetStatesNumber(const uint8_t *pStates);
 };
 
-void SignalArduinoPattern::beginSignal(DriverArduino *inpDriver, byte inNbLeds, const int *inpPins, int inStartingDcc, int inBlinkDuration, const byte *inPatterns, const byte *inpRealStates)
+void SignalArduinoPattern::beginSignal(DriverArduino *inpDriver, uint8_t inNbLeds, const int *inpPins, int inStartingDcc, int inBlinkDuration, const uint8_t *inPatterns, const uint8_t *inpRealStates)
 {
 	begin(0, inNbLeds, 0);
 	for (int led = 0; led < inNbLeds; led++)
@@ -83,7 +83,7 @@ void SignalArduinoPattern::Move(unsigned long inId)
 	// Change affected leds in the list
 	for (int led = 0; led < PATTERN_NB_LEDS_MAX; led++)
 	{
-		byte c = pgm_read_byte(this->pPatterns + (etat * PATTERN_NB_LEDS_MAX) + pospattern++);
+		uint8_t c = pgm_read_byte(this->pPatterns + (etat * PATTERN_NB_LEDS_MAX) + pospattern++);
 
 		if (c > 0 && c <= 100)
 		{
@@ -103,17 +103,16 @@ void SignalArduinoPattern::Move(unsigned long inId)
 	Serial.println(symbText);
 }
 
-int SignalArduinoPattern::GetStatesNumber(const byte *pStates)
+int SignalArduinoPattern::GetStatesNumber(const uint8_t *pStates)
 {
-	int count = 0;
 	for (int i = 0;; i++)
 	{
-		byte c = pgm_read_byte(pStates + i);
+		uint8_t c = pgm_read_byte(pStates + i);
 		if (c == PATTERN_END_LIST)
 			return i;
 	}
 
-	return 99999;
+	return 9999;
 }
 
 //-------------------------------------------------------------------
@@ -162,7 +161,7 @@ int SignalArduinoPattern::GetStatesNumber(const byte *pStates)
 // Le code texte sur chaque ligne "--x---------" symbolise plus clairement les états.
 // Enfin les numéros de chaque ligne sont notés de 0 à 15. Ils vont être réutilisés plus tard.
 
-const byte SignalFrStates[] PROGMEM = {
+const uint8_t SignalFrStates[] PROGMEM = {
 						//  123456789012
 	3, 0, 0, 0,			// "--x---------"   0: voie libre
 	103, 0, 0, 0,		// "--B---------"   1: voie libre limitée à 160km/h	
@@ -186,14 +185,14 @@ const byte SignalFrStates[] PROGMEM = {
 
 // Pour chaque type de feu, il n'y a que certains états de la liste ci-dessus qui sont utilisables.
 
-const byte SignalFr3[] PROGMEM = { 0, 1, 2, 3, 4, PATTERN_END_LIST };
-const byte SignalFr5[] PROGMEM = { 0, 1, 2, 3, 4, 5, 6, PATTERN_END_LIST };
-const byte SignalFr7[] PROGMEM = { 0, 1, 2, 3, 4, 5, 6, 7, 11, 12, PATTERN_END_LIST };
-const byte SignalFr9[] PROGMEM = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, PATTERN_END_LIST };
+const uint8_t SignalFr3[] PROGMEM = { 0, 1, 2, 3, 4, PATTERN_END_LIST };
+const uint8_t SignalFr5[] PROGMEM = { 0, 1, 2, 3, 4, 5, 6, PATTERN_END_LIST };
+const uint8_t SignalFr7[] PROGMEM = { 0, 1, 2, 3, 4, 5, 6, 7, 11, 12, PATTERN_END_LIST };
+const uint8_t SignalFr9[] PROGMEM = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, PATTERN_END_LIST };
 
 // Liste des états pour un feu rond.
 
-const byte SignalFrStatesRound[] PROGMEM = {
+const uint8_t SignalFrStatesRound[] PROGMEM = {
 	//  123456789012
 	3, 0, 0, 0,	// "--x---------"	0: voie libre
 	103, 0, 0, 0,	// "--B---------"	1: voie libre limitée à 160km/h
@@ -209,13 +208,13 @@ const byte SignalFrStatesRound[] PROGMEM = {
 
 // Tous les états sont utilisables, à priori.
 
-const byte SignalFrRound[] PROGMEM = { 0, 1, 2, 3, 4, 5, 6, 7, PATTERN_END_LIST };
+const uint8_t SignalFrRound[] PROGMEM = { 0, 1, 2, 3, 4, 5, 6, 7, PATTERN_END_LIST };
 
 // Four leds on only. First led is 1. Negative led number will blink.
 
 // Liste des états pour un feu horizontal.
 
-const byte SignalFrStatesHorizontal[] PROGMEM = {
+const uint8_t SignalFrStatesHorizontal[] PROGMEM = {
 	//  123456789012
 	1, 0, 0, 0,		// "x-----------" 	0: Vitesse de manoeuvre (feu horizontal)
 	101, 0, 0, 0,	// "B-----------" 	1: Vitesse de manoeuvre réduite (feu horizontal)
@@ -226,7 +225,7 @@ const byte SignalFrStatesHorizontal[] PROGMEM = {
 
 // Tous les états sont utilisables, à priori.
 
-const byte SignalFrHorizontal[] PROGMEM = { 0, 1, 2, PATTERN_END_LIST };
+const uint8_t SignalFrHorizontal[] PROGMEM = { 0, 1, 2, PATTERN_END_LIST };
 
 SignalArduinoPattern signal;
 
@@ -263,17 +262,21 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 //
 void setup()
 {
-	Commanders::SetEventHandler(ReceiveEvent);
-	Commanders::SetStatusLedPin(LED_BUILTIN);
+	Serial.begin(115200);
+	while (!Serial);		// For Leonardo only. No effect on other Arduino.
 
-	// Setup of Dcc commander
+	Commanders::begin(ReceiveEvent, LED_BUILTIN);
+	Accessories::begin();
+
+	// Commanders setup
+
 	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
 
 	// UNDEFINED_ID here means that this id is not significant.
 #ifdef VISUALSTUDIO
 	push.begin(UNDEFINED_ID, '0');
 #else
-	push.begin(UNDEFINED_Id, 17);
+	push.begin(UNDEFINED_ID, 17);
 #endif
 
 	int nb_etats = SignalArduinoPattern::GetStatesNumber(signalPattern);

@@ -22,8 +22,8 @@ class DriverL298n : public Driver
 		
 	public:
 		inline void begin() {}
-		DriverPortL298n *beginPortMotor(byte inPort, int inPinA, int inPinB);
-//		DriverPortStepper *beginPortStepper(byte inPort, int inPinA, int inPinB);
+		DriverPort2Pins *beginPortMotor(uint8_t inPort, int inPinA, int inPinB);
+//		DriverPortStepper *beginPortStepper(uint8_t inPort, int inPinA, int inPinB);
 };
 #endif
 

@@ -6,7 +6,6 @@
 #ifdef VISUALSTUDIO
 #include "../../DIO2/VStudio/DIO2.h"
 #else
-#include "arduino.h"
 #include "DIO2.h"
 #endif
 
@@ -44,7 +43,8 @@ enum ACCESSORIES_EVENT_TYPE
 	ACCESSORIES_EVENT_MOVE = 2,				// If a push 'left' button or similar is pressed, data is a COMMANDERS_MOVE_TYPE
 	ACCESSORIES_EVENT_MOVEPOSITION = 3,		// Move to a given position value given by data.
 	ACCESSORIES_EVENT_MOVEPOSITIONINDEX = 4,// Move to an indexed position from pMovingPosition given by data.
-	ACCESSORIES_EVENT_CONFIG = 5,			// Data is the configuration address and value
+	ACCESSORIES_EVENT_MOVEPOSITIONID = 5,	// Move to an identified position from pMovingPosition, given by the event id.
+	ACCESSORIES_EVENT_CONFIG = 6,			// Data is the configuration address and value
 
 	// Part of events not common with Commanders library events.
 	ACCESSORIES_EVENT_DIRECTION = 20,	// Move in positive or negative direction.
@@ -70,13 +70,13 @@ class Accessory
 private:
 	Accessory *pNextAccessory;
 	
-	int movingPositionsSize;
-	int movingPositionsAddCounter;
+	uint8_t movingPositionsSize;
+	uint8_t movingPositionsAddCounter;
 	MovingPosition *pMovingPositions;
 
 	unsigned long duration;
 	unsigned long startingMillis;
-	MovingPosition lastMovingPosition;
+	uint8_t lastMovingPosition;
 	unsigned int debounceDelay;
 	unsigned long lastMoveTime;
 
@@ -106,25 +106,26 @@ public:
 	inline bool IsSecond() const { return this->state == STATE_SECOND; }
 	inline bool UseStateNone() const { return this->useStateNone; }
 
-	unsigned char AddMovingPosition(unsigned long inId, int inPosition);
+	uint8_t AddMovingPosition(unsigned long inId, int inPosition);
 
 	inline unsigned int GetDebounceDelay() const { return this->debounceDelay; }
 	inline unsigned long GetLastMoveTime() const { return this->lastMoveTime; }
 	inline unsigned long GetDuration() const { return this->duration; }
 
 	inline bool loop() { return this->ActionEnded(); }
-	inline virtual void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0) {}
+	inline virtual void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0) {}
 
 public:	//but should be protected !
-	void AdjustMovingPositionsSize(int inNewSize);
-	inline bool IsEmpty() const { return this->pMovingPositions == 0; }
-	int IndexOfMovingPosition(unsigned long inId) const;
+	void AdjustMovingPositionsSize(uint8_t inNewSize);
+	inline bool IsEmpty() const { return this->pMovingPositions == NULL; }
+	uint8_t IndexOfMovingPosition(unsigned long inId) const;
 	int GetMovingPosition(unsigned long inId) const;
 	inline int GetMovingPositionByIndex(int inIndex) const { return this->pMovingPositions[inIndex].Position; }
-	inline const MovingPosition &GetLastMovingPosition() const { return this->lastMovingPosition; }
-	inline const int GetMovingPositionSize() const { return this->movingPositionsSize; }
-	inline void SetLastMovingPosition(unsigned long inId) { this->lastMovingPosition.Id = inId; }
-	inline void SetLastMovingPosition(unsigned long inId, int inPosition) { this->lastMovingPosition.Id = inId; this->lastMovingPosition.Position = inPosition; }
+	inline unsigned long GetMovingPositionIdByIndex(int inIndex) const { return this->pMovingPositions[inIndex].Id; }
+	inline const uint8_t GetLastMovingPosition() const { return this->lastMovingPosition; }
+	inline const uint8_t GetMovingPositionSize() const { return this->movingPositionsSize; }
+	inline void SetLastMovingPosition(uint8_t inLastPositionIndex) { this->lastMovingPosition = inLastPositionIndex; }
+	//inline void SetLastMovingPosition(unsigned long inId, int inPosition) { this->lastMovingPosition.Id = inId; this->lastMovingPosition.Position = inPosition; }
 
 	inline void SetDebounceDelay(unsigned int inDebounceDelay) { this->debounceDelay = inDebounceDelay; }
 	inline void SetLastMoveTime() { this->lastMoveTime = millis(); }

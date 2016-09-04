@@ -13,7 +13,7 @@ class DriverPortServo: public DriverPort
 	protected:
 
 	public:
-		DriverPortServo(byte inId);
+		DriverPortServo(uint8_t inId);
 		
 		virtual void begin();
 		virtual void beginByAccessory(int inStartingPosition);

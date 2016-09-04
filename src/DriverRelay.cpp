@@ -14,12 +14,12 @@ description: <Class for a relay driver>
 DriverRelay::DriverRelay(unsigned char inPortsNb)
 {
 	for(unsigned char i = 0; i < inPortsNb; i++)
-		this->AddPort(new DriverPortRelay(i));
+		this->AddPort(new DriverPortMotor(i));
 }
 
 void DriverRelay::beginPort(unsigned char inPort, int inPin)
 {
-	((DriverPortRelay *)(this->GetPort(MOTOR_LIGHT, inPort)))->begin(inPin);
+	((DriverPortMotor *)(this->GetPort(MOTOR_LIGHT, inPort)))->begin(inPin);
 }
 
 #endif

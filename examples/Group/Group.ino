@@ -59,10 +59,15 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 //
 void setup()
 {
-	Commanders::SetEventHandler(ReceiveEvent);
-	Commanders::SetStatusLedPin(LED_BUILTIN);
+	Serial.begin(115200);
+	while (!Serial);		// For Leonardo only. No effect on other Arduino.
 
-	SerialCommander.begin(115200);
+	Commanders::begin(ReceiveEvent, LED_BUILTIN);
+	Accessories::begin();
+
+	// Commanders setup
+
+	SerialCommander.begin();
 
 #ifdef VISUALSTUDIO
 	push.begin(ALLON, '0');

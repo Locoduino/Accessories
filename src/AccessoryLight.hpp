@@ -25,13 +25,13 @@ class AccessoryLight : public Accessory
 		AccessoryLight();
 
 		void begin(DriverPort *inpPort, unsigned long inId, unsigned long inBlinkDuration = 0, int inIntensity = 255);
-		inline void SetFading(byte inStep, byte inDelay) { this->pLight->SetFading(inStep, inDelay); }
+		inline void SetFading(uint8_t inStep, uint8_t inDelay) { this->pLight->SetFading(inStep, inDelay); }
 
 		inline bool IsOn() const { return this->pLight->IsOn(); }
 		inline bool IsFlashing() const { return this->pLight->IsBlinking(); }
 		inline bool IsFading() const { return this->pLight->IsFading(); }
 
-		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0);
+		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
 
 		inline void SetState(ACC_STATE inState) { this->pLight->SetState(inState); }
 		inline ACC_STATE Toggle() { return this->pLight->Toggle(); }

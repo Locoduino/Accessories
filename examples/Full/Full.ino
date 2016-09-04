@@ -30,7 +30,7 @@ ButtonsCommanderKeyboard	switch0;
 ButtonsCommanderKeyboard	switch1;
 #else
 ButtonsCommanderPush push;
-ButtonsCommanderSwitch;
+ButtonsCommanderSwitch	switch0, switch1;
 #endif
 
 ButtonsCommanderPotentiometer potar;
@@ -58,11 +58,15 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 //
 void setup()
 {
-	Commanders::SetEventHandler(ReceiveEvent);
-	Commanders::SetStatusLedPin(LED_BUILTIN);
+	Serial.begin(115200);
+	while (!Serial);		// For Leonardo only. No effect on other Arduino.
 
-	SerialCommander.begin(115200);
-    // Setup of Dcc commander
+	Commanders::begin(ReceiveEvent, LED_BUILTIN);
+	Accessories::begin();
+
+	// Commanders setup
+
+	SerialCommander.begin();
 	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
 
 #ifdef VISUALSTUDIO
@@ -71,8 +75,10 @@ void setup()
 	switch1.begin(LIGHTS_101, '2');
 #else
 	push.begin(SERVOS_MIN, 26);
-	switch0.begin(LIGHTS_010, 24);
-	switch1.begin(LIGHTS_101, 25);
+	switch0.begin();
+	switch0.AddEvent(24, LIGHTS_010);
+	switch1.begin();
+	switch1.AddEvent(26, LIGHTS_101);
 #endif
 	push.AddEvent(SERVOS_MAX);
 	potar.begin(8, SERVO0, 20, 145);

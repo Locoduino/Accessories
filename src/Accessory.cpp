@@ -12,7 +12,7 @@ Accessory::Accessory()
 	this->movingPositionsSize = 0;
 	this->movingPositionsAddCounter = 0;
 	this->pMovingPositions = NULL;
-	this->lastMovingPosition.Id = UNDEFINED_ID;
+	this->lastMovingPosition = 255;
 	this->debounceDelay = 300;
 	this->SetLastMoveTime();
 
@@ -23,7 +23,7 @@ Accessory::Accessory()
 	AccessoriesClass::AccessoriesInstance.Add(this);
 }
 
-void Accessory::AdjustMovingPositionsSize(int inNewSize)
+void Accessory::AdjustMovingPositionsSize(uint8_t inNewSize)
 {
 	if (inNewSize <= this->movingPositionsSize)
 		return;
@@ -37,13 +37,13 @@ void Accessory::AdjustMovingPositionsSize(int inNewSize)
 		pNewList[i].Id = UNDEFINED_ID;	//empty
 
 	this->movingPositionsSize = inNewSize;
-	if (this->pMovingPositions != 0)
+	if (this->pMovingPositions != NULL)
 		delete[] this->pMovingPositions;
 	this->pMovingPositions = pNewList;
 }
 
 // Returns the index of the new added position.
-unsigned char Accessory::AddMovingPosition(unsigned long inId, int inPosition)
+uint8_t Accessory::AddMovingPosition(unsigned long inId, int inPosition)
 {
 	Accessory::AdjustMovingPositionsSize(this->movingPositionsAddCounter + 1);
 
@@ -53,13 +53,13 @@ unsigned char Accessory::AddMovingPosition(unsigned long inId, int inPosition)
 	return this->movingPositionsAddCounter - 1;
 }
 
-int Accessory::IndexOfMovingPosition(unsigned long inId) const
+uint8_t Accessory::IndexOfMovingPosition(unsigned long inId) const
 {
 	for (int i = 0; i < this->movingPositionsSize; i++)
 		if (this->pMovingPositions[i].Id == inId)
 			return i;
 
-	return -1;
+	return 255;
 }
 
 int Accessory::GetMovingPosition(unsigned long inId) const
@@ -76,7 +76,7 @@ void Accessory::StartAction()
 	if (this->duration > 0)
 		this->startingMillis = millis();
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 #ifdef DEBUG_VERBOSE_MODE
 	Serial.print(F("Accessory start action "));
 	Serial.println(this->startingMillis);
@@ -90,7 +90,7 @@ void Accessory::StartAction(ACC_STATE inState)
 		this->startingMillis = millis();
 	this->SetState(inState);
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 #ifdef DEBUG_VERBOSE_MODE
 	Serial.print(F("Accessory start action at "));
 	Serial.print(this->startingMillis);
@@ -125,7 +125,7 @@ bool Accessory::ActionEnded()
 
 	if ((unsigned long)(millis() - this->startingMillis) > this->duration)
 	{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 #ifdef DEBUG_VERBOSE_MODE
 		Serial.print(F("End action at "));
 		Serial.print(millis() - this->startingMillis);

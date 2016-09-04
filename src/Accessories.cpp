@@ -6,9 +6,11 @@ description: <Base functions of the library>
 
 #include "Accessories.hpp"
 
+bool Accessories::SerialStarted = false;
+
 // Link to Commanders library.
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 void Accessories::printEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventType, int inEventData)
 {
 	Serial.print(F("Commander event : Address : "));
@@ -40,6 +42,9 @@ void Accessories::printEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventT
 		Serial.print(F("MOVEPOSITION : "));
 		Serial.println(inEventData, DEC);
 		break;
+	case ACCESSORIES_EVENT_MOVEPOSITIONID:
+		Serial.println(F("MOVEPOSITIONID "));
+		break;
 	case ACCESSORIES_EVENT_MOVEPOSITIONINDEX:
 		Serial.print(F("MOVEPOSITIONINDEX : "));
 		Serial.println(inEventData, DEC);
@@ -50,9 +55,31 @@ void Accessories::printEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventT
 		Serial.print(F(" / "));
 		Serial.println(ACCESSORIESCONFIGVALUE(inEventData), DEC);
 		break;
+	//case ACCESSORIES_EVENT_SETSPEED:
+	//case ACCESSORIES_EVENT_SETSTARTPOSITION:
+	default:
+		break;
 	}
 }
 #endif
+
+void Accessories::begin()
+{
+	SerialStarted = true;
+#ifdef ACCESSORIES_DEBUG_MODE
+//	Serial.begin(115200);
+	// Just for let the time to the PIC to initialize internals...
+	delay(500);
+
+	Serial.println(F(""));
+	Serial.println(F("Accessories V0.20"));
+	Serial.println(F("Developed by Thierry Paris."));
+	Serial.println(F("(c) Locoduino 2016"));
+	Serial.println(F(""));
+
+	Serial.println(F("*** Setup Accessories started."));
+#endif
+}
 
 void Accessories::RaiseEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
 {
@@ -66,15 +93,19 @@ void Accessories::ReceiveEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEven
 #endif
 
 	AccessoriesClass::AccessoriesInstance.Event(inId, inEventType, inEventData);
+#ifndef NO_GROUP
 	AccessoryGroup::EventAll(inId, inEventType, inEventData);
+#endif
 }
 
 bool Accessories::loop()
 {
+#ifndef NO_GROUP
 	bool ret = AccessoryGroup::loops();
 
 	if (ret)
 		return true;
+#endif
 
 	return AccessoriesClass::AccessoriesInstance.loop();
 }

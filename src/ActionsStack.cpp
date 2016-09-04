@@ -6,10 +6,14 @@ description: <Class for a actions stack>
 
 #include "ActionsStack.hpp"
 
-#ifdef DEBUG_MODE
-#define CHECK(val, text)	CheckIndex(val, F(text))
+#ifdef ACCESSORIES_DEBUG_MODE
+	#ifdef ARDUINO_ARCH_SAM
+		#define CHECK(val, text)	CheckIndex(val, text)
+	#else
+		#define CHECK(val, text)	CheckIndex(val, F(text))
+	#endif
 #else
-#define CHECK(val, text)
+	#define CHECK(val, text)
 #endif
 
 Action::Action(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
@@ -22,8 +26,9 @@ Action::Action(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
 ActionsStack ActionsStack::Actions(ACTION_STACK_SIZE);
 bool ActionsStack::FillingStack(false);
 
-#ifdef DEBUG_MODE
-void ActionsStack::CheckIndex(unsigned char inIndex, const __FlashStringHelper *inFunc)	const
+#ifdef ACCESSORIES_DEBUG_MODE
+#ifdef ARDUINO_ARCH_SAM
+void ActionsStack::CheckIndex(uint8_t inIndex, const char *inFunc) const
 {
 	if (this->size == 0)
 	{
@@ -31,12 +36,28 @@ void ActionsStack::CheckIndex(unsigned char inIndex, const __FlashStringHelper *
 		Serial.println(inFunc);
 	}
 	else
-	if (inIndex < 0 || inIndex >= this->size)
+		if (inIndex < 0 || inIndex >= this->size)
+		{
+			Serial.print(F("Index error in "));
+			Serial.println(inFunc);
+		}
+}
+#else
+void ActionsStack::CheckIndex(uint8_t inIndex, const __FlashStringHelper *inFunc) const
+{
+	if (this->size == 0)
 	{
-		Serial.print(F("Index error in "));
+		Serial.print(F("Size undefined in "));
 		Serial.println(inFunc);
 	}
+	else
+		if (inIndex < 0 || inIndex >= this->size)
+		{
+			Serial.print(F("Index error in "));
+			Serial.println(inFunc);
+		}
 }
+#endif
 #endif
 
 ActionsStack::ActionsStack(int inSize)

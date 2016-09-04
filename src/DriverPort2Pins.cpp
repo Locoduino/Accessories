@@ -8,37 +8,30 @@ description: <Driver port for L298n>
 
 #ifndef NO_L298N
 
-DriverPortL298n::DriverPortL298n(byte inId) : DriverPort(MOTOR_LIGHT, inId)
+DriverPort2Pins::DriverPort2Pins(uint8_t inId) : DriverPort(MOTOR_LIGHT, inId)
 {
 }
 
-void DriverPortL298n::begin(int inPinA, int inPinB)
+void DriverPort2Pins::begin(int inPinA, int inPinB)
 {
 	this->pinA = Arduino_to_GPIO_pin(inPinA);
 	this->pinB = Arduino_to_GPIO_pin(inPinB);
 
-	CHECKPIN(this->pinA, "DriverPortL298n::begin");
-	CHECKPIN(this->pinB, "DriverPortL298n::begin");
+	CHECKPIN(this->pinA, "DriverPort2Pins::begin");
+	CHECKPIN(this->pinB, "DriverPort2Pins::begin");
 
 	pinMode2f(this->pinA, OUTPUT);
 	pinMode2f(this->pinB, OUTPUT);
 }
 
-uint8_t DriverPortL298n::SetSpeed(uint8_t inSpeed)
+void DriverPort2Pins::MoveLeftDir(unsigned long inDuration)
 {
-	return 0;
-}
-
-void DriverPortL298n::MoveLeftDir(unsigned long inDuration)
-{
-	CHECKPIN(this->pinA, "DriverPortL298n::MoveLeftDir");
-	CHECKPIN(this->pinB, "DriverPortL298n::MoveLeftDir");
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(this->pinA);
 	Serial.print(F(" / "));
 	Serial.print(this->pinB);
-	Serial.print(F(" DriverPortL298n MoveLeftDir() "));
-	if (inDuration != -1)
+	Serial.print(F(" DriverPort2Pins MoveLeftDir() "));
+	if (inDuration != 0)
 	{
 		Serial.print(F("for "));
 		Serial.print(inDuration);
@@ -51,7 +44,7 @@ void DriverPortL298n::MoveLeftDir(unsigned long inDuration)
 	digitalWrite2f(this->pinA, HIGH);
 	digitalWrite2f(this->pinB, LOW);
 
-	if (inDuration!= -1)
+	if (inDuration != 0)
 	{
 		delay(inDuration);
 
@@ -62,16 +55,14 @@ void DriverPortL298n::MoveLeftDir(unsigned long inDuration)
 	this->state = PORT_LEFT;
 }
 
-void DriverPortL298n::MoveRightDir(unsigned long inDuration)
+void DriverPort2Pins::MoveRightDir(unsigned long inDuration)
 {
-	CHECKPIN(this->pinA, "DriverPortL298n::MoveRightDir");
-	CHECKPIN(this->pinB, "DriverPortL298n::MoveRightDir");
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(this->pinA);
 	Serial.print(F(" / "));
 	Serial.print(this->pinB);
-	Serial.print(F(" DriverPortL298n MoveRightDir() "));
-	if (inDuration != -1)
+	Serial.print(F(" DriverPort2Pins MoveRightDir() "));
+	if (inDuration != 0)
 	{
 		Serial.print(F("for "));
 		Serial.print(inDuration);
@@ -84,7 +75,7 @@ void DriverPortL298n::MoveRightDir(unsigned long inDuration)
 	digitalWrite2f(this->pinA, LOW);
 	digitalWrite2f(this->pinB, HIGH);
 
-	if (inDuration != -1)
+	if (inDuration != 0)
 	{
 		delay(inDuration);
 
@@ -95,10 +86,14 @@ void DriverPortL298n::MoveRightDir(unsigned long inDuration)
 	this->state = PORT_RIGHT;
 }
 
-void DriverPortL298n::MoveStop()
+void DriverPort2Pins::MoveStop()
 {
-	CHECKPIN(this->pinA, "DriverPortL298n::MoveStop");
-	CHECKPIN(this->pinB, "DriverPortL298n::MoveStop");
+#ifdef ACCESSORIES_DEBUG_MODE
+	Serial.print(this->pinA);
+	Serial.print(F(" / "));
+	Serial.print(this->pinB);
+	Serial.println(F(" DriverPort2Pins MoveStop() "));
+#endif
 
 	digitalWrite2f(this->pinA, LOW);
 	digitalWrite2f(this->pinB, LOW);

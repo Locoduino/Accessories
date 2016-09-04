@@ -6,30 +6,30 @@ description: <Driver port for a relay>
 
 #include "Accessories.h"
 
-#ifndef NO_RELAY
+#ifndef NO_MOTOR_LIGHT
 
-DriverPortRelay::DriverPortRelay(byte inId) : DriverPort(MOTOR_LIGHT, inId)
+DriverPortMotor::DriverPortMotor(uint8_t inId) : DriverPort(MOTOR_LIGHT, inId)
 {
 	this->pin = (GPIO_pin_t) DP_INVALID;
 }
 
-void DriverPortRelay::begin(int inPin)
+void DriverPortMotor::begin(int inPin)
 {
-	CHECKPIN(inPin, "DriverPortRelay::begin");
+	CHECKPIN(inPin, "DriverPortMotor::begin");
 	this->pin = Arduino_to_GPIO_pin(inPin);
 
 	pinMode2f(this->pin, OUTPUT);
 	digitalWrite2f(this->pin, HIGH);
 }
 
-void DriverPortRelay::MoveLeftDir(unsigned long inDuration)
+void DriverPortMotor::MoveLeftDir(unsigned long inDuration)
 {
-	CHECKPIN(this->pin, "DriverPortRelay::MoveLeftDir");
-#ifdef DEBUG_MODE
-	Serial.print(F(" DriverPortRelay "));
+	CHECKPIN(this->pin, "DriverPortMotor::MoveLeftDir");
+#ifdef ACCESSORIES_DEBUG_MODE
+	Serial.print(F(" DriverPortMotor "));
 	Serial.print((int) this->pin);
 	Serial.print(F(" MoveLeftDir() "));
-	if (inDuration != -1)
+	if (inDuration != 0)
 	{
 		Serial.print(F("for "));
 		Serial.print(inDuration);
@@ -42,14 +42,14 @@ void DriverPortRelay::MoveLeftDir(unsigned long inDuration)
 	digitalWrite2f(this->pin, LOW);
 }
 
-void DriverPortRelay::MoveRightDir(unsigned long inDuration)
+void DriverPortMotor::MoveRightDir(unsigned long inDuration)
 {
-	CHECKPIN(this->pin, "DriverPortRelay::MoveRightDir");
-#ifdef DEBUG_MODE
-	Serial.print(F(" DriverPortRelay "));
+	CHECKPIN(this->pin, "DriverPortMotor::MoveRightDir");
+#ifdef ACCESSORIES_DEBUG_MODE
+	Serial.print(F(" DriverPortMotor "));
 	Serial.print((int) this->pin);
 	Serial.print(F(" MoveRightDir() "));
-	if (inDuration != -1)
+	if (inDuration != 0)
 	{
 		Serial.print(F("for "));
 		Serial.print(inDuration);
@@ -62,11 +62,11 @@ void DriverPortRelay::MoveRightDir(unsigned long inDuration)
 	digitalWrite2f(this->pin, LOW);
 }
 
-void DriverPortRelay::MoveStop()
+void DriverPortMotor::MoveStop()
 {
-	CHECKPIN(this->pin, "DriverPortRelay::MoveStop");
-#ifdef DEBUG_MODE
-	Serial.println(F(" DriverPortRelay MoveStop()"));
+	CHECKPIN(this->pin, "DriverPortMotor::MoveStop");
+#ifdef ACCESSORIES_DEBUG_MODE
+	Serial.println(F(" DriverPortMotor MoveStop()"));
 #endif
 	this->state = PORT_STOP;
 	digitalWrite2f(this->pin, HIGH);

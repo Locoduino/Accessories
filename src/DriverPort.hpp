@@ -13,13 +13,13 @@ class DriverPort
 {
 	protected:
 		PORTTYPE type;
-		byte id;
+		uint8_t id;
 		PORT_STATE state;
 		int speed;
 	
 	public:
 		DriverPort() {}
-		DriverPort(PORTTYPE inType, byte inPort);
+		DriverPort(PORTTYPE inType, uint8_t inPort);
 		
 		inline virtual void begin() {}
 		inline virtual void beginByAccessory(int inStartingPosition) {}
@@ -27,7 +27,7 @@ class DriverPort
 		inline PORT_STATE GetState() const { return this->state; }
 		inline int GetSpeed() const { return this->speed; }
 		inline PORTTYPE GetType() const { return this->type; }
-		inline byte GetId() const { return this->id; }
+		inline uint8_t GetId() const { return this->id; }
 		virtual int SetSpeed(int inSpeed);
 		
 		inline bool IsLeftDir() const { return this->state == PORT_LEFT; }

@@ -18,21 +18,6 @@ void AccessoriesClass::Add(Accessory *inpAccessory)
 {
 	if (AccessoriesClass::pFirstAccessory == NULL)
 	{
-#ifdef DEBUG_MODE
-		// Done by the SerialCommander setup...
-		Serial.begin(115200);
-		// Just for let the time to the PIC to initialize internals...
-		delay(500);
-
-		Serial.println(F(""));
-		Serial.println(F("Accessories V0.19"));
-		Serial.println(F("Developed by Thierry Paris."));
-		Serial.println(F("(c) Locoduino 2016"));
-		Serial.println(F(""));
-
-		Serial.println(F("*** Setup Accessories started."));
-#endif
-
 		AccessoriesClass::pFirstAccessory = inpAccessory;
 		inpAccessory->SetNextAccessory(NULL);
 		return;
@@ -61,7 +46,7 @@ Accessory *AccessoriesClass::GetById(unsigned long inId) const
 
 	while (pCurr != NULL)
 	{
-		if (pCurr->IndexOfMovingPosition(inId) != -1)
+		if (pCurr->IndexOfMovingPosition(inId) != (uint8_t) -1)
 			return pCurr;
 		pCurr = pCurr->GetNextAccessory();
 	}
@@ -94,8 +79,8 @@ bool AccessoriesClass::CanMove(unsigned long inId)
 	// previous time...
 	if (acc->GetMovingPositionSize() > 1)
 	{
-		bool move = acc->GetLastMovingPosition().Id != inId;
-#ifdef DEBUG_MODE
+		bool move = acc->IndexOfMovingPosition(inId) == acc->GetLastMovingPosition();
+#ifdef ACCESSORIES_DEBUG_MODE
 		if (!move)
 			Serial.println(F("Same position : Cant move !"));
 #endif
@@ -104,7 +89,7 @@ bool AccessoriesClass::CanMove(unsigned long inId)
 
 	if (millis() - acc->GetLastMoveTime() <= acc->GetDebounceDelay())
 	{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 		Serial.println(F("Debounce : Cant move !"));
 #endif
 		return false;
@@ -120,7 +105,7 @@ bool AccessoriesClass::loop()
 {
 	if (pLoopAccessory == NULL)
 	{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 		Serial.println(F("*** Setup Accessories Finished."));
 #endif
 		pLoopAccessory = AccessoriesClass::pFirstAccessory;
@@ -154,11 +139,11 @@ bool AccessoriesClass::Toggle(unsigned long inId)
 {
 	if (ActionsStack::FillingStack)
 	{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 		Serial.print(F(" ---- Stack id "));
 		Serial.println(inId);
 #endif
-		ActionsStack::Actions.Add(inId, ACCESSORIES_EVENT_TOGGLE);
+		ActionsStack::Actions.Add(inId, ACCESSORIES_EVENT_MOVEPOSITIONID);
 		return false;
 	}
 
@@ -176,7 +161,7 @@ bool AccessoriesClass::Toggle(unsigned long inId)
 
 	acc->SetLastMovingPosition(inId);
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F("Toggle : Accessory id "));
 	Serial.println(inId);
 #endif
@@ -186,18 +171,8 @@ bool AccessoriesClass::Toggle(unsigned long inId)
 	return true;
 }
 
-bool AccessoriesClass::MovePosition(unsigned long inId, int inPosition)
+bool AccessoriesClass::MovePosition(unsigned long inId)
 {
-	if (ActionsStack::FillingStack)
-	{
-#ifdef DEBUG_MODE
-		Serial.print(F(" ---- Stack id "));
-		Serial.println(inId);
-#endif
-		ActionsStack::Actions.Add(inId, ACCESSORIES_EVENT_MOVEPOSITION, inPosition);
-		return false;
-	}
-
 	Accessory *acc = this->GetById(inId);
 
 	if (acc == NULL)
@@ -205,16 +180,33 @@ bool AccessoriesClass::MovePosition(unsigned long inId, int inPosition)
 		return false;
 	}
 
-	acc->SetLastMovingPosition(inId, inPosition);
+	uint8_t pos = acc->IndexOfMovingPosition(inId);
 
-#ifdef DEBUG_MODE
+	if (pos == 255)
+	{
+		return false;
+	}
+
+	if (ActionsStack::FillingStack)
+	{
+#ifdef ACCESSORIES_DEBUG_MODE
+		Serial.print(F(" ---- Stack id "));
+		Serial.println(inId);
+#endif
+		ActionsStack::Actions.Add(inId, ACCESSORIES_EVENT_MOVEPOSITIONINDEX, pos);
+		return false;
+	}
+
+	acc->SetLastMovingPosition(pos);
+
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F("MovePosition : Accessory id "));
 	Serial.print(inId);
 	Serial.print(F(" to position "));
-	Serial.println(inPosition);
+	Serial.println(acc->GetMovingPosition(inId));
 #endif
 
-	acc->MovePosition(inPosition);
+	acc->MovePosition(acc->GetMovingPosition(inId));
 
 	return true;
 }
@@ -231,15 +223,17 @@ void AccessoriesClass::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent,
 
 	if (acc != NULL)
 	{
-		int position = acc->IndexOfMovingPosition(inId);
-		if (position != -1)
+		if (inEvent == ACCESSORIES_EVENT_MOVEPOSITIONINDEX && (inData < 0 || inData >= acc->GetMovingPositionSize()))
 		{
-			if (acc->GetMovingPositionSize() < 2)
-				acc->Event(inId);
-			else
-				acc->Event(inId, ACCESSORIES_EVENT_MOVEPOSITIONINDEX, position);
+#ifdef ACCESSORIES_DEBUG_MODE
+			Serial.print(F("Accessory id "));
+			Serial.print(inId);
+			Serial.print(F(" bad MovePositionIndex event "));
+			Serial.println(inData);
+#endif
+			return;
 		}
-		else
-			acc->Event(inId, inEvent, inData);
+
+		acc->Event(inId, inEvent, inData);
 	}
 }

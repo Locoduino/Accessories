@@ -7,10 +7,30 @@ description: <Generic driver>
 #include "Accessories.h"
 
 Driver *Driver::pFirstDriver = 0;
-byte Driver::idCounter = 0;
+uint8_t Driver::idCounter = 0;
 
-#ifdef DEBUG_MODE
-void Driver::CheckPinNb(GPIO_pin_t inPin, const __FlashStringHelper *inFunc)
+#ifdef ACCESSORIES_DEBUG_MODE
+#ifdef ARDUINO_ARCH_SAM
+void Driver::CheckPinNb2(GPIO_pin_t inPin, const char *inFunc)
+{
+	return CheckPinNb(GPIO_to_Arduino_pin(inPin), inFunc);
+}
+
+void Driver::CheckPinNb(int inPin, const char *inFunc)
+{
+	if (inPin <= 0 || inPin >= (int)NUM_DIGITAL_PINS)
+	{
+		if (inPin < A0 || inPin > A7)
+		{
+			Serial.print(F("Pin "));
+			Serial.print(inPin);
+			Serial.print(F(" error in "));
+			Serial.println(inFunc);
+		}
+	}
+}
+#else
+void Driver::CheckPinNb2(GPIO_pin_t inPin, const __FlashStringHelper *inFunc)
 {
 	return CheckPinNb(GPIO_to_Arduino_pin(inPin), inFunc);
 }
@@ -29,6 +49,7 @@ void Driver::CheckPinNb(int inPin, const __FlashStringHelper *inFunc)
 	}
 }
 #endif
+#endif
 
 Driver::Driver()
 {
@@ -41,7 +62,7 @@ void Driver::AddPort(DriverPort *inpPort)
 	this->Ports.AddItem(inpPort);
 }
 
-DriverPort *Driver::GetPort(PORTTYPE inType, byte inId) const
+DriverPort *Driver::GetPort(PORTTYPE inType, uint8_t inId) const
 {
 	ACCSCHAINEDLISTITEM<DriverPort> *pCurr = this->Ports.pFirst;
 	while (pCurr != NULL)
@@ -58,17 +79,17 @@ void Driver::begin()
 {
 }
 
-void Driver::beginByAccessory(PORTTYPE inType, byte inPort, int inStartingPosition)
+void Driver::beginByAccessory(PORTTYPE inType, uint8_t inPort, int inStartingPosition)
 {
 	this->GetPort(inType, inPort)->beginByAccessory(inStartingPosition);
 }
 
-int Driver::SetSpeed(PORTTYPE inType, byte inPort, int inSpeed)
+int Driver::SetSpeed(PORTTYPE inType, uint8_t inPort, int inSpeed)
 {
 	return this->GetPort(inType, inPort)->SetSpeed(inSpeed);
 }
 
-void Driver::MoveLeftDir(PORTTYPE inType, byte inPort, unsigned long inDuration, int inSpeed)
+void Driver::MoveLeftDir(PORTTYPE inType, uint8_t inPort, unsigned long inDuration, int inSpeed)
 {
 	DriverPort *port = this->GetPort(inType, inPort);
 	int oldSpeed = -1;
@@ -79,7 +100,7 @@ void Driver::MoveLeftDir(PORTTYPE inType, byte inPort, unsigned long inDuration,
 		port->SetSpeed(oldSpeed);
 }
 
-void Driver::MoveRightDir(PORTTYPE inType, byte inPort, unsigned long inDuration, int inSpeed)
+void Driver::MoveRightDir(PORTTYPE inType, uint8_t inPort, unsigned long inDuration, int inSpeed)
 {
 	DriverPort *port = this->GetPort(inType, inPort);
 	int oldSpeed = -1;
@@ -90,7 +111,7 @@ void Driver::MoveRightDir(PORTTYPE inType, byte inPort, unsigned long inDuration
 		port->SetSpeed(oldSpeed);
 }
 
-PORT_STATE Driver::MoveToggle(PORTTYPE inType, byte inPort, unsigned long inDuration, int inSpeed)
+PORT_STATE Driver::MoveToggle(PORTTYPE inType, uint8_t inPort, unsigned long inDuration, int inSpeed)
 {
 	DriverPort *port = this->GetPort(inType, inPort);
 	int oldSpeed = -1;
@@ -104,7 +125,7 @@ PORT_STATE Driver::MoveToggle(PORTTYPE inType, byte inPort, unsigned long inDura
 
 void Driver::AddDriver(Driver *inDriver)
 {
-	if (Driver::pFirstDriver == 0)
+	if (Driver::pFirstDriver == NULL)
 	{
 		Driver::pFirstDriver = inDriver;
 		return;
@@ -112,21 +133,11 @@ void Driver::AddDriver(Driver *inDriver)
 
 	Driver *pCurr = Driver::pFirstDriver;
 
-	while (pCurr->pNextDriver != 0)
+	while (pCurr->pNextDriver != NULL)
 		pCurr = pCurr->pNextDriver;
 
 	pCurr->pNextDriver = inDriver;
 }
 
-void Driver::loops()
-{
-	Driver *pCurr = Driver::pFirstDriver;
-
-	while (pCurr != 0)
-	{
-		//pCurr->loop();
-		pCurr = pCurr->pNextDriver;
-	}
-}
 
 

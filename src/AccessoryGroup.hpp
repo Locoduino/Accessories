@@ -74,8 +74,8 @@ class AccessoryGroup
 		void AddStateItem(unsigned long inId, Accessory &inAccessory, ACC_STATE inState, unsigned int inDelay = 0);
 		void AddRange(const AccessoryGroup &inGroup);
 		GroupState *GetByID(unsigned long inId);
-		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0);
-		static void EventAll(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0);
+		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
+		static void EventAll(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
 
 		void StartAction(GroupState *inpState);
 		void ResetAction()	{ this->States.ResetCurrent(); }

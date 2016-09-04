@@ -1,3 +1,6 @@
+#ifndef _LIB_SAM_
+#ifndef ARDUINO_ARCH_SAM
+
 // Adafruit Motor shield library
 // copyright Adafruit Industries LLC, 2009
 // this code is public domain, enjoy!
@@ -665,4 +668,6 @@ uint8_t AF_Stepper::onestep(uint8_t dir, uint8_t style) {
   MC.latch_tx();
   return currentstep;
 }
+#endif
+#endif
 #endif

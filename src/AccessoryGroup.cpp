@@ -13,7 +13,7 @@ description: <Class for a group of accessories>
 #include<stdarg.h>
 #endif
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 #define CHECKINDEX(val, text)	CheckIndex(val, F(text))
 #define CHECKINDEXITEM(val, text)	CheckIndex(val, F(text))
 #else
@@ -34,7 +34,7 @@ GroupState::GroupState(unsigned long inId, bool inSynchrone)
 
 void GroupState::begin()
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F("   GroupState begin"));
 #endif
 }
@@ -102,7 +102,7 @@ void GroupState::loop()
 		if (millis() - this->startActionTime < this->Items.pCurrentItem->Obj->Delay)
 			return;
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F("AccessoryGroupState next action state accessory "));
 #endif
 
@@ -128,7 +128,7 @@ AccessoryGroup::AccessoryGroup()
 
 void AccessoryGroup::begin()
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F("   AccessoryGroup begin"));
 #endif
 }
@@ -139,7 +139,7 @@ void AccessoryGroup::AddStateItem(unsigned long inId, Accessory &inAccessory, AC
 
 	if (pState == NULL)
 	{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 		Serial.println(F("   AccessoryGroup wrong state id !"));
 #endif
 		return;
@@ -198,7 +198,7 @@ bool AccessoryGroup::IsActionPending()
 
 void AccessoryGroup::StartAction(GroupState *inpState)
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F("AccessoryGroup start action state "));
 	Serial.println(inpState->Id);
 #endif
@@ -296,17 +296,17 @@ bool AccessoryGroup::Toggle(unsigned long inId)
 
 	if (ActionsStack::FillingStack)
 	{
-		ActionsStack::Actions.Add(inId, ACCESSORIES_EVENT_TOGGLE);
+		ActionsStack::Actions.Add(inId, ACCESSORIES_EVENT_MOVEPOSITIONID);
 		return true;
 	}
 
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F("AccessoryGroup moved "));
 	Serial.println(inId);
 #endif
 	if (!this->IsActionPending())
 	{
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 		Serial.println(F("No action pending..."));
 #endif
 		this->States.pCurrentItem = pCurr;

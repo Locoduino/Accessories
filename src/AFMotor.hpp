@@ -1,3 +1,5 @@
+#ifndef _LIB_SAM_
+#ifndef ARDUINO_ARCH_SAM
 // Adafruit Motor shield library
 // copyright Adafruit Industries LLC, 2009
 // this code is public domain, enjoy!
@@ -178,5 +180,7 @@ class AF_Stepper {
 };
 
 uint8_t getlatchstate(void);
+#endif
+#endif
 #endif
 #endif

@@ -30,8 +30,8 @@ class AccessoriesClass
 		bool CanMove(unsigned long inId);
 
 		bool Toggle(unsigned long inId);
-		bool MovePosition(unsigned long inId, int inPosition);
-		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0);
+		bool MovePosition(unsigned long inId);
+		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
 		bool IsActionPending();
 
 		static void Add(Accessory *inpAccessory);

@@ -8,7 +8,7 @@ description: <Driver port for a servo>
 
 #ifndef NO_SERVO
 
-DriverPortServo::DriverPortServo(byte inId) : DriverPort(SERVO, inId)
+DriverPortServo::DriverPortServo(uint8_t inId) : DriverPort(SERVO, inId)
 {
 }
 

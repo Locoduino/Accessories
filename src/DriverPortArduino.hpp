@@ -16,7 +16,7 @@ class DriverPortArduino : public DriverPort
 		int GetAnalogValue(int inValue) const;
 
 	public:
-		DriverPortArduino(byte inId);
+		DriverPortArduino(uint8_t inId);
 		
 		virtual void begin(int inPin, PORT_TYPE inType = DIGITAL);
 		

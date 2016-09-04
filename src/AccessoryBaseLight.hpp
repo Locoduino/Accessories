@@ -24,15 +24,15 @@ class AccessoryBaseLight
 	private:
 		// Fix data from creator
 		DriverPort *pPort;
-		byte fadingStep;
-		byte fadingDelay;
+		uint8_t fadingStep;
+		uint8_t fadingDelay;
 		unsigned long blinkingDelay;
 
 		// State of the light
 		ACC_STATE state;
 		enum LightState { LIGHT_ON, LIGHT_OFF, LIGHT_ASCENDING, LIGHT_DESCENDING };
 		LightState currentState;
-		byte fadingCurrentValue;
+		uint8_t fadingCurrentValue;
 		unsigned long startingMillis;
 
 		friend class AccessoryLight;
@@ -48,9 +48,9 @@ class AccessoryBaseLight
 		inline bool IsBlinking() const { return this->state == LIGHTBLINK; }
 		inline bool IsFading() const { return this->fadingStep > 0; }
 
-		void Event(ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_TOGGLE, int inData = 0);
+		void Event(ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
 		inline void SetBlinking(unsigned long inBlinkingDelay) { this->blinkingDelay = inBlinkingDelay; }
-		void SetFading(byte inStep, byte inDelay);
+		void SetFading(uint8_t inStep, uint8_t inDelay);
 
 	private:
 		//inline Driver *GetDriver() const { return this->pDriver; }
@@ -70,7 +70,7 @@ class AccessoryBaseLight
 
 		void LightOnRaw();
 		void LightOffRaw();
-		void LightFadingRaw(byte inValue);
+		void LightFadingRaw(uint8_t inValue);
 };
 #endif
 

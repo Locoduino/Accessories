@@ -11,7 +11,7 @@ description: <Driver port for the Arduino>
 uint8_t localHigh = HIGH;
 uint8_t localLow = LOW;
 
-DriverPortArduino::DriverPortArduino(byte inId) : DriverPort(MOTOR_LIGHT, inId)
+DriverPortArduino::DriverPortArduino(uint8_t inId) : DriverPort(MOTOR_LIGHT, inId)
 {
 	this->pin = (GPIO_pin_t) DP_INVALID;
 	this->portType = DIGITAL;
@@ -19,7 +19,7 @@ DriverPortArduino::DriverPortArduino(byte inId) : DriverPort(MOTOR_LIGHT, inId)
 
 int DriverPortArduino::SetSpeed(int inSpeed)
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	if (inSpeed != 0 && inSpeed != 255 && (this->portType == DIGITAL || this->portType == DIGITAL_INVERTED))
 	{
 		Serial.print(F(" DriverPortArduino "));
@@ -62,11 +62,11 @@ void DriverPortArduino::begin(int inPin, PORT_TYPE inType)
 
 void DriverPortArduino::MoveLeftDir(unsigned long inDuration)
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F(" DriverPortArduino "));
 	Serial.print(GPIO_to_Arduino_pin(this->pin));
 	Serial.print(F(" MoveLeftDir() "));
-	if (inDuration != -1)
+	if (inDuration != 0)
 	{
 		Serial.print(F("for "));
 		Serial.print(inDuration);
@@ -87,11 +87,11 @@ void DriverPortArduino::MoveLeftDir(unsigned long inDuration)
 
 void DriverPortArduino::MoveRightDir(unsigned long inDuration)
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F(" DriverPortArduino "));
 	Serial.print(GPIO_to_Arduino_pin(this->pin));
 	Serial.print(F(" MoveRightDir() "));
-	if (inDuration != -1)
+	if (inDuration != 0)
 	{
 		Serial.print(F("for "));
 		Serial.print(inDuration);
@@ -109,7 +109,7 @@ void DriverPortArduino::MoveRightDir(unsigned long inDuration)
 
 void DriverPortArduino::MoveStop()
 {
-#ifdef DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F(" DriverPortArduino "));
 	Serial.print(GPIO_to_Arduino_pin(this->pin));
 	Serial.println(F(" MoveStop()"));
