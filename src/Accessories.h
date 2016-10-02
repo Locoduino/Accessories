@@ -74,8 +74,12 @@
 //NO_L293D
 //	DriverL293d.cpp
 //	DriverL293d.hpp
-//	DriverPortL293d.cpp
-//	DriverPortL293d.hpp
+//
+//NO_SHIELDL293D
+//	DriverShieldL293d.cpp
+//	DriverShieldL293d.hpp
+//	DriverPortShieldL293d.cpp
+//	DriverPortShieldL293d.hpp
 //
 //NO_L9110
 //	DriverL9110.cpp
@@ -116,6 +120,7 @@
 //#define NO_STEPPER
 //#define NO_LIGHT
 //#define NO_L293D
+//#define NO_SHIELDL293D
 //#define NO_L9110
 //#define NO_L298N
 //#define NO_ULN2003
@@ -170,9 +175,10 @@
 #include "DriverPortArduino.hpp"
 #include "DriverPortMotor.hpp"
 #include "DriverPort2Pins.hpp"
+#include "DriverPort2PinsEnable.hpp"
 
-#ifndef NO_L293D
-#include "DriverPortL293d.hpp"
+#ifndef NO_SHIELDL293D
+#include "DriverPortShieldL293d.hpp"
 #endif
 #ifndef NO_LMD18200
 #include "DriverPortLMD18200.hpp"
@@ -190,6 +196,9 @@
 #endif
 #ifndef NO_L293D
 #include "DriverL293d.hpp"
+#endif
+#ifndef NO_SHIELDL293D
+#include "DriverShieldL293d.hpp"
 #endif
 #ifndef NO_L9110
 #include "DriverL9110.hpp"

@@ -55,7 +55,7 @@ AccessoryServo servo;
 // Drivers
 
 // We could use the arduino itself...	
-DriverL293d driver;
+DriverShieldL293d driver;
 
 // current user define speed.
 int speed;

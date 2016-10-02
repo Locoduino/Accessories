@@ -13,7 +13,6 @@ Accessory::Accessory()
 	this->movingPositionsAddCounter = 0;
 	this->pMovingPositions = NULL;
 	this->lastMovingPosition = 255;
-	this->debounceDelay = 300;
 	this->SetLastMoveTime();
 
 	this->duration = 0;

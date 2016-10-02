@@ -1,83 +1,41 @@
 /*************************************************************
 project: <Accessories>
 author: <Thierry PARIS>
-description: <Class for a L293D driver>
+description: <Class for a L293d driver>
 *************************************************************/
 
-#if !defined(__AVR_ATmega32U4__)
 #include "Accessories.h"
 
 #ifndef NO_L293D
 
 DriverL293d::DriverL293d()
 {
-#if !defined(NO_MOTOR_LIGHT)
-	this->AddPort(new DriverPortL293d(L293D_PORT_M1, 1, 200, MOTOR12_1KHZ));
-	this->AddPort(new DriverPortL293d(L293D_PORT_M2, 2, 200, MOTOR12_1KHZ));
-	this->AddPort(new DriverPortL293d(L293D_PORT_M3, 3, 200, MOTOR34_1KHZ));
-	this->AddPort(new DriverPortL293d(L293D_PORT_M4, 4, 200, MOTOR34_1KHZ));
+#ifndef NO_MOTOR_LIGHT
+	this->AddPort(new DriverPort2PinsEnable(L293D_PORT_OUT12));
+	this->AddPort(new DriverPort2PinsEnable(L293D_PORT_OUT34));
 #endif
-
-#if !defined(NO_SERVO)
-	this->AddPort(new DriverPortServoBase(L293D_PORT_SERVO1));
-	this->AddPort(new DriverPortServoBase(L293D_PORT_SERVO2));
-#endif
-
-/*
-#if !defined(NO_STEPPER)
-	this->AddPort(new DriverPortStepper2(L293D_PORT_STEPPER12));
-	this->AddPort(new DriverPortStepper2(L293D_PORT_STEPPER34));
-	this->AddPort(new DriverPortStepper4(L293D_PORT_STEPPER1234));
-#endif
-*/
-}
-
-void DriverL293d::begin()
-{
-	Driver::begin();
-
-#if !defined(NO_SERVO)
-	((DriverPortServoBase *) (this->GetPort(SERVO, L293D_PORT_SERVO1)))->begin(SERVO1_PIN, ANALOG);
-	((DriverPortServoBase *) (this->GetPort(SERVO, L293D_PORT_SERVO2)))->begin(SERVO2_PIN, ANALOG);
+#ifndef NO_STEPPER
+	this->AddPort(new DriverPortStepper(0));
 #endif
 }
 
-DriverPortL293d * DriverL293d::beginPortMotor(uint8_t inPort, uint8_t inFreq)
+DriverPort2PinsEnable *DriverL293d::beginPortMotor(uint8_t inPort, int inPinA, int inPinB, int inPinEnable)
 {
-#if !defined(NO_MOTOR_LIGHT)
-	DriverPortL293d *pPort = (DriverPortL293d *) this->GetPort(MOTOR_LIGHT, inPort);
-	pPort->begin(inFreq);
+#ifndef NO_MOTOR_LIGHT
+	DriverPort2PinsEnable *pPort = (DriverPort2PinsEnable *) this->GetPort(MOTOR_LIGHT, inPort);
+	pPort->begin(inPinA, inPinB, inPinEnable);
 	return pPort;
 #endif
 }
 
-DriverPortServoBase * DriverL293d::beginPortServo(uint8_t inPort)
+DriverPortStepper *DriverL293d::beginPortStepper(int inPinA, int inPinB, int inPinC, int inPinD, uint8_t *inpSteps)
 {
-#if !defined(NO_SERVO)
-	DriverPortServoBase *pPort = (DriverPortServoBase *) this->GetPort(SERVO, inPort);
-#ifdef ACCESSORIES_DEBUG_MODE
-	if (pPort->GetPin() == -1)
-	{
-		Serial.print(F("Port Servo Arduino "));
-		Serial.print(inPort);
-		Serial.print(F(" error in DriverL293d::beginPortServo : driver.begin() not called."));
-	}
-#endif
-
+#ifndef NO_STEPPER
+	DriverPortStepper *pPort = (DriverPortStepper *) this->GetPort(STEPPER, 0);
+	pPort->begin(inPinA, inPinB, inPinC, inPinD, inpSteps);
 	return pPort;
 #endif
 }
 
-/*
-DriverPortStepper * DriverL293d::beginPortStepper(uint8_t inPort)
-{
-#if !defined(NO_STEPPER)
-	DriverPortStepper *pPort = (DriverPortStepper *) this->GetPort(STEPPER, inPort);
-	pPort->begin(0);
-	return pPort;
-#endif
-}
-*/
 
-#endif
 #endif

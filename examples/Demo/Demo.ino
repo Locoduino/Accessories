@@ -52,7 +52,7 @@ AccessoryLight light;
 
 // Drivers
 
-DriverL293d l293d;
+DriverShieldL293d l293d;
 DriverL298n l298n;
 
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)

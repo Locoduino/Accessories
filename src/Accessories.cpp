@@ -72,7 +72,7 @@ void Accessories::begin()
 	delay(500);
 
 	Serial.println(F(""));
-	Serial.println(F("Accessories V0.20"));
+	Serial.println(F("Accessories V0.25"));
 	Serial.println(F("Developed by Thierry Paris."));
 	Serial.println(F("(c) Locoduino 2016"));
 	Serial.println(F(""));

@@ -27,13 +27,13 @@ public:
 
 //-------------------------------------------------------------------
 
-class DriverPortL293d : public DriverPort
+class DriverPortShieldL293d : public DriverPort
 {
 	protected:
 		AF_DCMotor *pmotor;
 
 	public:
-		DriverPortL293d(uint8_t inId, unsigned char inOutPort, uint8_t inSpeed, uint8_t inFreq);
+		DriverPortShieldL293d(uint8_t inId, unsigned char inOutPort, uint8_t inSpeed, uint8_t inFreq);
 		
 		void begin(uint8_t inFreq);
 		

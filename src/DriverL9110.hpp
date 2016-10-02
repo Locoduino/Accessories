@@ -9,9 +9,6 @@
 
 class DriverPortServoBase;
 
-#define L9110_PORT_A			0
-#define L9110_PORT_B			1
-
 class DriverL9110 : public Driver
 {
 	public:
@@ -19,8 +16,8 @@ class DriverL9110 : public Driver
 		
 	public:
 		void begin();
-		DriverPort2Pins *beginPortMotor(uint8_t inPort, uint8_t inPinA, int inPinB);
-		DriverPortServoBase *beginPortServo(uint8_t inPort, uint8_t inPin);
+		DriverPort2Pins *beginPortMotor(uint8_t inPinA, int inPinB);
+		DriverPortServoBase *beginPortServo(uint8_t inPin);
 };
 #endif	 
 

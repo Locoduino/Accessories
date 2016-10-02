@@ -10,13 +10,13 @@ description: <Driver port for L293n>
 
 #ifndef NO_L293D
 
-DriverPortL293d::DriverPortL293d(uint8_t inId, unsigned char inOutPort, uint8_t inSpeed, uint8_t inFreq) : DriverPort(MOTOR_LIGHT, inId)
+DriverPortShieldL293d::DriverPortShieldL293d(uint8_t inId, unsigned char inOutPort, uint8_t inSpeed, uint8_t inFreq) : DriverPort(MOTOR_LIGHT, inId)
 {
 	this->pmotor = new AF_DCMotor(inOutPort, inFreq);
 	this->pmotor->setSpeed(inSpeed);
 }
 
-void DriverPortL293d::begin(uint8_t inFreq)
+void DriverPortShieldL293d::begin(uint8_t inFreq)
 {
 	this->pmotor->pwmfreq = inFreq;
 
@@ -25,17 +25,17 @@ void DriverPortL293d::begin(uint8_t inFreq)
 	this->pmotor->run(RELEASE);
 }
 
-int DriverPortL293d::SetSpeed(uint8_t inSpeed)
+int DriverPortShieldL293d::SetSpeed(uint8_t inSpeed)
 {
 	int oldspeed = DriverPort::SetSpeed(inSpeed);
 	this->pmotor->setSpeed(inSpeed);
 	return oldspeed;
 }
 
-void DriverPortL293d::MoveLeftDir(unsigned long inDuration)
+void DriverPortShieldL293d::MoveLeftDir(unsigned long inDuration)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
-	Serial.print(F(" DriverPortL293d MoveLeftDir() "));
+	Serial.print(F(" DriverPortShieldL293d MoveLeftDir() "));
 	if (inDuration != 0)
 	{
 		Serial.print(F("for "));
@@ -55,11 +55,11 @@ void DriverPortL293d::MoveLeftDir(unsigned long inDuration)
 	this->state = PORT_LEFT;
 }
 
-void DriverPortL293d::MoveRightDir(unsigned long inDuration)
+void DriverPortShieldL293d::MoveRightDir(unsigned long inDuration)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
 	//Serial.print(this->pmotor->motornum);
-	Serial.print(F(" DriverPortL293d MoveRightDir() "));
+	Serial.print(F(" DriverPortShieldL293d MoveRightDir() "));
 	if (inDuration != 0)
 	{
 		Serial.print(F("for "));
@@ -79,7 +79,7 @@ void DriverPortL293d::MoveRightDir(unsigned long inDuration)
 	this->state = PORT_RIGHT;
 }
 
-void DriverPortL293d::MoveStop()
+void DriverPortShieldL293d::MoveStop()
 {
 	this->pmotor->run(RELEASE);
 	this->state = PORT_STOP;

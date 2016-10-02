@@ -1,34 +1,33 @@
 /*************************************************************
 project: <Accessories>
 author: <Thierry PARIS>
-description: <Driver port with 2 pins>
+description: <Driver port with 2 pins and an Enable pin>
 *************************************************************/
 
 #include "Accessories.h"
 
-DriverPort2Pins::DriverPort2Pins(uint8_t inId) : DriverPort(MOTOR_LIGHT, inId)
+DriverPort2PinsEnable::DriverPort2PinsEnable(uint8_t inId) : DriverPort2Pins(inId)
 {
 }
 
-void DriverPort2Pins::begin(int inPinA, int inPinB)
+void DriverPort2PinsEnable::begin(int inPinA, int inPinB, int inPinEnable)
 {
-	this->pinA = Arduino_to_GPIO_pin(inPinA);
-	this->pinB = Arduino_to_GPIO_pin(inPinB);
+	this->DriverPort2Pins::begin(inPinA, inPinB);
 
-	CHECKPIN(this->pinA, "DriverPort2Pins::begin");
-	CHECKPIN(this->pinB, "DriverPort2Pins::begin");
+	this->pinEnable = Arduino_to_GPIO_pin(inPinEnable);
 
-	pinMode2f(this->pinA, OUTPUT);
-	pinMode2f(this->pinB, OUTPUT);
+	CHECKPIN(this->pinEnable, "DriverPort2PinsEnable::begin");
+
+	pinMode2f(this->pinEnable, OUTPUT);
 }
 
-void DriverPort2Pins::MoveLeftDir(unsigned long inDuration)
+void DriverPort2PinsEnable::MoveLeftDir(unsigned long inDuration)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(this->pinA);
 	Serial.print(F(" / "));
 	Serial.print(this->pinB);
-	Serial.print(F(" DriverPort2Pins MoveLeftDir() "));
+	Serial.print(F(" DriverPort2PinsEnable MoveLeftDir() "));
 	if (inDuration != 0)
 	{
 		Serial.print(F("for "));
@@ -39,6 +38,7 @@ void DriverPort2Pins::MoveLeftDir(unsigned long inDuration)
 		Serial.println("");
 #endif
 
+	digitalWrite2f(this->pinEnable, HIGH);
 	digitalWrite2f(this->pinA, HIGH);
 	digitalWrite2f(this->pinB, LOW);
 
@@ -48,18 +48,19 @@ void DriverPort2Pins::MoveLeftDir(unsigned long inDuration)
 
 		digitalWrite2f(this->pinA, LOW);
 		digitalWrite2f(this->pinB, LOW);
+		digitalWrite2f(this->pinEnable, LOW);
 	}
 
 	this->state = PORT_LEFT;
 }
 
-void DriverPort2Pins::MoveRightDir(unsigned long inDuration)
+void DriverPort2PinsEnable::MoveRightDir(unsigned long inDuration)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(this->pinA);
 	Serial.print(F(" / "));
 	Serial.print(this->pinB);
-	Serial.print(F(" DriverPort2Pins MoveRightDir() "));
+	Serial.print(F(" DriverPort2PinsEnable MoveRightDir() "));
 	if (inDuration != 0)
 	{
 		Serial.print(F("for "));
@@ -70,6 +71,7 @@ void DriverPort2Pins::MoveRightDir(unsigned long inDuration)
 		Serial.println("");
 #endif
 
+	digitalWrite2f(this->pinEnable, HIGH);
 	digitalWrite2f(this->pinA, LOW);
 	digitalWrite2f(this->pinB, HIGH);
 
@@ -79,22 +81,24 @@ void DriverPort2Pins::MoveRightDir(unsigned long inDuration)
 
 		digitalWrite2f(this->pinA, LOW);
 		digitalWrite2f(this->pinB, LOW);
+		digitalWrite2f(this->pinEnable, LOW);
 	}
 
 	this->state = PORT_RIGHT;
 }
 
-void DriverPort2Pins::MoveStop()
+void DriverPort2PinsEnable::MoveStop()
 {
 #ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(this->pinA);
 	Serial.print(F(" / "));
 	Serial.print(this->pinB);
-	Serial.println(F(" DriverPort2Pins MoveStop() "));
+	Serial.println(F(" DriverPort2PinsEnable MoveStop() "));
 #endif
 
 	digitalWrite2f(this->pinA, LOW);
 	digitalWrite2f(this->pinB, LOW);
+	digitalWrite2f(this->pinEnable, LOW);
 
 	this->state = PORT_STOP;
 }
