@@ -28,8 +28,11 @@ class AccessoryMotor : public Accessory
 		inline bool IsRight() const { return this->IsSecond(); }
 		inline bool IsStopped() const { return this->IsNone(); }
 		
-		void begin(DriverPort *inpPort, unsigned long inId, int inSpeed, unsigned long inDurationMilli = 0);
+		void begin(Port *inpPort, unsigned long inId, int inSpeed, unsigned long inDurationMilli = 0);
 		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
+#ifndef NO_EEPROM
+		int EEPROMLoad(int inPos);
+#endif
 
 	protected:
 		void SetState(ACC_STATE instate);
@@ -38,7 +41,6 @@ class AccessoryMotor : public Accessory
 		inline virtual void MoveRight(unsigned long inDuration = 0, int inSpeed = 0) { this->InternalMove(RIGHT, inDuration, inSpeed); }
 		virtual ACC_STATE MoveToggle(unsigned long inDuration = 0, int inSpeed = 0);
 		inline ACC_STATE Toggle() { return MoveToggle(); }
-
 	private:
 		ACC_STATE InternalMove(ACC_STATE inStateToReach, unsigned long inDuration = 0, int inSpeed = 0);
 };

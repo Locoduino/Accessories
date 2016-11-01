@@ -6,12 +6,16 @@ description: <Class for a light, flashing or not, with optional fading>
 
 #include "Accessories.h"
 #include "AccessoryBaseLight.hpp"
+#ifndef NO_EEPROM
+#include "EEPROM.h"
+#endif
 
 #ifndef NO_LIGHT
 
 AccessoryBaseLight::AccessoryBaseLight(Accessory *inpOwner)
 {
 	this->pPort = NULL;
+	this->state = LIGHTOFF;
 	this->currentState = LIGHT_OFF;
 	this->startingMillis = 0;
 	this->fadingStep = this->fadingDelay = 0;
@@ -29,7 +33,19 @@ void AccessoryBaseLight::SetState(ACC_STATE inState)
 	Serial.println(inState == LIGHTON ? "ON" : inState == LIGHTOFF ? "OFF" : "BLINK");
 #endif
 
-	this->state = inState;
+	this->SetStateRaw(inState);
+}
+
+void AccessoryBaseLight::SetStateRaw(ACC_STATE inNewState)
+{
+	if (this->state != inNewState)
+	{
+		this->state = inNewState;
+		this->pOwner->SetStateRaw(inNewState);
+#ifndef NO_EEPROM
+		Accessories::EEPROMSave();
+#endif
+	}
 }
 
 void AccessoryBaseLight::SetFading(uint8_t inStep, uint8_t inDelay)
@@ -44,7 +60,7 @@ void AccessoryBaseLight::SetFading(uint8_t inStep, uint8_t inDelay)
 #endif
 }
 
-void AccessoryBaseLight::begin(DriverPort *inpPort, int inIntensity, Accessory *inpOwner)
+void AccessoryBaseLight::begin(Port *inpPort, int inIntensity, Accessory *inpOwner)
 {
 	if (inpOwner != NULL)
 		this->pOwner = inpOwner;
@@ -56,7 +72,7 @@ void AccessoryBaseLight::begin(DriverPort *inpPort, int inIntensity, Accessory *
 void AccessoryBaseLight::LightFadingRaw(uint8_t inValue)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
-#ifdef DEBUG_VERBOSE_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	Serial.print(F("AccessoryBaseLight Fading at "));
 	Serial.println(inValue);
 #endif
@@ -81,7 +97,7 @@ void AccessoryBaseLight::LightOn()
 #ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F("AccessoryBaseLight ON"));
 #endif
-	this->state = LIGHTON;
+	this->SetStateRaw(LIGHTON);
 }
 
 void AccessoryBaseLight::LightOff()
@@ -89,7 +105,7 @@ void AccessoryBaseLight::LightOff()
 #ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F("AccessoryBaseLight OFF"));
 #endif
-	this->state = LIGHTOFF;
+	this->SetStateRaw(LIGHTOFF);
 }
 
 ACC_STATE AccessoryBaseLight::Toggle()
@@ -106,6 +122,7 @@ void AccessoryBaseLight::Event(ACCESSORIES_EVENT_TYPE inEvent, int inData)
 {
 	switch (inEvent)
 	{
+	case ACCESSORIES_EVENT_MOVEPOSITIONID:
 	case ACCESSORIES_EVENT_TOGGLE:
 		this->Toggle();
 		break;
@@ -164,7 +181,7 @@ void AccessoryBaseLight::StartAction()
 	}
 
 #ifdef ACCESSORIES_DEBUG_MODE
-#ifdef DEBUG_VERBOSE_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	Serial.print(F("AccessoryBaseLight start action "));
 	Serial.println(this->startingMillis);
 #endif
@@ -174,8 +191,9 @@ void AccessoryBaseLight::StartAction()
 bool AccessoryBaseLight::ActionEnded()
 {
 #ifdef ACCESSORIES_DEBUG_MODE
-#ifdef DEBUG_VERBOSE_MODE
-	Serial.println(F("End action of light."));
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
+	if (this->pOwner->IsActionPending())
+		Serial.println(F("End action of light."));
 #endif
 #endif
 	this->pOwner->ResetAction();
@@ -187,7 +205,7 @@ bool AccessoryBaseLight::ActionEnded()
 		return true;
 
 #ifdef ACCESSORIES_DEBUG_MODE
-#ifdef DEBUG_VERBOSE_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	Serial.print(F("Light current state : "));
 	switch (this->currentState)
 	{
@@ -297,4 +315,20 @@ bool AccessoryBaseLight::ActionEnded()
 	}
 	return false;
 }
+
+#ifndef NO_EEPROM
+int AccessoryBaseLight::EEPROMSave(int inPos)
+{
+	EEPROM.write(inPos++, this->state);
+
+	return inPos;
+}
+
+int AccessoryBaseLight::EEPROMLoad(int inPos)
+{
+	this->state = (ACC_STATE)EEPROM.read(inPos++);
+
+	return inPos;
+}
+#endif
 #endif

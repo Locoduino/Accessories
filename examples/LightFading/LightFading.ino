@@ -27,7 +27,8 @@ AccessoryLight red, green;
 
 // Drivers
 	
-DriverArduino arduino;
+PortPWMPin Port0;
+PortPWMPin Port1;
 
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
@@ -62,16 +63,15 @@ void setup()
 	// Drivers setups
 
     // Two ports of the Arduino used by the leds, 10 and 11
-	arduino.begin();
-	DriverPort *pPort0 = arduino.AddPortMotor(10, ANALOG_INVERTED);
-	DriverPort *pPort1 = arduino.AddPortMotor(11, ANALOG_INVERTED);
+	Port0.begin(10, ANALOG_INVERTED);
+	Port1.begin(11, ANALOG_INVERTED);
 
 	// Accessories setups
 
     // Two lights in the accessory list.
 
-	red.begin(pPort0, RED_TOGGLE, 0, 120);
-	green.begin(pPort1, GREEN_TOGGLE, 0, 200);
+	red.begin(&Port0, RED_TOGGLE, 0, 120);
+	green.begin(&Port1, GREEN_TOGGLE, 0, 200);
 
     // Define fading/dimming effect
 	red.SetFading(20, 20);

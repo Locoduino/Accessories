@@ -1,28 +1,24 @@
 //-------------------------------------------------------------------
-#ifndef __driverPortStepper_H__
-#define __driverPortStepper_H__
+#ifndef __PortStepper_H__
+#define __PortStepper_H__
 //-------------------------------------------------------------------
 
-#include "DriverPort.hpp"
-#include "Stepper.h"
-
-//-------------------------------------------------------------------
+#include "Port.hpp"
 
 #ifndef NO_STEPPER
 
 #include "LocoStepper.h"
 
-class DriverPortStepper: public DriverPort
+class PortStepper: public Port
 {
 	protected:
-		AccelStepper *pMotor;
+		LocoStepper *pMotor;
 
-		uint8_t powerCommandPin[4];
 	public:
-		DriverPortStepper(uint8_t inId);
+		PortStepper();
 		
-		void begin(uint8_t inPin1, uint8_t inPin2, uint8_t *inpSteps = NULL);
-		void begin(uint8_t inPin1, uint8_t inPin2, uint8_t inPin3, uint8_t inPin4, uint8_t *inpSteps = NULL);
+		void begin(uint8_t inPin1, uint8_t inPin2, PIN_TYPE inType = DIGITAL, uint8_t *inpSteps = NULL);
+		void begin(uint8_t inPin1, uint8_t inPin2, uint8_t inPin3, uint8_t inPin4, PIN_TYPE inType = DIGITAL, uint8_t *inpSteps = NULL);
 
 		void MovePosition(unsigned long inDuration, int inEndPosition);
 		void MoveRelativePosition(unsigned long inDuration, int inEndPosition);
@@ -30,9 +26,9 @@ class DriverPortStepper: public DriverPort
 		inline bool run() { return this->pMotor->run(); }
 		inline long currentPosition() { return this->pMotor->currentPosition(); }
 		inline long targetPosition() { return this->pMotor->targetPosition(); }
+		inline int GetPosition() { return (int) this->currentPosition(); }
 };
 #endif
-
 
 //-------------------------------------------------------------------
 #endif

@@ -58,7 +58,10 @@ class AccessoryGroup
 		inline void SetNextGroup(AccessoryGroup *inAccessory) { this->pNextGroup = inAccessory; }
 		inline AccessoryGroup *GetNextGroup() const { return this->pNextGroup; }
 		static void AddGroup(AccessoryGroup *inGroup);
+		static uint8_t GetCount();
 		static bool loops();
+		static int EEPROMSaveAll(int inPos);
+		static int EEPROMLoadAll(int inPos);
 
 	public:
 		AccessoryGroup *pNextGroup;
@@ -73,7 +76,8 @@ class AccessoryGroup
 		inline void AddState(unsigned long inId, bool inSynchrone = true) { this->States.AddItem(new GroupState(inId, inSynchrone)); }
 		void AddStateItem(unsigned long inId, Accessory &inAccessory, ACC_STATE inState, unsigned int inDelay = 0);
 		void AddRange(const AccessoryGroup &inGroup);
-		GroupState *GetByID(unsigned long inId);
+		GroupState *GetByID(unsigned long inId) const;
+		ACCSCHAINEDLISTITEM<GroupState> *GetItemByID(unsigned long inId) const;
 		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
 		static void EventAll(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
 
@@ -83,6 +87,11 @@ class AccessoryGroup
 
 		bool loop();
 		bool Toggle(unsigned long inId);
+
+#ifndef NO_EEPROM
+		int EEPROMSave(int inPos);
+		int EEPROMLoad(int inPos);
+#endif
 };
 #endif
 

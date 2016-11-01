@@ -5,8 +5,22 @@ description: <Base functions of the library>
 *************************************************************/
 
 #include "Accessories.hpp"
+#include "ActionsStack.hpp"
+#ifndef NO_EEPROM
+#include "EEPROM.h"
+#endif
 
+#ifdef VISUALSTUDIO
+#include<stdarg.h>
+#endif
+
+Accessory *Accessories::pFirstAccessory = NULL;
 bool Accessories::SerialStarted = false;
+unsigned long Accessories::WaitEndDate = 0;
+#ifndef NO_EEPROM
+int Accessories::EEPROMStart = -1;
+unsigned long Accessories::EEPROMStartingDelay = 0;
+#endif
 
 // Link to Commanders library.
 
@@ -63,16 +77,21 @@ void Accessories::printEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventT
 }
 #endif
 
-void Accessories::begin()
+void Accessories::begin(int inEEPROMStart)
 {
 	SerialStarted = true;
+
+#ifndef NO_EEPROM
+	Accessories::EEPROMStart = inEEPROMStart;
+	Accessories::EEPROMStartingDelay = 0;
+#endif
+
 #ifdef ACCESSORIES_DEBUG_MODE
-//	Serial.begin(115200);
 	// Just for let the time to the PIC to initialize internals...
 	delay(500);
 
 	Serial.println(F(""));
-	Serial.println(F("Accessories V0.25"));
+	Serial.println(F("Accessories V0.30"));
 	Serial.println(F("Developed by Thierry Paris."));
 	Serial.println(F("(c) Locoduino 2016"));
 	Serial.println(F(""));
@@ -92,11 +111,103 @@ void Accessories::ReceiveEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEven
 	ArduiEmulator::ArduinoForm::_eventLog("Received", inId, inEventType, inEventData);
 #endif
 
-	AccessoriesClass::AccessoriesInstance.Event(inId, inEventType, inEventData);
+	Event(inId, inEventType, inEventData);
 #ifndef NO_GROUP
 	AccessoryGroup::EventAll(inId, inEventType, inEventData);
 #endif
 }
+
+void Accessories::Add(Accessory *inpAccessory)
+{
+	if (Accessories::pFirstAccessory == NULL)
+	{
+		Accessories::pFirstAccessory = inpAccessory;
+		inpAccessory->SetNextAccessory(NULL);
+		return;
+	}
+
+	Accessory *pCurr = Accessories::pFirstAccessory;
+
+	while (pCurr->GetNextAccessory() != NULL)
+		pCurr = pCurr->GetNextAccessory();
+
+	pCurr->SetNextAccessory(inpAccessory);
+	inpAccessory->SetNextAccessory(NULL);
+}
+
+uint8_t Accessories::GetCount()
+{
+	uint8_t accCount = 0;
+	Accessory *pCurr = Accessories::pFirstAccessory;
+	while (pCurr != NULL)
+	{
+		accCount++;
+		pCurr = pCurr->GetNextAccessory();
+	}
+
+	return accCount;
+}
+
+Accessory *Accessories::GetById(unsigned long inId)
+{
+	Accessory *pCurr = Accessories::pFirstAccessory;
+
+	while (pCurr != NULL)
+	{
+		if (pCurr->IndexOfMovingPosition(inId) != (uint8_t)-1)
+			return pCurr;
+		pCurr = pCurr->GetNextAccessory();
+	}
+
+	return NULL;
+}
+
+bool Accessories::IsActionPending()
+{
+	Accessory *pCurr = Accessories::pFirstAccessory;
+
+	while (pCurr != NULL)
+	{
+		if (pCurr->IsActionPending())
+			return true;
+		pCurr = pCurr->GetNextAccessory();
+	}
+
+	return false;
+}
+
+bool Accessories::CanMove(unsigned long inId)
+{
+	Accessory *acc = GetById(inId);
+
+	if (acc == NULL)
+		return false;
+
+	// Move if there is more than one MovingPosition (no toggle id), and moving ids are the same than
+	// previous time...
+	if (acc->GetMovingPositionSize() > 1)
+	{
+		bool move = acc->IndexOfMovingPosition(inId) == acc->GetLastMovingPosition();
+#ifdef ACCESSORIES_DEBUG_MODE
+		if (!move)
+			Serial.println(F("Same position : Cant move !"));
+#endif
+		return move;
+	}
+
+	if (millis() - acc->GetLastMoveTime() <= acc->GetDebounceDelay())
+	{
+#ifdef ACCESSORIES_DEBUG_MODE
+		Serial.println(F("Debounce : Cant move !"));
+#endif
+		return false;
+	}
+
+	acc->SetLastMoveTime();
+	return true;
+}
+
+static Accessory *pLoopAccessory = 0;
 
 bool Accessories::loop()
 {
@@ -107,5 +218,287 @@ bool Accessories::loop()
 		return true;
 #endif
 
-	return AccessoriesClass::AccessoriesInstance.loop();
+	if (pLoopAccessory == NULL)
+	{
+#ifdef ACCESSORIES_DEBUG_MODE
+		Serial.println(F("*** Setup Accessories Finished."));
+
+		Accessory *pCurr = Accessories::pFirstAccessory;
+
+		while (pCurr != NULL)
+		{
+			if (pCurr->GetPort() == NULL)
+			{
+				Serial.println(F("One accessory have no port !"));
+			}
+			pCurr = pCurr->GetNextAccessory();
+		}
+
+#endif
+		pLoopAccessory = Accessories::pFirstAccessory;
+		// Do not take account of the modified states during setup !
+		EEPROMStartingDelay = 0;
+
+#ifdef ACCESSORIES_DEBUG_MODE
+		bool good = Accessories::EEPROMLoad();
+		if (!good)
+			Serial.println(F("EEPROM loading aborted !"));
+#else
+		Accessories::EEPROMLoad();
+#endif
+	}
+	else
+	{
+		if (pLoopAccessory->GetNextAccessory() == NULL)
+			pLoopAccessory = Accessories::pFirstAccessory;
+		else
+			pLoopAccessory = pLoopAccessory->GetNextAccessory();
+	}
+
+	if (pLoopAccessory == NULL)
+		return false;
+
+	pLoopAccessory->loop();
+
+	// Look for action stack pending...
+	if (IsActionPending())
+		return false;
+
+	Action *act = ActionsStack::Actions.GetActionToExecute();
+	if (act != NULL)
+		if (CanMove(act->Id))
+			Event(act->Id, act->Event, act->Data);
+
+	// If nothing more to do, Save EEPROM if needed.
+
+#ifndef NO_EEPROM
+	if (EEPROMStartingDelay > 0)
+		EEPROMSaveRaw();
+#endif
+
+	return false;
 }
+
+void Accessories::wait(unsigned long inWaitDelay)
+{
+	unsigned long start = millis();
+	while (millis() < start + inWaitDelay)
+		Accessories::loop();
+}
+
+bool Accessories::Toggle(unsigned long inId)
+{
+	if (ActionsStack::FillingStack)
+	{
+#ifdef ACCESSORIES_DEBUG_MODE
+		Serial.print(F(" ---- Stack id "));
+		Serial.println(inId);
+#endif
+		ActionsStack::Actions.Add(inId, ACCESSORIES_EVENT_MOVEPOSITIONID);
+		return false;
+	}
+
+	Accessory *acc = GetById(inId);
+
+	if (acc == NULL)
+	{
+		return false;
+	}
+
+	if (!CanMove(inId))
+	{
+		return true;
+	}
+
+	acc->SetLastMovingPosition(inId);
+
+#ifdef ACCESSORIES_DEBUG_MODE
+	Serial.print(F("Toggle : Accessory id "));
+	Serial.println(inId);
+#endif
+
+	acc->Move(inId);
+
+	return true;
+}
+
+bool Accessories::MovePosition(unsigned long inId)
+{
+	Accessory *acc = GetById(inId);
+
+	if (acc == NULL)
+	{
+		return false;
+	}
+
+	uint8_t pos = acc->IndexOfMovingPosition(inId);
+
+	if (pos == 255)
+	{
+		return false;
+	}
+
+	if (ActionsStack::FillingStack)
+	{
+#ifdef ACCESSORIES_DEBUG_MODE
+		Serial.print(F(" ---- Stack id "));
+		Serial.println(inId);
+#endif
+		ActionsStack::Actions.Add(inId, ACCESSORIES_EVENT_MOVEPOSITIONINDEX, pos);
+		return false;
+	}
+
+	acc->SetLastMovingPosition(pos);
+
+#ifdef ACCESSORIES_DEBUG_MODE
+	Serial.print(F("MovePosition : Accessory id "));
+	Serial.print(inId);
+	Serial.print(F(" to position "));
+	Serial.println(acc->GetMovingPosition(inId));
+#endif
+
+	acc->MovePosition(acc->GetMovingPosition(inId));
+
+	return true;
+}
+
+void Accessories::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
+{
+	if (ActionsStack::FillingStack)
+	{
+		ActionsStack::Actions.Add(inId, inEvent, inData);
+		return;
+	}
+
+	Accessory *acc = GetById(inId);
+
+	if (acc != NULL)
+	{
+		if (inEvent == ACCESSORIES_EVENT_MOVEPOSITIONINDEX && (inData < 0 || inData >= acc->GetMovingPositionSize()))
+		{
+#ifdef ACCESSORIES_DEBUG_MODE
+			Serial.print(F("Accessory id "));
+			Serial.print(inId);
+			Serial.print(F(" bad MovePositionIndex event "));
+			Serial.println(inData);
+#endif
+			return;
+		}
+
+		acc->Event(inId, inEvent, inData);
+	}
+}
+
+#ifndef NO_EEPROM
+
+/*  EEPROM format
+
+The EEPROM area starting from EEPROMStart, will be filled with the current version number (a byte), 
+and the total number of accessories and groups. The fourth byte will be the checksum of the three
+starting bytes...
+If any of these four bytes are different from the actual values, the EEPROM will be considered as free.
+
+Following these bytes, there is the accessories. For each one the current state, the current position and the
+current speed  will be saved.
+After that, each group save its current item id.
+
+						+-+
+Version					|V|
+Accessory number		|A|
+Group number			|G|
+header checksum			|C|
+						+-+
+Acc 1 : State			|S|
+Acc 1 : Position		|P|
+Acc 1 : Speed			|s|
+						+-+
+Acc 2 : State			|S|
+Acc 2 : Position		|P|
+Acc 2 : Speed			|s|
+						+-+					
+Acc 3 : State			|S|
+Acc 3 : Position		|P|
+Acc 3 : Speed			|s|
+...						+-+
+Group 1 : current ID	|I|
+Group 3 : current ID	|I|
+Group 3 : current ID	|I|
+						+-+
+*/
+
+// this version is used to know if the form have changed. During reloading, if the version is not equal to the 
+// actual version EEPROM_VERSION, the file will be considered as empty !
+#define EEPROM_VERSION	0
+
+void Accessories::EEPROMSave()
+{
+	if (EEPROMStart == -1)
+		return;
+
+	if (EEPROMStartingDelay == 0)
+		EEPROMStartingDelay = millis();
+}
+
+void Accessories::EEPROMSaveRaw()
+{
+	unsigned long mill = millis();
+	if (mill - EEPROMStartingDelay < EEPROM_SAVE_DELAY)
+		return;
+
+	int pos = EEPROMStart;
+
+	uint8_t accCount = Accessories::GetCount();
+	uint8_t grpCount = AccessoryGroup::GetCount();
+
+	EEPROM.write(pos++, EEPROM_VERSION);
+	EEPROM.write(pos++, accCount);
+	EEPROM.write(pos++, grpCount);
+	EEPROM.write(pos++, (uint8_t) (EEPROM_VERSION + accCount + grpCount));
+
+	Accessory *pCurr = Accessories::pFirstAccessory;
+
+	while (pCurr != NULL)
+	{
+		pos = pCurr->EEPROMSave(pos);
+		pCurr = pCurr->GetNextAccessory();
+	}
+
+	pos = AccessoryGroup::EEPROMSaveAll(pos);
+	EEPROMStartingDelay = 0;
+}
+
+bool Accessories::EEPROMLoad()
+{
+	if (EEPROMStart == -1)
+		return false;
+
+	int pos = EEPROMStart;
+	uint8_t accCount = Accessories::GetCount();
+	uint8_t grpCount = AccessoryGroup::GetCount();
+
+	if (EEPROM.read(pos++) != EEPROM_VERSION)
+		return false;
+
+	if (EEPROM.read(pos++) != accCount)
+		return false;
+
+	if (EEPROM.read(pos++) != grpCount)
+		return false;
+
+	if (EEPROM.read(pos++) != (uint8_t)(EEPROM_VERSION + accCount + grpCount))
+		return false;
+
+	Accessory *pCurr = Accessories::pFirstAccessory;
+
+	while (pCurr != NULL)
+	{
+		pos = pCurr->EEPROMLoad(pos);
+		pCurr = pCurr->GetNextAccessory();
+	}
+
+	pos = AccessoryGroup::EEPROMLoadAll(pos);
+	EEPROMStartingDelay = 0;
+
+	return true;
+}
+#endif

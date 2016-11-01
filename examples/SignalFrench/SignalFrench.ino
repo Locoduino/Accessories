@@ -28,18 +28,19 @@ private:
 
 public:
 	inline SignalArduinoPattern() {}
-	void beginSignal(DriverArduino *inpDriver, uint8_t inNbLeds, const int *inpPins, int inStartingDcc, int inBlinkDuration, const uint8_t *inPatterns, const uint8_t *inpRealStates = 0);
+	void beginSignal(uint8_t inNbLeds, const int *inpPins, int inStartingDcc, int inBlinkDuration, const uint8_t *inPatterns, const uint8_t *inpRealStates = 0);
 	void Move(unsigned long inId);
 
 	static int GetStatesNumber(const uint8_t *pStates);
 };
 
-void SignalArduinoPattern::beginSignal(DriverArduino *inpDriver, uint8_t inNbLeds, const int *inpPins, int inStartingDcc, int inBlinkDuration, const uint8_t *inPatterns, const uint8_t *inpRealStates)
+void SignalArduinoPattern::beginSignal(uint8_t inNbLeds, const int *inpPins, int inStartingDcc, int inBlinkDuration, const uint8_t *inPatterns, const uint8_t *inpRealStates)
 {
 	begin(0, inNbLeds, 0);
 	for (int led = 0; led < inNbLeds; led++)
 	{
-		DriverPort *pPort = inpDriver->AddPortMotor(inpPins[led], DIGITAL);
+		PortDigitalPin *pPort = new PortDigitalPin();
+		pPort->begin(inpPins[led]);
 		this->beginLight(led, pPort, 255);
 	}
 
@@ -241,8 +242,6 @@ ButtonsCommanderPush push;
 
 // Drivers
 
-DriverArduino arduino;
-
 #define signalPattern	SignalFr9
 #define NB_LEDS			12
 
@@ -263,7 +262,7 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 void setup()
 {
 	Serial.begin(115200);
-	while (!Serial);		// For Leonardo only. No effect on other Arduino.
+	//while (!Serial);		// For Leonardo only. No effect on other Arduino.
 
 	Commanders::begin(ReceiveEvent, LED_BUILTIN);
 	Accessories::begin();
@@ -300,9 +299,7 @@ void setup()
 		}
 	}
 
-	arduino.begin();
-
-	signal.beginSignal(&arduino, NB_LEDS, pins, DCCSTART, 500, SignalFrStates, signalPattern);
+	signal.beginSignal(NB_LEDS, pins, DCCSTART, 500, SignalFrStates, signalPattern);
 }
 
 void loop()

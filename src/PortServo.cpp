@@ -8,30 +8,24 @@ description: <Driver port for a servo on Arduino>
 
 #ifndef NO_SERVO
 
-DriverPortServoBase::DriverPortServoBase(uint8_t inId) : DriverPortServo(inId)
+PortServo::PortServo() : Port()
 {
 	this->pin = -1;
-	//this->servo.pin = -1;
-	//this->servo.servoIndex = -1;
+	this->pinType = DIGITAL;
 }
 
-void DriverPortServoBase::begin(int inPin, PORT_TYPE inType)
+void PortServo::begin(int inPin)
 {
-#ifdef ACCESSORIES_DEBUG_MODE
-	if (inType != ANALOG)
-		Serial.println(F("Invalid pin type. Must be PWM pin!."));
-#endif
-
-	CHECKPIN(inPin, "DriverPortServoBase::begin");
+	CHECKPIN(Arduino_to_GPIO_pin(inPin), this->pinType, "PortServo::begin");
 	this->pin = inPin;
 	this->servo.attach(this->pin);
 }
 
-void DriverPortServoBase::beginByAccessory(int inStartingPosition)
+void PortServo::beginByAccessory(int inStartingPosition)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
-	Serial.print(F("   DriverPortServoBase "));
-	Serial.print(this->pin, DEC);
+	Serial.print(F("  PortServo "));
+	Serial.print(this->pin);
 	Serial.print(F(" beginByAccessory() "));
 	Serial.print(F("Starting pos: "));
 	Serial.println(inStartingPosition, DEC);
@@ -45,11 +39,10 @@ void DriverPortServoBase::beginByAccessory(int inStartingPosition)
 	this->servo.write(inStartingPosition);
 }
 
-void DriverPortServoBase::MovePosition(unsigned long inDuration, int inEndPosition)
+void PortServo::MovePosition(unsigned long inDuration, int inEndPosition)
 {
-	CHECKPIN(this->pin, "DriverPortServoBase::MovePosition");
 #ifdef ACCESSORIES_DEBUG_MODE
-	Serial.print(F(" DriverPortServoBase "));
+	Serial.print(F("  PortServo "));
 	Serial.print(this->pin);
 	Serial.print(F(" MovePosition() "));
 	if (inDuration != 0)
@@ -64,7 +57,7 @@ void DriverPortServoBase::MovePosition(unsigned long inDuration, int inEndPositi
 	this->servo.write(inEndPosition);
 }
 
-int DriverPortServoBase::GetPosition()
+int PortServo::GetPosition()
 {
 	return this->servo.read();
 }

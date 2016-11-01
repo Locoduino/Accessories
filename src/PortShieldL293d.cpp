@@ -10,32 +10,30 @@ description: <Driver port for L293n>
 
 #ifndef NO_L293D
 
-DriverPortShieldL293d::DriverPortShieldL293d(uint8_t inId, unsigned char inOutPort, uint8_t inSpeed, uint8_t inFreq) : DriverPort(MOTOR_LIGHT, inId)
+PortShieldL293d::PortShieldL293d() : Port(MOTOR_LIGHT)
 {
-	this->pmotor = new AF_DCMotor(inOutPort, inFreq);
-	this->pmotor->setSpeed(inSpeed);
 }
 
-void DriverPortShieldL293d::begin(uint8_t inFreq)
+void PortShieldL293d::begin(unsigned char inOutPort, uint8_t inSpeed, uint8_t inFreq)
 {
+	this->pmotor = new AF_DCMotor(inOutPort, inFreq);
 	this->pmotor->pwmfreq = inFreq;
-
-	this->pmotor->setSpeed(this->GetSpeed());
+	this->pmotor->setSpeed(inSpeed);
  
 	this->pmotor->run(RELEASE);
 }
 
-int DriverPortShieldL293d::SetSpeed(uint8_t inSpeed)
+int PortShieldL293d::SetSpeed(uint8_t inSpeed)
 {
-	int oldspeed = DriverPort::SetSpeed(inSpeed);
+	int oldspeed = Port::SetSpeed(inSpeed);
 	this->pmotor->setSpeed(inSpeed);
 	return oldspeed;
 }
 
-void DriverPortShieldL293d::MoveLeftDir(unsigned long inDuration)
+void PortShieldL293d::MoveLeftDir(unsigned long inDuration)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
-	Serial.print(F(" DriverPortShieldL293d MoveLeftDir() "));
+	Serial.print(F(" PortShieldL293d MoveLeftDir() "));
 	if (inDuration != 0)
 	{
 		Serial.print(F("for "));
@@ -55,11 +53,11 @@ void DriverPortShieldL293d::MoveLeftDir(unsigned long inDuration)
 	this->state = PORT_LEFT;
 }
 
-void DriverPortShieldL293d::MoveRightDir(unsigned long inDuration)
+void PortShieldL293d::MoveRightDir(unsigned long inDuration)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
 	//Serial.print(this->pmotor->motornum);
-	Serial.print(F(" DriverPortShieldL293d MoveRightDir() "));
+	Serial.print(F(" PortShieldL293d MoveRightDir() "));
 	if (inDuration != 0)
 	{
 		Serial.print(F("for "));
@@ -79,7 +77,7 @@ void DriverPortShieldL293d::MoveRightDir(unsigned long inDuration)
 	this->state = PORT_RIGHT;
 }
 
-void DriverPortShieldL293d::MoveStop()
+void PortShieldL293d::MoveStop()
 {
 	this->pmotor->run(RELEASE);
 	this->state = PORT_STOP;

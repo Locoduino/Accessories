@@ -74,9 +74,12 @@ class AccessoryServo : public Accessory
 
 		inline bool CanBePositionnal() const { return true; }
 
-		void begin(DriverPort *inpPort, unsigned long inDurationMilli = 0, int inMinimumPosition = 0, int inMaximumPosition = 180, int inMovingPositionsNumber = 1);
+		void begin(Port *inpPort, unsigned long inDurationMilli = 0, int inMinimumPosition = 0, int inMaximumPosition = 180, int inMovingPositionsNumber = 1);
 		void SetPowerCommand(int inPin, unsigned long delay = 100);
 		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
+#ifndef NO_EEPROM
+		int EEPROMLoad(int inPos);
+#endif
 
 	private:
 		void MovePosition(int inPosition);

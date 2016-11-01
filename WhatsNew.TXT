@@ -1,3 +1,9 @@
+01/11/2016 0.30
+	- Disparition des tous les drivers ! Il n'y a plus que des ports...
+	- Ajout de la fonction Wait.
+	- Sauvegarde de l'état des accessoires dans l'EEPROM.
+	- Ajout de PortShieldL293d
+
 04/09/2016 0.20
 	- Plus d'initialisation de Serial, pour le DUE. Serial.begin() doit être fait dans le .ino .
 	- Ajout de l'événement ACCESSORIES_EVENT_MOVEPOSITIONID.

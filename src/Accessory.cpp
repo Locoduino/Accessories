@@ -5,6 +5,9 @@ description: <Class for a generic accessory>
 *************************************************************/
 
 #include "Accessories.h"
+#ifndef NO_EEPROM
+#include "EEPROM.h"
+#endif
 
 Accessory::Accessory()
 {
@@ -19,7 +22,7 @@ Accessory::Accessory()
 	this->startingMillis = 0;
 	this->useStateNone = STATE_NONE;
 	this->type = ACCESSORYUNDEFINED;
-	AccessoriesClass::AccessoriesInstance.Add(this);
+	Accessories::Add(this);
 }
 
 void Accessory::AdjustMovingPositionsSize(uint8_t inNewSize)
@@ -76,7 +79,7 @@ void Accessory::StartAction()
 		this->startingMillis = millis();
 
 #ifdef ACCESSORIES_DEBUG_MODE
-#ifdef DEBUG_VERBOSE_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	Serial.print(F("Accessory start action "));
 	Serial.println(this->startingMillis);
 #endif
@@ -90,7 +93,7 @@ void Accessory::StartAction(ACC_STATE inState)
 	this->SetState(inState);
 
 #ifdef ACCESSORIES_DEBUG_MODE
-#ifdef DEBUG_VERBOSE_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	Serial.print(F("Accessory start action at "));
 	Serial.print(this->startingMillis);
 	Serial.print(F("ms for state "));
@@ -104,7 +107,7 @@ void Accessory::StartAction(ACC_STATE inState)
 #endif
 }
 
-#ifdef DEBUG_VERBOSE_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 void Accessory::ResetAction()
 {
 	Serial.print(F("End (reset) action at "));
@@ -125,7 +128,7 @@ bool Accessory::ActionEnded()
 	if ((unsigned long)(millis() - this->startingMillis) > this->duration)
 	{
 #ifdef ACCESSORIES_DEBUG_MODE
-#ifdef DEBUG_VERBOSE_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 		Serial.print(F("End action at "));
 		Serial.print(millis() - this->startingMillis);
 		Serial.print(F("ms for "));
@@ -140,4 +143,42 @@ bool Accessory::ActionEnded()
 	return false;
 }
 
+void Accessory::SetLastMovingPosition(uint8_t inLastPositionIndex)
+{
+	this->lastMovingPosition = inLastPositionIndex; 
+#ifndef NO_EEPROM
+	Accessories::EEPROMSave();
+#endif
+}
+
+void Accessory::SetStateRaw(ACC_STATE inNewState)
+{
+	if (this->state != inNewState)
+	{
+		this->state = inNewState;
+#ifndef NO_EEPROM
+		Accessories::EEPROMSave();
+#endif
+	}
+}
+
+#ifndef NO_EEPROM
+int Accessory::EEPROMSave(int inPos)
+{
+	EEPROM.write(inPos++, this->state);
+	EEPROM.write(inPos++, this->GetLastMovingPosition());
+	EEPROM.write(inPos++, this->pPort->GetSpeed());
+
+	return inPos;
+}
+
+int Accessory::EEPROMLoad(int inPos)
+{
+	this->state = (ACC_STATE)EEPROM.read(inPos++);
+	this->SetLastMovingPosition(EEPROM.read(inPos++));
+	this->pPort->SetSpeed(EEPROM.read(inPos++));
+
+	return inPos;
+}
+#endif
 

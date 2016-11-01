@@ -13,7 +13,7 @@ AccessoryLight::AccessoryLight()
 {
 }
 
-void AccessoryLight::begin(DriverPort *inpPort, unsigned long inId, unsigned long inBlinkDuration, int inIntensity)
+void AccessoryLight::begin(Port *inpPort, unsigned long inId, unsigned long inBlinkDuration, int inIntensity)
 { 
 	this->pPort = inpPort;
 	this->pLight = new AccessoryBaseLight(this);
@@ -53,4 +53,21 @@ void AccessoryLight::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 
 	this->pLight->Event(inEvent, inData);
 }
+
+#ifndef NO_EEPROM
+int AccessoryLight::EEPROMLoad(int inPos)
+{
+	inPos = this->Accessory::EEPROMLoad(inPos);
+
+	switch (this->GetState())
+	{
+		case LIGHTON:	this->pPort->MoveLeftDir(); break;
+		case LIGHTOFF:	this->pPort->MoveStop(); break;
+		case LIGHTBLINK: break;
+	}
+
+	return inPos;
+}
+#endif
+
 #endif

@@ -26,11 +26,11 @@ class AccessoryStepper : public Accessory
 
 		inline bool CanBePositionnal() const { return true; }
 
-		void begin(DriverPort *inpPort, int stepsNumber, int reduction, unsigned int inSpeed = 0, int inMovingPositionsNumber = 1);
+		void begin(Port *inpPort, int stepsNumber, int reduction, unsigned int inSpeed = 0, int inMovingPositionsNumber = 1);
 		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONINDEX, int inData = 0);
 //		void SetStartingPosition(int inPosition) { this->currentPos = inPosition; }
-		void StartCalibration() { this->state = CALIBRATION; }
-		void EndCalibration() { this->state = STATE_NONE; }
+		void StartCalibration() { this->SetStateRaw(CALIBRATION); }
+		void EndCalibration() { this->SetStateRaw(STATE_NONE); }
 
 	private:
 		void MovePosition(int inAbsolutePosition);

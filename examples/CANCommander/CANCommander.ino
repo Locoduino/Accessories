@@ -29,7 +29,14 @@ SERIAL_COMMANDER(Serial);
 
 // Drivers
 
-DriverArduino arduino;
+PortServo Port0;
+PortServo Port1;
+PortServo Port2;
+PortServo Port3;
+PortServo Port4;
+PortServo Port5;
+PortServo Port6;
+PortServo Port7;
 
 // current user define speed.
 int speed;
@@ -70,31 +77,29 @@ void setup()
 
 	CANCommander.begin(10, CAN_125KBPS, digitalPinToInterrupt(3), 100);
 
-	// Drivers setups
+	// Ports setups
 
-	arduino.begin();
-
-	DriverPortServo *pPort0 = arduino.AddPortServo(6);
-	DriverPortServo *pPort1 = arduino.AddPortServo(7);
-	DriverPortServo *pPort2 = arduino.AddPortServo(8);
-	DriverPortServo *pPort3 = arduino.AddPortServo(9);
-	DriverPortServo *pPort4 = arduino.AddPortServo(A0);
-	DriverPortServo *pPort5 = arduino.AddPortServo(A1);
-	DriverPortServo *pPort6 = arduino.AddPortServo(A2);
-	DriverPortServo *pPort7 = arduino.AddPortServo(A3);
+	Port0.begin(6);
+	Port1.begin(7);
+	Port2.begin(8);
+	Port3.begin(9);
+	Port4.begin(A0);
+	Port5.begin(A1);
+	Port6.begin(A2);
+	Port7.begin(A3);
 
 	// Accessories setups
 
 	speed = 19;	// starting speed state : fast.
 
-	servo0.begin(pPort0, speed, 0, 10, 2);
-	servo1.begin(pPort1, speed, 0, 10, 2);
-	servo2.begin(pPort2, speed, 0, 10, 2);
-	servo3.begin(pPort3, speed, 0, 10, 2);
-	servo4.begin(pPort4, speed, 0, 10, 2);
-	servo5.begin(pPort5, speed, 0, 10, 2);
-	servo6.begin(pPort6, speed, 0, 10, 2);
-	servo7.begin(pPort7, speed, 0, 10, 2);
+	servo0.begin(&Port0, speed, 0, 10, 2);
+	servo1.begin(&Port1, speed, 0, 10, 2);
+	servo2.begin(&Port2, speed, 0, 10, 2);
+	servo3.begin(&Port3, speed, 0, 10, 2);
+	servo4.begin(&Port4, speed, 0, 10, 2);
+	servo5.begin(&Port5, speed, 0, 10, 2);
+	servo6.begin(&Port6, speed, 0, 10, 2);
+	servo7.begin(&Port7, speed, 0, 10, 2);
 
 	servo0.AddMinMaxMovingPositions(SERVO0_MIN, SERVO0_MAX);
 	servo1.AddMinMaxMovingPositions(SERVO1_MIN, SERVO1_MAX);

@@ -7,7 +7,7 @@
 // Verbose mode lets you see all actions done by the 
 // library, but with a real flood of text to console...
 // Has no effect if ACCESSORIES_DEBUG_MODE is not activated.
-//#define DEBUG_VERBOSE_MODE
+#define ACCESSORIES_DEBUG_VERBOSE_MODE
 
 #define  GPIO2_PREFER_SPEED    1
 
@@ -60,58 +60,36 @@
 //	AccessoryLight.hpp
 //	AccessoryLightMulti.cpp
 //	AccessoryLightMulti.hpp
+//
+//NO_MOTOR_LIGHT
+//	PortOnePin.cpp
+//	PortOnePin.hpp
+//	PortTwoPins.cpp
+//	PortTwoPins.hpp
+//	PortTwoPinsEnable.cpp
+//	PortTwoPinsEnable.hpp
+//	PortSpeedDirBrake.cpp
+//	PortSpeedDirBrake.hpp
 //	
 //NO_SERVO
 //	AccessoryServo.cpp
 //	AccessoryServo.hpp
-//	DriverPortServo.cpp
-//	DriverPortServo.hpp
-//	DriverPortServoBase.cpp
-//	DriverPortServoBase.hpp
+//	PortServo.cpp
+//	PortServo.hpp
 //	Servo.cpp
 //	Servo.hpp
 //
-//NO_L293D
-//	DriverL293d.cpp
-//	DriverL293d.hpp
-//
 //NO_SHIELDL293D
-//	DriverShieldL293d.cpp
-//	DriverShieldL293d.hpp
-//	DriverPortShieldL293d.cpp
-//	DriverPortShieldL293d.hpp
-//
-//NO_L9110
-//	DriverL9110.cpp
-//	DriverL9110.hpp
-//
-//NO_L298D
-//	DriverL298n.cpp
-//	DriverL298n.hpp
-//
-//NO_LMD18200
-//	DriverLMD18200.cpp
-//	DriverLMD18200.hpp
-//	DriverPortLMD18200.cpp
-//	DriverPortLMD18200.hpp
-//
-//NO_ULN2003
-//	DriverULN2003.cpp
-//	DriverULN2003.hpp
-//
-//NO_RELAY
-//	DriverRelay.cpp
-//	DriverRelay.hpp
-//	DriverPortMotor.cpp
-//	DriverPortMotor.hpp
+//	PortShieldL293d.cpp
+//	PortShieldL293d.hpp
 //
 //NO_STEPPER
 //	AccessoryStepper.cpp
 //	AccessoryStepper.hpp
 //	DriverStepper.cpp
 //	DriverStepper.hpp
-//	DriverPortStepper.cpp
-//	DriverPortStepper.hpp
+//	PortStepper.cpp
+//	PortStepper.hpp
 //
 
 //#define NO_GROUP
@@ -119,14 +97,9 @@
 //#define NO_SERVO
 //#define NO_STEPPER
 //#define NO_LIGHT
-//#define NO_L293D
 //#define NO_SHIELDL293D
-//#define NO_L9110
-//#define NO_L298N
-//#define NO_ULN2003
-//#define NO_LMD18200
-//#define NO_RELAY
-//#define NO_ARDUINODRIVER
+
+//#define NO_EEPROM
 
 #ifdef NO_MOTOR
 	#ifdef NO_LIGHT
@@ -149,9 +122,8 @@
 
 /////////////////////////////////////
 
-#include "AccessoriesClass.hpp"
-#include "Driver.hpp"
-#include "DriverPort.hpp"
+//#include "AccessoriesClass.hpp"
+#include "Port.hpp"
 
 #ifndef NO_MOTOR
 #include "AccessoryMotorOneWay.hpp"
@@ -172,48 +144,23 @@
 #include "AccessoryGroup.hpp"
 #endif
 
-#include "DriverPortArduino.hpp"
-#include "DriverPortMotor.hpp"
-#include "DriverPort2Pins.hpp"
-#include "DriverPort2PinsEnable.hpp"
+#ifndef NO_MOTOR_LIGHT
+#include "PortOnePin.hpp"
+#include "PortTwoPins.hpp"
+#include "PortTwoPinsEnable.hpp"
+#include "PortSpeedDirBrake.hpp"
+#endif
 
 #ifndef NO_SHIELDL293D
-#include "DriverPortShieldL293d.hpp"
+#include "PortShieldL293d.hpp"
 #endif
-#ifndef NO_LMD18200
-#include "DriverPortLMD18200.hpp"
-#endif
+
 #ifndef NO_SERVO
-#include "DriverPortServo.hpp"
-#include "DriverPortServoBase.hpp"
-#endif
-#ifndef NO_STEPPER
-#include "DriverPortStepper.hpp"
+#include "PortServo.hpp"
 #endif
 
-#ifndef NO_ARDUINODRIVER
-#include "DriverArduino.hpp"
-#endif
-#ifndef NO_L293D
-#include "DriverL293d.hpp"
-#endif
-#ifndef NO_SHIELDL293D
-#include "DriverShieldL293d.hpp"
-#endif
-#ifndef NO_L9110
-#include "DriverL9110.hpp"
-#endif
-#ifndef NO_L298N
-#include "DriverL298n.hpp"
-#endif
-#ifndef NO_ULN2003
-#include "DriverULN2003.hpp"
-#endif
-#ifndef NO_LMD18200
-#include "DriverLMD18200.hpp"
-#endif
-#ifndef NO_RELAY
-#include "DriverRelay.hpp"
+#ifndef NO_STEPPER
+#include "PortStepper.hpp"
 #endif
 
 #include "Accessories.hpp"

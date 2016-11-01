@@ -18,19 +18,20 @@ class SignalArduino : public AccessoryLightMulti
 {
 public:
 	inline SignalArduino() {}
-	void beginSignal(DriverArduino *inpDriver, uint8_t inNbLeds, int *inpPins, int inStartingDcc);
+	void beginSignal(uint8_t inNbLeds, int *inpPins, int inStartingDcc);
 };
 
 //------------------------------------------------------------------------------
 // SignalArduino definition
 
-void SignalArduino::beginSignal(DriverArduino *inpDriver, uint8_t inNbLeds, int *inpPins, int inStartingDcc)
+void SignalArduino::beginSignal(uint8_t inNbLeds, int *inpPins, int inStartingDcc)
 {
 	this->begin(0, NB_LEDS, 0);
 
 	for (int led = 0; led < inNbLeds; led++)
 	{
-		DriverPort *pPort = inpDriver->AddPortMotor(inpPins[led], DIGITAL);
+		PortOnePin *pPort = new PortOnePin();
+		pPort->begin(inpPins[led]);
 		this->beginLight(led, pPort);
 	}
 
@@ -93,8 +94,6 @@ SignalArduino signaux[NB_FEUX];
 
 // Drivers
 
-DriverArduino arduino;
-
 int pins[NB_FEUX][NB_LEDS] = {
 	{ 22, 23, 24 },
 	{ 25, 26, 27 },
@@ -116,7 +115,7 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 void setup()
 {
 	Serial.begin(115200);
-	while (!Serial);		// For Leonardo only. No effect on other Arduino.
+	//while (!Serial);		// For Leonardo only. No effect on other Arduino.
 
 	Commanders::begin(ReceiveEvent, LED_BUILTIN);
 	Accessories::begin();
@@ -155,11 +154,9 @@ void setup()
 		push.AddEvent(DCCINT(dcc, etat == true ? 1 : 0));
 	}
 
-	arduino.begin ();
-
 	for (int feu = 0; feu < NB_FEUX; feu++)
 	{
-		signaux[feu].beginSignal(&arduino, NB_LEDS, pins[feu], dcc_codes[feu]);
+		signaux[feu].beginSignal(NB_LEDS, pins[feu], dcc_codes[feu]);
 	}
 }
 

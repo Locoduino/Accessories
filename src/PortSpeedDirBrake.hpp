@@ -1,30 +1,33 @@
 //-------------------------------------------------------------------
-#ifndef __driverPortLMD18200_H__
-#define __driverPortLMD18200_H__
+#ifndef __PortPWMDirBrake_H__
+#define __PortPWMDirBrake_H__
 //-------------------------------------------------------------------
 
-#include "DriverPort.hpp"
+#include "Port.hpp"
 
 //-------------------------------------------------------------------
 
-class DriverPortLMD18200 : public DriverPort
+class PortSpeedDirBrake : public Port
 {
 	protected:
 		int pinPWM;
+		PIN_TYPE digitalType;
 		GPIO_pin_t pinDir;
 		GPIO_pin_t pinBrake;
 
+		int MapDigitalValue(int inValue) const;
+
 	public:
-		DriverPortLMD18200(uint8_t inId);
+		PortSpeedDirBrake();
 		
-		void begin(int inPinPWM, int pinDir, int inPinBrake);
+		void begin(int inPinPWM, int pinDir, int inPinBrake, PIN_TYPE inPWMType, PIN_TYPE inDigitalType);
 		
 		inline bool IsActive() const { return this->pinPWM > (int) (GPIO_pin_t) DP_INVALID; }
 		inline int GetPinPWM() const { return this->pinPWM; }
 		inline int GetPinDir() const { return GPIO_to_Arduino_pin(this->pinDir); }
-		inline GPIO_pin_t GetPinDir2() const { return this->pinDir; }
+		inline GPIO_pin_t GetDIOPinDir() const { return this->pinDir; }
 		inline int GetPinBrake() const { return GPIO_to_Arduino_pin(this->pinBrake); }
-		inline GPIO_pin_t GetPinBrake2() const { return this->pinBrake; }
+		inline GPIO_pin_t GetDIOPinBrake() const { return this->pinBrake; }
 
 		void MoveLeftDir(unsigned long inDuration = 0);
 		void MoveRightDir(unsigned long inDuration = 0);

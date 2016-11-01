@@ -44,9 +44,12 @@ GroupState AllOn, AllOff, AllAndRedFlashing, NoneAndWhiteFlashing;
 
 AccessoryLight red, green, orange, white;
 
-// Drivers
+// Ports
 	
-DriverArduino arduino;
+PortOnePin PortRed;
+PortOnePin PortOrange;
+PortOnePin PortGreen;
+PortOnePin PortWhite;
 
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
@@ -78,24 +81,23 @@ void setup()
 	push.AddEvent(ALLONFIRSTBLINK);
 	push.AddEvent(ALLOFFLASTBLINK);
 
-	// Drivers setups
+	// Ports setups
 
 	// Wire leds to pins 8, 9, 10, 11
 	 
-	arduino.begin();
-	DriverPort *pPortRed = arduino.AddPortMotor(8);
-	DriverPort *pPortOrange = arduino.AddPortMotor(9);
-	DriverPort *pPortGreen = arduino.AddPortMotor(10);
-	DriverPort *pPortWhite = arduino.AddPortMotor(11);
+	PortRed.begin(8);
+	PortOrange.begin(9);
+	PortGreen.begin(10);
+	PortWhite.begin(11);
 	
 	// Buttons setups
 
 	// Accessories setups
 
-	red.begin(pPortRed, RED_TOGGLE, 500);
-	orange.begin(pPortOrange, ORANGE_TOGGLE);
-	green.begin(pPortGreen, GREEN_TOGGLE);
-	white.begin(pPortWhite, WHITE_TOGGLE, 500);
+	red.begin(&PortRed, RED_TOGGLE, 500);
+	orange.begin(&PortOrange, ORANGE_TOGGLE);
+	green.begin(&PortGreen, GREEN_TOGGLE);
+	white.begin(&PortWhite, WHITE_TOGGLE, 500);
 
 	// Describe the four differents states
 	group.begin();

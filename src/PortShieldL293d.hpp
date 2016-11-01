@@ -1,41 +1,35 @@
 //-------------------------------------------------------------------
-#ifndef __driverPortL293d_H__
-#define __driverPortL293d_H__
+#ifndef __PortShieldL293d_H__
+#define __PortShieldL293d_H__
 //-------------------------------------------------------------------
 
 #if !defined(__AVR_ATmega32U4__)
 #if defined VISUALSTUDIO
-#define RELEASE		1
-#define FORWARD		2
-#define BACKWARD	3
-class AF_DCMotor
-{
-public:
-	AF_DCMotor(int, int) {}
-
-	void run(int) {}
-	void setSpeed(uint8_t) {}
-
-	int pwmfreq;
-};
+#include "AFMotor.h"
 #else
 #include "AFMotor.hpp"
 #endif
-#include "DriverPort.hpp"
+#include "Port.hpp"
+
+#define SHIELDL293D_PORT_M1			1
+#define SHIELDL293D_PORT_M2			2
+#define SHIELDL293D_PORT_M3			3
+#define SHIELDL293D_PORT_M4			4
+
+#define SHIELDL293D_SERVO1_PIN		10
+#define SHIELDL293D_SERVO2_PIN		9
 
 //-------------------------------------------------------------------
 
-//-------------------------------------------------------------------
-
-class DriverPortShieldL293d : public DriverPort
+class PortShieldL293d : public Port
 {
 	protected:
 		AF_DCMotor *pmotor;
 
 	public:
-		DriverPortShieldL293d(uint8_t inId, unsigned char inOutPort, uint8_t inSpeed, uint8_t inFreq);
+		PortShieldL293d();
 		
-		void begin(uint8_t inFreq);
+		void begin(unsigned char inOutPort, uint8_t inSpeed, uint8_t inFreq);
 		
 		int SetSpeed(uint8_t inSpeed);
 		
@@ -43,7 +37,6 @@ class DriverPortShieldL293d : public DriverPort
 		void MoveRightDir(unsigned long inDuration = 0);
 		void MoveStop();
 };
-
 
 //-------------------------------------------------------------------
 #endif

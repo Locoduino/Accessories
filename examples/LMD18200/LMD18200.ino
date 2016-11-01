@@ -31,9 +31,9 @@ ButtonsCommanderPush right;
 
 AccessoryMotorTwoWays motor;
 
-// Drivers
+// Ports
 
-DriverLMD18200 driver;
+PortSpeedDirBrake port;
 
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
@@ -47,7 +47,7 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 void setup()
 {
 	Serial.begin(115200);
-	while (!Serial);		// For Leonardo only. No effect on other Arduino.
+	//while (!Serial);		// For Leonardo only. No effect on other Arduino.
 
 	Commanders::begin(ReceiveEvent, LED_BUILTIN);
 	Accessories::begin();
@@ -69,14 +69,12 @@ void setup()
 
 	// Drivers setups
 
-    // List of the ports on the Arduino. Pors 9,10 and 11 are handled in analog mode for fading.
-	driver.begin();	
-	DriverPort *pPort = driver.beginPortMotor(10, 8, 9);
+	port.begin(10, 8, 9);
 	
 	// Accessories setups
 
     // Declare accessories.
-	motor.beginTwoWays(pPort, MOTOR_RIGHT, MOTOR_LEFT, 5, 0);
+	motor.beginTwoWays(&port, MOTOR_RIGHT, MOTOR_LEFT, 5, 0);
 	motor.AddMovingPosition(MOTOR_STOP, STATE_NONE);
 }
 

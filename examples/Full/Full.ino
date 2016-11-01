@@ -1,7 +1,7 @@
 /*************************************************************
-project: <Accessoriesr>
+project: <Accessories>
 author: <Thierry PARIS>
-description: <2 servos and 3 leds driven by dcc arduino>
+description: <2 servos and 3 leds driven by arduino>
 *************************************************************/
 
 #include "Commanders.h"
@@ -43,9 +43,12 @@ AccessoryLight light0, light1, light2;
 AccessoryGroup groupServos;
 AccessoryGroup groupLights;
 
-// Drivers
-
-DriverArduino arduino;
+// List of the ports on the Arduino. Light Ports are handled in analog mode for fading.
+PortServo PortServo0;
+PortServo PortServo1;
+PortOnePin PortLight0;
+PortOnePin PortLight1;
+PortOnePin PortLight2;
 
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
@@ -83,31 +86,29 @@ void setup()
 	push.AddEvent(SERVOS_MAX);
 	potar.begin(8, SERVO0, 20, 145);
 
-	// Drivers setups
+	// Ports setups
 
-    // List of the ports on the Arduino. Pors 9,10 and 11 are handled in analog mode for fading.
-	arduino.begin();										 
-	DriverPort *pPortServo0 = arduino.AddPortServo(2);
-	DriverPort *pPortServo1 = arduino.AddPortServo(3);
-	DriverPort *pPortLight0 = arduino.AddPortMotor(9, ANALOG);
-	DriverPort *pPortLight1 = arduino.AddPortMotor(10, ANALOG);
-	DriverPort *pPortLight2 = arduino.AddPortMotor(11, ANALOG);
+	PortServo0.begin(2);
+	PortServo1.begin(3);
+	PortLight0.begin(9, ANALOG);
+	PortLight1.begin(10, ANALOG);
+	PortLight2.begin(11, ANALOG);
 
 	// Accessories setups
 
     // Declare accessories.
-	servo0.begin(pPortServo0, 20, 20, 30, 1);
+	servo0.begin(&PortServo0, 20, 20, 30, 1);
 	servo0.AddMovingPosition(SERVO0, UNDEFINED_POS);
 	servo0.SetPowerCommand(49);
 
-	servo1.begin(pPortServo1, 20, 10, 40, 4);
+	servo1.begin(&PortServo1, 20, 10, 40, 4);
 	servo1.AddMinMaxMovingPositions(SERVO1_MIN, SERVO1_MAX);
 	servo1.AddMovingPosition(SERVO1_45, 20);
 	servo1.AddMovingPosition(SERVO1_55, 30);
 
-	light0.begin(pPortLight0, 1);
-	light1.begin(pPortLight1, 2);
-	light2.begin(pPortLight2, 3);
+	light0.begin(&PortLight0, 1);
+	light1.begin(&PortLight1, 2);
+	light2.begin(&PortLight2, 3);
 	
     // Servo1 has a pin 49 to control a relay giving power to the servo.
 

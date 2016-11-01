@@ -50,10 +50,18 @@ AccessoryMotorTwoWays turnoutTjd;
 AccessoryServo servo;
 AccessoryLight light;
 
-// Drivers
+// Ports
 
-DriverShieldL293d l293d;
-DriverL298n l298n;
+// l293 part
+PortShieldL293d PortLeft;
+PortShieldL293d PortRight;
+PortShieldL293d PortDc;
+PortShieldL293d PortEps;
+PortServo portServo;
+
+// The double turnout is on the l298n circuit, with the led.
+PortTwoPins PortTjd;
+PortTwoPins PortLight;
 
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
@@ -67,7 +75,7 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 void setup()
 {
 	Serial.begin(115200);
-//	while (!Serial);		// For Leonardo only. No effect on other Arduino.
+	while (!Serial);		// For Leonardo only. No effect on other Arduino.
 
 	Commanders::begin(ReceiveEvent, LED_BUILTIN);
 	Accessories::begin();
@@ -100,29 +108,28 @@ void setup()
 	// Drivers setups
 
 	// four turnouts are connected to the l293d shield.
-	l293d.begin();
-	DriverPort *pPortLeft = l293d.beginPortMotor(L293D_PORT_M1, MOTOR12_1KHZ);
-	DriverPort *pPortRight = l293d.beginPortMotor(L293D_PORT_M2, MOTOR12_1KHZ);
-	DriverPort *pPortDc = l293d.beginPortMotor(L293D_PORT_M3, MOTOR34_1KHZ);
-	DriverPort *pPortEps = l293d.beginPortMotor(L293D_PORT_M4, MOTOR34_1KHZ);
-	DriverPort *pPortServo = l293d.beginPortServo(L293D_PORT_SERVO1);
+	// l293d part
+	PortLeft.begin(SHIELDL293D_PORT_M1, 200, MOTOR12_1KHZ);
+	PortRight.begin(SHIELDL293D_PORT_M2, 200, MOTOR12_1KHZ);
+	PortDc.begin(SHIELDL293D_PORT_M3, 200, MOTOR34_1KHZ);
+	PortEps.begin(SHIELDL293D_PORT_M4, 200, MOTOR34_1KHZ);
+	portServo.begin(SHIELDL293D_SERVO1_PIN);
 
-	// The double turnout is on the l298n circuit, with the led.
-	l298n.begin();
-	DriverPort *pPortTjd = l298n.beginPortMotor(L298N_PORT_OUT1, 50, 52);
-	DriverPort *pPortLight = l298n.beginPortMotor(L298N_PORT_OUT2, 46, 48);
+	// l298n circuit.
+	PortTjd.begin(50, 52);
+	PortLight.begin(46, 48);
 
 	// Accessories setups
 
 	// Assign Dcc code for each accessory.
-	turnoutLeft.begin(pPortLeft, IDLEFT, 50, 150);
-	turnoutRight.begin(pPortRight, IDRIGHT, 3000, 150);
-	turnoutDc.begin(pPortDc, IDDC, 500, 150);
-	turnoutEps.begin(pPortEps, IDEPS, 3000, 150);
+	turnoutLeft.begin(&PortLeft, IDLEFT, 50, 150);
+	turnoutRight.begin(&PortRight, IDRIGHT, 3000, 150);
+	turnoutDc.begin(&PortDc, IDDC, 500, 150);
+	turnoutEps.begin(&PortEps, IDEPS, 3000, 150);
 
-	turnoutTjd.begin(pPortTjd, IDTJD, 0, 150);
-	light.begin(pPortLight, IDLIGHT, 500, 150);
-	servo.begin(pPortServo, 1000, 40, 50, 2);
+	turnoutTjd.begin(&PortTjd, IDTJD, 0, 150);
+	light.begin(&PortLight, IDLIGHT, 500, 150);
+	servo.begin(&portServo, 1000, 40, 50, 2);
 	servo.AddMinMaxMovingPositions(IDSERVOMIN, IDSERVOMAX);
 }
 

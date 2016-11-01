@@ -52,10 +52,9 @@ ButtonsCommanderPush	mode4;
 
 AccessoryServo servo;
 
-// Drivers
+// Ports
 
-// We could use the arduino itself...	
-DriverShieldL293d driver;
+PortServo Port;
 
 // current user define speed.
 int speed;
@@ -125,15 +124,13 @@ void setup()
 	mode4.begin(MODE4, 43);
 #endif
 
-	driver.begin();
-
-	DriverPort *pPort = driver.beginPortServo(L293D_PORT_SERVO1);
+	Port.begin(SHIELDL293D_SERVO1_PIN);
 
 	speed = 19;	// starting speed state : fast.
 
 	// Accessories setups
 
-	servo.begin(pPort, speed, 10, 80, 4);
+	servo.begin(&Port, speed, 10, 80, 4);
 	servo.AddMovingPosition(POS1, 10);
 	servo.AddMovingPosition(POS2, 20);
 	servo.AddMovingPosition(POS3, 30);

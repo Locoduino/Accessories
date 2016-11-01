@@ -12,7 +12,7 @@ AccessoryMotor::AccessoryMotor()
 {
 }
 
-void AccessoryMotor::begin(DriverPort *inpPort, unsigned long inId, int inSpeed, unsigned long inDurationMilli)
+void AccessoryMotor::begin(Port *inpPort, unsigned long inId, int inSpeed, unsigned long inDurationMilli)
 {
 	this->pPort = inpPort;
 	Accessory::begin(STOP);
@@ -28,7 +28,7 @@ ACC_STATE AccessoryMotor::MoveToggle(unsigned long inDuration, int inSpeed)
 	else
 		this->InternalMove(LEFT, inDuration, inSpeed);
 
-	return this->state;
+	return this->GetState();
 }
 
 ACC_STATE AccessoryMotor::InternalMove(ACC_STATE inStateToReach, unsigned long inDuration, int inSpeed)
@@ -47,7 +47,7 @@ ACC_STATE AccessoryMotor::InternalMove(ACC_STATE inStateToReach, unsigned long i
 #endif
 		this->pPort->SetSpeed(inSpeed);
 		this->pPort->MoveLeftDir();
-		this->state = RIGHT;
+		this->SetStateRaw(RIGHT);
 	}
 	else
 	{
@@ -56,12 +56,12 @@ ACC_STATE AccessoryMotor::InternalMove(ACC_STATE inStateToReach, unsigned long i
 #endif
 		this->pPort->SetSpeed(inSpeed);
 		this->pPort->MoveRightDir();
-		this->state = LEFT;
+		this->SetStateRaw(LEFT);
 	}
 
-	this->prevState = this->state;
+	this->prevState = this->GetState();
 
-	return this->state;
+	return this->GetState();
 }
 
 void AccessoryMotor::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
@@ -89,7 +89,7 @@ void AccessoryMotor::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 		case ACCESSORIES_MOVE_STOP:
 			this->pPort->MoveStop();
 			this->ResetAction();
-			this->state = STOP;
+			this->SetStateRaw(STOP);
 			break;
 		}
 		break;
@@ -119,9 +119,9 @@ void AccessoryMotor::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 
 void AccessoryMotor::SetState(ACC_STATE inState)
 { 
-	this->state = inState;
+	this->SetStateRaw(inState);
 
-	switch(this->state)
+	switch(this->GetState())
 	{
 		case LEFT:
 			this->StartAction();
@@ -159,9 +159,25 @@ bool AccessoryMotor::ActionEnded()
 	if (end)
 	{
 		this->pPort->MoveStop();
-		this->state = STOP;
+		this->SetStateRaw(STOP);
 	}
 
 	return end;
 }
+
+#ifndef NO_EEPROM
+int AccessoryMotor::EEPROMLoad(int inPos)
+{
+	inPos = this->Accessory::EEPROMLoad(inPos);
+
+	switch (this->GetState())
+	{
+	case LEFT:	this->pPort->MoveLeftDir(); break;
+	case RIGHT:	this->pPort->MoveRightDir(); break;
+	case STOP:	this->pPort->MoveStop(); break;
+	}
+
+	return inPos;
+}
+#endif
 #endif

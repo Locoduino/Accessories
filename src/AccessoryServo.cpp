@@ -18,7 +18,7 @@ AccessoryServo::AccessoryServo()
 	this->type = ACCESSORYSERVO;
 }
 
-void AccessoryServo::begin(DriverPort *inpPort, unsigned long inDurationMilli, 
+void AccessoryServo::begin(Port *inpPort, unsigned long inDurationMilli, 
 	int inMinimumPosition, int inMaximumPosition, int inMovingPositionsNumber)
 {
 	this->pPort = inpPort;
@@ -81,7 +81,7 @@ ACC_STATE AccessoryServo::MoveToggle()
 	else
 		this->MovePosition(this->maximumPosition);
 
-	return this->state;
+	return this->GetState();
 }
 
 void AccessoryServo::SetState(ACC_STATE inState) 
@@ -165,7 +165,7 @@ void AccessoryServo::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 		case ACCESSORIES_MOVE_STOP:
 			this->pPort->MoveStop();
 			this->ResetAction();
-			this->state = STOP;
+			this->SetStateRaw(STOP);
 			break;
 		case ACCESSORIES_MOVE_MORE:
 		case ACCESSORIES_MOVE_LESS:
@@ -247,18 +247,18 @@ void AccessoryServo::InternalMovePosition(int inPosition)
 
 	if (inPosition == this->minimumPosition)
 	{
-		this->state = MINIMUM;
+		this->SetStateRaw(MINIMUM);
 		this->prevState = MINIMUM;
 	}
 	else
 		if (inPosition == this->maximumPosition)
 		{
-		this->state = MAXIMUM;
-		this->prevState = MAXIMUM;
+			this->SetStateRaw(MAXIMUM);
+			this->prevState = MAXIMUM;
 		}
 		else
 		{
-			this->state = UNDEFINED;
+			this->SetStateRaw(UNDEFINED);
 			this->prevState = UNDEFINED;
 		}
 }
@@ -367,4 +367,17 @@ MovementSpeed AccessoryServo::GetMovementSpeed() const
 	return ServoSlow;
 }
 
+#ifndef NO_EEPROM
+int AccessoryServo::EEPROMLoad(int inPos)
+{
+	inPos = this->Accessory::EEPROMLoad(inPos);
+
+	digitalWrite2f(this->powerCommandPin, HIGH);
+	this->pPort->MovePosition(0, this->currentPosition);
+	delay(200);	//can be done here because we are in setup timing...
+	digitalWrite2f(this->powerCommandPin, LOW);
+
+	return inPos;
+}
+#endif
 #endif

@@ -3,7 +3,7 @@
 
 //#include "../examples/CANCommander/CANCommander.ino"
 //#include "../examples/Demo/Demo.ino"
-#include "../examples/Full/Full.ino"
+//#include "../examples/Full/Full.ino"
 //#include "../examples/Group/Group.ino"
 //#include "../examples/LightFading/LightFading.ino"
 //#include "../examples/Servos/Servos.ino"
@@ -14,7 +14,7 @@
 //#include "../examples/Stepper/Stepper.ino"
 //#include "../examples/LMD18200/LMD18200.ino"
 
-//#include "TestExe.ino"
+#include "TestExe.ino"
 
 using namespace System;
 using namespace System::Windows::Forms;

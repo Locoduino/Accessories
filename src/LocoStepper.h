@@ -34,7 +34,7 @@
 /// application. Contact info@open.com.au for details.
 ///
 /// \par Revision History
-/// \version 1.0 Initial release. This is a massively reduced version of AccelStepper library from Mike McCauley.
+/// \version 1.0 Initial release. This is a massively reduced version of LocoStepper library from Mike McCauley.
 ///	which was too much powerful, and seems to have problems to correctly return to the same position.
 
 #ifndef NO_STEPPER
@@ -43,7 +43,7 @@
 #define AccelStepper_h
 
 /////////////////////////////////////////////////////////////////////
-/// \class AccelStepper AccelStepper.h <AccelStepper.h>
+/// \class LocoStepper LocoStepper.h <LocoStepper.h>
 /// \brief Support for stepper motors with acceleration etc.
 ///
 /// This defines a single 2 or 4 pin stepper motor, or stepper moter with fdriver chip, with optional
@@ -78,7 +78,7 @@
 /// down to very slow speeds (much less than one per second) are also supported,
 /// provided the run() function is called frequently enough to step the motor
 /// whenever required for the speed set.
-class AccelStepper
+class LocoStepper
 {
 public:
     /// Constructor. You can have multiple simultaneous steppers, all moving
@@ -94,8 +94,8 @@ public:
 	/// The later list is the default steps used by the standard stepper library
 	/// which does not work for a classic 28BYJ-48 stepper motor found in china.
 	/// for this one, the steps must be B1100, B0110, B0011, B1001 .
-    AccelStepper(uint8_t pin1, uint8_t pin2, uint8_t *inpStep2 = NULL);
-    AccelStepper(uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4, uint8_t *inpStep2 = NULL);
+    LocoStepper(uint8_t pin1, uint8_t pin2, uint8_t *inpStep2 = NULL);
+    LocoStepper(uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4, uint8_t *inpStep2 = NULL);
 
     /// Set the target position. The run() function will try to move the motor
     /// from the current position to the target position set by the most
@@ -195,11 +195,12 @@ private:
     uint8_t _pin1, _pin2, _pin3, _pin4;
 
     uint8_t *pSteps;
+	bool invertedDigital;
 
     /// The current absolution position in steps.
     long           _currentPos;    // Steps
 
-    /// The target position in steps. The AccelStepper library will move the
+    /// The target position in steps. The LocoStepper library will move the
     /// motor from teh _currentPos to the _targetPos, taking into account the
     /// max speed, acceleration and deceleration
     long           _targetPos;     // Steps
@@ -210,7 +211,7 @@ private:
 
     /// The current interval between steps in microseconds
     unsigned long  _stepInterval;
-
+	   
     /// The last run time (when runSpeed() was last called) in microseconds
     unsigned long  _lastRunTime;
 

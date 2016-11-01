@@ -44,7 +44,7 @@ unsigned char AccessoryLightMulti::AddMovingPosition(unsigned long inIdMin, int 
 	return 0;
 }
 
-void AccessoryLightMulti::beginLight(uint8_t inIndex, DriverPort *inpPort, int inIntensity)
+void AccessoryLightMulti::beginLight(uint8_t inIndex, Port *inpPort, int inIntensity)
 {
 	this->pLights[inIndex].begin(inpPort, inIntensity, this);
 	this->LightOff(inIndex);
@@ -152,4 +152,22 @@ void AccessoryLightMulti::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEve
 
 	this->pLights->Event(inEvent, inData);
 }
+
+#ifndef NO_EEPROM
+int AccessoryLightMulti::EEPROMSave(int inPos)
+{
+	for (uint8_t i = 0; i < this->lightsSize; i++)
+		inPos = this->pLights[i].EEPROMSave(inPos);
+
+	return inPos;
+}
+
+int AccessoryLightMulti::EEPROMLoad(int inPos)
+{
+	for (uint8_t i = 0; i < this->lightsSize; i++)
+		inPos = this->pLights[i].EEPROMLoad(inPos);
+
+	return inPos;
+}
+#endif
 #endif

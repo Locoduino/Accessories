@@ -31,8 +31,8 @@ uint8_t steps28BYJ48[4] =
 AccessoryStepper stepper;
 
 // Drivers
-	
-DriverULN2003 uln;
+
+PortStepper portStepper;
 
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
@@ -46,7 +46,7 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 void setup()
 {
 	Serial.begin(115200);
-	while(!Serial);		// For Leonardo only. No effect on other Arduino.
+	//while(!Serial);		// For Leonardo only. No effect on other Arduino.
 
 	Commanders::begin(ReceiveEvent, LED_BUILTIN);
 	Accessories::begin();
@@ -58,13 +58,12 @@ void setup()
 	// Drivers setups
 
     // one light is connected to the arduino.
-	uln.begin();
-	DriverPort *pPort = uln.beginPortStepper(1, 2, 3, 4, 5, (uint8_t *) steps28BYJ48);
+	portStepper.begin(1, 2, 3, 4, DIGITAL, (uint8_t *) steps28BYJ48);
 	
 	// Accessories setups
 
     // Assign Dcc code for each accessory.
-	stepper.begin(pPort, 64, 32, 200, 5);
+	stepper.begin(&portStepper, 64, 32, 200, 5);
 
 	stepper.AddMovingPosition(1, -1024);
 	stepper.AddMovingPosition(2, -512);

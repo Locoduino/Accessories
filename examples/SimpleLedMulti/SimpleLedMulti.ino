@@ -28,9 +28,15 @@ SERIAL_COMMANDER(Serial);
 
 AccessoryLightMulti Signal;
 																	   
-// Drivers
+// Ports
 
-DriverArduino arduino;
+PortOnePin Port0;
+PortOnePin Port1;
+PortOnePin Port2;
+PortOnePin Port3;
+PortOnePin Port4;
+
+
 
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
@@ -44,7 +50,7 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 void setup()
 {
 	Serial.begin(115200);
-	while (!Serial);		// For Leonardo only. No effect on other Arduino.
+	//while (!Serial);		// For Leonardo only. No effect on other Arduino.
 
 	Commanders::begin(ReceiveEvent, LED_BUILTIN);
 	Accessories::begin();
@@ -54,26 +60,25 @@ void setup()
 	SerialCommander.begin();
 	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
 
-	// Drivers setups
+	// Ports setups
 
 	// one light is connected to the arduino.
-	arduino.begin();
-	DriverPort *pPort0 = arduino.AddPortMotor(4);
-	DriverPort *pPort1 = arduino.AddPortMotor(5);
-	DriverPort *pPort2 = arduino.AddPortMotor(6);
-	DriverPort *pPort3 = arduino.AddPortMotor(7);
-	DriverPort *pPort4 = arduino.AddPortMotor(8);
+	Port0.begin(4);
+	Port1.begin(5);
+	Port2.begin(6);
+	Port3.begin(7);
+	Port4.begin(8);
 
 	// Accessories setups
 
 	Signal.begin(0, 5, 500); // id not significant here
 
 	// Attach each light to its driver/port.
-	Signal.beginLight(0, pPort0);
-	Signal.beginLight(1, pPort1);
-	Signal.beginLight(2, pPort2);
-	Signal.beginLight(3, pPort3);
-	Signal.beginLight(4, pPort4);
+	Signal.beginLight(0, &Port0);
+	Signal.beginLight(1, &Port1);
+	Signal.beginLight(2, &Port2);
+	Signal.beginLight(3, &Port3);
+	Signal.beginLight(4, &Port4);
 
 	Signal.AdjustMovingPositionsSize(10);
 

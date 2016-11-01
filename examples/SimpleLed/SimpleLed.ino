@@ -18,9 +18,9 @@ SERIAL_COMMANDER(Serial)
 
 AccessoryLight  light;
 
-// Drivers
+// Ports
 	
-DriverArduino arduino;
+PortOnePin port;
 
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
@@ -34,7 +34,7 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 void setup()
 {
 	Serial.begin(115200);
-	while (!Serial);		// For Leonardo only. No effect on other Arduino.
+	//while (!Serial);		// For Leonardo only. No effect on other Arduino.
 
 	Commanders::begin(ReceiveEvent, LED_BUILTIN);
 	Accessories::begin();
@@ -47,13 +47,12 @@ void setup()
 	// Drivers setups
 
     // one light is connected to the arduino.
-	arduino.begin();
-	DriverPort *pPort = arduino.AddPortMotor(12);
+	port.begin(12);
 	
 	// Accessories setups
 
     // Assign Dcc code for each accessory.
-	light.begin(pPort, ACTION);
+	light.begin(&port, ACTION);
 }
 
 void loop()

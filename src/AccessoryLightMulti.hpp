@@ -4,8 +4,6 @@
 //-------------------------------------------------------------------
 
 #include "Accessory.hpp"
-#include "AccessoryBaseLight.hpp"
-#include "Driver.hpp"
 
 //-------------------------------------------------------------------
 
@@ -27,7 +25,7 @@ class AccessoryLightMulti : public Accessory
 		AccessoryLightMulti();
 		
 		void begin(unsigned long inId, uint8_t inSize, unsigned long inBlinkDuration);
-		void beginLight(uint8_t inIndex, DriverPort *inpPort, int inIntensity = 255);
+		void beginLight(uint8_t inIndex, Port *inpPort, int inIntensity = 255);
 
 		inline bool IsOn(uint8_t inIndex) const { return this->pLights[inIndex].IsOn(); }
 		inline bool IsFlashing(uint8_t inIndex) const { return this->pLights[inIndex].IsBlinking(); }
@@ -61,6 +59,10 @@ class AccessoryLightMulti : public Accessory
 		void Move(unsigned long inId);
 		void Move(int position);
 		void MoveBlink(int inOnMask, int inBlinkMask);
+#ifndef NO_EEPROM
+		int EEPROMSave(int inPos);
+		int EEPROMLoad(int inPos);
+#endif
 #ifdef ACCESSORIES_DEBUG_MODE
 		void CheckIndex(int inIndex, const __FlashStringHelper *infunc);
 #endif

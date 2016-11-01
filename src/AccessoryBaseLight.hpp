@@ -4,8 +4,6 @@
 //-------------------------------------------------------------------
 
 #include "Accessory.hpp"
-#include "AccessoryLight.hpp"
-#include "Driver.hpp"
 
 //-------------------------------------------------------------------
 
@@ -23,7 +21,7 @@ class AccessoryBaseLight
 {
 	private:
 		// Fix data from creator
-		DriverPort *pPort;
+		Port *pPort;
 		uint8_t fadingStep;
 		uint8_t fadingDelay;
 		unsigned long blinkingDelay;
@@ -43,7 +41,7 @@ class AccessoryBaseLight
 	public:
 		AccessoryBaseLight(Accessory *inpOwner = 0);
 		
-		void begin(DriverPort *inpPort, int inIntensity = 255, Accessory *inpOwner = 0);
+		void begin(Port *inpPort, int inIntensity = 255, Accessory *inpOwner = 0);
 		inline bool IsOn() const { return this->state == LIGHTON; }
 		inline bool IsBlinking() const { return this->state == LIGHTBLINK; }
 		inline bool IsFading() const { return this->fadingStep > 0; }
@@ -57,10 +55,11 @@ class AccessoryBaseLight
 		//inline unsigned char GetPort() const { return this->driverPort; }
 
 		void SetState(ACC_STATE instate);
+		void SetStateRaw(ACC_STATE instate);
 		ACC_STATE Toggle();
 		void LightOn();
 		void LightOff();
-		inline void Blink() { this->state = LIGHTBLINK; this->StartAction(); }
+		inline void Blink() { this->SetStateRaw(LIGHTBLINK); this->StartAction(); }
 
 		inline bool IsGroupActionPending() const	{ return false; }
 		inline unsigned long GetActionStartingMillis() const { return this->startingMillis; }
@@ -71,6 +70,10 @@ class AccessoryBaseLight
 		void LightOnRaw();
 		void LightOffRaw();
 		void LightFadingRaw(uint8_t inValue);
+#ifndef NO_EEPROM
+		int EEPROMSave(int inPos);
+		int EEPROMLoad(int inPos);
+#endif
 };
 #endif
 

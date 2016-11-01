@@ -17,7 +17,7 @@ uint8_t step4default[4] =
 	B0101,
 	B1001,
 };
-AccelStepper::AccelStepper(uint8_t pin1, uint8_t pin2, uint8_t *pStep2) : AccelStepper(pin1, pin2, 255, 255)
+LocoStepper::LocoStepper(uint8_t pin1, uint8_t pin2, uint8_t *pStep2) : LocoStepper(pin1, pin2, 255, 255)
 {
 	if (pStep2 == NULL)
 		this->pSteps = step2default;
@@ -25,7 +25,7 @@ AccelStepper::AccelStepper(uint8_t pin1, uint8_t pin2, uint8_t *pStep2) : AccelS
 		this->pSteps = pStep2;
 }
 
-AccelStepper::AccelStepper(uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4, uint8_t *pStep4)
+LocoStepper::LocoStepper(uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4, uint8_t *pStep4)
 {
     _currentPos = 0;
     _targetPos = 0;
@@ -45,7 +45,7 @@ AccelStepper::AccelStepper(uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin
 	enableOutputs();
 }
 
-void AccelStepper::moveTo(long absolute)
+void LocoStepper::moveTo(long absolute)
 {
     _targetPos = absolute;
 
@@ -59,7 +59,7 @@ void AccelStepper::moveTo(long absolute)
 		setSpeed(-fabs(_speed));
 }
 
-void AccelStepper::move(long relative)
+void LocoStepper::move(long relative)
 {
     moveTo(_currentPos + relative);
 }
@@ -68,7 +68,7 @@ void AccelStepper::move(long relative)
 // You must call this at least once per step, preferably in your main loop
 // If the motor is in the desired position, the cost is very small
 // returns true if we are still running to position
-boolean AccelStepper::run()
+boolean LocoStepper::run()
 {
 	if (_targetPos == _currentPos)
 		return false;
@@ -104,34 +104,34 @@ boolean AccelStepper::run()
 	return true;
 }
 
-long AccelStepper::distanceToGo()
+long LocoStepper::distanceToGo()
 {
     return _targetPos - _currentPos;
 }
 
-long AccelStepper::targetPosition()
+long LocoStepper::targetPosition()
 {
     return _targetPos;
 }
 
-long AccelStepper::currentPosition()
+long LocoStepper::currentPosition()
 {
     return _currentPos;
 }
 
 // Useful during initialisations or after initial positioning
-void AccelStepper::setCurrentPosition(long position)
+void LocoStepper::setCurrentPosition(long position)
 {
     _currentPos = position;
 }
 
-void AccelStepper::setSpeed(float speed)
+void LocoStepper::setSpeed(float speed)
 {
 	_speed = speed;
 	_stepInterval = fabs(1000000.0 / _speed);
 }
 
-float AccelStepper::speed()
+float LocoStepper::speed()
 {
     return _speed;
 }
@@ -139,7 +139,7 @@ float AccelStepper::speed()
 // 2 pin step function
 // This is passed the current step number (0 to 3)
 // Subclasses can override
-void AccelStepper::step2(uint8_t step)
+void LocoStepper::step2(uint8_t step)
 {
     if ((this->pSteps[step] & B10) > 0)
         digitalWrite(_pin1, HIGH);
@@ -155,7 +155,7 @@ void AccelStepper::step2(uint8_t step)
 // 4 pin step function
 // This is passed the current step number (0 to 3)
 // Subclasses can override
-void AccelStepper::step4(uint8_t step)
+void LocoStepper::step4(uint8_t step)
 {
     if ((this->pSteps[step] & B1000) > 0)
         digitalWrite(_pin1, HIGH);
@@ -177,7 +177,7 @@ void AccelStepper::step4(uint8_t step)
 
 
 // Prevents power consumption on the outputs
-void    AccelStepper::disableOutputs()
+void    LocoStepper::disableOutputs()
 {   
     digitalWrite(_pin1, LOW);
     digitalWrite(_pin2, LOW);
@@ -187,7 +187,7 @@ void    AccelStepper::disableOutputs()
        digitalWrite(_pin4, LOW);
 }
 
-void    AccelStepper::enableOutputs()
+void    LocoStepper::enableOutputs()
 {
     pinMode(_pin1, OUTPUT);
     pinMode(_pin2, OUTPUT);
@@ -197,7 +197,7 @@ void    AccelStepper::enableOutputs()
 	   pinMode(_pin4, OUTPUT);
 }
 
-void AccelStepper::setMinPulseWidth(unsigned int minWidth)
+void LocoStepper::setMinPulseWidth(unsigned int minWidth)
 {
   _minPulseWidth = minWidth;
 }

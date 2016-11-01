@@ -1,25 +1,46 @@
 //-------------------------------------------------------------------
-#ifndef __driverport_H__
-#define __driverport_H__
+#ifndef __port_H__
+#define __port_H__
 //-------------------------------------------------------------------
 
 #define DEFAULTSPEED	255
 #define DEFAULTDURATION	100
 
-enum PORT_TYPE { DIGITAL, DIGITAL_INVERTED, ANALOG, ANALOG_INVERTED };
+enum PIN_TYPE { UNDEFINED = 0, DIGITAL = 1, DIGITAL_INVERTED = 2, ANALOG = 11, ANALOG_INVERTED = 12 };
 enum PORT_STATE { PORT_STOP, PORT_LEFT, PORT_RIGHT };
 
-class DriverPort
+enum PORTTYPE
+{
+	MOTOR_LIGHT = 0,
+	SERVO = 1,
+	STEPPER = 2
+};
+
+#ifdef ACCESSORIES_DEBUG_MODE
+#ifdef ARDUINO_ARCH_SAM
+#define CHECKPIN(val, type, text)		Port::CheckPinNb(val, type, text)
+#else
+#define CHECKPIN(val, type, text)		Port::CheckPinNb(val, type, F(text))
+#endif
+#else
+#define CHECKPIN(val, text)
+#endif
+
+class Port
 {
 	protected:
 		PORTTYPE type;
-		uint8_t id;
+		PIN_TYPE pinType;
 		PORT_STATE state;
 		int speed;
-	
+
+		int MapValue(int inValue, PIN_TYPE inType = UNDEFINED) const;
+		int beginPin(int inPin, PIN_TYPE inType = UNDEFINED) const;
+		void MovePin(int inPin, int inValue, PIN_TYPE inType = UNDEFINED) const;
+
 	public:
-		DriverPort() {}
-		DriverPort(PORTTYPE inType, uint8_t inPort);
+		Port() {}
+		Port(PORTTYPE inType);
 		
 		inline virtual void begin() {}
 		inline virtual void beginByAccessory(int inStartingPosition) {}
@@ -27,7 +48,6 @@ class DriverPort
 		inline PORT_STATE GetState() const { return this->state; }
 		inline int GetSpeed() const { return this->speed; }
 		inline PORTTYPE GetType() const { return this->type; }
-		inline uint8_t GetId() const { return this->id; }
 		virtual int SetSpeed(int inSpeed);
 		
 		inline bool IsLeftDir() const { return this->state == PORT_LEFT; }
@@ -42,6 +62,15 @@ class DriverPort
 		inline virtual void MoveStop()	{ this->state = PORT_STOP; }
 		inline virtual void MovePosition(unsigned long inDuration, int inEndPosition) {}
 		inline virtual int GetPosition() { return 0; }
+
+#ifdef ACCESSORIES_DEBUG_MODE
+#ifdef ARDUINO_ARCH_SAM
+		static void CheckPinNb(int inPin, const char *infunc);
+		static void CheckDIOPinNb(GPIO_pin_t inPin, const char *infunc);
+#else
+		static void CheckPinNb(int inPin, PIN_TYPE inType, const __FlashStringHelper *infunc);
+#endif
+#endif
 };
 
 

@@ -1,3 +1,4 @@
+#if 0
 /*************************************************************
 project: <Accessories>
 author: <Thierry PARIS>
@@ -5,13 +6,18 @@ description: <2 servos and 3 leds driven by dcc arduino>
 *************************************************************/
 
 #include <Accessories.h>
-
 #include <Commanders.h>
 
-#define kDCC_INTERRUPT      0
-
 ButtonsCommanderPush push;
-ButtonsCommanderKeyboard keyb0, keyb1, keyb2, keyb4, keyb5;
+ButtonsCommanderKeyboard greenButton, orangeButton, whiteButton;
+ButtonsCommanderKeyboard servo1Button;
+ButtonsCommanderKeyboard servo2_minButton, servo2_maxButton;
+ButtonsCommanderKeyboard motorOneWayButton;
+ButtonsCommanderKeyboard motorTwoWaysButton;
+ButtonsCommanderKeyboard groupServos1Button;
+ButtonsCommanderKeyboard groupServos2Button;
+ButtonsCommanderKeyboard groupLights1Button;
+ButtonsCommanderKeyboard groupLights2Button;
 ButtonsCommanderSwitch swiitch;	// two 'ii' to avoid collision with the C word 'switch' !
 ButtonsCommanderPotentiometer potar; //(321, 0, 20, 145)	// Link it to SERVO1, from 20 to 145 degrees
 
@@ -25,12 +31,23 @@ AccessoryLight green;
 AccessoryLight orange;
 AccessoryLight white;
 
+AccessoryMotorOneWay motorOneWay;
+AccessoryMotorTwoWays motorTwoWays;
+
 AccessoryGroup groupServos;
 AccessoryGroup groupLights;
 
-// Drivers
+// Ports
 
-DriverArduino arduino;
+PortServo PortServo1;
+PortServo PortServo2;
+
+PortOnePin PortLightGreen;
+PortOnePin PortLightOrange;
+PortOnePin PortLightWhite;
+
+PortOnePin PortMotorOneWay;
+PortTwoPins PortMotorTwoWays;
 
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
@@ -43,19 +60,31 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 //
 void setup()
 {
-	Commanders::SetEventHandler(ReceiveEvent);
-	Commanders::SetStatusLedPin(LED_BUILTIN);
+	Commanders::begin(ReceiveEvent, LED_BUILTIN);
 
-	// Setup of Dcc commander
-	DccCommander.begin(0x00, 0x00, kDCC_INTERRUPT);
-	SerialCommander.begin(115200);
+	Accessories::EEPROMStart = 10;
 
-	keyb0.begin(1000, '0');
-	keyb1.begin(DCCINT(319, 0), '1');
-	keyb2.begin(DCCINT(319, 1), '2');
+	Serial.begin(115200);
+	SerialCommander.begin();
 
-	keyb4.begin(DCCINT(320, 0), '4');
-	keyb5.begin(DCCINT(320, 1), '5');
+	greenButton.begin(1000, '1');
+	orangeButton.begin(1001, '2');
+	whiteButton.begin(1002, '3');
+
+	servo1Button.begin(2000, '0');
+
+	servo2_minButton.begin(2100, '-');
+	servo2_maxButton.begin(2101, '+');
+
+	motorOneWayButton.begin(3000, '6');
+
+	motorTwoWaysButton.begin(3100, '9');
+	
+	groupServos1Button.begin(5000, '4');
+	groupServos2Button.begin(5001, '5');
+
+	groupLights1Button.begin(5100, '7');
+	groupLights2Button.begin(5101, '8');
 
 	// The push button send two Dcc codes in turn, and is connected to pin 26.
 	push.begin(1000, 26);	// id 1000, pin 26
@@ -64,70 +93,150 @@ void setup()
 
 	// The switch have two positions, each one controls one Dcc code. Each one connected to its pin.
 	swiitch.begin();
-	swiitch.AddEvent(24, DCCINT(319, 0));
-	swiitch.AddEvent(25, DCCINT(319, 1));
+	swiitch.AddEvent(DCCINT(319, 0), 24);
+	swiitch.AddEvent(DCCINT(319, 1), 25);
 
 	// The potentiometer is on analog pin 8.
-	potar.begin(8, 1001, 0, 100);
+	potar.begin(1001, 8, 0, 100);
 
 	// Drivers setups
 
 	// List of the ports on the Arduino. Pors 9,10 and 11 are handled in analog mode for fading.
-	arduino.begin();
-	DriverPort *pPortServo1 = arduino.AddPortServo(2);
-	DriverPort *pPortServo2 = arduino.AddPortServo(3);
-	DriverPort *pPortLight1 = arduino.AddPortMotor(9, ANALOG);
-	DriverPort *pPortLight2 = arduino.AddPortMotor(10, ANALOG);
-	DriverPort *pPortLight3 = arduino.AddPortMotor(11, ANALOG);
+	PortServo1.begin(2);
+	PortServo2.begin(3);
+
+	PortLightGreen.begin(9, ANALOG);
+	PortLightOrange.begin(10, ANALOG);
+	PortLightWhite.begin(11, ANALOG);
+
+	PortMotorOneWay.begin(15, ANALOG);
+	PortMotorTwoWays.begin(20, 21, ANALOG_INVERTED);
 
 	// Accessories setups
 
 	// Attach the servos to their driver/ports.
 	// Servo1 can move from 30 to 145 degrees.
-	servo1.begin(pPortServo1, 20, 30, 45);
-	servo1.AddMovingPosition(DCCINT(316, 0), MINIMUM);
-	servo1.AddMovingPosition(DCCINT(316, 1), MAXIMUM);
+	servo1.begin(&PortServo1, 20, 30, 45);
+	servo1.AddMovingPosition(2000, MINIMUM);
+	servo1.AddMovingPosition(2001, MAXIMUM);
 
 	// Servo1 has a pin 49 to control a relay giving power to the servo.
 	servo1.SetPowerCommand(49);
 
 	// Servo2 can move from 10 to 150 degrees. But there is also two more positions at 45 and 135 degrees,
 	// commanded by Dcc codes 315/0 and 315/1.
-	servo2.begin(pPortServo2, 0, 45, 55, 2);
-	servo2.AddMovingPosition(DCCINT(314, 0), MINIMUM);
-	servo2.AddMovingPosition(DCCINT(314, 1), MAXIMUM);
+	servo2.begin(&PortServo2, 0, 45, 55, 2);
+	servo2.AddMovingPosition(2100, MINIMUM);
+	servo2.AddMovingPosition(2101, MAXIMUM);
 
 	// Attach the lights to their driver/ports.
-	green.begin(pPortLight1, DCCINT(1, 0));
-	orange.begin(pPortLight2, DCCINT(1, 1));
-	white.begin(pPortLight3, DCCINT(2, 0));
+	green.begin(&PortLightGreen, 1000);
+	orange.begin(&PortLightOrange, 1001);
+	white.begin(&PortLightWhite, 1002);
 
 	// Declare light fading/dimming.
 	green.SetFading(20, 10);
 	orange.SetFading(20, 10);
-	//light3.SetFading(20, 10);
+	//white.SetFading(20, 10);
 
-	groupLights.AddState(DCCINT(319, 0));
-	groupLights.AddStateItem(DCCINT(319, 0), green, LIGHTON);
-	groupLights.AddStateItem(DCCINT(319, 0), orange, LIGHTOFF);
-	groupLights.AddStateItem(DCCINT(319, 0), white, LIGHTON);
+	motorOneWay.begin(&PortMotorOneWay, 3000, 200, 200);
+	motorTwoWays.begin(&PortMotorTwoWays, 3100, 200, 200);
 
-	groupLights.AddState(DCCINT(319, 1));
-	groupLights.AddStateItem(DCCINT(319, 1), green, LIGHTOFF);
-	groupLights.AddStateItem(DCCINT(319, 1), orange, LIGHTON);
-	groupLights.AddStateItem(DCCINT(319, 1), white, LIGHTOFF);
+	groupLights.AddState(5100);
+	groupLights.AddStateItem(5100, green, LIGHTON);
+	groupLights.AddStateItem(5100, orange, LIGHTOFF);
+	groupLights.AddStateItem(5100, white, LIGHTON);
 
-	groupServos.AddState(DCCINT(320, 0), true);
-	groupServos.AddStateItem(DCCINT(320, 0), servo1, MINIMUM, 500);
-	groupServos.AddStateItem(DCCINT(320, 0), servo2, MINIMUM, 500);
+	groupLights.AddState(5101);
+	groupLights.AddStateItem(5101, green, LIGHTOFF);
+	groupLights.AddStateItem(5101, orange, LIGHTON);
+	groupLights.AddStateItem(5101, white, LIGHTOFF);
 
-	groupServos.AddState(DCCINT(320, 1), true);
-	groupServos.AddStateItem(DCCINT(320, 1), servo1, MAXIMUM, 500);
-	groupServos.AddStateItem(DCCINT(320, 1), servo2, MAXIMUM, 500);
+	groupServos.AddState(5000, true);
+	groupServos.AddStateItem(5000, servo1, MINIMUM, 500);
+	groupServos.AddStateItem(5000, servo2, MINIMUM, 500);
+
+	groupServos.AddState(5001, true);
+	groupServos.AddStateItem(5001, servo1, MAXIMUM, 500);
+	groupServos.AddStateItem(5001, servo2, MAXIMUM, 500);
 }
 
 void loop()
 {
 	Commanders::loop();
+	Accessories::loop();
+}
+#endif
+#include <Accessories.h>
+#include <Commanders.h>
+
+// Les boutons...
+ButtonsCommanderPush boutonDecoupleur;
+ButtonsCommanderSwitch boutonAiguillageGauche;
+ButtonsCommanderSwitch boutonAiguillageDroite;
+
+// Les trois moteurs
+AccessoryMotorTwoWays aiguillageGauche;
+AccessoryMotorTwoWays aiguillageDroite;
+AccessoryMotorOneWay decouplage;
+
+// Les ports pour connecter les moteurs.
+PortTwoPins portAiguillageGauche;
+PortTwoPins portAiguillageDroite;
+PortOnePin portDecoupleur;
+
+SERIAL_COMMANDER(Serial);
+
+void setup()
+{
+	Serial.begin(115200);
+
+	Commanders::begin();
+	Accessories::begin();
+
+	// Activation de la reception de messages Dcc
+	// Ne fera rien en analogique... Mais on peut carrement enlever la ligne si besoin de mémoire.
+	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
+	SerialCommander.begin();
+
+	// Gestion des boutons pour le digital ou le numérique.
+	// Ne fera rien si aucun bouton n'est branché, mais on peut enlever si besoin de mémoire.
+	//
+	// Les boutons doivent décrire quel identifiant est concerné s'ils sont activés.
+	// Un switch peut avoir une, deux ou beaucoup plus de positions.
+	// Ici, seules deux positions sont déclarées avec pour chacune une broche associée, et un identifiant émis.
+	boutonAiguillageGauche.begin();
+	boutonAiguillageGauche.AddEvent(DCCINT(15, 0), 2);
+	boutonAiguillageGauche.AddEvent(DCCINT(15, 1), 7);
+
+	boutonAiguillageDroite.begin();
+	boutonAiguillageDroite.AddEvent(DCCINT(16, 0), 4);
+	boutonAiguillageDroite.AddEvent(DCCINT(16, 1), 5);
+
+	boutonDecoupleur.begin(DCCINT(17, 0), 6);
+
+	// Les ports avec leurs broches en digital (pas PWM)
+	portAiguillageGauche.begin(8, 9, DIGITAL);
+	portAiguillageGauche.begin(10, 11, DIGITAL);
+	portDecoupleur.begin(12, DIGITAL);
+
+	// Les accessoires avec pour chaque, le port utilisé et le ou les identifiants associés à chaque position. 
+	// 255 est la vitesse, ici au maxi, et 400 est la durée d'activation du moteur en millisecondes.
+	// C'est encore un peu long pour des solénoïdes. Il faudrait adapter selon le modèle de moteur...
+	aiguillageGauche.beginTwoWays(&portAiguillageGauche, DCCINT(15, 0), DCCINT(15, 1), 255, 400);
+	aiguillageDroite.beginTwoWays(&portAiguillageDroite, DCCINT(16, 0), DCCINT(16, 1), 255, 400);
+	decouplage.begin(&portDecoupleur, DCCINT(17, 0), 255, 400);
+}
+
+void loop()
+{
+	unsigned long id = Commanders::loop();
+
+	if (id != UNDEFINED_ID)
+	{
+		// Renvoie l'événement reçu de Commanders, vers les accessoires...
+		Accessories::RaiseEvent(id, (ACCESSORIES_EVENT_TYPE) Commanders::GetLastEventType(), Commanders::GetLastEventData());
+	}
+
 	Accessories::loop();
 }

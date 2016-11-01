@@ -16,11 +16,11 @@ AccessoryStepper::AccessoryStepper()
 	this->type = ACCESSORYSTEPPER;
 }
 
-void AccessoryStepper::begin(DriverPort *inpPort, int inStepsNumber, int inReduction, unsigned int inSpeed, int inMovingPositionsNumber)
+void AccessoryStepper::begin(Port *inpPort, int inStepsNumber, int inReduction, unsigned int inSpeed, int inMovingPositionsNumber)
 {
 	this->pPort = inpPort;
 
-	((DriverPortStepper *) this->pPort)->SetSpeed(inSpeed);
+	((PortStepper *) this->pPort)->SetSpeed(inSpeed);
 
 	Accessory::begin(STATE_NONE);
 	this->prevState = STATE_NONE;
@@ -47,7 +47,7 @@ ACC_STATE AccessoryStepper::MoveToggle()
 
 	this->Move(this->GetMovingPositionIdByIndex(pos));
 
-	return this->state;
+	return this->GetState();
 }
 
 void AccessoryStepper::Move(unsigned long inId)
@@ -90,7 +90,7 @@ void AccessoryStepper::MoveRelativePosition(int inRelativePosition)
 	Serial.print(F(" steps."));
 #endif
 
-	((DriverPortStepper *)this->pPort)->MoveRelativePosition(0, inRelativePosition);
+	((PortStepper *)this->pPort)->MoveRelativePosition(0, inRelativePosition);
 }
 
 void AccessoryStepper::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
@@ -114,11 +114,11 @@ void AccessoryStepper::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent,
 		case ACCESSORIES_MOVE_STOP:
 			this->pPort->MoveStop();
 			this->ResetAction();
-			this->state = STATE_NONE;
+			this->SetStateRaw(STATE_NONE);
 			break;
 		case ACCESSORIES_MOVE_MORE:
 		case ACCESSORIES_MOVE_LESS:
-			if (this->state == CALIBRATION)
+			if (this->GetState() == CALIBRATION)
 				this->MoveRelativePosition(inData);
 			else
 			{
@@ -157,7 +157,7 @@ void AccessoryStepper::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent,
 
 bool AccessoryStepper::ActionEnded()
 {
-	DriverPortStepper *pStepper = (DriverPortStepper *) this->pPort;
+	PortStepper *pStepper = (PortStepper *) this->pPort;
 
 	if (pStepper->targetPosition() == pStepper->currentPosition())
 		return true;
@@ -167,11 +167,11 @@ bool AccessoryStepper::ActionEnded()
 	if (pStepper->targetPosition() == pStepper->currentPosition())
 	{
 		this->pPort->MoveStop();
-		this->state = STATE_NONE;
+		this->SetStateRaw(STATE_NONE);
 
 #ifdef ACCESSORIES_DEBUG_MODE
 		Serial.print(F(" AccessoryStepper end of movement. Pos : "));
-		Serial.println(((DriverPortStepper *) this->pPort)->currentPosition());
+		Serial.println(((PortStepper *) this->pPort)->currentPosition());
 #endif
 	}
 

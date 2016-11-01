@@ -24,7 +24,7 @@ class AccessoryLight : public Accessory
 	public:
 		AccessoryLight();
 
-		void begin(DriverPort *inpPort, unsigned long inId, unsigned long inBlinkDuration = 0, int inIntensity = 255);
+		void begin(Port *inpPort, unsigned long inId, unsigned long inBlinkDuration = 0, int inIntensity = 255);
 		inline void SetFading(uint8_t inStep, uint8_t inDelay) { this->pLight->SetFading(inStep, inDelay); }
 
 		inline bool IsOn() const { return this->pLight->IsOn(); }
@@ -38,6 +38,10 @@ class AccessoryLight : public Accessory
 		inline void LightOn() { this->pLight->LightOn(); }
 		inline void LightOff() { this->pLight->LightOff(); }
 		inline void Blink() { this->pLight->Blink(); }
+
+#ifndef NO_EEPROM
+		int EEPROMLoad(int inPos);
+#endif
 
 	private:
 		inline bool IsGroupActionPending() { return this->pLight->IsGroupActionPending(); }

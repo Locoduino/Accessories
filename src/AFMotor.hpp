@@ -8,23 +8,23 @@
  * Usage Notes:
  * For PIC32, all features work properly with the following two exceptions:
  *
- * 1) Because the PIC32 only has 5 PWM outputs, and the AFMotor shield needs 6
+ * 1) Because the PIC32 only has 5 ANALOG outputs, and the AFMotor shield needs 6
  *    to completely operate (for for motor outputs and two for RC servos), the
- *    M1 motor output will not have PWM ability when used with a PIC32 board.
+ *    M1 motor output will not have ANALOG ability when used with a PIC32 board.
  *    However, there is a very simple workaround. If you need to drive a stepper
- *    or DC motor with PWM on motor output M1, you can use the PWM output on pin
+ *    or DC motor with ANALOG on motor output M1, you can use the ANALOG output on pin
  *    9 or pin 10 (normally use for RC servo outputs on Arduino, not needed for 
- *    RC servo outputs on PIC32) to drive the PWM input for M1 by simply putting
+ *    RC servo outputs on PIC32) to drive the ANALOG input for M1 by simply putting
  *    a jumber from pin 9 to pin 11 or pin 10 to pin 11. Then uncomment one of the
- *    two #defines below to activate the PWM on either pin 9 or pin 10. You will
+ *    two #defines below to activate the ANALOG on either pin 9 or pin 10. You will
  *    then have a fully functional microstepping for 2 stepper motors, or four
- *    DC motor outputs with PWM.
+ *    DC motor outputs with ANALOG.
  *
  * 2) There is a conflict between RC Servo outputs on pins 9 and pins 10 and 
  *    the operation of DC motors and stepper motors as of 9/2012. This issue
  *    will get fixed in future MPIDE releases, but at the present time it means
  *    that the Motor Party example will NOT work properly. Any time you attach
- *    an RC servo to pins 9 or pins 10, ALL PWM outputs on the whole board will
+ *    an RC servo to pins 9 or pins 10, ALL ANALOG outputs on the whole board will
  *    stop working. Thus no steppers or DC motors.
  * 
  */
@@ -52,22 +52,22 @@
     #define MOTOR34_8KHZ _BV(CS01)              // divide by 8
     #define MOTOR34_1KHZ _BV(CS01) | _BV(CS00)  // divide by 64
     
-    #define DC_MOTOR_PWM_RATE   MOTOR34_8KHZ    // PWM rate for DC motors
-    #define STEPPER1_PWM_RATE   MOTOR12_64KHZ   // PWM rate for stepper 1
-    #define STEPPER2_PWM_RATE   MOTOR34_64KHZ   // PWM rate for stepper 2
+    #define DC_MOTOR_PWM_RATE   MOTOR34_8KHZ    // ANALOG rate for DC motors
+    #define STEPPER1_PWM_RATE   MOTOR12_64KHZ   // ANALOG rate for stepper 1
+    #define STEPPER2_PWM_RATE   MOTOR34_64KHZ   // ANALOG rate for stepper 2
     
 #elif defined(__PIC32MX__)
     //#define MOTORDEBUG 1
     
     // Uncomment the one of following lines if you have put a jumper from 
     // either pin 9 to pin 11 or pin 10 to pin 11 on your Motor Shield.
-    // Either will enable PWM for M1
+    // Either will enable ANALOG for M1
     //#define PIC32_USE_PIN9_FOR_M1_PWM
     //#define PIC32_USE_PIN10_FOR_M1_PWM
 
     #define MICROSTEPS 16       // 8 or 16
 
-    // For PIC32 Timers, define prescale settings by PWM frequency
+    // For PIC32 Timers, define prescale settings by ANALOG frequency
     #define MOTOR12_312KHZ  0   // 1:1, actual frequency 312KHz
     #define MOTOR12_156KHZ  1   // 1:2, actual frequency 156KHz
     #define MOTOR12_64KHZ   2   // 1:4, actual frequency 78KHz
@@ -88,10 +88,10 @@
     #define MOTOR34_2KHZ    7   // 1:256, actual frequency 1.2KHz
     #define MOTOR34_1KHZ    7   // 1:256, actual frequency 1.2KHz
     
-    // PWM rate for DC motors.
+    // ANALOG rate for DC motors.
     #define DC_MOTOR_PWM_RATE   MOTOR34_39KHZ
     // Note: for PIC32, both of these must be set to the same value
-    // since there's only one timebase for all 4 PWM outputs
+    // since there's only one timebase for all 4 ANALOG outputs
     #define STEPPER1_PWM_RATE   MOTOR12_39KHZ
     #define STEPPER2_PWM_RATE   MOTOR34_39KHZ
     

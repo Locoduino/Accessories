@@ -57,7 +57,7 @@ enum ACCESSORIES_EVENT_TYPE
 #define ACCESSORIESCONFIGVALUE(data)		lowByte((int)data)
 
 enum ACCESSORYTYPE { ACCESSORYUNDEFINED, ACCESSORYMOTOR, ACCESSORYLIGHT, ACCESSORYSERVO, ACCESSORYSTEPPER };
-enum ACC_STATE { STATE_NONE = 0, STATE_FIRST = 10000, STATE_SECOND = 20000};
+enum ACC_STATE { STATE_NONE = 0, STATE_FIRST = 1, STATE_SECOND = 2};
 
 struct MovingPosition
 {
@@ -80,10 +80,11 @@ private:
 	unsigned int debounceDelay;
 	unsigned long lastMoveTime;
 
-protected:
-	DriverPort *pPort;
-
 	ACC_STATE state;
+
+protected:
+	Port *pPort;
+
 	ACC_STATE prevState;
 	bool useStateNone;
 
@@ -96,7 +97,7 @@ public:
 
 	inline ACCESSORYTYPE GetAccessoryType() const { return this->type; }
 
-	inline DriverPort *GetDriverPort() { return this->pPort; }
+	inline Port *GetPort() { return this->pPort; }
 
 	inline ACC_STATE GetState() const { return this->state; }
 	inline ACC_STATE GetPreviousState() const { return this->prevState; }
@@ -116,6 +117,10 @@ public:
 	inline virtual void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0) {}
 
 public:	//but should be protected !
+#ifndef NO_EEPROM
+	virtual int EEPROMSave(int inPos);
+	virtual int EEPROMLoad(int inPos);
+#endif
 	void AdjustMovingPositionsSize(uint8_t inNewSize);
 	inline bool IsEmpty() const { return this->pMovingPositions == NULL; }
 	uint8_t IndexOfMovingPosition(unsigned long inId) const;
@@ -124,8 +129,7 @@ public:	//but should be protected !
 	inline unsigned long GetMovingPositionIdByIndex(int inIndex) const { return this->pMovingPositions[inIndex].Id; }
 	inline const uint8_t GetLastMovingPosition() const { return this->lastMovingPosition; }
 	inline const uint8_t GetMovingPositionSize() const { return this->movingPositionsSize; }
-	inline void SetLastMovingPosition(uint8_t inLastPositionIndex) { this->lastMovingPosition = inLastPositionIndex; }
-	//inline void SetLastMovingPosition(unsigned long inId, int inPosition) { this->lastMovingPosition.Id = inId; this->lastMovingPosition.Position = inPosition; }
+	void SetLastMovingPosition(uint8_t inLastPositionIndex);
 
 	inline void SetDebounceDelay(unsigned int inDebounceDelay) { this->debounceDelay = inDebounceDelay; }
 	inline void SetLastMoveTime() { this->lastMoveTime = millis(); }
@@ -137,7 +141,7 @@ public:	//but should be protected !
 	inline unsigned long GetActionStartingMillis() const { return this->startingMillis; }
 	virtual void StartAction();
 	virtual void StartAction(ACC_STATE inState);
-#ifdef DEBUG_VERBOSE_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	virtual void ResetAction();
 #else
 	inline virtual void ResetAction() { this->startingMillis = 0; }
@@ -153,7 +157,8 @@ public:	//but should be protected !
 	inline virtual bool CanBePositionnal() const { return false; }
 	inline virtual void MovePosition(int inPosition) {}
 
-	inline virtual void SetState(ACC_STATE inNewState) { this->state = inNewState; }
+	inline virtual void SetState(ACC_STATE inNewState) { this->SetStateRaw(inNewState); }
+	void SetStateRaw(ACC_STATE inNewState);
 
 	inline void SetStartingMillis() { this->startingMillis = millis(); }
 	inline void ResetStartingMillis() { this->startingMillis = 0; }
