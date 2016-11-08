@@ -63,11 +63,11 @@ void setup()
 	// Ports setups
 
 	// one light is connected to the arduino.
-	Port0.begin(4);
-	Port1.begin(5);
-	Port2.begin(6);
-	Port3.begin(7);
-	Port4.begin(8);
+	Port0.begin(4, DIGITAL);
+	Port1.begin(5, DIGITAL);
+	Port2.begin(6, DIGITAL);
+	Port3.begin(7, DIGITAL);
+	Port4.begin(8, DIGITAL);
 
 	// Accessories setups
 

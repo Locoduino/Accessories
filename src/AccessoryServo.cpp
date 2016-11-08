@@ -24,10 +24,10 @@ void AccessoryServo::begin(Port *inpPort, unsigned long inDurationMilli,
 	this->pPort = inpPort;
 
 	this->SetDuration(inDurationMilli);
-	Accessory::begin(UNDEFINED);
+	Accessory::begin(STATE_NONE);
 	this->minimumPosition = inMinimumPosition;
 	this->maximumPosition = inMaximumPosition;
-	this->prevState = UNDEFINED;
+	this->prevState = STATE_NONE;
 	inpPort->beginByAccessory(this->minimumPosition);
 	this->prevState = MINIMUM;
 	this->currentPosition = this->minimumPosition;
@@ -258,8 +258,8 @@ void AccessoryServo::InternalMovePosition(int inPosition)
 		}
 		else
 		{
-			this->SetStateRaw(UNDEFINED);
-			this->prevState = UNDEFINED;
+			this->SetStateRaw(STATE_NONE);
+			this->prevState = STATE_NONE;
 		}
 }
 

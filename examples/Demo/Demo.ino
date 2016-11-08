@@ -75,7 +75,7 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 void setup()
 {
 	Serial.begin(115200);
-	while (!Serial);		// For Leonardo only. No effect on other Arduino.
+	//while (!Serial);		// For Leonardo only. No effect on other Arduino.
 
 	Commanders::begin(ReceiveEvent, LED_BUILTIN);
 	Accessories::begin();
@@ -116,8 +116,8 @@ void setup()
 	portServo.begin(SHIELDL293D_SERVO1_PIN);
 
 	// l298n circuit.
-	PortTjd.begin(50, 52);
-	PortLight.begin(46, 48);
+	PortTjd.begin(50, 52, DIGITAL);
+	PortLight.begin(46, 48, DIGITAL);
 
 	// Accessories setups
 

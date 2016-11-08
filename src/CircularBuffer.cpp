@@ -6,8 +6,9 @@ description: <Class for a circular buffer of data stored in EEPROM>
 
 // Copied from EEPROMExtent library
 
-#include "Accessories.h"
+#include "Accessories.h"						  
 #include "CircularBuffer.hpp"
+#include <EEPROM.h>
 
 /*
 A circular buffer is a way to reduce the use of each EEPROM cell,

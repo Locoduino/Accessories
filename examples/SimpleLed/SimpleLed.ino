@@ -47,7 +47,7 @@ void setup()
 	// Drivers setups
 
     // one light is connected to the arduino.
-	port.begin(12);
+	port.begin(12, DIGITAL);
 	
 	// Accessories setups
 

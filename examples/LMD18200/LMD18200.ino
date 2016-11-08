@@ -69,7 +69,7 @@ void setup()
 
 	// Drivers setups
 
-	port.begin(10, 8, 9);
+	port.begin(10, 8, 9, DIGITAL, DIGITAL);
 	
 	// Accessories setups
 

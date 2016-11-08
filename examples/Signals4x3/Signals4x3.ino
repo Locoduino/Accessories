@@ -31,7 +31,7 @@ void SignalArduino::beginSignal(uint8_t inNbLeds, int *inpPins, int inStartingDc
 	for (int led = 0; led < inNbLeds; led++)
 	{
 		PortOnePin *pPort = new PortOnePin();
-		pPort->begin(inpPins[led]);
+		pPort->begin(inpPins[led], DIGITAL);
 		this->beginLight(led, pPort);
 	}
 

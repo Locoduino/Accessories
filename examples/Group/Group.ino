@@ -63,7 +63,7 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 void setup()
 {
 	Serial.begin(115200);
-	while (!Serial);		// For Leonardo only. No effect on other Arduino.
+	//while (!Serial);		// For Leonardo only. No effect on other Arduino.
 
 	Commanders::begin(ReceiveEvent, LED_BUILTIN);
 	Accessories::begin();
@@ -85,10 +85,10 @@ void setup()
 
 	// Wire leds to pins 8, 9, 10, 11
 	 
-	PortRed.begin(8);
-	PortOrange.begin(9);
-	PortGreen.begin(10);
-	PortWhite.begin(11);
+	PortRed.begin(8, DIGITAL);
+	PortOrange.begin(9, DIGITAL);
+	PortGreen.begin(10, DIGITAL);
+	PortWhite.begin(11, DIGITAL);
 	
 	// Buttons setups
 

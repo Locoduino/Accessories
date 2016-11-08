@@ -12,9 +12,9 @@
 //#include "../examples/SimpleLed/SimpleLed.ino"
 //#include "../examples/SimpleLedMulti/SimpleLedMulti.ino"
 //#include "../examples/Stepper/Stepper.ino"
-//#include "../examples/LMD18200/LMD18200.ino"
+#include "../examples/LMD18200/LMD18200.ino"
 
-#include "TestExe.ino"
+//#include "TestExe.ino"
 
 using namespace System;
 using namespace System::Windows::Forms;

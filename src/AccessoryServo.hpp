@@ -11,7 +11,6 @@
 
 #define MINIMUM		STATE_FIRST
 #define MAXIMUM		STATE_SECOND
-#define UNDEFINED	STATE_NONE
 
 // As servo can move with four ways:
 

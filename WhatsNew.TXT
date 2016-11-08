@@ -1,7 +1,12 @@
+07/11/2016 0.41
+	- Correction des exemples
+
+	- Fix of samples.
+
 04/11/2016 0.40
 	- Utilisation d'un Circular Buffer local pour la sauvegarde EEPROM
 
-	-- Use of a small version of CircularBuffer to write on EEPROM
+	- Use of a small version of CircularBuffer to write on EEPROM
 
 01/11/2016 0.30
 	- Disparition des tous les drivers ! Il n'y a plus que des ports...

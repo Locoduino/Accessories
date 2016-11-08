@@ -27,8 +27,8 @@ AccessoryLight red, green;
 
 // Drivers
 	
-PortPWMPin Port0;
-PortPWMPin Port1;
+PortOnePin Port0;
+PortOnePin Port1;
 
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
