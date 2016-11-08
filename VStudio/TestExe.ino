@@ -1,4 +1,4 @@
-#if 0
+//#if 0
 /*************************************************************
 project: <Accessories>
 author: <Thierry PARIS>
@@ -19,7 +19,7 @@ ButtonsCommanderKeyboard groupServos2Button;
 ButtonsCommanderKeyboard groupLights1Button;
 ButtonsCommanderKeyboard groupLights2Button;
 ButtonsCommanderSwitch swiitch;	// two 'ii' to avoid collision with the C word 'switch' !
-ButtonsCommanderPotentiometer potar; //(321, 0, 20, 145)	// Link it to SERVO1, from 20 to 145 degrees
+ButtonsCommanderPotentiometer potar;
 
 SERIAL_COMMANDER(Serial);
 
@@ -61,8 +61,9 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 void setup()
 {
 	Commanders::begin(ReceiveEvent, LED_BUILTIN);
+	DccCommander.begin(0, 0, 2);
 
-	Accessories::EEPROMStart = 10;
+	Accessories::begin(10, 1000);
 
 	Serial.begin(115200);
 	SerialCommander.begin();
@@ -159,6 +160,8 @@ void setup()
 	groupServos.AddState(5001, true);
 	groupServos.AddStateItem(5001, servo1, MAXIMUM, 500);
 	groupServos.AddStateItem(5001, servo2, MAXIMUM, 500);
+
+	Commanders::printCommanders();
 }
 
 void loop()
@@ -166,7 +169,9 @@ void loop()
 	Commanders::loop();
 	Accessories::loop();
 }
-#endif
+//#endif
+
+#if 0
 #include <Accessories.h>
 #include <Commanders.h>
 
@@ -240,3 +245,30 @@ void loop()
 
 	Accessories::loop();
 }
+#endif
+
+#if 0
+#include <Commanders.h>
+
+void setup()
+{
+
+	Serial.begin(115200);
+
+	Commanders::begin(LED_BUILTIN);
+	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
+}
+
+void loop()
+{
+	unsigned long ret = Commanders::loop();
+
+	if (ret != UNDEFINED_ID)
+	{
+		Serial.print(DCCID(ret));
+		Serial.print("   ");
+		Serial.print(DCCACTIVATION(ret));
+		Serial.println("     ");
+	}
+}
+#endif

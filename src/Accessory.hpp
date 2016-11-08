@@ -118,7 +118,7 @@ public:
 
 public:	//but should be protected !
 #ifndef NO_EEPROM
-	virtual int EEPROMSave(int inPos);
+	virtual int EEPROMSave(int inPos, bool inSimulate = false);
 	virtual int EEPROMLoad(int inPos);
 #endif
 	void AdjustMovingPositionsSize(uint8_t inNewSize);

@@ -4,7 +4,7 @@
 //-------------------------------------------------------------------
 
 #include "Accessories.h"
-//#include "AccessoriesClass.hpp"
+#include "CircularBuffer.hpp"
 
 #define EEPROM_SAVE_DELAY	1000
 
@@ -12,16 +12,21 @@ class Accessories
 {
 public:
 	static bool SerialStarted;
+	static unsigned long WaitEndDate;
 #ifndef NO_EEPROM
 	static int EEPROMStart;
+	static int EEPROMSize;
+	static int EEPROMRecordSize;
 	static unsigned long EEPROMStartingDelay;
+	static AccessoriesCircularBuffer circularBuffer;
 #endif
 
 public:
-	static void begin(int inEEPROMStart = -1);
+	static void begin(int inEEPROMStart = -1, int inEEPROMSize = -1);
 	static void RaiseEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
 	static void ReceiveEvent(unsigned long inID, ACCESSORIES_EVENT_TYPE lastEventType, int inData);
 	static bool loop();
+	static void wait(unsigned long inDelay);
 #ifndef NO_EEPROM
 	static void EEPROMSave();
 #endif

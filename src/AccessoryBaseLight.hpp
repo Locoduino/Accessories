@@ -71,7 +71,7 @@ class AccessoryBaseLight
 		void LightOffRaw();
 		void LightFadingRaw(uint8_t inValue);
 #ifndef NO_EEPROM
-		int EEPROMSave(int inPos);
+		int EEPROMSave(int inPos, bool inSimulate = false);
 		int EEPROMLoad(int inPos);
 #endif
 };

@@ -60,7 +60,7 @@ class AccessoryLightMulti : public Accessory
 		void Move(int position);
 		void MoveBlink(int inOnMask, int inBlinkMask);
 #ifndef NO_EEPROM
-		int EEPROMSave(int inPos);
+		int EEPROMSave(int inPos, bool inSimulate = false);
 		int EEPROMLoad(int inPos);
 #endif
 #ifdef ACCESSORIES_DEBUG_MODE

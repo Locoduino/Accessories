@@ -60,7 +60,7 @@ class AccessoryGroup
 		static void AddGroup(AccessoryGroup *inGroup);
 		static uint8_t GetCount();
 		static bool loops();
-		static int EEPROMSaveAll(int inPos);
+		static int EEPROMSaveAll(int inPos, bool inSimulate = false);
 		static int EEPROMLoadAll(int inPos);
 
 	public:
@@ -89,7 +89,7 @@ class AccessoryGroup
 		bool Toggle(unsigned long inId);
 
 #ifndef NO_EEPROM
-		int EEPROMSave(int inPos);
+		int EEPROMSave(int inPos, bool inSimulate = false);
 		int EEPROMLoad(int inPos);
 #endif
 };

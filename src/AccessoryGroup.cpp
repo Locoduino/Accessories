@@ -349,22 +349,25 @@ bool AccessoryGroup::Toggle(unsigned long inId)
 }
 
 #ifndef NO_EEPROM
-int AccessoryGroup::EEPROMSave(int inPos)
+int AccessoryGroup::EEPROMSave(int inPos, bool inSimulate)
 {
-	if (this->States.pCurrentItem != NULL)
+	if (!inSimulate)
 	{
-		byte *pEvent = (byte *)&this->States.pCurrentItem->Obj->Id;
-		EEPROM.write(inPos, *pEvent);
-		EEPROM.write(inPos, *(pEvent + 1));
-		EEPROM.write(inPos, *(pEvent + 2));
-		EEPROM.write(inPos, *(pEvent + 3));
-	}
-	else
-	{
-		EEPROM.write(inPos, 0);
-		EEPROM.write(inPos, 0);
-		EEPROM.write(inPos, 0);
-		EEPROM.write(inPos, 0);
+		if (this->States.pCurrentItem != NULL)
+		{
+			byte *pEvent = (byte *)&this->States.pCurrentItem->Obj->Id;
+			EEPROM.write(inPos, *pEvent);
+			EEPROM.write(inPos+1, *(pEvent + 1));
+			EEPROM.write(inPos+2, *(pEvent + 2));
+			EEPROM.write(inPos+3, *(pEvent + 3));
+		}
+		else
+		{
+			EEPROM.write(inPos, 0);
+			EEPROM.write(inPos+1, 0);
+			EEPROM.write(inPos+2, 0);
+			EEPROM.write(inPos+3, 0);
+		}
 	}
 
 	inPos += sizeof(unsigned long);
@@ -395,13 +398,13 @@ int AccessoryGroup::EEPROMLoad(int inPos)
 	return inPos;
 }
 
-int AccessoryGroup::EEPROMSaveAll(int inPos)
+int AccessoryGroup::EEPROMSaveAll(int inPos, bool inSimulate)
 {
 	AccessoryGroup *pCurr = pFirstGroup;
 
 	while (pCurr != NULL)
 	{
-		inPos = pCurr->EEPROMSave(inPos);
+		inPos = pCurr->EEPROMSave(inPos, inSimulate);
 		pCurr = pCurr->pNextGroup;
 	}
 

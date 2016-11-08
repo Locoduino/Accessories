@@ -317,11 +317,12 @@ bool AccessoryBaseLight::ActionEnded()
 }
 
 #ifndef NO_EEPROM
-int AccessoryBaseLight::EEPROMSave(int inPos)
+int AccessoryBaseLight::EEPROMSave(int inPos, bool inSimulate)
 {
-	EEPROM.write(inPos++, this->state);
+	if (!inSimulate)
+		EEPROM.write(inPos, this->state);
 
-	return inPos;
+	return inPos + 1;
 }
 
 int AccessoryBaseLight::EEPROMLoad(int inPos)

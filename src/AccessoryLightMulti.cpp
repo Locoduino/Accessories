@@ -154,10 +154,10 @@ void AccessoryLightMulti::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEve
 }
 
 #ifndef NO_EEPROM
-int AccessoryLightMulti::EEPROMSave(int inPos)
+int AccessoryLightMulti::EEPROMSave(int inPos, bool inSimulate)
 {
 	for (uint8_t i = 0; i < this->lightsSize; i++)
-		inPos = this->pLights[i].EEPROMSave(inPos);
+		inPos = this->pLights[i].EEPROMSave(inPos, inSimulate);
 
 	return inPos;
 }

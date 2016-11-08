@@ -372,10 +372,12 @@ int AccessoryServo::EEPROMLoad(int inPos)
 {
 	inPos = this->Accessory::EEPROMLoad(inPos);
 
-	digitalWrite2f(this->powerCommandPin, HIGH);
+	if (this->powerCommandPin != DP_INVALID)
+		digitalWrite2f(this->powerCommandPin, HIGH);
 	this->pPort->MovePosition(0, this->currentPosition);
 	delay(200);	//can be done here because we are in setup timing...
-	digitalWrite2f(this->powerCommandPin, LOW);
+	if (this->powerCommandPin != DP_INVALID)
+		digitalWrite2f(this->powerCommandPin, LOW);
 
 	return inPos;
 }

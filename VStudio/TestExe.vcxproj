@@ -157,6 +157,7 @@
     <ClCompile Include="..\..\Commanders\src\I2CCommander.cpp" />
     <ClCompile Include="..\..\Commanders\src\TextInterpreter.cpp" />
     <ClCompile Include="..\..\Commanders\VStudio\ButtonsCommanderKeyboard.cpp" />
+    <ClCompile Include="..\src\CircularBuffer.cpp" />
     <ClCompile Include="..\src\PortTwoPinsEnable.cpp" />
     <ClCompile Include="..\src\LocoStepper.cpp" />
     <ClCompile Include="..\src\Accessories.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="..\..\Commanders\VStudio\DCC_Decoder.hpp" />
     <ClInclude Include="..\..\Commanders\VStudio\mcp_can.h" />
     <ClInclude Include="..\..\Commanders\VStudio\mcp_can_dfs.h" />
+    <ClInclude Include="..\src\CircularBuffer.hpp" />
     <ClInclude Include="..\src\PortTwoPinsEnable.hpp" />
     <ClInclude Include="..\src\LocoStepper.h" />
     <ClInclude Include="..\src\Accessories.h" />

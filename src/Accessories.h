@@ -115,14 +115,13 @@
 
 // For Accessories library, L293D is not compatible with Arduino Due for the moment...
 #ifdef ARDUINO_ARCH_SAM
-#ifndef NO_L293D
-	#define NO_L293D
+#ifndef NO_SHIELDL293D
+	#define NO_SHIELDL293D
 #endif
 #endif
 
 /////////////////////////////////////
 
-//#include "AccessoriesClass.hpp"
 #include "Port.hpp"
 
 #ifndef NO_MOTOR

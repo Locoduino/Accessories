@@ -163,13 +163,16 @@ void Accessory::SetStateRaw(ACC_STATE inNewState)
 }
 
 #ifndef NO_EEPROM
-int Accessory::EEPROMSave(int inPos)
+int Accessory::EEPROMSave(int inPos, bool inSimulate)
 {
-	EEPROM.write(inPos++, this->state);
-	EEPROM.write(inPos++, this->GetLastMovingPosition());
-	EEPROM.write(inPos++, this->pPort->GetSpeed());
+	if (!inSimulate)
+	{
+		EEPROM.write(inPos, this->state);
+		EEPROM.write(inPos+1, this->GetLastMovingPosition());
+		EEPROM.write(inPos+2, this->pPort->GetSpeed());
+	}
 
-	return inPos;
+	return inPos + 3;
 }
 
 int Accessory::EEPROMLoad(int inPos)

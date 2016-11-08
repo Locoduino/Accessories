@@ -1,8 +1,19 @@
+04/11/2016 0.40
+	- Utilisation d'un Circular Buffer local pour la sauvegarde EEPROM
+
+	-- Use of a small version of CircularBuffer to write on EEPROM
+
 01/11/2016 0.30
 	- Disparition des tous les drivers ! Il n'y a plus que des ports...
 	- Ajout de la fonction Wait.
 	- Sauvegarde de l'état des accessoires dans l'EEPROM.
-	- Ajout de PortShieldL293d
+	- Renommage de DEBUG_VERBOSE_MODE en ACCESSORIES_DEBUG_VERBOSE_MODE
+
+	- All 'Drivers' have been removed, replaced by Ports directly.
+	- Wait function added.
+	- Accessories states can be saved in EEPROM.
+	- Renaming of DEBUG_VERBOSE_MODE to ACCESSORIES_DEBUG_VERBOSE_MODE
+
 
 04/09/2016 0.20
 	- Plus d'initialisation de Serial, pour le DUE. Serial.begin() doit être fait dans le .ino .
