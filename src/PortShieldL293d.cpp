@@ -8,7 +8,7 @@ description: <Driver port for L293n>
 
 #include "Accessories.h"
 
-#ifndef NO_L293D
+#ifndef NO_SHIELDL293D
 
 PortShieldL293d::PortShieldL293d() : Port(MOTOR_LIGHT)
 {

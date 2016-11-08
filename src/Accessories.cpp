@@ -103,11 +103,13 @@ void Accessories::begin(int inEEPROMStart, int inEEPROMSize)
 
 	Serial.println(F("*** Setup Accessories started."));
 
+#ifndef NO_EEPROM
 	if (EEPROMStart + EEPROMSize != -2 && (EEPROMSize == -1 || EEPROMStart == -1))
 	{
 		Serial.print(F("   Error : EEPROM will not be used : "));
 		Serial.println(F("   EEPROMSize or EEPROMStart is not defined by begin."));
 	}
+#endif
 #endif
 }
 
@@ -247,6 +249,8 @@ bool Accessories::loop()
 
 #endif
 		pLoopAccessory = Accessories::pFirstAccessory;
+
+#ifndef NO_EEPROM
 		// Do not take account of the modified states during setup !
 		EEPROMStartingDelay = 0;
 
@@ -256,6 +260,7 @@ bool Accessories::loop()
 			Serial.println(F("EEPROM loading aborted !"));
 #else
 		Accessories::EEPROMLoad();
+#endif
 #endif
 	}
 	else

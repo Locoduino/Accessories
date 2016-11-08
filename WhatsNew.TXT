@@ -1,7 +1,9 @@
 07/11/2016 0.41
 	- Correction des exemples
+	- Correction des exclusions #define NO_*
 
 	- Fix of samples.
+	- Fix exclusions with #define NO_*
 
 04/11/2016 0.40
 	- Utilisation d'un Circular Buffer local pour la sauvegarde EEPROM

@@ -1,13 +1,13 @@
 ////////////////////////////////////////////////////////
 // Add a '//' at the beginning of the line to be in 
 // release mode.
-#define ACCESSORIES_DEBUG_MODE
+//#define ACCESSORIES_DEBUG_MODE
 
 ///////////////////////////////////////////////////////
 // Verbose mode lets you see all actions done by the 
 // library, but with a real flood of text to console...
 // Has no effect if ACCESSORIES_DEBUG_MODE is not activated.
-#define ACCESSORIES_DEBUG_VERBOSE_MODE
+//#define ACCESSORIES_DEBUG_VERBOSE_MODE
 
 #define  GPIO2_PREFER_SPEED    1
 
@@ -17,7 +17,6 @@
 #else
 #include "DIO2.h"
 #endif
-
 
 #define ACTION_STACK_SIZE	5
 

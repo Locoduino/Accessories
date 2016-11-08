@@ -1,5 +1,6 @@
-#ifndef NO_STEPPER
 #include "Accessories.h"
+
+#ifndef NO_STEPPER
 #include "LocoStepper.h"
 
 uint8_t step2default[4] =
