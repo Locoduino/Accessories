@@ -39,9 +39,6 @@ SERIAL_COMMANDER(Serial);
 
 AccessoryGroup group;
 
-// Defines here the four states of this group.
-GroupState AllOn, AllOff, AllAndRedFlashing, NoneAndWhiteFlashing;
-
 AccessoryLight red, green, orange, white;
 
 // Ports

@@ -23,7 +23,7 @@ enum PORTTYPE
 #define CHECKPIN(val, type, text)		Port::CheckPinNb(val, type, F(text))
 #endif
 #else
-#define CHECKPIN(val, text)
+#define CHECKPIN(val, type, text)
 #endif
 
 class Port

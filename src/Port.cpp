@@ -8,7 +8,7 @@ description: <Port>
 
 #ifdef ACCESSORIES_DEBUG_MODE
 #ifdef ARDUINO_ARCH_SAM
-void Port::CheckPinNb(int inPin, const char *inFunc)
+void Port::CheckPinNb(int inPin, PIN_TYPE inType, const char *inFunc)
 {
 	int pin = inPin;
 	if (inType < ANALOG)
