@@ -60,6 +60,16 @@ RaiseEvent			KEYWORD2
 ReceiveEvent		KEYWORD2
 printEvent			KEYWORD2
 Wait				KEYWORD2
+Move				KEYWORD2
+MovePosition		KEYWORD2
+MoveLeft			KEYWORD2
+MoveRight			KEYWORD2
+MoveToggle			KEYWORD2
+MoveMinimum			KEYWORD2
+MoveMaximum			KEYWORD2
+LightOn				KEYWORD2
+LightOff			KEYWORD2
+Blink				KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

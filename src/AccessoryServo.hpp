@@ -80,13 +80,14 @@ class AccessoryServo : public Accessory
 		int EEPROMLoad(int inPos);
 #endif
 
-	private:
 		void MovePosition(int inPosition);
-		void SetState(ACC_STATE instate);
 		void Move(unsigned long inId);
 		void MoveMinimum();
 		void MoveMaximum();
 		ACC_STATE MoveToggle();
+
+	private:
+		void SetState(ACC_STATE instate);
 		inline ACC_STATE Toggle() { return MoveToggle(); }
 		bool ActionEnded();
 		void InternalMovePosition(int inPosition);

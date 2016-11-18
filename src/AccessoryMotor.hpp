@@ -34,12 +34,13 @@ class AccessoryMotor : public Accessory
 		int EEPROMLoad(int inPos);
 #endif
 
-	protected:
-		void SetState(ACC_STATE instate);
 		void Move(unsigned long inId);
 		inline virtual void MoveLeft(unsigned long inDuration = 0, int inSpeed = 0) { this->InternalMove(LEFT, inDuration, inSpeed); }
 		inline virtual void MoveRight(unsigned long inDuration = 0, int inSpeed = 0) { this->InternalMove(RIGHT, inDuration, inSpeed); }
 		virtual ACC_STATE MoveToggle(unsigned long inDuration = 0, int inSpeed = 0);
+
+	protected:
+		void SetState(ACC_STATE instate);
 		inline ACC_STATE Toggle() { return MoveToggle(); }
 	private:
 		ACC_STATE InternalMove(ACC_STATE inStateToReach, unsigned long inDuration = 0, int inSpeed = 0);

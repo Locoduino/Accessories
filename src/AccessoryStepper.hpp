@@ -32,11 +32,12 @@ class AccessoryStepper : public Accessory
 		void StartCalibration() { this->SetStateRaw(CALIBRATION); }
 		void EndCalibration() { this->SetStateRaw(STATE_NONE); }
 
-	private:
 		void MovePosition(int inAbsolutePosition);
 		void MoveRelativePosition(int inRelativePosition);
 		void Move(unsigned long inId);
 		ACC_STATE MoveToggle();
+
+	private:
 		inline ACC_STATE Toggle() { return MoveToggle(); }
 		bool ActionEnded();
 };
