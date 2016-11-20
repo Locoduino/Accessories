@@ -26,7 +26,37 @@ unsigned long Accessories::EEPROMStartingDelay = 0;
 AccessoriesCircularBuffer Accessories::circularBuffer;
 #endif
 
-// Link to Commanders library.
+void Accessories::begin(int inEEPROMStart, int inEEPROMSize)
+{
+	SerialStarted = true;
+
+#ifndef NO_EEPROM
+	Accessories::EEPROMStart = inEEPROMStart;
+	Accessories::EEPROMSize = inEEPROMSize;
+	Accessories::EEPROMStartingDelay = 0;
+#endif
+
+#ifdef ACCESSORIES_DEBUG_MODE
+	// Just for let the time to the PIC to initialize internals...
+	delay(500);
+
+	Serial.println(F(""));
+	Serial.println(F("Accessories V0.43"));
+	Serial.println(F("Developed by Thierry Paris."));
+	Serial.println(F("(c) Locoduino 2016"));
+	Serial.println(F(""));
+
+	Serial.println(F("*** Setup Accessories started."));
+
+#ifndef NO_EEPROM
+	if (EEPROMStart + EEPROMSize != -2 && (EEPROMSize == -1 || EEPROMStart == -1))
+	{
+		Serial.print(F("   Error : EEPROM will not be used : "));
+		Serial.println(F("   EEPROMSize or EEPROMStart is not defined by begin."));
+	}
+#endif
+#endif
+}
 
 #ifdef ACCESSORIES_DEBUG_MODE
 void Accessories::printEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventType, int inEventData)
@@ -80,38 +110,6 @@ void Accessories::printEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventT
 	}
 }
 #endif
-
-void Accessories::begin(int inEEPROMStart, int inEEPROMSize)
-{
-	SerialStarted = true;
-
-#ifndef NO_EEPROM
-	Accessories::EEPROMStart = inEEPROMStart;
-	Accessories::EEPROMSize = inEEPROMSize;
-	Accessories::EEPROMStartingDelay = 0;
-#endif
-
-#ifdef ACCESSORIES_DEBUG_MODE
-	// Just for let the time to the PIC to initialize internals...
-	delay(500);
-
-	Serial.println(F(""));
-	Serial.println(F("Accessories V0.42"));
-	Serial.println(F("Developed by Thierry Paris."));
-	Serial.println(F("(c) Locoduino 2016"));
-	Serial.println(F(""));
-
-	Serial.println(F("*** Setup Accessories started."));
-
-#ifndef NO_EEPROM
-	if (EEPROMStart + EEPROMSize != -2 && (EEPROMSize == -1 || EEPROMStart == -1))
-	{
-		Serial.print(F("   Error : EEPROM will not be used : "));
-		Serial.println(F("   EEPROMSize or EEPROMStart is not defined by begin."));
-	}
-#endif
-#endif
-}
 
 void Accessories::RaiseEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
 {

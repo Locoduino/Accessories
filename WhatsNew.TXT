@@ -1,3 +1,7 @@
+19/11/2016 0.43
+	- Passage en 'public' de toutes les fonctions de manipulations basiques des moteurs : MoveLeft, MoveRight, MoveStop, Toggle...
+	- Retrait de la compilation de CircularBuffer lorsque que NO_EEPROM est déclaré.
+
 07/11/2016 0.41
 	- Correction des exemples
 	- Correction des exclusions #define NO_*

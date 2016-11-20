@@ -7,6 +7,7 @@ description: <Class for a circular buffer of data stored in EEPROM>
 // Copied from EEPROMExtent library
 
 #include "Accessories.h"						  
+#ifndef NO_EEPROM
 #include "CircularBuffer.hpp"
 #include <EEPROM.h>
 
@@ -89,6 +90,4 @@ void AccessoriesCircularBuffer::printStatus()
 	Serial.println(F("|"));
 }
 #endif
-
-
-
+#endif

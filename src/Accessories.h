@@ -98,7 +98,7 @@
 //#define NO_LIGHT
 //#define NO_SHIELDL293D
 
-//#define NO_EEPROM
+#define NO_EEPROM
 
 #ifdef NO_MOTOR
 	#ifdef NO_LIGHT

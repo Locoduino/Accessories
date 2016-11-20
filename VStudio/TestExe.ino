@@ -1,4 +1,56 @@
-//#if 0
+#include "Commanders.h"
+#include "Accessories.h"
+
+// Accessories
+AccessoryMotorTwoWays aiguille;
+
+ButtonsCommanderPush push;
+
+SERIAL_COMMANDER(Serial);
+
+// Drivers
+PortTwoPins port;
+
+#define DCCID_DROIT   DCCINT(20, 0)
+#define DCCID_DEVIE   DCCINT(20, 1)
+
+void setup()
+{
+	Serial.begin(115200);
+	Commanders::begin(LED_BUILTIN);
+	Accessories::begin();
+
+	SerialCommander.begin();
+
+	// Setup of the Dcc commander.
+	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(2), true);
+
+	// Setup of the buttons, one by accessory
+	push.begin(DCCID_DROIT, 4);
+	push.AddEvent(DCCID_DEVIE);
+
+	// Setup of ports
+	port.begin(6, 7, DIGITAL);
+
+	// Accessories setups
+
+	aiguille.beginTwoWays(&port, DCCID_DROIT, DCCID_DEVIE, 255, 250);
+}
+
+void loop()
+{
+	unsigned long id = Commanders::loop();
+
+	if (id != UNDEFINED_ID)
+	{
+		// Renvoie l'événement reçu de Commanders, vers les accessoires...
+		Accessories::RaiseEvent(id, (ACCESSORIES_EVENT_TYPE)Commanders::GetLastEventType(), Commanders::GetLastEventData());
+	}
+
+	Accessories::loop();
+}
+
+#if 0
 /*************************************************************
 project: <Accessories>
 author: <Thierry PARIS>
@@ -169,7 +221,7 @@ void loop()
 	Commanders::loop();
 	Accessories::loop();
 }
-//#endif
+#endif
 
 #if 0
 #include <Accessories.h>
