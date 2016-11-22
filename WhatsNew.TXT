@@ -1,6 +1,14 @@
+22/11/2016 0.44
+	- Correction de AccessoryMotor qui ne tenait pas compte de la durée d'activation
+
+	- Fix of AccessoryMotor with activation duration used now.
+
 19/11/2016 0.43
 	- Passage en 'public' de toutes les fonctions de manipulations basiques des moteurs : MoveLeft, MoveRight, MoveStop, Toggle...
 	- Retrait de la compilation de CircularBuffer lorsque que NO_EEPROM est déclaré.
+
+	- All basic functions of motors have been passed in 'public'.
+	- Part of code of CircularBuffer removed when  NO_EEPROM is used.
 
 07/11/2016 0.41
 	- Correction des exemples

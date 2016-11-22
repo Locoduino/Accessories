@@ -17,6 +17,7 @@ void AccessoryMotor::begin(Port *inpPort, unsigned long inId, int inSpeed, unsig
 	this->pPort = inpPort;
 	Accessory::begin(STOP);
 	this->pPort->SetSpeed(inSpeed);
+	this->SetDuration(inDurationMilli);
 	this->prevState = STOP;
 	this->AddMovingPosition(inId, RIGHT);
 }
