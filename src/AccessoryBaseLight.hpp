@@ -42,6 +42,8 @@ class AccessoryBaseLight
 		AccessoryBaseLight(Accessory *inpOwner = 0);
 		
 		void begin(Port *inpPort, int inIntensity = 255, Accessory *inpOwner = 0);
+
+		inline Port *GetPort() const { return this->pPort; }
 		inline bool IsOn() const { return this->state == LIGHTON; }
 		inline bool IsBlinking() const { return this->state == LIGHTBLINK; }
 		inline bool IsFading() const { return this->fadingStep > 0; }
@@ -51,15 +53,12 @@ class AccessoryBaseLight
 		void SetFading(uint8_t inStep, uint8_t inDelay);
 
 	private:
-		//inline Driver *GetDriver() const { return this->pDriver; }
-		//inline unsigned char GetPort() const { return this->driverPort; }
-
 		void SetState(ACC_STATE instate);
 		void SetStateRaw(ACC_STATE instate);
 		ACC_STATE Toggle();
 		void LightOn();
 		void LightOff();
-		inline void Blink() { this->SetStateRaw(LIGHTBLINK); this->StartAction(); }
+		inline void Blink() { this->SetState(LIGHTBLINK); this->StartAction(); }
 
 		inline bool IsGroupActionPending() const	{ return false; }
 		inline unsigned long GetActionStartingMillis() const { return this->startingMillis; }

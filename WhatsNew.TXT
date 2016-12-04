@@ -1,3 +1,12 @@
+04/12/2016 0.45
+	- Correction de la gestion de groupes.
+	- Correction de la vérification des ports au lancement
+	- Correction de Blink lorsqu'aucun delai n'a été fixé.
+
+	- Fix group event handling
+	- Fix port check at start.
+	- Fix Blink when no delay has been specified.
+
 22/11/2016 0.44
 	- Correction de AccessoryMotor qui ne tenait pas compte de la durée d'activation
 

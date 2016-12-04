@@ -97,7 +97,11 @@ public:
 
 	inline ACCESSORYTYPE GetAccessoryType() const { return this->type; }
 
-	inline Port *GetPort() { return this->pPort; }
+	inline Port *GetPort() const { return this->pPort; }
+
+#ifdef ACCESSORIES_DEBUG_MODE
+	virtual void CheckPort() const;
+#endif
 
 	inline ACC_STATE GetState() const { return this->state; }
 	inline ACC_STATE GetPreviousState() const { return this->prevState; }

@@ -1,10 +1,14 @@
 /*************************************************************
-project: <Carte 8 Servos Locoduino by UAD>
+project: <Carte 8 Servos Locoduino by Accessories>
 author: <Thierry PARIS>
 *************************************************************/
 
 #include <Commanders.h>
 #include <Accessories.h>
+
+#ifdef NO_CANCOMMANDER
+#error To be able to compile this sample,the line #define NO_CANCOMMANDER must be commented in Commanders.h
+#endif
 
 #define SERVO0_MIN	DCCINT(20, 0)
 #define SERVO0_MAX	DCCINT(20, 1)
@@ -55,7 +59,9 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 {
 	Accessories::ReceiveEvent(inId, (ACCESSORIES_EVENT_TYPE) inEventType, inEventData);
 	
+	#ifdef ACCESSORIES_DEBUG_MODE
     Commanders::printEvent(inId, inEventType, inEventData);
+    #endif
 }
 
 //////////////////////////////////

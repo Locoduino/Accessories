@@ -16,6 +16,19 @@ AccessoryLightMulti::AccessoryLightMulti()
 	this->pMovingPositionBlinks = NULL;
 }
 
+#ifdef ACCESSORIES_DEBUG_MODE
+void AccessoryLightMulti::CheckPort() const
+{
+	for (uint8_t i = 0; i < this->lightsSize; i++)
+	{
+		if (this->pLights[i].GetPort() == NULL)
+		{
+			Serial.println(F("One light in a multilight accessory have no port !"));
+		}
+	}
+}
+#endif
+
 void AccessoryLightMulti::begin(unsigned long inId, uint8_t inSize, unsigned long inBlinkDuration)
 {
 	this->lightsSize = inSize;

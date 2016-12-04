@@ -249,7 +249,8 @@ int pins[NB_LEDS] = { 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33 };
 
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
-	if (DCCID(inId) >= DCCSTART && DCCID(inId) < DCCSTART + (SignalArduinoPattern::GetStatesNumber(signalPattern) + 1) / 2)
+	int id = DCCID(inId);
+	if (id >= DCCSTART && id < DCCSTART + (SignalArduinoPattern::GetStatesNumber(signalPattern) + 1) / 2)
 		signal.Move(inId);
 
 	Accessories::ReceiveEvent(inId, (ACCESSORIES_EVENT_TYPE)inEventType, inEventData);

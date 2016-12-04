@@ -64,6 +64,7 @@ class AccessoryLightMulti : public Accessory
 		int EEPROMLoad(int inPos);
 #endif
 #ifdef ACCESSORIES_DEBUG_MODE
+		void CheckPort() const;
 		void CheckIndex(int inIndex, const __FlashStringHelper *infunc);
 #endif
 };

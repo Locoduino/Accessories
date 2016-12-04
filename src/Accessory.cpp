@@ -107,6 +107,16 @@ void Accessory::StartAction(ACC_STATE inState)
 #endif
 }
 
+#ifdef ACCESSORIES_DEBUG_MODE
+void Accessory::CheckPort() const
+{
+	if (this->GetPort() == NULL)
+	{
+		Serial.println(F("One accessory have no port !"));
+	}
+}
+#endif
+
 #ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 void Accessory::ResetAction()
 {

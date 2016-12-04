@@ -5,3 +5,4 @@ VStudio/.vs
 
 VStudio/x64/Debug*/
 *.opendb
+testSamples.log

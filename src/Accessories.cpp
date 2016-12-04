@@ -41,7 +41,7 @@ void Accessories::begin(int inEEPROMStart, int inEEPROMSize)
 	delay(500);
 
 	Serial.println(F(""));
-	Serial.println(F("Accessories V0.43"));
+	Serial.println(F("Accessories V0.45"));
 	Serial.println(F("Developed by Thierry Paris."));
 	Serial.println(F("(c) Locoduino 2016"));
 	Serial.println(F(""));
@@ -223,10 +223,7 @@ static Accessory *pLoopAccessory = 0;
 bool Accessories::loop()
 {
 #ifndef NO_GROUP
-	bool ret = AccessoryGroup::loops();
-
-	if (ret)
-		return true;
+	AccessoryGroup::loops();
 #endif
 
 	if (pLoopAccessory == NULL)
@@ -238,10 +235,7 @@ bool Accessories::loop()
 
 		while (pCurr != NULL)
 		{
-			if (pCurr->GetPort() == NULL)
-			{
-				Serial.println(F("One accessory have no port !"));
-			}
+			pCurr->CheckPort();
 			pCurr = pCurr->GetNextAccessory();
 		}
 
