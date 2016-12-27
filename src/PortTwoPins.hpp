@@ -25,6 +25,10 @@ class PortTwoPins : public Port
 		void MoveRightDir(unsigned long inDuration = 0);
 		void MoveStop();
 
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+		void printPort();
+#endif
+
 	private:
 		void Move(int inValA, int inValB);
 };

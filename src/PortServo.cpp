@@ -61,4 +61,13 @@ int PortServo::GetPosition()
 {
 	return this->servo.read();
 }
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void PortServo::printPort()
+{
+	Serial.print(F("[PortServo pin:"));
+	Serial.print(this->pin);
+	Serial.print(F("]"));
+}
+#endif
 #endif

@@ -37,7 +37,7 @@ class AccessoryMotor : public Accessory
 		void Move(unsigned long inId);
 		inline virtual void MoveLeft(unsigned long inDuration = 0, int inSpeed = 0) { this->InternalMove(LEFT, inDuration, inSpeed); }
 		inline virtual void MoveRight(unsigned long inDuration = 0, int inSpeed = 0) { this->InternalMove(RIGHT, inDuration, inSpeed); }
-		virtual ACC_STATE MoveToggle(unsigned long inDuration = 0, int inSpeed = 0);
+		virtual ACC_STATE MoveToggle(unsigned long inDuration = 0, int inSpeed = 0) = 0;
 
 	protected:
 		void SetState(ACC_STATE instate);

@@ -41,7 +41,7 @@ void Accessories::begin(int inEEPROMStart, int inEEPROMSize)
 	delay(500);
 
 	Serial.println(F(""));
-	Serial.println(F("Accessories V0.45"));
+	Serial.println(F("Accessories V0.50"));
 	Serial.println(F("Developed by Thierry Paris."));
 	Serial.println(F("(c) Locoduino 2016"));
 	Serial.println(F(""));
@@ -217,6 +217,25 @@ bool Accessories::CanMove(unsigned long inId)
 	acc->SetLastMoveTime();
 	return true;
 }
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void Accessories::printAccessories()
+{
+	Serial.println(F("********* Accessories List"));
+	Accessory *pCurr = Accessories::pFirstAccessory;
+
+	while (pCurr != NULL)
+	{
+		pCurr->printAccessory();
+		pCurr = pCurr->GetNextAccessory();
+	}
+	Serial.println(F("********* End of Accessories"));
+
+	Serial.println(F("********* Groups"));
+	AccessoryGroup::printGroups();
+	Serial.println(F("********* End of groups"));
+}
+#endif
 
 static Accessory *pLoopAccessory = 0;
 

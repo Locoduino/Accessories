@@ -17,6 +17,10 @@ class AccessoryMotorOneWay : public AccessoryMotor
 	protected:
 		inline void MoveRight(unsigned long inDuration = 0, int inSpeed = 0) { MoveLeft(inDuration, inSpeed); }
 		inline ACC_STATE MoveToggle(unsigned long inDuration = 0, int inSpeed = 0) { MoveLeft(inDuration, inSpeed); return LEFT; }
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+	public:
+		void printAccessory();
+#endif
 };
 #endif 
 

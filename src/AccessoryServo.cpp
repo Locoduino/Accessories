@@ -382,4 +382,38 @@ int AccessoryServo::EEPROMLoad(int inPos)
 	return inPos;
 }
 #endif
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void AccessoryServo::printAccessory()
+{
+	Serial.print(F("    Servo : "));
+	for (int i = 0; i < this->GetMovingPositionSize(); i++)
+	{
+		Serial.print(F(" / ID "));
+		Serial.print(this->GetMovingPositionIdByIndex(i));
+		Serial.print(F(" - "));
+		Serial.print(this->GetMovingPositionByIndex(i));
+	}
+
+	if (this->GetPort() != NULL)
+	{
+		Serial.print(F(" / Speed "));
+		Serial.print(this->GetPort()->GetSpeed());
+	}
+	if (this->powerCommandPin != (GPIO_pin_t)DP_INVALID)
+	{
+		Serial.print(F(" / PowerPin "));
+		Port::printPortPin(this->powerCommandPin, DIGITAL);
+		Serial.print(F(" / PowerDelay "));
+		Serial.print(this->powerDelay);
+	}
+	Serial.print(F(" / Delay "));
+	Serial.print(this->GetDebounceDelay());
+	Serial.print(F("ms / "));
+	if (this->GetPort() != NULL)
+		this->GetPort()->printPort();
+	Serial.println(F(" "));
+}
+#endif
+
 #endif

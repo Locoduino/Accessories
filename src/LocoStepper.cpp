@@ -55,9 +55,9 @@ void LocoStepper::moveTo(long absolute)
 	if (distanceTo == 0)
 		setSpeed(0.0f); // We're there
 	if (distanceTo > 0) // Clockwise
-		setSpeed(fabs(_speed));
+		setSpeed((float) fabs(_speed));
 	else
-		setSpeed(-fabs(_speed));
+		setSpeed((float) -fabs(_speed));
 }
 
 void LocoStepper::move(long relative)

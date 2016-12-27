@@ -9,13 +9,6 @@
 enum PIN_TYPE { UNDEFINED = 0, DIGITAL = 1, DIGITAL_INVERTED = 2, ANALOG = 11, ANALOG_INVERTED = 12 };
 enum PORT_STATE { PORT_STOP, PORT_LEFT, PORT_RIGHT };
 
-enum PORTTYPE
-{
-	MOTOR_LIGHT = 0,
-	SERVO = 1,
-	STEPPER = 2
-};
-
 #ifdef ACCESSORIES_DEBUG_MODE
 #ifdef ARDUINO_ARCH_SAM
 #define CHECKPIN(val, type, text)		Port::CheckPinNb(val, type, text)
@@ -29,7 +22,6 @@ enum PORTTYPE
 class Port
 {
 	protected:
-		PORTTYPE type;
 		PIN_TYPE pinType;
 		PORT_STATE state;
 		int speed;
@@ -39,15 +31,13 @@ class Port
 		void MovePin(int inPin, int inValue, PIN_TYPE inType = UNDEFINED) const;
 
 	public:
-		Port() {}
-		Port(PORTTYPE inType);
+		Port();
 		
 		inline virtual void begin() {}
 		inline virtual void beginByAccessory(int inStartingPosition) {}
 
 		inline PORT_STATE GetState() const { return this->state; }
 		inline int GetSpeed() const { return this->speed; }
-		inline PORTTYPE GetType() const { return this->type; }
 		virtual int SetSpeed(int inSpeed);
 		
 		inline bool IsLeftDir() const { return this->state == PORT_LEFT; }
@@ -70,6 +60,10 @@ class Port
 #else
 		static void CheckPinNb(int inPin, PIN_TYPE inType, const __FlashStringHelper *infunc);
 #endif
+#endif
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+		virtual void printPort();
+		static void printPortPin(int inPin, PIN_TYPE inType);
 #endif
 };
 

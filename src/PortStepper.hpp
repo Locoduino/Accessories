@@ -27,6 +27,16 @@ class PortStepper: public Port
 		inline long currentPosition() { return this->pMotor->currentPosition(); }
 		inline long targetPosition() { return this->pMotor->targetPosition(); }
 		inline int GetPosition() { return (int) this->currentPosition(); }
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+		uint8_t printPin1;
+		uint8_t printPin2;
+		uint8_t printPin3;
+		uint8_t printPin4;
+		PIN_TYPE printType;
+		uint8_t *printpSteps;
+		void printPort();
+#endif
 };
 #endif
 

@@ -99,3 +99,16 @@ void PortTwoPinsEnable::Move(int inValA, int inValB, int inValEnable)
 
 	MovePin(this->pinEnable, inValEnable, this->pinTypeEnable);
 }
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void PortTwoPinsEnable::printPort()
+{
+	Serial.print(F("[PortTwoPinsEnable pinA:"));
+	Port::printPortPin(this->pinA, this->pinType);
+	Serial.print(F(" pinB:"));
+	Port::printPortPin(this->pinB, this->pinType);
+	Serial.print(F(" enable:"));
+	Port::printPortPin(this->pinEnable, this->pinTypeEnable);
+	Serial.print(F("]"));
+}
+#endif

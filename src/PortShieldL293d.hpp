@@ -36,6 +36,11 @@ class PortShieldL293d : public Port
 		void MoveLeftDir(unsigned long inDuration = 0);
 		void MoveRightDir(unsigned long inDuration = 0);
 		void MoveStop();
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+		unsigned char printedOutPort;
+		uint8_t printedSpeed;
+		void printPort();
+#endif
 };
 
 //-------------------------------------------------------------------

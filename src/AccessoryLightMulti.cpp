@@ -37,7 +37,12 @@ void AccessoryLightMulti::begin(unsigned long inId, uint8_t inSize, unsigned lon
 	this->SetDuration(inBlinkDuration);
 
 	for (uint8_t i = 0; i < inSize; i++)
+	{
 		this->pLights[i].pOwner = this;
+		// This is the default value for the blinking delay, which can be overwriten by individual SetBlinking()
+		// on a particular light.
+		this->pLights[i].SetBlinking(inBlinkDuration);
+	}
 
 	this->pMovingPositionBlinks = NULL;
 }
@@ -156,10 +161,16 @@ void AccessoryLightMulti::Move(unsigned long inId)
 
 void AccessoryLightMulti::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData) 
 { 
+	int positionIndex = -1;
+	if (inEvent == ACCESSORIES_EVENT_MOVEPOSITIONID)
+		positionIndex = this->IndexOfMovingPosition(inId);
 	if (inEvent == ACCESSORIES_EVENT_MOVEPOSITIONINDEX)
+		positionIndex = inData;
+
+	if (positionIndex > -1)
 	{
-		this->SetLastMovingPosition(inData);
-		this->MoveBlink(this->GetMovingPosition(inId), this->pMovingPositionBlinks[inData]);
+		this->SetLastMovingPosition(positionIndex);
+		this->MoveBlink(this->GetMovingPositionByIndex(positionIndex), this->pMovingPositionBlinks[positionIndex]);
 		return;
 	}
 
@@ -183,4 +194,18 @@ int AccessoryLightMulti::EEPROMLoad(int inPos)
 	return inPos;
 }
 #endif
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void AccessoryLightMulti::printAccessory()
+{
+	Serial.println(F("    LightMulti"));
+	for (uint8_t i = 0; i < this->lightsSize; i++)
+	{
+		Serial.print(F("         "));
+		Serial.print(i);
+		Serial.print(F(" : "));
+		this->pLights[i].printAccessory();
+	}
+}
+#endif
+
 #endif

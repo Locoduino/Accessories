@@ -25,6 +25,9 @@ class PortServo : public Port
 		
 		void MovePosition(unsigned long inDuration, int inEndPosition);
 		int GetPosition();
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+		void printPort();
+#endif
 };
 #endif
 

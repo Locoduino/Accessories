@@ -8,7 +8,7 @@ description: <Driver port for a relay>
 
 #ifndef NO_MOTOR_LIGHT
 
-PortOnePin::PortOnePin() : Port(MOTOR_LIGHT)
+PortOnePin::PortOnePin()
 {
 	this->pin = -1;
 }
@@ -73,10 +73,22 @@ void PortOnePin::MoveRightDir(unsigned long inDuration)
 void PortOnePin::MoveStop()
 {
 #ifdef ACCESSORIES_DEBUG_MODE
-	Serial.println(F(" PortOnePin MoveStop()"));
+	Serial.print(F(" PortOnePin "));
+	Serial.print(this->GetPin());
+	Serial.println(F(" MoveStop()"));
 #endif
 	this->state = PORT_STOP;
 	this->MovePin(this->pin, LOW);
 }
 
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void PortOnePin::printPort()
+{
+	Serial.print(F("[PortOnePin pin:"));
+	Port::printPortPin(this->pin, this->pinType);
+	Serial.print(F("]"));
+}
 #endif
+
+#endif
+

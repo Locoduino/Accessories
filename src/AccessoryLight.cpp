@@ -70,4 +70,14 @@ int AccessoryLight::EEPROMLoad(int inPos)
 }
 #endif
 
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void AccessoryLight::printAccessory()
+{
+	Serial.print(F("    Light : ID "));
+	Serial.print(this->GetMovingPositionIdByIndex(0));
+	Serial.print(F(" / "));
+	this->pLight->printAccessory();
+}
+#endif
+
 #endif

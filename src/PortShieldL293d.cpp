@@ -10,7 +10,7 @@ description: <Driver port for L293n>
 
 #ifndef NO_SHIELDL293D
 
-PortShieldL293d::PortShieldL293d() : Port(MOTOR_LIGHT)
+PortShieldL293d::PortShieldL293d()
 {
 }
 
@@ -20,6 +20,11 @@ void PortShieldL293d::begin(unsigned char inOutPort, uint8_t inSpeed, uint8_t in
 	this->pmotor->pwmfreq = inFreq;
 	this->pmotor->setSpeed(inSpeed);
  
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+	this->printedOutPort = inOutPort;
+	this->printedSpeed = inSpeed;
+#endif
+
 	this->pmotor->run(RELEASE);
 }
 
@@ -81,6 +86,17 @@ void PortShieldL293d::MoveStop()
 {
 	this->pmotor->run(RELEASE);
 	this->state = PORT_STOP;
+}
+#endif
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void PortShieldL293d::printPort()
+{
+	Serial.print(F("[PortShieldL293d port: M"));
+	Serial.print((int)this->printedOutPort, DEC);
+	Serial.print(F(" speed:"));
+	Serial.print((int)this->printedSpeed, DEC);
+	Serial.print(F("]"));
 }
 #endif
 #endif

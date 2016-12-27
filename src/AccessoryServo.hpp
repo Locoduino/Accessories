@@ -91,6 +91,11 @@ class AccessoryServo : public Accessory
 		inline ACC_STATE Toggle() { return MoveToggle(); }
 		bool ActionEnded();
 		void InternalMovePosition(int inPosition);
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+	public:
+		void printAccessory();
+#endif
 };
 #endif
 

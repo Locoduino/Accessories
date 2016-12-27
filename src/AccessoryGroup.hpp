@@ -21,6 +21,11 @@ class GroupStateItem
 
 		GroupStateItem() { this->pAccessory = NULL; this->State = STATE_NONE; this->Delay = 0; }
 		GroupStateItem(Accessory *inpAccessory, ACC_STATE inState, unsigned int inDelay = 0) { this->pAccessory = inpAccessory; this->State = inState; this->Delay = inDelay; }
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+	public:
+		void printAccessory();
+#endif
 };
 
 // A complete state of the group : Light18/On and Motor3/Right .
@@ -48,6 +53,11 @@ class GroupState
 		void loop();
 	public:
 		void Add(Accessory *inpAccessory, ACC_STATE inState, unsigned int inDelay = 0);
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+	public:
+		void printAccessory();
+#endif
 };
 
 // Group of accessories defining a list of states of these acessories.
@@ -91,6 +101,12 @@ class AccessoryGroup
 #ifndef NO_EEPROM
 		int EEPROMSave(int inPos, bool inSimulate = false);
 		int EEPROMLoad(int inPos);
+#endif
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+	public:
+		static void printGroups();
+		void printAccessory();
 #endif
 };
 #endif

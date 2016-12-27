@@ -33,6 +33,8 @@ class AccessoryLightMulti : public Accessory
 		inline uint8_t GetSize() const { return this->lightsSize; }
 
 		unsigned char AddMovingPosition(unsigned long inId, int inOnMask, int inBlinkMask);
+		int GetMovingPositionBlinks(unsigned long inId) const;
+		inline int GetMovingPositionBlinksByIndex(int inIndex) const { return this->pMovingPositionBlinks[inIndex]; }
 		inline void SetBlinking(uint8_t inIndex, unsigned long inBlinkingDelay) { this->pLights[inIndex].SetBlinking(inBlinkingDelay); }
 		inline void SetFading(uint8_t inIndex, uint8_t inStep, uint8_t inDelay) { this->pLights[inIndex].SetFading(inStep, inDelay); }
 		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
@@ -66,6 +68,11 @@ class AccessoryLightMulti : public Accessory
 #ifdef ACCESSORIES_DEBUG_MODE
 		void CheckPort() const;
 		void CheckIndex(int inIndex, const __FlashStringHelper *infunc);
+#endif
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+	public:
+		void printAccessory();
 #endif
 };
 #endif

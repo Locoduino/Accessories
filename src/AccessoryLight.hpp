@@ -50,6 +50,11 @@ class AccessoryLight : public Accessory
 		inline void ResetAction() { return this->ResetStartingMillis(); }
 
 		void Move(unsigned long inId);
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+	public:
+		void printAccessory();
+#endif
 };
 #endif
 

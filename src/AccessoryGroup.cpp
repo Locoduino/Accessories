@@ -25,6 +25,22 @@ description: <Class for a group of accessories>
 #endif
 
 /***********************************************************
+*		GroupStateItem
+************************************************************/
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void GroupStateItem::printAccessory()
+{
+	Serial.print(F("             Acc : ID "));
+	Serial.print(this->pAccessory->GetMovingPositionIdByIndex(0));
+	Serial.print(F(" / State "));
+	Serial.print(this->State);
+	Serial.print(F(" / AssyncDelay "));
+	Serial.println(this->Delay);
+}
+#endif
+
+/***********************************************************
 *		GroupState
 ************************************************************/
 
@@ -114,6 +130,22 @@ void GroupState::loop()
 	if (this->Items.HasCurrent())
 		this->Items.pCurrentItem->Obj->pAccessory->StartAction(this->Items.pCurrentItem->Obj->State);
 }
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void GroupState::printAccessory()
+{
+	Serial.print(F("        State : ID "));
+	Serial.println(this->Id);
+
+	ACCSCHAINEDLISTITEM<GroupStateItem> *pCurr = this->Items.pFirst;
+
+	while (pCurr != NULL)
+	{
+		pCurr->Obj->printAccessory();
+		pCurr = pCurr->pNext;
+	}
+}
+#endif
 
 /***********************************************************
 *		AccessoryGroup
@@ -422,6 +454,32 @@ int AccessoryGroup::EEPROMLoadAll(int inPos)
 	}
 
 	return inPos;
+}
+#endif
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void AccessoryGroup::printGroups()
+{
+	AccessoryGroup *pCurr = pFirstGroup;
+
+	while (pCurr != NULL)
+	{
+		pCurr->printAccessory();
+		pCurr = pCurr->pNextGroup;
+	}
+}
+
+void AccessoryGroup::printAccessory()
+{
+	Serial.println(F("    Group : "));
+
+	ACCSCHAINEDLISTITEM<GroupState> *pCurr = this->States.pFirst;
+
+	while (pCurr != NULL)
+	{
+		pCurr->Obj->printAccessory();
+		pCurr = pCurr->pNext;
+	}
 }
 #endif
 #endif

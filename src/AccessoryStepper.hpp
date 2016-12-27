@@ -40,6 +40,11 @@ class AccessoryStepper : public Accessory
 	private:
 		inline ACC_STATE Toggle() { return MoveToggle(); }
 		bool ActionEnded();
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+	public:
+		void printAccessory();
+#endif
 };
 #endif
 

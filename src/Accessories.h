@@ -9,10 +9,17 @@
 // Has no effect if ACCESSORIES_DEBUG_MODE is not activated.
 //#define ACCESSORIES_DEBUG_VERBOSE_MODE
 
+///////////////////////////////////////////////////////
+// The function Accessories::printAccessories()
+// is very heavy in program memory. So to avoid problems
+// you can make this function available by uncomment the next line.
+//#define ACCESSORIES_PRINT_ACCESSORIES
+
 #define  GPIO2_PREFER_SPEED    1
 
 #ifdef VISUALSTUDIO
 #define ACCESSORIES_DEBUG_MODE
+#define ACCESSORIES_PRINT_ACCESSORIES
 #include "../../DIO2/VStudio/DIO2.h"
 #else
 #include "DIO2.h"

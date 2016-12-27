@@ -32,6 +32,9 @@ class PortSpeedDirBrake : public Port
 		void MoveLeftDir(unsigned long inDuration = 0);
 		void MoveRightDir(unsigned long inDuration = 0);
 		void MoveStop();
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+		void printPort();
+#endif
 };
 
 //-------------------------------------------------------------------

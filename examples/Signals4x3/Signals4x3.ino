@@ -1,15 +1,5 @@
-/*************************************************************
-project: <Accessories>
-author: <Thierry PARIS>
-description: <Sample for four 3 leds signals on a Uno>
-*************************************************************/
-
 #include "Commanders.h"
 #include "Accessories.h"
-
-#define NB_LEDS		3
-#define NB_FEUX		4
-#define DCCSTART	20
 
 //------------------------------------------------------------------------------
 // SignalArduino declaration
@@ -17,22 +7,23 @@ description: <Sample for four 3 leds signals on a Uno>
 class SignalArduino : public AccessoryLightMulti
 {
 public:
-	inline SignalArduino() {}
-	void beginSignal(uint8_t inNbLeds, int *inpPins, int inStartingDcc);
+	void begin(byte inNbLeds, int *inpPins, int inStartingDcc);
 };
 
 //------------------------------------------------------------------------------
 // SignalArduino definition
 
-void SignalArduino::beginSignal(uint8_t inNbLeds, int *inpPins, int inStartingDcc)
+static byte counter = 0;
+
+void SignalArduino::begin(byte inNbLeds, int *inpPins, int inStartingDcc)
 {
-	this->begin(0, NB_LEDS, 0);
+	this->AccessoryLightMulti::begin(1000 + (counter++), inNbLeds, 0);
 
 	for (int led = 0; led < inNbLeds; led++)
 	{
-		PortOnePin *pPort = new PortOnePin();
-		pPort->begin(inpPins[led], DIGITAL);
-		this->beginLight(led, pPort);
+		PortOnePin *port = new PortOnePin();
+		port->begin(inpPins[led], DIGITAL);
+		this->beginLight(led, port);
 	}
 
 	// Used dcc codes are
@@ -42,127 +33,90 @@ void SignalArduino::beginSignal(uint8_t inNbLeds, int *inpPins, int inStartingDc
 	// inStartingDcc+1 / 0  off off  on
 	// inStartingDcc+1 / 1  off off  off
 
-	this->AdjustMovingPositionsSize(inNbLeds + 1);
+	this->AdjustMovingPositionsSize(inNbLeds);
 
 	int dcc = inStartingDcc;
 	bool etat = false;
-	for (int i = 0; i < inNbLeds; i++)
+	for (int i = 0; i < this->GetSize(); i++)
 	{
 		if (!etat)
 		{
-			this->AddMovingPosition(DCCINT(dcc, 0), 1<<i, 0);
+			this->AddMovingPosition(DCCINT(dcc, 0), 1 << i, 0);
 			etat = true;
 		}
 		else
 		{
-			this->AddMovingPosition(DCCINT(dcc, 1), 1<<i, 0);
+			this->AddMovingPosition(DCCINT(dcc, 1), 1 << i, 0);
 			dcc++;
 			etat = false;
 		}
 	}
-	
-	this->AddMovingPosition(DCCINT(dcc, etat==true?1:0), 0, 0);
 
-	// Light on at startup
-	/*
-	for (int i = 0; i < inNbLeds; i++)
-	{
-		this->LightOn(i);
-		unsigned long start = millis();
-		while (millis() - start < 1000)
-			Accessories::loop();
-	}
-	*/
-	for (int i = 0; i < inNbLeds; i++)
-		this->LightOff(i);
+	// Last moving position used to set all off.
+	this->AddMovingPosition(DCCINT(dcc, etat == true ? 1 : 0), 0, 0);
 }
-
+// End of class
 //------------------------------------------------------------------------------
-// Classic INO area
 
-// Commanders
+/* kDCC_INTERRUPT values :
+Board         int.0   int.1   int.2   int.3   int.4   int.5
+Uno, Ethernet   2      3
+Mega2560        2      3      21      20      19      18
+Leonardo        3      2      0       1       7
+*/
+#define kDCC_INTERRUPT            0
 
-#ifdef VISUALSTUDIO
-ButtonsCommanderKeyboard	push;
-#else
-ButtonsCommanderPush push;
-#endif
+#define NB_LEDS     3
+#define NB_ETATS    3
+#define NB_FEUX     4
 
-// Accessories
-
-SignalArduino signaux[NB_FEUX];
-
-// Drivers
-
-int pins[NB_FEUX][NB_LEDS] = {
-	{ 22, 23, 24 },
-	{ 25, 26, 27 },
-	{ 28, 29, 30 },
-	{ 31, 32, 33 },
+int pins[][NB_LEDS] = {
+	{ 5, 6, 7 },
+	{ 8, 9, 10 },
+	{ 11, 12, 13 },
+	{ 14, 15, 16 }
 };
 
-int dcc_codes[NB_FEUX] = { 10, 12, 14, 16 };
+ButtonsCommanderPush poussoir;
+SignalArduino* signaux[NB_FEUX];
 
-void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
-{
-	Accessories::ReceiveEvent(inId, (ACCESSORIES_EVENT_TYPE)inEventType, inEventData);
-}
+int dcc_codes[] = { 10, 12, 14, 16 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// Setup
-//
 void setup()
 {
-	Serial.begin(115200);
-	//while (!Serial);		// For Leonardo only. No effect on other Arduino.
-
-	Commanders::begin(ReceiveEvent, LED_BUILTIN);
+	Commanders::begin();
 	Accessories::begin();
 
-	// Commanders setup
+	DccCommander.begin(0x00, 0x00, kDCC_INTERRUPT);
 
-	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(3));
+	poussoir.begin(0, A2);
 
-	// Small push button to check all signal states manually.
-	// UNDEFINED_ID here means that this id is not significant.
-#ifdef VISUALSTUDIO
-	push.begin(UNDEFINED_ID, '0');
-#else
-	push.begin(UNDEFINED_ID, 17);
-#endif
-
+	// Ce petit bouton va permettre de passer en revue tous les codes dcc des feux en séquence...
+	int dcc = 0;
 	for (int feu = 0; feu < NB_FEUX; feu++)
 	{
-		int dcc = dcc_codes[feu];
-		bool etat = false;
-		for (int i = 0; i < NB_LEDS; i++)
-		{
-			if (!etat)
-			{
-				push.AddEvent(DCCINT(dcc, 0));
-				etat = true;
-			}
-			else
-			{
-				push.AddEvent(DCCINT(dcc, 1));
-				dcc++;
-				etat = false;
-			}
-		}
-		
-		push.AddEvent(DCCINT(dcc, etat == true ? 1 : 0));
+		poussoir.AddEvent(DCCINT(dcc_codes[dcc], 0));
+		poussoir.AddEvent(DCCINT(dcc_codes[dcc], 1));
+		poussoir.AddEvent(DCCINT(dcc_codes[dcc] + 1, 0));
+		dcc++;
 	}
 
 	for (int feu = 0; feu < NB_FEUX; feu++)
 	{
-		signaux[feu].beginSignal(NB_LEDS, pins[feu], dcc_codes[feu]);
+		signaux[feu] = new SignalArduino();
+		signaux[feu]->begin(NB_LEDS, pins[feu], dcc_codes[feu]);
 	}
 }
 
 void loop()
 {
-	Accessories::loop();
+	unsigned long id = Commanders::loop();
 
-	Commanders::loop();
+	if (id != UNDEFINED_ID)
+	{
+		// Renvoie l'événement reçu de Commanders, vers les accessoires...
+		Accessories::RaiseEvent(id, (ACCESSORIES_EVENT_TYPE)Commanders::GetLastEventType(), Commanders::GetLastEventData());
+	}
+
+	Accessories::loop();
 }

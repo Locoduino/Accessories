@@ -1,3 +1,8 @@
+27/12/2016 0.50
+	- Ajout de printAccessories()
+	- Correction du Event() de Light.
+	- Correction du MoveToggle de AccessoryMotorTwoWays
+
 04/12/2016 0.45
 	- Correction de la gestion de groupes.
 	- Correction de la vérification des ports au lancement

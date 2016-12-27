@@ -73,6 +73,10 @@ class AccessoryBaseLight
 		int EEPROMSave(int inPos, bool inSimulate = false);
 		int EEPROMLoad(int inPos);
 #endif
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+	public:
+		void printAccessory();
+#endif
 };
 #endif
 

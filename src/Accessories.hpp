@@ -54,6 +54,9 @@ private:
 
 public:
 	static void Add(Accessory *inpAccessory);
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+	static void printAccessories();
+#endif
 };
 
 #endif

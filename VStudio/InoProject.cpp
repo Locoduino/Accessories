@@ -7,7 +7,7 @@
 //#include "../examples/Group/Group.ino"
 //#include "../examples/LightFading/LightFading.ino"
 //#include "../examples/Servos/Servos.ino"
-#include "../examples/SignalFrench/SignalFrench.ino"
+//#include "../examples/SignalFrench/SignalFrench.ino"
 //#include "../examples/Signals4x3/Signals4x3.ino"
 //#include "../examples/SimpleLed/SimpleLed.ino"
 //#include "../examples/SimpleLedMulti/SimpleLedMulti.ino"
@@ -20,7 +20,7 @@
 //#include "../examples/locoduino.org/programme5/programme5.ino"
 //#include "../examples/locoduino.org/programme6/programme6.ino"
 
-//#include "TestExe.ino"
+#include "TestExe.ino"
 
 using namespace System;
 using namespace System::Windows::Forms;

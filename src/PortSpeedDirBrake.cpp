@@ -8,7 +8,7 @@ description: <Driver port for a LMD18200>
 
 #ifndef NO_MOTOR_LIGHT
 
-PortSpeedDirBrake::PortSpeedDirBrake() : Port(MOTOR_LIGHT)
+PortSpeedDirBrake::PortSpeedDirBrake()
 {
 	this->pinPWM = -1;
 }
@@ -93,5 +93,18 @@ void PortSpeedDirBrake::MoveStop()
 	this->state = PORT_STOP;
 	this->MovePin(this->pinBrake, HIGH, this->digitalType);
 }
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void PortSpeedDirBrake::printPort()
+{
+	Serial.print(F("[PortSpeedDirBrake pinPWM:"));
+	Port::printPortPin(this->pinPWM, this->pinType);
+	Serial.print(F(" dir:"));
+	Port::printPortPin(this->pinDir, this->digitalType);
+	Serial.print(F(" brake:"));
+	Port::printPortPin(this->pinBrake, this->digitalType);
+	Serial.print(F("]"));
+}
+#endif
 
 #endif

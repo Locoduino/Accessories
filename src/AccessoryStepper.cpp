@@ -178,4 +178,33 @@ bool AccessoryStepper::ActionEnded()
 	return false;
 }
 
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void AccessoryStepper::printAccessory()
+{
+	Serial.print(F("    Stepper : "));
+	for (int i = 0; i < this->GetMovingPositionSize(); i++)
+	{
+		Serial.print(F(" / ID "));
+		Serial.print(this->GetMovingPositionIdByIndex(i));
+		Serial.print(F(" - pos "));
+		Serial.print(this->GetMovingPositionByIndex(i));
+	}
+
+	Serial.print(F(" / StepsNumber "));
+	Serial.print(this->stepsNumber);
+	Serial.print(F(" / Reduction "));
+	Serial.print(this->reduction);
+	if (this->GetPort() != NULL)
+	{
+		Serial.print(F(" / Speed: "));
+		Serial.print(this->GetPort()->GetSpeed());
+	}
+	Serial.print(F(" / Delay: "));
+	Serial.print(this->GetDebounceDelay());
+	Serial.print(F(" / "));
+	if (this->GetPort() != NULL)
+		this->GetPort()->printPort();
+	Serial.println(F(" "));
+}
+#endif
 #endif

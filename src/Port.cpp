@@ -46,9 +46,8 @@ void Port::CheckPinNb(int inPin, PIN_TYPE inType, const __FlashStringHelper *inF
 #endif
 #endif
 
-Port::Port(PORTTYPE inType)
+Port::Port()
 {
-	this->type = inType;
 	this->pinType = DIGITAL;
 	this->state = PORT_STOP;
 	this->speed = DEFAULTSPEED;
@@ -147,3 +146,26 @@ void Port::MoveRightDir(unsigned long inDuration, int inSpeed)
 		this->SetSpeed(oldSpeed);
 }
 
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void Port::printPort()
+{
+}
+
+void Port::printPortPin(int inPin, PIN_TYPE inType)
+{
+	Serial.print(" ");
+	if (inType < ANALOG)
+		Serial.print(GPIO_to_Arduino_pin((GPIO_pin_t)inPin));
+	else
+		Serial.print(inPin);
+	Serial.print(" (");
+	switch (inType)
+	{
+	case UNDEFINED:			Serial.print("UNDEFINED)"); break;
+	case DIGITAL:			Serial.print("DIGITAL)"); break;
+	case DIGITAL_INVERTED:	Serial.print("DIGITAL_INVERTED)"); break;
+	case ANALOG:			Serial.print("ANALOG)"); break;
+	case ANALOG_INVERTED:	Serial.print("ANALOG_INVERTED)"); break;
+	}
+}
+#endif

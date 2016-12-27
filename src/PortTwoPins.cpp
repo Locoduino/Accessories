@@ -6,7 +6,7 @@ description: <Driver port with 2 pins>
 
 #include "Accessories.h"
 
-PortTwoPins::PortTwoPins() : Port(MOTOR_LIGHT)
+PortTwoPins::PortTwoPins()
 {
 }
 
@@ -95,4 +95,15 @@ void PortTwoPins::Move(int inValA, int inValB)
 	this->MovePin(this->pinA, inValA);
 	this->MovePin(this->pinB, inValB);
 }
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void PortTwoPins::printPort()
+{
+	Serial.print(F("[PortTwoPins pinA:"));
+	Port::printPortPin(this->pinA, this->pinType);
+	Serial.print(F(" pinB:"));
+	Port::printPortPin(this->pinB, this->pinType);
+	Serial.print(F("]"));
+}
+#endif
 

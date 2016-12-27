@@ -48,6 +48,7 @@ Move 				KEYWORD2
 MovePosition 		KEYWORD2
 Toggle				KEYWORD2
 begin 				KEYWORD2
+beginLight			KEYWORD2
 loop 				KEYWORD2
 GetAccessoryType	KEYWORD2
 GetPort				KEYWORD2
@@ -70,6 +71,7 @@ MoveMaximum			KEYWORD2
 LightOn				KEYWORD2
 LightOff			KEYWORD2
 Blink				KEYWORD2
+printAccessories	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
@@ -85,6 +87,7 @@ NO_SERVO 			LITERAL1
 NO_SHIELDL293D 		LITERAL1
 NO_STEPPER 			LITERAL1
 NO_EEPROM			LITERAL1
+ACCESSORIES_PRINT_ACCESSORIES	LITERAL1
 
 ACTION_STACK_SIZE 	LITERAL1
 

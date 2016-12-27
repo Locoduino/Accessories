@@ -166,6 +166,12 @@ public:	//but should be protected !
 
 	inline void SetStartingMillis() { this->startingMillis = millis(); }
 	inline void ResetStartingMillis() { this->startingMillis = 0; }
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+	virtual void printAccessory() {
+		if (this->GetPort() != NULL)
+			this->GetPort()->printPort();
+	}
+#endif
 };
 
 //-------------------------------------------------------------------

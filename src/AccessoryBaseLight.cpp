@@ -332,4 +332,20 @@ int AccessoryBaseLight::EEPROMLoad(int inPos)
 	return inPos;
 }
 #endif
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void AccessoryBaseLight::printAccessory()
+{
+	Serial.print(F("Fading Step: "));
+	Serial.print(this->fadingStep);
+	Serial.print(F(" / Fading Delay: "));
+	Serial.print(this->fadingDelay);
+	Serial.print(F(" / Blinking Delay: "));
+	Serial.print(this->blinkingDelay);
+	Serial.print(F(" / "));
+	if (this->GetPort() != NULL)
+		this->GetPort()->printPort();
+	Serial.println(F(" "));
+}
+#endif
+
 #endif

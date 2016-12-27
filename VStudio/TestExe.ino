@@ -1,40 +1,124 @@
+#if 0
 #include "Commanders.h"
 #include "Accessories.h"
 
-// Accessories
-AccessoryMotorTwoWays aiguille;
+//------------------------------------------------------------------------------
+// SignalArduino declaration
 
-ButtonsCommanderPush push;
+class SignalArduino : public AccessoryLightMulti
+{
+public:
+	void begin(byte inNbLeds, int *inpPins, int inStartingDcc);
+};
 
-SERIAL_COMMANDER(Serial);
+//------------------------------------------------------------------------------
+// SignalArduino definition
 
-// Drivers
-PortTwoPins port;
+static byte counter = 0;
 
-#define DCCID_DROIT   DCCINT(20, 0)
-#define DCCID_DEVIE   DCCINT(20, 1)
+void SignalArduino::begin(byte inNbLeds, int *inpPins, int inStartingDcc)
+{
+	this->AccessoryLightMulti::begin(1000 + (counter++), inNbLeds, 0);
+
+	for (int led = 0; led < inNbLeds; led++)
+	{
+		PortOnePin *port = new PortOnePin();
+		port->begin(inpPins[led], DIGITAL);
+		this->beginLight(led, port);
+	}
+
+	// Used dcc codes are
+	//                 Led  0    1    2
+	// inStartingDcc   / 0  on  off  off
+	// inStartingDcc   / 1  off on   off
+	// inStartingDcc+1 / 0  off off  on
+	// inStartingDcc+1 / 1  off off  off
+
+	this->AdjustMovingPositionsSize(inNbLeds);
+
+	int dcc = inStartingDcc;
+	bool etat = false;
+	for (int i = 0; i < this->GetSize(); i++)
+	{
+		if (!etat)
+		{
+			this->AddMovingPosition(DCCINT(dcc, 0), 1 << i, 0);
+			etat = true;
+		}
+		else
+		{
+			this->AddMovingPosition(DCCINT(dcc, 1), 1 << i, 0);
+			dcc++;
+			etat = false;
+		}
+	}
+
+	// Last moving position used to set all off.
+	this->AddMovingPosition(DCCINT(dcc, etat == true ? 1 : 0), 0, 0);
+}
+// End of class
+//------------------------------------------------------------------------------
+
+/* kDCC_INTERRUPT values :
+Board         int.0   int.1   int.2   int.3   int.4   int.5
+Uno, Ethernet   2      3
+Mega2560        2      3      21      20      19      18
+Leonardo        3      2      0       1       7
+*/
+#define kDCC_INTERRUPT            0
+
+#define NB_LEDS     3
+#define NB_ETATS    3
+#define NB_FEUX     16
+
+int pins[][NB_LEDS] = {
+	{ 5, 6, 7 },
+	{ 8, 9, 10 },
+	{ 11, 12, 13 },
+	{ 14, 15, 16 },
+	{ 17, 18, 19 },
+	{ 20, 21, 22 },
+	{ 23, 24, 25 },
+	{ 26, 27, 28 },
+	{ 29, 30, 31 },
+	{ 32, 33, 34 },
+	{ 35, 36, 37 },
+	{ 38, 39, 40 },
+	{ 41, 42, 43 },
+	{ 44, 45, 46 },
+	{ 47, 48, 49 },
+	{ 50, 51, 52 }
+};
+
+ButtonsCommanderPush poussoir;
+SignalArduino* signaux[NB_FEUX];
+
+int dcc_codes[] = { 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40 };
 
 void setup()
 {
-	Serial.begin(115200);
-	Commanders::begin(LED_BUILTIN);
+	Commanders::begin();
 	Accessories::begin();
 
-	SerialCommander.begin();
+	DccCommander.begin(0x00, 0x00, kDCC_INTERRUPT);
 
-	// Setup of the Dcc commander.
-	DccCommander.begin(0x00, 0x00, digitalPinToInterrupt(2), true);
+	poussoir.begin(0, A2);
 
-	// Setup of the buttons, one by accessory
-	push.begin(DCCID_DROIT, 4);
-	push.AddEvent(DCCID_DEVIE);
+	// Ce petit bouton va permettre de passer en revue tous les codes dcc des feux en séquence...
+	int dcc = 0;
+	for (int feu = 0; feu < NB_FEUX; feu++)
+	{
+		poussoir.AddEvent(DCCINT(dcc_codes[dcc], 0));
+		poussoir.AddEvent(DCCINT(dcc_codes[dcc], 1));
+		poussoir.AddEvent(DCCINT(dcc_codes[dcc] + 1, 0));
+		dcc++;
+	}
 
-	// Setup of ports
-	port.begin(6, 7, DIGITAL);
-
-	// Accessories setups
-
-	aiguille.beginTwoWays(&port, DCCID_DROIT, DCCID_DEVIE, 255, 250);
+	for (int feu = 0; feu < NB_FEUX; feu++)
+	{
+		signaux[feu] = new SignalArduino();
+		signaux[feu]->begin(NB_LEDS, pins[feu], dcc_codes[feu]);
+	}
 }
 
 void loop()
@@ -49,8 +133,8 @@ void loop()
 
 	Accessories::loop();
 }
-
-#if 0
+#endif
+//#if 0
 /*************************************************************
 project: <Accessories>
 author: <Thierry PARIS>
@@ -213,7 +297,9 @@ void setup()
 	groupServos.AddStateItem(5001, servo1, MAXIMUM, 500);
 	groupServos.AddStateItem(5001, servo2, MAXIMUM, 500);
 
-	Commanders::printCommanders();
+//	Commanders::printCommanders();
+
+	Accessories::printAccessories();
 }
 
 void loop()
@@ -221,7 +307,7 @@ void loop()
 	Commanders::loop();
 	Accessories::loop();
 }
-#endif
+//#endif
 
 #if 0
 #include <Accessories.h>
