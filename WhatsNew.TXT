@@ -1,7 +1,16 @@
+10/01/2017 0.51
+	- Correction de AccessoryLightMulti::AddMovingPosition().
+
+	- Fix AccessoryLightMulti::AddMovingPosition().
+
 27/12/2016 0.50
 	- Ajout de printAccessories()
 	- Correction du Event() de Light.
 	- Correction du MoveToggle de AccessoryMotorTwoWays
+
+	- printAccessories() added.
+	- Fix Event for lights
+	- Fix MoveToggle of AccessoryMotorTwoWays.
 
 04/12/2016 0.45
 	- Correction de la gestion de groupes.

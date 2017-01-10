@@ -54,7 +54,7 @@ GetAccessoryType	KEYWORD2
 GetPort				KEYWORD2
 GetState			KEYWORD2
 GetPreviousState	KEYWORD2
-AdjustMovingPositionSize	KEYWORD2
+AdjustMovingPositionsSize	KEYWORD2
 AddMovingPosition	KEYWORD2
 Event 				KEYWORD2
 RaiseEvent			KEYWORD2

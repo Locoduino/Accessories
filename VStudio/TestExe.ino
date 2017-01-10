@@ -1,4 +1,4 @@
-#if 0
+//#if 0
 #include "Commanders.h"
 #include "Accessories.h"
 
@@ -91,7 +91,7 @@ int pins[][NB_LEDS] = {
 };
 
 ButtonsCommanderPush poussoir;
-SignalArduino* signaux[NB_FEUX];
+SignalArduino signaux[NB_FEUX];
 
 int dcc_codes[] = { 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40 };
 
@@ -116,8 +116,7 @@ void setup()
 
 	for (int feu = 0; feu < NB_FEUX; feu++)
 	{
-		signaux[feu] = new SignalArduino();
-		signaux[feu]->begin(NB_LEDS, pins[feu], dcc_codes[feu]);
+		signaux[feu].begin(NB_LEDS, pins[feu], dcc_codes[feu]);
 	}
 }
 
@@ -133,8 +132,8 @@ void loop()
 
 	Accessories::loop();
 }
-#endif
-//#if 0
+//#endif
+#if 0
 /*************************************************************
 project: <Accessories>
 author: <Thierry PARIS>
@@ -307,7 +306,7 @@ void loop()
 	Commanders::loop();
 	Accessories::loop();
 }
-//#endif
+#endif
 
 #if 0
 #include <Accessories.h>

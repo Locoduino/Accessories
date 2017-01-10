@@ -33,7 +33,7 @@ class AccessoryLightMulti : public Accessory
 		inline uint8_t GetSize() const { return this->lightsSize; }
 
 		unsigned char AddMovingPosition(unsigned long inId, int inOnMask, int inBlinkMask);
-		int GetMovingPositionBlinks(unsigned long inId) const;
+		void AdjustMovingPositionBlinksSize(uint8_t inNewSize);
 		inline int GetMovingPositionBlinksByIndex(int inIndex) const { return this->pMovingPositionBlinks[inIndex]; }
 		inline void SetBlinking(uint8_t inIndex, unsigned long inBlinkingDelay) { this->pLights[inIndex].SetBlinking(inBlinkingDelay); }
 		inline void SetFading(uint8_t inIndex, uint8_t inStep, uint8_t inDelay) { this->pLights[inIndex].SetFading(inStep, inDelay); }

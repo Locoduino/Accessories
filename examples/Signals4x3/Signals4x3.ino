@@ -92,13 +92,11 @@ void setup()
 	poussoir.begin(0, A2);
 
 	// Ce petit bouton va permettre de passer en revue tous les codes dcc des feux en séquence...
-	int dcc = 0;
 	for (int feu = 0; feu < NB_FEUX; feu++)
 	{
-		poussoir.AddEvent(DCCINT(dcc_codes[dcc], 0));
-		poussoir.AddEvent(DCCINT(dcc_codes[dcc], 1));
-		poussoir.AddEvent(DCCINT(dcc_codes[dcc] + 1, 0));
-		dcc++;
+		poussoir.AddEvent(DCCINT(dcc_codes[feu], 0));
+		poussoir.AddEvent(DCCINT(dcc_codes[feu], 1));
+		poussoir.AddEvent(DCCINT(dcc_codes[feu] + 1, 0));
 	}
 
 	for (int feu = 0; feu < NB_FEUX; feu++)

@@ -47,16 +47,26 @@ void AccessoryLightMulti::begin(unsigned long inId, uint8_t inSize, unsigned lon
 	this->pMovingPositionBlinks = NULL;
 }
 
+void AccessoryLightMulti::AdjustMovingPositionBlinksSize(uint8_t inNewSize)
+{
+	if (this->pMovingPositionBlinks == NULL || inNewSize > this->GetMovingPositionSize())
+	{
+		int i;
+		int *pNewMovingPositionBlinks = new int[inNewSize];
+		for (i = 0; i < this->GetMovingPositionSize(); i++)
+			pNewMovingPositionBlinks[i] = this->pMovingPositionBlinks[i];
+		for (; i < inNewSize; i++)
+			pNewMovingPositionBlinks[i] = 0;
+		if (this->pMovingPositionBlinks != NULL)
+			delete[] this->pMovingPositionBlinks;
+		this->pMovingPositionBlinks = pNewMovingPositionBlinks;
+	}
+}
+
 unsigned char AccessoryLightMulti::AddMovingPosition(unsigned long inIdMin, int inOnMask, int inBlinkMask)
 {
+	this->AdjustMovingPositionBlinksSize(this->GetMovingPositionSize()+1);
 	unsigned char pos = Accessory::AddMovingPosition(inIdMin, inOnMask);
-
-	if (this->pMovingPositionBlinks == NULL)
-	{
-		this->pMovingPositionBlinks = new int[this->GetMovingPositionSize()];
-		for (int i = 0; i < this->GetMovingPositionSize(); i++)
-			this->pMovingPositionBlinks[i] = 0;
-	}
 
 	this->pMovingPositionBlinks[pos] = inBlinkMask;
 	return 0;
