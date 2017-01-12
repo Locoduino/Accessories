@@ -1,3 +1,6 @@
+++/01/2017 0.52
+	- Ajout de printMovingPositions()
+
 10/01/2017 0.51
 	- Correction de AccessoryLightMulti::AddMovingPosition().
 
