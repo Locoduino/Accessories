@@ -73,6 +73,7 @@ class AccessoryLightMulti : public Accessory
 #ifdef ACCESSORIES_PRINT_ACCESSORIES
 	public:
 		void printAccessory();
+		void printMovingPositions(); 
 #endif
 };
 #endif

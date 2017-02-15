@@ -210,10 +210,26 @@ void AccessoryLightMulti::printAccessory()
 	Serial.println(F("    LightMulti"));
 	for (uint8_t i = 0; i < this->lightsSize; i++)
 	{
-		Serial.print(F("         "));
+		Serial.print(F("         Light "));
 		Serial.print(i);
 		Serial.print(F(" : "));
 		this->pLights[i].printAccessory();
+	}
+	this->printMovingPositions();
+}
+
+void AccessoryLightMulti::printMovingPositions()
+{
+	for (int i = 0; i < this->GetMovingPositionSize(); i++)
+	{
+		Serial.print(F("         MovingPosition "));
+		Serial.print(i);
+		Serial.print(F(": id "));
+		Serial.print(this->GetMovingPositionIdByIndex(i));
+		Serial.print(F(" / pos "));
+		Serial.print(this->GetMovingPositionByIndex(i), BIN);
+		Serial.print(F(" / blink "));
+		Serial.println(this->pMovingPositionBlinks[i], BIN);
 	}
 }
 #endif

@@ -195,3 +195,16 @@ int Accessory::EEPROMLoad(int inPos)
 }
 #endif
 
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+void Accessory::printMovingPositions()
+{
+	for (int i = 0; i < this->movingPositionsSize; i++)
+	{
+		Serial.print(i);
+		Serial.print(F(": id "));
+		Serial.print(this->pMovingPositions[i].Id);
+		Serial.print(F(" / pos "));
+		Serial.println(this->pMovingPositions[i].Position);
+	}
+}
+#endif

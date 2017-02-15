@@ -47,9 +47,10 @@ enum ACCESSORIES_EVENT_TYPE
 	ACCESSORIES_EVENT_CONFIG = 6,			// Data is the configuration address and value
 
 	// Part of events not common with Commanders library events.
-	ACCESSORIES_EVENT_DIRECTION = 20,	// Move in positive or negative direction.
-	ACCESSORIES_EVENT_SETSTARTPOSITION = 21,	// Change the starting position of the motor
+	ACCESSORIES_EVENT_DIRECTION = 20,		// Move in positive or negative direction.
+	ACCESSORIES_EVENT_SETSTARTPOSITION = 21,// Change the starting position of the motor
 	ACCESSORIES_EVENT_SETSPEED = 22,		// Change the speed for a motor or the intensity for a light
+	ACCESSORIES_EVENT_EXTERNALMOVE = 23,	// Manually change the state for a motor without using the motor ! Does not apply to a light. New ACC_STATE must be in data.
 };
 
 #define ACCESSORIESSCONFIG(address, value)	( ((int)address<<8) | value )
@@ -170,7 +171,11 @@ public:	//but should be protected !
 	virtual void printAccessory() {
 		if (this->GetPort() != NULL)
 			this->GetPort()->printPort();
+
+		this->printMovingPositions();
 	}
+
+	void Accessory::printMovingPositions(); 
 #endif
 };
 

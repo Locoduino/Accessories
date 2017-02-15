@@ -38,6 +38,7 @@ class AccessoryMotor : public Accessory
 		inline virtual void MoveLeft(unsigned long inDuration = 0, int inSpeed = 0) { this->InternalMove(LEFT, inDuration, inSpeed); }
 		inline virtual void MoveRight(unsigned long inDuration = 0, int inSpeed = 0) { this->InternalMove(RIGHT, inDuration, inSpeed); }
 		virtual ACC_STATE MoveToggle(unsigned long inDuration = 0, int inSpeed = 0) = 0;
+		void ExternalMove(ACC_STATE inNewState) { this->SetStateRaw(inNewState); }
 
 	protected:
 		void SetState(ACC_STATE instate);

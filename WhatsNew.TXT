@@ -1,5 +1,9 @@
-++/01/2017 0.52
+15/02/2017 0.60
 	- Ajout de printMovingPositions()
+	- Ajout de ExternalMove() pour mettre en conformité l'état d'un moteur après une manoeuvre manuelle.
+
+	- printMovingPositions() added.
+	- ExternalMove() added to set the current state of a motor to its real state after a manual move.
 
 10/01/2017 0.51
 	- Correction de AccessoryLightMulti::AddMovingPosition().

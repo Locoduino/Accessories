@@ -113,6 +113,10 @@ void AccessoryMotor::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 		this->pPort->SetSpeed(inData);
 		break;
 
+	case ACCESSORIES_EVENT_EXTERNALMOVE:
+		this->ExternalMove((ACC_STATE)inData);
+		break;
+
 	default:
 		break;
 	}

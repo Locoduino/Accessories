@@ -41,9 +41,9 @@ void Accessories::begin(int inEEPROMStart, int inEEPROMSize)
 	delay(500);
 
 	Serial.println(F(""));
-	Serial.println(F("Accessories V0.50"));
+	Serial.println(F("Accessories V0.60"));
 	Serial.println(F("Developed by Thierry Paris."));
-	Serial.println(F("(c) Locoduino 2016"));
+	Serial.println(F("(c) Locoduino 2016-2017"));
 	Serial.println(F(""));
 
 	Serial.println(F("*** Setup Accessories started."));
@@ -391,7 +391,7 @@ bool Accessories::MovePosition(unsigned long inId)
 
 void Accessories::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
 {
-	if (ActionsStack::FillingStack)
+	if (ActionsStack::FillingStack && inEvent != ACCESSORIES_EVENT_EXTERNALMOVE)
 	{
 		ActionsStack::Actions.Add(inId, inEvent, inData);
 		return;
