@@ -51,7 +51,6 @@ Toggle				KEYWORD2
 begin 				KEYWORD2
 beginLight			KEYWORD2
 loop 				KEYWORD2
-GetAccessoryType	KEYWORD2
 GetPort				KEYWORD2
 GetState			KEYWORD2
 GetPreviousState	KEYWORD2

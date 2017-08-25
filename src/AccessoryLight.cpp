@@ -19,7 +19,6 @@ void AccessoryLight::begin(Port *inpPort, unsigned long inId, unsigned long inBl
 	this->pLight = new AccessoryBaseLight(this);
 
 	this->pLight->SetBlinking(inBlinkDuration);
-	this->type = ACCESSORYLIGHT;
 
 	this->pLight->begin(inpPort, inIntensity);
 	this->AddMovingPosition(inId, LIGHTON);

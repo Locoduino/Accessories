@@ -118,6 +118,8 @@ void setup()
 	{
 		signaux[feu].begin(NB_LEDS, pins[feu], dcc_codes[feu]);
 	}
+
+	Accessories::printAccessories();
 }
 
 void loop()

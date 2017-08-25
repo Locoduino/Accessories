@@ -10,11 +10,7 @@
 
 #ifndef NO_LIGHT
 
-#define LIGHTON		STATE_FIRST
-#define LIGHTBLINK	STATE_SECOND
-#define LIGHTOFF	STATE_NONE
-
-// This class describes a single light accessory.
+/** This class describes a single light accessory.*/
 
 class AccessoryLight : public Accessory
 {
@@ -22,24 +18,62 @@ class AccessoryLight : public Accessory
 		AccessoryBaseLight *pLight;
 
 	public:
+		/**Default constructor.*/
 		AccessoryLight();
 
+		/** Initialize the instance.
+		@param inpPort Port driven this light.
+		@param inId Id of this accessory.
+		@param inBlinkDuration Blink duration, 0 for fix light. Default is 0.
+		@param inIntensity Intensity of this light. Default is maximum, 255.
+		*/
 		void begin(Port *inpPort, unsigned long inId, unsigned long inBlinkDuration = 0, int inIntensity = 255);
+		/**Set the fading mode, defining its speed.
+		@param inStep Number of steps between light on and light off.
+		@param inDelay Duration of each step.
+		*/
 		inline void SetFading(uint8_t inStep, uint8_t inDelay) { this->pLight->SetFading(inStep, inDelay); }
 
+		/**Checks if the light is on.
+		@return true if the light is on.
+		*/
 		inline bool IsOn() const { return this->pLight->IsOn(); }
-		inline bool IsFlashing() const { return this->pLight->IsBlinking(); }
+		/**Checks if the light is blinking.
+		@return true if the light is blinking.
+		*/
+		inline bool IsBlinking() const { return this->pLight->IsBlinking(); }
+		/**Checks if the light is fading.
+		@return true if the light is fading.
+		@remark A light can dim only with an analog pin.
+		*/
 		inline bool IsFading() const { return this->pLight->IsFading(); }
 
+		/** Execute a new event.
+		@param inId Id of an accessory or an accessory item.
+		@param inEvent Type of the new event. Default is ACCESSORIES_EVENT_MOVEPOSITIONID.
+		@param inData Associated data to the event type. Default is 0.
+		*/
 		void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
 
+		/**Sets the internal state.
+		@param inState new state LIGHTON, LIGHTOFF or LIGHTBLINKING.
+		*/
 		inline void SetState(ACC_STATE inState) { this->pLight->SetState(inState); }
+		/**Change the state from ON to OFF or OFF to ON.
+		@return The new state.
+		*/
 		inline ACC_STATE Toggle() { return this->pLight->Toggle(); }
+		/**Turn the light on.*/
 		inline void LightOn() { this->pLight->LightOn(); }
+		/**Turn the light off.*/
 		inline void LightOff() { this->pLight->LightOff(); }
+		/**Turn the light on and blink.*/
 		inline void Blink() { this->pLight->Blink(); }
 
 #ifndef NO_EEPROM
+		/**Reload all data from the EEPROM.
+		@remark Only for internal usage.
+		*/
 		int EEPROMLoad(int inPos);
 #endif
 
@@ -53,6 +87,9 @@ class AccessoryLight : public Accessory
 
 #ifdef ACCESSORIES_PRINT_ACCESSORIES
 	public:
+		/** Print this accessory on console.
+		@remark Only available if ACCESSORIES_PRINT_ACCESSORIES is defined.
+		*/
 		void printAccessory();
 #endif
 };

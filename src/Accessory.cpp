@@ -5,9 +5,12 @@ description: <Class for a generic accessory>
 *************************************************************/
 
 #include "Accessories.h"
+#include "ActionsStack.hpp"
 #ifndef NO_EEPROM
 #include "EEPROM.h"
 #endif
+
+Accessory *Accessory::pFirstAccessory = NULL;
 
 Accessory::Accessory()
 {
@@ -20,9 +23,7 @@ Accessory::Accessory()
 
 	this->duration = 0;
 	this->startingMillis = 0;
-	this->useStateNone = STATE_NONE;
-	this->type = ACCESSORYUNDEFINED;
-	Accessories::Add(this);
+	Accessory::Add(this);
 }
 
 void Accessory::AdjustMovingPositionsSize(uint8_t inNewSize)
@@ -208,3 +209,205 @@ void Accessory::printMovingPositions()
 	}
 }
 #endif
+
+// Accessory list part
+
+void Accessory::Add(Accessory *inpAccessory)
+{
+	if (Accessory::pFirstAccessory == NULL)
+	{
+		Accessory::pFirstAccessory = inpAccessory;
+		inpAccessory->SetNextAccessory(NULL);
+		return;
+	}
+
+	Accessory *pCurr = Accessory::pFirstAccessory;
+
+	while (pCurr->GetNextAccessory() != NULL)
+		pCurr = pCurr->GetNextAccessory();
+
+	pCurr->SetNextAccessory(inpAccessory);
+	inpAccessory->SetNextAccessory(NULL);
+}
+
+uint8_t Accessory::GetCount()
+{
+	uint8_t accCount = 0;
+	Accessory *pCurr = Accessory::pFirstAccessory;
+	while (pCurr != NULL)
+	{
+		accCount++;
+		pCurr = pCurr->GetNextAccessory();
+	}
+
+	return accCount;
+}
+
+Accessory *Accessory::GetById(unsigned long inId)
+{
+	Accessory *pCurr = Accessory::pFirstAccessory;
+
+	while (pCurr != NULL)
+	{
+		if (pCurr->IndexOfMovingPosition(inId) != (uint8_t)-1)
+			return pCurr;
+		pCurr = pCurr->GetNextAccessory();
+	}
+
+	return NULL;
+}
+
+bool Accessory::IsActionPending()
+{
+	Accessory *pCurr = Accessory::pFirstAccessory;
+
+	while (pCurr != NULL)
+	{
+		if (pCurr->IsActionDelayPending())
+			return true;
+		pCurr = pCurr->GetNextAccessory();
+	}
+
+	return false;
+}
+
+bool Accessory::CanMove(unsigned long inId)
+{
+	Accessory *acc = GetById(inId);
+
+	if (acc == NULL)
+		return false;
+
+	// Move if there is more than one MovingPosition (no toggle id), and moving ids are the same than
+	// previous time...
+	if (acc->GetMovingPositionSize() > 1)
+	{
+		bool move = acc->IndexOfMovingPosition(inId) == acc->GetLastMovingPosition();
+#ifdef ACCESSORIES_DEBUG_MODE
+		if (!move)
+			Serial.println(F("Same position : Cant move !"));
+#endif
+		return move;
+	}
+
+	if (millis() - acc->GetLastMoveTime() <= acc->GetDebounceDelay())
+	{
+#ifdef ACCESSORIES_DEBUG_MODE
+		Serial.println(F("Debounce : Cant move !"));
+#endif
+		return false;
+	}
+
+	acc->SetLastMoveTime();
+	return true;
+}
+
+bool Accessory::Toggle(unsigned long inId)
+{
+	if (ActionsStack::FillingStack)
+	{
+#ifdef ACCESSORIES_DEBUG_MODE
+		Serial.print(F(" ---- Stack id "));
+		Serial.println(inId);
+#endif
+		ActionsStack::Actions.Add(inId, ACCESSORIES_EVENT_MOVEPOSITIONID);
+		return false;
+	}
+
+	Accessory *acc = GetById(inId);
+
+	if (acc == NULL)
+	{
+		return false;
+	}
+
+	if (!CanMove(inId))
+	{
+		return true;
+	}
+
+	uint8_t pos = acc->IndexOfMovingPosition(inId);
+
+	if (pos == 255)
+	{
+		return false;
+	}
+
+	acc->SetLastMovingPosition(pos);
+
+#ifdef ACCESSORIES_DEBUG_MODE
+	Serial.print(F("Toggle : Accessory id "));
+	Serial.println(inId);
+#endif
+
+	acc->Move(inId);
+
+	return true;
+}
+
+bool Accessory::MovePosition(unsigned long inId)
+{
+	Accessory *acc = GetById(inId);
+
+	if (acc == NULL)
+	{
+		return false;
+	}
+
+	uint8_t pos = acc->IndexOfMovingPosition(inId);
+
+	if (pos == 255)
+	{
+		return false;
+	}
+
+	if (ActionsStack::FillingStack)
+	{
+#ifdef ACCESSORIES_DEBUG_MODE
+		Serial.print(F(" ---- Stack id "));
+		Serial.println(inId);
+#endif
+		ActionsStack::Actions.Add(inId, ACCESSORIES_EVENT_MOVEPOSITIONINDEX, pos);
+		return false;
+	}
+
+	acc->SetLastMovingPosition(pos);
+
+#ifdef ACCESSORIES_DEBUG_MODE
+	Serial.print(F("MovePosition : Accessory id "));
+	Serial.print(inId);
+	Serial.print(F(" to position "));
+	Serial.println(acc->GetMovingPosition(inId));
+#endif
+
+	acc->MovePosition(acc->GetMovingPosition(inId));
+
+	return true;
+}
+
+void Accessory::ExecuteEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
+{
+	if (!CanMove(inId) || (ActionsStack::FillingStack && inEvent != ACCESSORIES_EVENT_EXTERNALMOVE))
+	{
+		ActionsStack::Actions.Add(inId, inEvent, inData);
+		return;
+	}
+
+	Accessory *acc = GetById(inId);
+
+	if (acc != NULL)
+	{
+		if (inEvent == ACCESSORIES_EVENT_MOVEPOSITIONINDEX && (inData < 0 || inData >= acc->GetMovingPositionSize()))
+		{
+#ifdef ACCESSORIES_DEBUG_MODE
+			Serial.print(F("Accessory id "));
+			Serial.print(inId);
+			Serial.print(F(" bad MovePositionIndex event "));
+			Serial.println(inData);
+#endif
+			return;
+		}
+
+		acc->Event(inId, inEvent, inData);
+	}
+}

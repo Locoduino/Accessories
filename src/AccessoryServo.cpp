@@ -15,7 +15,6 @@ AccessoryServo::AccessoryServo()
 	this->minimumPosition = 0;
 	this->maximumPosition = 180;
 	this->powerState = PowerNoAction;
-	this->type = ACCESSORYSERVO;
 }
 
 void AccessoryServo::begin(Port *inpPort, unsigned long inDurationMilli, 
@@ -69,7 +68,7 @@ void AccessoryServo::MoveMaximum()
 
 ACC_STATE AccessoryServo::MoveToggle()
 {
-	if (this->IsActionPending())
+	if (this->IsActionDelayPending())
 		return this->GetState();
 
 #ifdef ACCESSORIES_DEBUG_MODE
@@ -134,7 +133,7 @@ void AccessoryServo::Move(unsigned long inId)
 
 void AccessoryServo::MovePosition(int inPosition)
 {
-	if (this->IsActionPending() && !ActionsStack::FillingStack)
+	if (this->IsActionDelayPending() && !ActionsStack::FillingStack)
 		return;
 
 	this->InternalMovePosition(inPosition);

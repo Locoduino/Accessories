@@ -1,1 +1,0 @@
-@../LaunchExamples.bat

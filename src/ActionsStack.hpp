@@ -5,55 +5,70 @@
 
 #include "Accessories.h"
 
-//-------------------------------------------------------------------
-
-// An action is what can be done by the user to ask for a accessory movement.
-// It can be a move, a stop... Other kind of actions can be added in EVENT_TYPE if necessary.
-
+/**This class is an item of the ActionStack.	
+An action is what can be done by the user to ask for a accessory movement.
+It can be a move, a stop... Other kind of actions can be added in ACCESSORIES_EVENT_TYPE if necessary.*/
 class Action
 {
 	public:
+		/** Id of the accessory.*/
 		unsigned long Id;
+		/** Event type.*/
 		ACCESSORIES_EVENT_TYPE Event;
+		/** Associated data.*/
 		int Data;
 
+		/** Default constructor
+		@param inId	Id of the accessory
+		@param inEvent	Event type
+		@param inData	Associated data for this event. Default is 0.
+		*/
 		Action(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData = 0);
 };
 
-// This is a FIFO stack, grabbing all user actions to be done later. When the stack reach the size,
-// other actions are lost...
-
+/**This class is a small list of available actions.
+When the stack reach the size, new actions are lost...*/ 
 class ActionsStack
 {
 	private:
 		unsigned char size;
-		unsigned char addCounter;
 		Action* *pList;
 		
 	public:
+		/** Default constructor.*/
 		ActionsStack(int inSize);
 		
+		/**Add a new action.
+		@param inId	Id of the accessory
+		@param inEvent	Event type
+		@param inData	Associated data for this event. Default is 0.
+		@return Index of the new action or 'size of the stack+1' if the stack is full.
+		@remark If the stack is full, this event will be lost.
+		*/
 		unsigned char Add(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData = 0);
+		/**Array operator.
+		@param idx index of the action to get.
+		*/
 		Action *operator[](unsigned char idx);
-		void Purge();
-		void Purge(int inIndex);
+		/** Clears the complete stack.*/
+		void Clear();
+		/** Remove the given index of the stack.
+		@param inIndex index to clear.
+		*/
+		void Delete(int inIndex);
+		/**Get an action to execute.
+		@return action address or NULL
+		*/
 		Action *GetActionToExecute();
+		/**Get the number of available actions to execute.
+		@return action number.
+		*/
 		int GetNumber() const;
 
+		/**Static list of actions.*/
 		static ActionsStack Actions;
+		/**If this flag is false, the event are not added t the list.*/
 		static bool FillingStack;
-
-	private:
-#ifdef ACCESSORIES_DEBUG_MODE
-#ifdef ARDUINO_ARCH_SAM
-		void CheckIndex(uint8_t inIndex, const char *infunc) const;
-#else
-		void CheckIndex(uint8_t inIndex, const __FlashStringHelper *infunc) const;
-#endif
-#endif
 };
 
-
-//-------------------------------------------------------------------
 #endif
-//-------------------------------------------------------------------

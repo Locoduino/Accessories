@@ -60,7 +60,7 @@ void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inE
 	Accessories::ReceiveEvent(inId, (ACCESSORIES_EVENT_TYPE) inEventType, inEventData);
 	
 	#ifdef ACCESSORIES_DEBUG_MODE
-    Commanders::printEvent(inId, inEventType, inEventData);
+    COMMANDERS_PRINT_EVENT(inId, inEventType, inEventData);
     #endif
 }
 

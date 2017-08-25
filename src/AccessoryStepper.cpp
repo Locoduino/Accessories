@@ -13,7 +13,6 @@ description: <Class for a stepper motor accessory>
 AccessoryStepper::AccessoryStepper()
 {
 	this->pPort = NULL;
-	this->type = ACCESSORYSTEPPER;
 }
 
 void AccessoryStepper::begin(Port *inpPort, int inStepsNumber, int inReduction, unsigned int inSpeed, int inMovingPositionsNumber)
@@ -32,7 +31,7 @@ void AccessoryStepper::begin(Port *inpPort, int inStepsNumber, int inReduction, 
 
 ACC_STATE AccessoryStepper::MoveToggle()
 {
-	if (this->IsActionPending())
+	if (this->IsActionDelayPending())
 		return this->GetState();
 
 #ifdef ACCESSORIES_DEBUG_MODE
@@ -68,7 +67,7 @@ void AccessoryStepper::Move(unsigned long inId)
 
 void AccessoryStepper::MovePosition(int inAbsolutePosition)
 {
-	if (this->IsActionPending())
+	if (this->IsActionDelayPending())
 		return;
 
 #ifdef ACCESSORIES_DEBUG_MODE
@@ -81,7 +80,7 @@ void AccessoryStepper::MovePosition(int inAbsolutePosition)
 
 void AccessoryStepper::MoveRelativePosition(int inRelativePosition)
 {
-	if (this->IsActionPending())
+	if (this->IsActionDelayPending())
 		return;
 
 #ifdef ACCESSORIES_DEBUG_MODE

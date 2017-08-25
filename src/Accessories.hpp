@@ -4,13 +4,18 @@
 //-------------------------------------------------------------------
 
 #include "Accessories.h"
-#include "CircularBuffer.hpp"
+#include "AccessoriesCircularBuffer.hpp"
 
+/**Delay before saving. The saving on EEPROM is ony done when no other saving has been done since at least this delay.*/
 #define EEPROM_SAVE_DELAY	1000
 
+/**
+This is the main class of the library. All data and functions are static.
+There is no way to instanciate this class.
+*/
 class Accessories
 {
-public:
+private:
 	static bool SerialStarted;
 	static unsigned long WaitEndDate;
 #ifndef NO_EEPROM
@@ -22,40 +27,64 @@ public:
 #endif
 
 public:
+	/** Initialize the instance.
+	@param inEEPROMStart	Defines the starting byte address to save accessories status.
+	If the size is -1, there will be no EEPROM saving. Default is -1.
+	@param inEEPROMSize		Defines the total size of EEPROM memory available to save accessories status.
+	If the size is -1, there will be no EEPROM saving. Default is -1.
+	*/
 	static void begin(int inEEPROMStart = -1, int inEEPROMSize = -1);
+	/** Raise a new event.
+	@param inId Id of a MovePosition of an accessory or an accessory item.
+	@param inEvent Type of the new event. Default is ACCESSORIES_EVENT_MOVEPOSITIONID.
+	@param inData Associated data to the event type. Default is 0.
+	*/
 	static void RaiseEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
+	/** Receive an event from external source.
+	@param inID Id of the an accessory or an accessory item.
+	@param lastEventType Type of the new event.
+	@param inData Associated data to the event type.
+	*/
 	static void ReceiveEvent(unsigned long inID, ACCESSORIES_EVENT_TYPE lastEventType, int inData);
+	/** Main loop function.
+	This function will call all necessary internal loop functions for each accessory activated...
+	@return True if something rest to execute.
+	*/
 	static bool loop();
+	/**Wait until the delay without executing anu other event. All started movements will continue during the interval.
+	@param inDelay waiting delay in milliseconds.
+	*/
 	static void wait(unsigned long inDelay);
 #ifndef NO_EEPROM
+	/** Save all necessary data to EEPROM.*/
 	static void EEPROMSave();
 #endif
 
 #ifdef ACCESSORIES_DEBUG_MODE
+	/** Print on the console the given event in plain english.
+	@remark Only available if ACCESSORIES_DEBUG_MODE is defined.
+	*/
 	static void printEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventType, int inEventData);
 #endif
 
 private:
-	static Accessory *pFirstAccessory;
-
-	static Accessory *GetById(unsigned long inId);
-
-	static bool CanMove(unsigned long inId);
-
-	static bool Toggle(unsigned long inId);
-	static bool MovePosition(unsigned long inId);
-	static void Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
-	static bool IsActionPending();
-	static uint8_t GetCount();
 #ifndef NO_EEPROM
 	static void EEPROMSaveRaw();
 	static bool EEPROMLoad();
 #endif
 
 public:
-	static void Add(Accessory *inpAccessory);
 #ifdef ACCESSORIES_PRINT_ACCESSORIES
+	/** This define is empty if COMMANDERS_PRINT_COMMANDERS is not defined. */
+	#define PRINT_ACCESSORIES	Accessories::printAccessories();
+	/** Print the full list of commanders.
+	The list is printed on the console in a hierachical way, with details like buttons and events. There is also all data (pins, events)
+	associated with each item.
+	@remark Only available if COMMANDERS_PRINT_COMMANDERS is defined.
+	*/
 	static void printAccessories();
+#else
+	#define PRINT_ACCESSORIES
 #endif
 };
 

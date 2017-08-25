@@ -9,14 +9,20 @@
 
 #ifndef NO_LIGHT
 
+/** Re-define STATE_FIRST to LIGHTON.*/
 #define LIGHTON		STATE_FIRST
+/** Re-define STATE_SECOND to LIGHTBLINK.*/
 #define LIGHTBLINK	STATE_SECOND
+/** Re-define STATE_NONE to LIGHTOFF.*/
 #define LIGHTOFF	STATE_NONE
 
+/** Computes the total duration of a fading cycle.*/
 #define FADING_FULL_DELAY	(this->fadingStep == 0 ? 0 : ((255UL / this->fadingStep)+1) * this->fadingDelay)
 
-// This class describes a basic light.
-
+/** This class describes a proxy for a basic light.
+This is the way to share identical functions and behaviours for many kind of light accessory.
+A light basically can be on, off, blinking and / or fading (dim light).
+*/
 class AccessoryBaseLight
 {
 	private:
@@ -39,17 +45,47 @@ class AccessoryBaseLight
 		Accessory *pOwner;
 
 	public:
+		/**Default constructor.*/
 		AccessoryBaseLight(Accessory *inpOwner = 0);
 		
+		/** Initialize the instance.
+		@param inpPort Port driven this light.
+		@param inIntensity Intensity of this light. Default is maximum, 255.
+		@param inpOwner Address of the real Accessory owner of this proxy.
+		*/
 		void begin(Port *inpPort, int inIntensity = 255, Accessory *inpOwner = 0);
 
+		/**Gets the associated port.
+		@return port address or NULL.
+		*/
 		inline Port *GetPort() const { return this->pPort; }
+		/**Checks if the light is on.
+		@return true if the light is on.
+		*/
 		inline bool IsOn() const { return this->state == LIGHTON; }
+		/**Checks if the light is blinking.
+		@return true if the light is blinking.
+		*/
 		inline bool IsBlinking() const { return this->state == LIGHTBLINK; }
+		/**Checks if the light is fading.
+		@return true if the light is fading.
+		@remark A light can dim only with an analog pin.
+		*/
 		inline bool IsFading() const { return this->fadingStep > 0; }
 
+		/** Execute a new event.
+		@param inEvent Type of the new event. Default is ACCESSORIES_EVENT_MOVEPOSITIONID.
+		@param inData Associated data to the event type. Default is 0.
+		*/
 		void Event(ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
+		/**Set the blinking mode, with a duration for a blink.
+		@param inBlinkingDelay Duration of the light on state. the same duration is applied for light off.
+		*/
 		inline void SetBlinking(unsigned long inBlinkingDelay) { this->blinkingDelay = inBlinkingDelay; }
+		/**Set the fading mode, defining its speed.
+		@param inStep Number of steps between light on and light off.
+		@param inDelay Duration of each step.
+		*/
 		void SetFading(uint8_t inStep, uint8_t inDelay);
 
 	private:
@@ -75,6 +111,9 @@ class AccessoryBaseLight
 #endif
 #ifdef ACCESSORIES_PRINT_ACCESSORIES
 	public:
+		/** Print thisaccessory on console.
+		@remark Only available if ACCESSORIES_PRINT_ACCESSORIES is defined.
+		*/
 		void printAccessory();
 #endif
 };

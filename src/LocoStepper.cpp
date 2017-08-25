@@ -129,7 +129,7 @@ void LocoStepper::setCurrentPosition(long position)
 void LocoStepper::setSpeed(float speed)
 {
 	_speed = speed;
-	_stepInterval = fabs(1000000.0 / _speed);
+	_stepInterval = (unsigned long) fabs(1000000.0 / _speed);
 }
 
 float LocoStepper::speed()

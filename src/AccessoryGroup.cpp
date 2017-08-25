@@ -47,7 +47,7 @@ void GroupStateItem::printAccessory()
 GroupState::GroupState(unsigned long inId, bool inSynchrone)
 {
 	this->Id = inId;
-	this->Synchrone = inSynchrone;
+	this->Synchronous = inSynchrone;
 	this->Items.HasCurrentNull = true;
 }
 
@@ -80,7 +80,7 @@ void GroupState::Add(Accessory *inpAccessory, ACC_STATE inState, unsigned int in
 
 void GroupState::StartAction()
 {
-	if (IsActionPending())
+	if (this->IsActionItemPending())
 	{
 		this->Items.ResetCurrent();
 		return;
@@ -88,7 +88,7 @@ void GroupState::StartAction()
 
 	this->startActionTime = 0;
 
-	if (this->Synchrone)
+	if (this->Synchronous)
 	{
 		ACCSCHAINEDLISTITEM<GroupStateItem> *pCurr = this->Items.pFirst;
 
@@ -111,7 +111,7 @@ void GroupState::StartAction()
 
 void GroupState::loop()
 {
-	if (!IsActionPending())
+	if (!this->IsActionItemPending())
 		return;
 
 	if (this->Items.pCurrentItem->Obj->pAccessory->IsGroupActionPending())
@@ -241,7 +241,7 @@ ACCSCHAINEDLISTITEM<GroupState> *AccessoryGroup::GetItemByID(unsigned long inId)
 
 	while (pCurr != NULL)
 	{
-		if (pCurr->Obj->Id == inId)
+		if (pCurr->Obj->GetId() == inId)
 			return pCurr;
 		pCurr = pCurr->pNext;
 	}
@@ -249,7 +249,7 @@ ACCSCHAINEDLISTITEM<GroupState> *AccessoryGroup::GetItemByID(unsigned long inId)
 	return NULL;
 }
 
-bool AccessoryGroup::IsActionPending()
+bool AccessoryGroup::IsActionItemPending()
 {
 	return (this->States.HasCurrent());
 }
@@ -258,7 +258,7 @@ void AccessoryGroup::StartAction(GroupState *inpState)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F("AccessoryGroup start action state "));
-	Serial.println(inpState->Id);
+	Serial.println(inpState->GetId());
 #endif
 
 	ACCSCHAINEDLISTITEM<GroupState> *pCurr = this->States.pFirst;
@@ -280,11 +280,11 @@ void AccessoryGroup::StartAction(GroupState *inpState)
 
 bool AccessoryGroup::loop()
 {
-	if (!IsActionPending())
+	if (!this->IsActionItemPending())
 		return false;	// nothing done !
 
 	this->States.pCurrentItem->Obj->loop();
-	if (!this->States.pCurrentItem->Obj->IsActionPending())
+	if (!this->States.pCurrentItem->Obj->IsActionItemPending())
 		this->States.ResetCurrent();
 	return true;
 }
@@ -321,7 +321,7 @@ void AccessoryGroup::EventAll(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent
 
 		while (pCurrState != NULL)
 		{
-			if (pCurrState->Obj->Id == inId)
+			if (pCurrState->Obj->GetId() == inId)
 				break;
 			pCurrState = pCurrState->pNext;
 		}
@@ -347,7 +347,7 @@ bool AccessoryGroup::Toggle(unsigned long inId)
 
 	while (pCurr != NULL)
 	{
-		if (pCurr->Obj->Id == inId)
+		if (pCurr->Obj->GetId() == inId)
 			break;
 		pCurr = pCurr->pNext;
 	}
@@ -365,10 +365,10 @@ bool AccessoryGroup::Toggle(unsigned long inId)
 	Serial.print(F("AccessoryGroup moved "));
 	Serial.println(inId);
 #endif
-	if (!this->IsActionPending())
+	if (!this->IsActionItemPending())
 	{
 #ifdef ACCESSORIES_DEBUG_MODE
-		Serial.println(F("No action pending..."));
+		Serial.println(F("No action item pending..."));
 #endif
 		this->States.pCurrentItem = pCurr;
 #ifndef NO_EEPROM
@@ -387,7 +387,8 @@ int AccessoryGroup::EEPROMSave(int inPos, bool inSimulate)
 	{
 		if (this->States.pCurrentItem != NULL)
 		{
-			byte *pEvent = (byte *)&this->States.pCurrentItem->Obj->Id;
+			unsigned long id = this->States.pCurrentItem->Obj->GetId();
+			byte *pEvent = (byte *)&id;
 			EEPROM.write(inPos, *pEvent);
 			EEPROM.write(inPos+1, *(pEvent + 1));
 			EEPROM.write(inPos+2, *(pEvent + 2));

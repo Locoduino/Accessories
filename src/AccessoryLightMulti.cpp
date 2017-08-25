@@ -69,7 +69,7 @@ unsigned char AccessoryLightMulti::AddMovingPosition(unsigned long inIdMin, int 
 	unsigned char pos = Accessory::AddMovingPosition(inIdMin, inOnMask);
 
 	this->pMovingPositionBlinks[pos] = inBlinkMask;
-	return 0;
+	return pos;
 }
 
 void AccessoryLightMulti::beginLight(uint8_t inIndex, Port *inpPort, int inIntensity)

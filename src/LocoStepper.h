@@ -1,6 +1,6 @@
 // LocoStepper.h
 //
-/// \mainpage LocoStepper class for Arduino
+/// \file LocoStepper.h
 ///
 /// This is the Arduino LocoStepper class.
 /// It provides an object-oriented interface for 2 or 4 pin stepper motors.
@@ -34,21 +34,21 @@
 /// application. Contact info@open.com.au for details.
 ///
 /// \par Revision History
-/// \version 1.0 Initial release. This is a massively reduced version of LocoStepper library from Mike McCauley.
+/// \version 1.0 Initial release. This is a massively reduced version of AccelStepper library 
+/// (http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.57.zip) from Mike McCauley.
 ///	which was too much powerful, and seems to have problems to correctly return to the same position.
 
 #ifndef NO_STEPPER
 
-#ifndef AccelStepper_h
-#define AccelStepper_h
+#ifndef LocoStepper_h
+#define LocoStepper_h
 
 /////////////////////////////////////////////////////////////////////
 /// \class LocoStepper LocoStepper.h <LocoStepper.h>
 /// \brief Support for stepper motors with acceleration etc.
 ///
 /// This defines a single 2 or 4 pin stepper motor, or stepper moter with fdriver chip, with optional
-/// absolute positioning commands etc. Multiple
-/// simultaneous steppers are supported, all moving 
+/// absolute positioning commands etc. Multiple	simultaneous steppers are supported, all moving 
 /// at different speeds. 
 ///
 /// \par Operation
@@ -89,13 +89,22 @@ public:
     /// constructor by a call to enableOutputs().
 	/// inpSteps pointer argument gives the caller the possibility to fix himself the sequence
 	/// of pins activation. If nothing is specifed, a default value will be used:
-	///	B01, B11, B10, B00 for two wire stepper
-	/// B1010, B0110, B0101, B1001 for four wires stepper
-	/// The later list is the default steps used by the standard stepper library
-	/// which does not work for a classic 28BYJ-48 stepper motor found in china.
-	/// for this one, the steps must be B1100, B0110, B0011, B1001 .
+	/// \verbatim
+	///	B01, B11, B10, B00 
+	/// \endverbatim
     LocoStepper(uint8_t pin1, uint8_t pin2, uint8_t *inpStep2 = NULL);
-    LocoStepper(uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4, uint8_t *inpStep2 = NULL);
+	/// Constructor. You can have multiple simultaneous steppers, all moving
+	/// at different speeds and accelerations, provided you call their run()
+	/// functions at frequent enough intervals. Current Position is set to 0, target
+	/// position is set to 0.
+	/// The motor pins will be initialised to OUTPUT mode during the
+	/// constructor by a call to enableOutputs().
+	/// inpSteps pointer argument gives the caller the possibility to fix himself the sequence
+	/// of pins activation. If nothing is specifed, a default value will be used:
+	/// \verbatim
+	/// B1010, B0110, B0101, B1001
+	/// \endverbatim
+	LocoStepper(uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4, uint8_t *inpStep2 = NULL);
 
     /// Set the target position. The run() function will try to move the motor
     /// from the current position to the target position set by the most

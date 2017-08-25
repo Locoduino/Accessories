@@ -192,7 +192,7 @@ bool AccessoryBaseLight::ActionEnded()
 {
 #ifdef ACCESSORIES_DEBUG_MODE
 #ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
-	if (this->pOwner->IsActionPending())
+	if (this->pOwner->IsActionDelayPending())
 		Serial.println(F("End action of light."));
 #endif
 #endif

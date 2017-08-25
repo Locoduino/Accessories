@@ -6,16 +6,6 @@ description: <Class for a actions stack>
 
 #include "ActionsStack.hpp"
 
-#ifdef ACCESSORIES_DEBUG_MODE
-	#ifdef ARDUINO_ARCH_SAM
-		#define CHECK(val, text)	CheckIndex(val, text)
-	#else
-		#define CHECK(val, text)	CheckIndex(val, F(text))
-	#endif
-#else
-	#define CHECK(val, text)
-#endif
-
 Action::Action(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
 {
 	this->Id = inId;
@@ -26,44 +16,9 @@ Action::Action(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
 ActionsStack ActionsStack::Actions(ACTION_STACK_SIZE);
 bool ActionsStack::FillingStack(false);
 
-#ifdef ACCESSORIES_DEBUG_MODE
-#ifdef ARDUINO_ARCH_SAM
-void ActionsStack::CheckIndex(uint8_t inIndex, const char *inFunc) const
-{
-	if (this->size == 0)
-	{
-		Serial.print(F("Size undefined in "));
-		Serial.println(inFunc);
-	}
-	else
-		if (inIndex < 0 || inIndex >= this->size)
-		{
-			Serial.print(F("Index error in "));
-			Serial.println(inFunc);
-		}
-}
-#else
-void ActionsStack::CheckIndex(uint8_t inIndex, const __FlashStringHelper *inFunc) const
-{
-	if (this->size == 0)
-	{
-		Serial.print(F("Size undefined in "));
-		Serial.println(inFunc);
-	}
-	else
-		if (inIndex < 0 || inIndex >= this->size)
-		{
-			Serial.print(F("Index error in "));
-			Serial.println(inFunc);
-		}
-}
-#endif
-#endif
-
 ActionsStack::ActionsStack(int inSize)
 {
 	this->size = inSize;
-	this->addCounter = 0;
 	this->pList = new Action*[inSize];
 
 	for (int i = 0; i < this->size; i++)
@@ -75,13 +30,16 @@ ActionsStack::ActionsStack(int inSize)
 // Returns the index of the new added action.
 unsigned char ActionsStack::Add(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
 {
-	if (addCounter >= size)
-		return size + 1;	// action lost, the stack is full !
+	for (int i = 0; i < this->size; i++)
+	{
+		if (this->pList[i] == NULL)
+		{
+			this->pList[i] = new Action(inId, inEvent, inData);
+			return i;
+		}
+	}
 
-	CHECK(addCounter, "ActionsStack::Add event");
-	this->pList[addCounter++] = new Action(inId, inEvent, inData);
-
-	return addCounter - 1;
+	return this->size + 1;	// action lost, the stack is full !
 }
 
 Action *ActionsStack::GetActionToExecute()
@@ -96,11 +54,11 @@ Action *ActionsStack::GetActionToExecute()
 		}
 	}
 
-	return 0;
+	return NULL;
 }
 
 // Returns the index of the new added action.
-void ActionsStack::Purge(int inIndex)
+void ActionsStack::Delete(int inIndex)
 {
 	if (this->pList[inIndex] != NULL)
 	{
@@ -110,15 +68,10 @@ void ActionsStack::Purge(int inIndex)
 }
 
 // Returns the index of the new added action.
-void ActionsStack::Purge()
+void ActionsStack::Clear()
 {
-	this->addCounter = 0;
-
 	for (int i = 0; i < this->size; i++)
-	{
-		delete this->pList[i];
-		this->pList[i] = NULL;
-	}
+		this->Delete(i);
 }
 
 // Returns the number of stacked actions.
@@ -137,6 +90,5 @@ int ActionsStack::GetNumber() const
 
 Action *ActionsStack::operator[](unsigned char inIndex)
 {
-	CHECK(inIndex, "ActionsStack::operator[]");
 	return this->pList[inIndex];
 }

@@ -34,19 +34,20 @@ ACC_STATE AccessoryMotor::MoveToggle(unsigned long inDuration, int inSpeed)
 
 ACC_STATE AccessoryMotor::InternalMove(ACC_STATE inStateToReach, unsigned long inDuration, int inSpeed)
 {
-	if (this->IsActionPending())
+	if (this->IsActionDelayPending())
 		return this->GetState();
 
 	unsigned long duration = inDuration == 0 ? this->GetDuration() : inDuration;
 	if (duration > 0)
 		StartAction();
 
+	if (inSpeed > 0)
+		this->pPort->SetSpeed(inSpeed);
 	if (inStateToReach == RIGHT)
 	{
 #ifdef ACCESSORIES_DEBUG_MODE
 		Serial.println(F("AccessoryMotor InternalMove() RIGHT"));
 #endif
-		this->pPort->SetSpeed(inSpeed);
 		this->pPort->MoveLeftDir();
 		this->SetStateRaw(RIGHT);
 	}
@@ -55,7 +56,6 @@ ACC_STATE AccessoryMotor::InternalMove(ACC_STATE inStateToReach, unsigned long i
 #ifdef ACCESSORIES_DEBUG_MODE
 		Serial.println(F("AccessoryMotor InternalMove() LEFT"));
 #endif
-		this->pPort->SetSpeed(inSpeed);
 		this->pPort->MoveRightDir();
 		this->SetStateRaw(LEFT);
 	}
@@ -88,9 +88,8 @@ void AccessoryMotor::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 			break;
 		case ACCESSORIES_MOVE_OFF:
 		case ACCESSORIES_MOVE_STOP:
-			this->pPort->MoveStop();
+			this->MoveStop();
 			this->ResetAction();
-			this->SetStateRaw(STOP);
 			break;
 		}
 		break;
@@ -158,13 +157,18 @@ void AccessoryMotor::Move(unsigned long inId)
 		this->SetState((ACC_STATE)position);
 }
 
+void AccessoryMotor::MoveStop()
+{
+	this->pPort->MoveStop();
+	this->SetStateRaw(STOP);
+}
+
 bool AccessoryMotor::ActionEnded()
 {
 	bool end = Accessory::ActionEnded();
 	if (end)
 	{
-		this->pPort->MoveStop();
-		this->SetStateRaw(STOP);
+		this->MoveStop();
 	}
 
 	return end;

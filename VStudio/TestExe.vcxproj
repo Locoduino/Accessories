@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9696B190-8A31-45BA-A43E-0287102EF438}</ProjectGuid>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>TestExe</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -29,28 +29,28 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -89,11 +89,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ACCESSORIES_PRINT_ACCESSORIES;ACCESSORIES_DEBUG_MODE;WIN32;_DEBUG;%(PreprocessorDefinitions);VISUALSTUDIO</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../../ArduiEmulator/ArduiEmulator</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalDependencies />
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>Main</EntryPointSymbol>
@@ -103,7 +103,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);VISUALSTUDIO</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions);VISUALSTUDIO;ACCESSORIES_PRINT_ACCESSORIES;ACCESSORIES_DEBUG_MODE</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -154,10 +154,11 @@
     <ClCompile Include="..\..\Commanders\src\Commander.cpp" />
     <ClCompile Include="..\..\Commanders\src\Commanders.cpp" />
     <ClCompile Include="..\..\Commanders\src\DccCommander.cpp" />
+    <ClCompile Include="..\..\Commanders\src\EventStack.cpp" />
     <ClCompile Include="..\..\Commanders\src\I2CCommander.cpp" />
     <ClCompile Include="..\..\Commanders\src\TextInterpreter.cpp" />
     <ClCompile Include="..\..\Commanders\VStudio\ButtonsCommanderKeyboard.cpp" />
-    <ClCompile Include="..\src\CircularBuffer.cpp" />
+    <ClCompile Include="..\src\AccessoriesCircularBuffer.cpp" />
     <ClCompile Include="..\src\PortTwoPinsEnable.cpp" />
     <ClCompile Include="..\src\LocoStepper.cpp" />
     <ClCompile Include="..\src\Accessories.cpp" />
@@ -199,6 +200,8 @@
     <ClInclude Include="..\..\Commanders\src\Commanders.h" />
     <ClInclude Include="..\..\Commanders\src\Commanders.hpp" />
     <ClInclude Include="..\..\Commanders\src\DccCommander.hpp" />
+    <ClInclude Include="..\..\Commanders\src\Events.h" />
+    <ClInclude Include="..\..\Commanders\src\EventStack.hpp" />
     <ClInclude Include="..\..\Commanders\src\I2CCommander.hpp" />
     <ClInclude Include="..\..\Commanders\src\SerialCommander.hpp" />
     <ClInclude Include="..\..\Commanders\src\TextInterpreter.hpp" />
@@ -206,7 +209,7 @@
     <ClInclude Include="..\..\Commanders\VStudio\DCC_Decoder.hpp" />
     <ClInclude Include="..\..\Commanders\VStudio\mcp_can.h" />
     <ClInclude Include="..\..\Commanders\VStudio\mcp_can_dfs.h" />
-    <ClInclude Include="..\src\CircularBuffer.hpp" />
+    <ClInclude Include="..\src\AccessoriesCircularBuffer.hpp" />
     <ClInclude Include="..\src\PortTwoPinsEnable.hpp" />
     <ClInclude Include="..\src\LocoStepper.h" />
     <ClInclude Include="..\src\Accessories.h" />

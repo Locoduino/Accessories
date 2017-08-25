@@ -6,3 +6,7 @@ VStudio/.vs
 VStudio/x64/Debug*/
 *.opendb
 testSamples.log
+
+src/AccessoriesEventStack\.cpp
+
+src/AccessoriesEventStack\.hpp
