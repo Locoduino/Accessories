@@ -33,6 +33,12 @@ void AccessoryBaseLight::SetState(ACC_STATE inState)
 	Serial.println(inState == LIGHTON ? "ON" : inState == LIGHTOFF ? "OFF" : "BLINK");
 #endif
 
+	if (inState == LIGHTON)
+		this->pPort->MoveLeftDir();
+
+	if (inState == LIGHTOFF)
+		this->pPort->MoveStop();
+
 	this->SetStateRaw(inState);
 }
 
@@ -42,9 +48,6 @@ void AccessoryBaseLight::SetStateRaw(ACC_STATE inNewState)
 	{
 		this->state = inNewState;
 		this->pOwner->SetStateRaw(inNewState);
-#ifndef NO_EEPROM
-		Accessories::EEPROMSave();
-#endif
 	}
 }
 
@@ -97,7 +100,7 @@ void AccessoryBaseLight::LightOn()
 #ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F("AccessoryBaseLight ON"));
 #endif
-	this->SetStateRaw(LIGHTON);
+	this->SetState(LIGHTON);
 }
 
 void AccessoryBaseLight::LightOff()
@@ -105,7 +108,7 @@ void AccessoryBaseLight::LightOff()
 #ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F("AccessoryBaseLight OFF"));
 #endif
-	this->SetStateRaw(LIGHTOFF);
+	this->SetState(LIGHTOFF);
 }
 
 ACC_STATE AccessoryBaseLight::Toggle()

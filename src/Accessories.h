@@ -40,6 +40,11 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 23/09/2017 0.71
+- Correction de l'allumage des leds qui ne marchait plus...
+
+- Fix of light turning on or off.
+
 \par 25/08/2017 0.70
 - Nouvelle doc accessible par StartDoc.bat ou extras/Doc/index.html
 - Passage en private de quantité de données et de fonctions.

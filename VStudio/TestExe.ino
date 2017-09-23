@@ -1,4 +1,35 @@
-//#if 0
+#include <Accessories.h>
+
+const int buttonPin = 8; // broche du poussoir
+
+AccessoryLight light; // La DEL
+PortOnePin port; // La connexion entre l'Arduino et la DEL.
+
+void setup()
+{
+	Serial.begin(115200);
+	Accessories::begin();
+
+	port.begin(13, DIGITAL); // broche 13 sur un Uno, broche digitale.
+
+	light.begin(&port, 100); // On branche la DEL sur le port, et on lui assigne le No 100
+							 // initialise le poussoir comme entrée 
+	pinMode(buttonPin, INPUT);
+}
+
+void loop()
+{
+	// Selon l'état du bouton, on allume ou éteint la DEL 
+	if (digitalRead(buttonPin) == HIGH) {
+		light.LightOn(); // Allume la DEL 
+	}
+	else {
+		light.LightOff(); // Eteint la DEL 
+	}
+	delay(1500);
+}
+
+#if 0
 #include "Commanders.h"
 #include "Accessories.h"
 
@@ -134,7 +165,7 @@ void loop()
 
 	Accessories::loop();
 }
-//#endif
+#endif
 #if 0
 /*************************************************************
 project: <Accessories>
