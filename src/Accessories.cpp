@@ -36,7 +36,7 @@ void Accessories::begin(int inEEPROMStart, int inEEPROMSize)
 	delay(500);
 
 	Serial.println(F(""));
-	Serial.println(F("Accessories V0.71"));
+	Serial.println(F("Accessories V1.0"));
 	Serial.println(F("Developed by Thierry Paris."));
 	Serial.println(F("(c) Locoduino 2016-2017"));
 	Serial.println(F(""));
@@ -238,10 +238,10 @@ Group number			|G|
 header checksum			|C|
 size byte 1				|s1]
 size byte 2				|s2]
-                        +-+
+						+-+
 Circular buffer			| |
 						+-+
-                    End of file.
+					End of file.
 
 One record of the Circular buffer is :
 

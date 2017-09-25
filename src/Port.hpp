@@ -104,6 +104,10 @@ class Port
 		*/
 		inline virtual void beginByAccessory(int inStartingPosition) {}
 
+		/**Gets the pin type of the port.
+		@return pin type of the port.
+		*/
+		inline PIN_TYPE GetPinType() const { return this->pinType; }
 		/**Gets the current state of the port.
 		@return current state of the port.
 		*/

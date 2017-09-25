@@ -33,12 +33,6 @@ void AccessoryBaseLight::SetState(ACC_STATE inState)
 	Serial.println(inState == LIGHTON ? "ON" : inState == LIGHTOFF ? "OFF" : "BLINK");
 #endif
 
-	if (inState == LIGHTON)
-		this->pPort->MoveLeftDir();
-
-	if (inState == LIGHTOFF)
-		this->pPort->MoveStop();
-
 	this->SetStateRaw(inState);
 }
 
@@ -58,6 +52,8 @@ void AccessoryBaseLight::SetFading(uint8_t inStep, uint8_t inDelay)
 	this->fadingCurrentValue = 0;
 
 #ifdef ACCESSORIES_DEBUG_MODE
+	if (this->pPort->GetPinType() == DIGITAL || this->pPort->GetPinType() == DIGITAL_INVERTED)
+		Serial.println(F("Fading on a light is not allowed on a DIGITAL pin !"));
 	if (this->blinkingDelay > 0 && FADING_FULL_DELAY > this->blinkingDelay)
 		Serial.println(F("Light fading duration greater than blinking duration !"));
 #endif
@@ -230,23 +226,31 @@ bool AccessoryBaseLight::ActionEnded()
 	switch (this->currentState)
 	{
 		case LIGHT_ON:
-			if (this->state == LIGHTOFF || 
-				(this->IsBlinking() && millis() - this->startingMillis > this->blinkingDelay - FADING_FULL_DELAY))
+			if (this->state == LIGHTOFF) 
+			{
+				if (this->IsFading() || (this->IsBlinking() && millis() - this->startingMillis > this->blinkingDelay - FADING_FULL_DELAY))
 				{
 					this->currentState = LIGHT_DESCENDING;
 					this->startingMillis = millis();
 					this->LightFadingRaw(this->pPort->GetSpeed());
 					return false;
 				}
+				this->currentState = LIGHT_OFF;
+				this->pPort->MoveStop();
+			}
 			break;
 		case LIGHT_OFF:
-			if (this->state == LIGHTON ||
-				(this->IsBlinking() && millis() - this->startingMillis > this->blinkingDelay - FADING_FULL_DELAY))
+			if (this->state == LIGHTON)
 			{
-				this->currentState = LIGHT_ASCENDING;
-				this->startingMillis = millis();
-				this->LightFadingRaw(0);
-				return false;
+				if (this->IsFading() || (this->IsBlinking() && millis() - this->startingMillis > this->blinkingDelay - FADING_FULL_DELAY))
+				{
+					this->currentState = LIGHT_ASCENDING;
+					this->startingMillis = millis();
+					this->LightFadingRaw(0);
+					return false;
+				}
+				this->currentState = LIGHT_ON;
+				this->pPort->MoveLeftDir();
 			}
 			break;
 		case LIGHT_ASCENDING:

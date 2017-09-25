@@ -10,9 +10,10 @@ void setup()
 	Serial.begin(115200);
 	Accessories::begin();
 
-	port.begin(13, DIGITAL); // broche 13 sur un Uno, broche digitale.
+	port.begin(13, ANALOG); // broche 13 sur un Uno, broche digitale.
 
 	light.begin(&port, 100); // On branche la DEL sur le port, et on lui assigne le No 100
+	light.SetFading(50, 20);
 							 // initialise le poussoir comme entrée 
 	pinMode(buttonPin, INPUT);
 }
@@ -26,6 +27,9 @@ void loop()
 	else {
 		light.LightOff(); // Eteint la DEL 
 	}
+
+	Accessories::loop();
+
 	delay(1500);
 }
 
