@@ -265,6 +265,7 @@ var NAVTREE =
           [ "begin", "classPort.html#a110847fdec661d0e94a3a22edd9fe32a", null ],
           [ "beginByAccessory", "classPort.html#a101241b7b8e820f3d0da3c435ad1b66e", null ],
           [ "beginPin", "classPort.html#ad5c7ecf52b369e61dcc1353b81532bf5", null ],
+          [ "GetPinType", "classPort.html#a99e8526fed0e88d9f553767ef30860df", null ],
           [ "GetPosition", "classPort.html#a807af3bdcf2f4bba25d4dd318601001c", null ],
           [ "GetSpeed", "classPort.html#aed93eb0b1e3fcb88843f6c5606d55621", null ],
           [ "GetState", "classPort.html#a56425e29545c1c169c7efd76e6bf411c", null ],

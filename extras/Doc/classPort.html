@@ -126,6 +126,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a110847fdec661d0e94a3a22edd9fe32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a101241b7b8e820f3d0da3c435ad1b66e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPort.html#a101241b7b8e820f3d0da3c435ad1b66e">beginByAccessory</a> (int inStartingPosition)</td></tr>
 <tr class="separator:a101241b7b8e820f3d0da3c435ad1b66e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99e8526fed0e88d9f553767ef30860df"><td class="memItemLeft" align="right" valign="top">PIN_TYPE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPort.html#a99e8526fed0e88d9f553767ef30860df">GetPinType</a> () const </td></tr>
+<tr class="separator:a99e8526fed0e88d9f553767ef30860df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56425e29545c1c169c7efd76e6bf411c"><td class="memItemLeft" align="right" valign="top">PORT_STATE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPort.html#a56425e29545c1c169c7efd76e6bf411c">GetState</a> () const </td></tr>
 <tr class="separator:a56425e29545c1c169c7efd76e6bf411c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed93eb0b1e3fcb88843f6c5606d55621"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPort.html#aed93eb0b1e3fcb88843f6c5606d55621">GetSpeed</a> () const </td></tr>
@@ -325,6 +327,32 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a99e8526fed0e88d9f553767ef30860df"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PIN_TYPE Port::GetPinType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets the pin type of the port. </p><dl class="section return"><dt>Returns</dt><dd>pin type of the port. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00110">110</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a807af3bdcf2f4bba25d4dd318601001c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -350,7 +378,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="classPortStepper.html#aaec300bb6284c1f148273c95843ee8f3">PortStepper</a>, and <a class="el" href="classPortServo.html#adf5231931fec08758d8287c079fe2bba">PortServo</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00174">174</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00178">178</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
 
 </div>
 </div>
@@ -377,7 +405,7 @@ Protected Attributes</h2></td></tr>
 <p>Gets the current speed of the port. </p><dl class="section return"><dt>Returns</dt><dd>current speed of the port. </dd></dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Speed is only available on ANALOG or ANALOG_INVERTED type of pin. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00115">115</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00119">119</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
 
 </div>
 </div>
@@ -403,7 +431,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Gets the current state of the port. </p><dl class="section return"><dt>Returns</dt><dd>current state of the port. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00110">110</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00114">114</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
 
 </div>
 </div>
@@ -429,7 +457,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Checks if the current state of the port is PORT_LEFT. </p><dl class="section return"><dt>Returns</dt><dd>true if the current state of the port is PORT_LEFT. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00126">126</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00130">130</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
 
 </div>
 </div>
@@ -455,7 +483,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Checks if the current state of the port is PORT_RIGHT. </p><dl class="section return"><dt>Returns</dt><dd>true if the current state of the port is PORT_RIGHT. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00130">130</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00134">134</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
 
 </div>
 </div>
@@ -481,7 +509,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Checks if the current state of the port is PORT_STOP. </p><dl class="section return"><dt>Returns</dt><dd>true if the current state of the port is PORT_STOP. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00134">134</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00138">138</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
 
 </div>
 </div>
@@ -559,7 +587,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="classPortSpeedDirBrake.html#aa4f1de14adaac3149e05b039e9583118">PortSpeedDirBrake</a>, <a class="el" href="classPortTwoPins.html#a00dcd15ca6b74360c7858141bf4a30c7">PortTwoPins</a>, <a class="el" href="classPortShieldL293d.html#a7c231e381f75d1a84e0673f3d6977d9e">PortShieldL293d</a>, <a class="el" href="classPortOnePin.html#ab06a6c175990e9c7cda63a73e28b441c">PortOnePin</a>, and <a class="el" href="classPortTwoPinsEnable.html#a2b424834184dbc468976ee24ef11a25d">PortTwoPinsEnable</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00139">139</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00143">143</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
 
 </div>
 </div>
@@ -691,7 +719,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="classPortStepper.html#a1eea1361734ec9cbbaf6238982f92d65">PortStepper</a>, and <a class="el" href="classPortServo.html#a362a0eba0e7219cca64cae736c407e1a">PortServo</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00169">169</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00173">173</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
 
 </div>
 </div>
@@ -725,7 +753,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="classPortSpeedDirBrake.html#a7d5432a050febe89a4bf12e237f5114a">PortSpeedDirBrake</a>, <a class="el" href="classPortTwoPins.html#add98e4c101e2d90bb39fb348ae312eac">PortTwoPins</a>, <a class="el" href="classPortShieldL293d.html#a29b413302c9e902382445bad17651ec3">PortShieldL293d</a>, <a class="el" href="classPortOnePin.html#a64d26c764c94963047e1b2373ba3c130">PortOnePin</a>, and <a class="el" href="classPortTwoPinsEnable.html#a4a5631811961b21f0167e6defca53aa7">PortTwoPinsEnable</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00143">143</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00147">147</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
 
 </div>
 </div>
@@ -789,7 +817,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="classPortSpeedDirBrake.html#a5c1334617ccf28fff57b31bc74ad204b">PortSpeedDirBrake</a>, <a class="el" href="classPortTwoPins.html#a70b21b02f765b4344dbc5f913cba965f">PortTwoPins</a>, <a class="el" href="classPortShieldL293d.html#aba96b3fbfe12540c2c99a4a59cbac895">PortShieldL293d</a>, <a class="el" href="classPortOnePin.html#a774a82cb1e3efa521297bdffa9b5ed7b">PortOnePin</a>, and <a class="el" href="classPortTwoPinsEnable.html#afd93143e4445f5751d3cd504e76ebc2f">PortTwoPinsEnable</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00163">163</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Port_8hpp_source.html#l00167">167</a> of file <a class="el" href="Port_8hpp_source.html">Port.hpp</a>.</p>
 
 </div>
 </div>
@@ -933,7 +961,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classPort.html">Port</a></li>
-    <li class="footer">Generated on ven. août 25 2017 17:49:17 for Accessories &nbsp; by
+    <li class="footer">Generated on lun. sept. 25 2017 20:51:23 for Accessories &nbsp; by
     <a href="http://www.copperspice.com/documentation-doxypress.html">
     <img class="footer" src="doxypress.png" alt="DoxyPress"/></a> 1.2.10 </li>
   </ul>

@@ -10,3 +10,5 @@ testSamples.log
 src/AccessoriesEventStack\.cpp
 
 src/AccessoriesEventStack\.hpp
+
+*.tmp

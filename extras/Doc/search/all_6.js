@@ -35,6 +35,7 @@ var searchData=
   ['getpindir',['GetPinDir',['../classPortSpeedDirBrake.html#a3664a699412d620a3dd454f3d7baa083',1,'PortSpeedDirBrake']]],
   ['getpinenable',['GetPinEnable',['../classPortTwoPinsEnable.html#ab5ba0378a63752f7112deca595be19df',1,'PortTwoPinsEnable']]],
   ['getpinpwm',['GetPinPWM',['../classPortSpeedDirBrake.html#a02daf0961458a08c9ca7ab72e3d84452',1,'PortSpeedDirBrake']]],
+  ['getpintype',['GetPinType',['../classPort.html#a99e8526fed0e88d9f553767ef30860df',1,'Port']]],
   ['getport',['GetPort',['../classAccessory.html#ac2883977d969dcde8f078934b4a9ed12',1,'Accessory::GetPort()'],['../classAccessoryBaseLight.html#a1f57b9cf4b45b9bdc91fef927199b79c',1,'AccessoryBaseLight::GetPort()']]],
   ['getposition',['GetPosition',['../classPort.html#a807af3bdcf2f4bba25d4dd318601001c',1,'Port::GetPosition()'],['../classPortServo.html#adf5231931fec08758d8287c079fe2bba',1,'PortServo::GetPosition()'],['../classPortStepper.html#aaec300bb6284c1f148273c95843ee8f3',1,'PortStepper::GetPosition()']]],
   ['getpreviousstate',['GetPreviousState',['../classAccessory.html#ae26158a4fc16855e72706b317c40f9e8',1,'Accessory']]],
