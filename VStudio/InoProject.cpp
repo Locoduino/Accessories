@@ -19,11 +19,12 @@
 //#include "../examples/locoduino.org/programme4/programme4.ino"
 //#include "../examples/locoduino.org/programme5/programme5.ino"
 //#include "../examples/locoduino.org/programme6/programme6.ino"
+#include "../examples/test/test.ino"
 
 //#include "C:\Users\Thierry\Desktop\TrafficSignal\TrafficSignal.cpp"
 //#include "C:\Users\Thierry\Desktop\TrafficSignal\TrafficSignal.ino"
 
-#include "TestExe.ino"
+//#include "TestExe.ino"
 
 using namespace System;
 using namespace System::Windows::Forms;

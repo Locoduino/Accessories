@@ -282,7 +282,7 @@ bool Accessory::CanMove(unsigned long inId)
 	// previous time...
 	if (acc->GetMovingPositionSize() > 1)
 	{
-		bool move = acc->IndexOfMovingPosition(inId) == acc->GetLastMovingPosition();
+		bool move = acc->IndexOfMovingPosition(inId) != acc->GetLastMovingPosition();
 #ifdef ACCESSORIES_DEBUG_MODE
 		if (!move)
 			Serial.println(F("Same position : Cant move !"));

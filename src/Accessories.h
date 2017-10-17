@@ -40,6 +40,13 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 17/10/2017 1.01
+- Ajout de ArduiEmulator.zip dans extras
+- Correction dans les moteurs qui ne bougaient plus.
+
+- ArduiEmulator.zip added in extras.
+- Fix of AccessoryMotor moving...
+
 \par 25/09/2017 1.0
 - Correction de l'allumage des leds en fading qui ne marchait plus...
 - Ajout de Port::GetPinType()

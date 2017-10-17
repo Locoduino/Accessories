@@ -5,8 +5,18 @@ const int buttonPin = 8; // broche du poussoir
 AccessoryLight light; // La DEL
 PortOnePin port; // La connexion entre l'Arduino et la DEL.
 
+#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+
 void setup()
 {
+	char buffer[20];
+	int i = sizeof(buffer);
+
+	int myArray[20];
+	int numberOfItems = ARRAY_SIZE(myArray);   // <--- sera = 20 dans ce cas
+
+	float aa = 60.f;
+
 	Serial.begin(115200);
 	Accessories::begin();
 

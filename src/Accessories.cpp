@@ -36,7 +36,7 @@ void Accessories::begin(int inEEPROMStart, int inEEPROMSize)
 	delay(500);
 
 	Serial.println(F(""));
-	Serial.println(F("Accessories V1.0"));
+	Serial.println(F("Accessories V1.01"));
 	Serial.println(F("Developed by Thierry Paris."));
 	Serial.println(F("(c) Locoduino 2016-2017"));
 	Serial.println(F(""));
