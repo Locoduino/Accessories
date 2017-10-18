@@ -40,6 +40,11 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 18/10/2017 V1.0.1
+- Mise en forme du numéro de version en 'semver' (Semantic Versioning 2.0.0).
+
+- Version number converted to 'semver' format (Semantic Versioning 2.0.0).
+
 \par 17/10/2017 1.01
 - Ajout de ArduiEmulator.zip dans extras
 - Correction dans les moteurs qui ne bougaient plus.
