@@ -18,11 +18,7 @@
 //#include "../examples/locoduino.org/programme3/programme3.ino"
 //#include "../examples/locoduino.org/programme4/programme4.ino"
 //#include "../examples/locoduino.org/programme5/programme5.ino"
-//#include "../examples/locoduino.org/programme6/programme6.ino"
-#include "../examples/test/test.ino"
-
-//#include "C:\Users\Thierry\Desktop\TrafficSignal\TrafficSignal.cpp"
-//#include "C:\Users\Thierry\Desktop\TrafficSignal\TrafficSignal.ino"
+#include "../examples/locoduino.org/programme6/programme6.ino"
 
 //#include "TestExe.ino"
 
