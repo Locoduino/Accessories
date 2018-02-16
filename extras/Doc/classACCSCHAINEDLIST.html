@@ -130,7 +130,7 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><h3>template&lt;class T&gt;<br />
 class ACCSCHAINEDLIST&lt; T &gt;</h3>
 
-<p>This class describes a chained list of items (<a href="https://en.wikipedia.org/wiki/Linked_list">https://en.wikipedia.org/wiki/Linked_list</a>). It can be called also a linked list. This is an elegant way to build a list without any big allocation, bypassing the needs to estimate a minimum size and to increase or decrease this size during execution. The disavantage is a slower and more complex way to access to an item on the list, and a more complex way to add a new item.</p>
+<p>This class describes a chained list of items (<a href="https://en.wikipedia.org/wiki/Linked_list">https://en.wikipedia.org/wiki/Linked_list</a>). It can be called also a linked list. This is an elegant way to build a list without any big allocation, bypassing the needs to estimate a minimum size and to increase or decrease this size during execution. The disadvantage is a slower and more complex way to access to an item on the list, and a more complex way to add a new item.</p>
 <p>To start, a chained list needs a starting pointer referencing the first item of the list. After that, each item have a pointer to the next item. If this pointer is NULL, this is the end of the list !</p>
 <p>The 'T' type can be of any type, including base types like int or char. But keep in mind that each item must save a pointer to the next item. If the size of the pointer is greater than the size of the item itself, consider using a true array...</p>
 <p>A notion of 'current item' is used, to let the user of the list to move through the list without doing a loop itself... </p>
@@ -214,7 +214,7 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Checks if the current is NULL. </p><dl class="section return"><dt>Returns</dt><dd>True if the curent item is NULL. </dd></dl>
+<p>Checks if the current is NULL. </p><dl class="section return"><dt>Returns</dt><dd>True if the current item is NULL. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="Chain_8hpp_source.html#l00059">59</a> of file <a class="el" href="Chain_8hpp_source.html">Chain.hpp</a>.</p>
 
@@ -357,7 +357,7 @@ template&lt;class T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classACCSCHAINEDLIST.html">ACCSCHAINEDLIST</a></li>
-    <li class="footer">Generated on mer. oct. 18 2017 17:44:46 for Accessories &nbsp; by
+    <li class="footer">Generated on ven. févr. 16 2018 22:27:32 for Accessories &nbsp; by
     <a href="http://www.copperspice.com/documentation-doxypress.html">
     <img class="footer" src="doxypress.png" alt="DoxyPress"/></a> 1.2.10 </li>
   </ul>

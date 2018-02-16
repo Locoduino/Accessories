@@ -226,7 +226,7 @@ bool AccessoryBaseLight::ActionEnded()
 	switch (this->currentState)
 	{
 		case LIGHT_ON:
-			if (this->state == LIGHTOFF) 
+			if (this->state == LIGHTOFF || this->IsBlinking())
 			{
 				if (this->IsFading() || (this->IsBlinking() && millis() - this->startingMillis > this->blinkingDelay - FADING_FULL_DELAY))
 				{
@@ -235,12 +235,15 @@ bool AccessoryBaseLight::ActionEnded()
 					this->LightFadingRaw(this->pPort->GetSpeed());
 					return false;
 				}
-				this->currentState = LIGHT_OFF;
-				this->pPort->MoveStop();
+				else if (!this->IsBlinking())
+				{
+					this->currentState = LIGHT_OFF;
+					this->pPort->MoveStop();
+				}
 			}
 			break;
 		case LIGHT_OFF:
-			if (this->state == LIGHTON)
+			if (this->state == LIGHTON || this->IsBlinking())
 			{
 				if (this->IsFading() || (this->IsBlinking() && millis() - this->startingMillis > this->blinkingDelay - FADING_FULL_DELAY))
 				{
@@ -249,8 +252,11 @@ bool AccessoryBaseLight::ActionEnded()
 					this->LightFadingRaw(0);
 					return false;
 				}
-				this->currentState = LIGHT_ON;
-				this->pPort->MoveLeftDir();
+				else if (!this->IsBlinking())
+				{
+					this->currentState = LIGHT_ON;
+					this->pPort->MoveLeftDir();
+				}
 			}
 			break;
 		case LIGHT_ASCENDING:

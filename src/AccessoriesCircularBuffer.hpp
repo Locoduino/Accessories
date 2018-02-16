@@ -7,7 +7,7 @@
 /**
 * This class implements the Atmel solution to avoid writing in EEPROM always in the same area to improve lifetime
 * of this memory : a Circular Buffer. See http://www.atmel.com/images/doc2526.pdf .
-* Part of the pdf file :
+* Part of the PDF file :
 *
 <blockquote>By having a circular buffer (O-buffer) in EEPROM it is possible to increase the number
 of times that a parameter can be stored in EEPROM. If the buffer has two levels the
@@ -38,7 +38,7 @@ public:
 	AccessoriesCircularBuffer() { this->ItemSize = 0; this->ReplicaNumber = 0; this->StartListPos = 0; }
 
 	/** Initialize the instance.
-	@param inStartListPos	EEPROM address of the begginning of the memory used for the storage
+	@param inStartListPos	EEPROM address of the beginning of the memory used for the storage
 	@param inItemSize Size in bytes of one item to save.
 	@param inReplicaNumber Number of copies of the element can be reserved for the buffer. 2 is a minimum, 255 a maximum.
 	@return Number of EEPROM bytes reserved for the circular buffer.

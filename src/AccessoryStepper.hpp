@@ -39,8 +39,8 @@ class AccessoryStepper : public Accessory
 
 		/** Initialize the instance.
 		@param inpPort Port driven this motor.
-		@param inStepsNumber Number of steps for a complete rotation of the axis. You can find it in the motor's datasheet.
-		@param inReduction reduction between the motorized axis and the output axis. You can find it in the motor's datasheet.
+		@param inStepsNumber Number of steps for a complete rotation of the axis. You can find it in the motor's data-sheet.
+		@param inReduction reduction between the motorized axis and the output axis. You can find it in the motor's data-sheet.
 		@param inSpeed Speed to control power to the motor. Default is 0.
 		@param inMovingPositionsNumber Number of steps for one movement. Default is 1 step.
 		*/

@@ -15,11 +15,11 @@
 This is typically used for railroad or traffic signals.
 This group of lights can define a 'MovingPosition' which represents a combination of
 lights on, off and/or blinking. Each moving position defines an identifier and 
-two masks on an integer, one for on/off status, another facultative one for blinking lights.
+two masks on an integer, one for on/off status, another optional one for blinking lights.
 An integer is 16 bits long, so this is the maximum number of lights a 
 MovingPosition can handle.
 
-For a group of five lights, three moving psitions defined with id from 125 to 127 (why not ?) :
+For a group of five lights, three moving positions defined with id from 125 to 127 (why not ?) :
 
  moving position id |  mask  | blink mask | light 0 | 1 | 2 | 3 | 4
 --------------------|--------|------------|---------|---|---|---|---
@@ -35,7 +35,7 @@ synchronized between the two lists.
 class AccessoryLightMulti : public Accessory
 {
 	private:
-		// Dont use a chained list here, because the user only gives a number. He does not add lights one by one...
+		// Do not use a chained list here, because the user only gives a number. He does not add lights one by one...
 		AccessoryBaseLight *pLights;
 		int *pMovingPositionBlinks;
 		uint8_t lightsSize;

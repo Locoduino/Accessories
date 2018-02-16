@@ -16,13 +16,13 @@ class AccessoryMotorOneWay : public AccessoryMotor
 		inline AccessoryMotorOneWay() {}
 		
 	protected:
-		/**Move the motor... There is only one direction, so MoveLeft() will do the same movement than Moveright() !
+		/**Move the motor... There is only one direction, so MoveLeft() will do the same movement than MoveRight() !
 		@param[in] inDuration Duration of the movement. If 0, the movement will not stop until a MoveStop(). Default is 0.
 		@param[in] inSpeed speed for this movement. This speed becomes the default speed for next movements. If 0, the speed is not updated. Default is 0.
 		*/
 		inline void MoveRight(unsigned long inDuration = 0, int inSpeed = 0) { MoveLeft(inDuration, inSpeed); }
 
-		/**Change the direction. Huh ? There is only one direction ? Ok, change the direction to ... the same !
+		/**Change the direction. Huh ? There is only one direction ? OK, change the direction to ... the same !
 		@param[in] inDuration Duration of the movement. If 0, the movement will not stop until a MoveStop(). Default is 0.
 		@param[in] inSpeed speed for this movement. This speed becomes the default speed for next movements. If 0, the speed is not updated. Default is 0.
 		@return returns the new state.

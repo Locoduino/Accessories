@@ -4,26 +4,26 @@
 //-------------------------------------------------------------------
 
 /**	 @mainpage
-A full explanation in french can be read at http://www.locoduino.org/spip.php?article178 .
+A full explanation in French can be read at http://www.locoduino.org/spip.php?article178 .
 
-The goal of this library is to command accessories of railroad modelling, but basically these are motors and lights
+The goal of this library is to command accessories of railroad modeling, but basically these are motors and lights
 exactly with the same constraints and needs than in a lot of other hobbies...
 
 Accessories can be driven by basic functions to move or set on or off, but it can be driven by events too,
 almost exactly the same as Commanders library is able to raise.
 
 Each kind of accessories or ports can be excluded from compilation, for memory problems purpose or for naming conflicts.
-You can exclude some parts of library here, to avoid losing program and data memory on parts you dont use.
-For example, if you dont want SERVO, just uncomment the line #define NO_SERVO by removing // at the beggining.
+You can exclude some parts of library here, to avoid losing program and data memory on parts you don't use.
+For example, if you don't want SERVO, just uncomment the line #define NO_SERVO by removing // at the beginning.
 
 The Arduino IDE compiles all the files of the library 'src' directory even if its content is not used.
 The result is, if an unused source file contains static declarations (SERVO library do !), these statics
 will be allocated and this memory will be lost. The only solution I have found is to rename the source files to
-something IDE dont know...
+something IDE don't know...
 So if you want to lose less memory, you can rename the linked files from .cpp to .ori, and from .hpp to .hppori.
 See below in the exclusion area the file names related to each exclusion.
 
-This software is Copyright (C) 2015-2017 thierry Paris / Locoduino. Use is subject to license
+This software is Copyright (C) 2015-2018 thierry Paris / Locoduino. Use is subject to license
 conditions. The main licensing options available are GPL V2 or Commercial:
 
 \par Open Source Licensing GPL V2
@@ -40,15 +40,24 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 16/02/2018 V1.0.2
+- Correction du clignotement dans AccessoryBaseLight
+- Ajout de AccessoryLight::SetBlinking()
+- Correction de la syntaxe de la documentation anglaise.
+_______________
+- Fix of blinking in AccessoryBaseLight
+- Added AccessoryLight::SetBlinking()
+- Fix of English documentation syntax !
+
 \par 18/10/2017 V1.0.1
 - Mise en forme du numéro de version en 'semver' (Semantic Versioning 2.0.0).
-
+_______________
 - Version number converted to 'semver' format (Semantic Versioning 2.0.0).
 
 \par 17/10/2017 1.01
 - Ajout de ArduiEmulator.zip dans extras
 - Correction dans les moteurs qui ne bougaient plus.
-
+_______________
 - ArduiEmulator.zip added in extras.
 - Fix of AccessoryMotor moving...
 
@@ -56,14 +65,14 @@ application. Contact info@open.com.au for details.
 - Correction de l'allumage des leds en fading qui ne marchait plus...
 - Ajout de Port::GetPinType()
 - Test dans AccessoryBaseLight::SetFading() que le port soit bien de type ANALOG.
-
+_______________
 - Fix of light with fading activated.
 - Function Port::GetPinType() added.
 - Check of pin type which must be ANALOG or ANALOG_INVERTED for fading lights.
 
 \par 23/09/2017 0.71
 - Correction de l'allumage des leds qui ne marchait plus...
-
+_______________
 - Fix of light turning on or off.
 
 \par 25/08/2017 0.70
@@ -81,7 +90,6 @@ application. Contact info@open.com.au for details.
 - ActionStack::Purge -> ActionStack::Clear
 - ActionStack::Purge(index) -> ActionStack::Delete(index)
 - PortServo::GetPin2() -> PortServo::GetDIOPin()
-
 _______________
 - New doc available with StartDoc.bat or extras/Doc/index.html
 - Lots of data and functions passed to private.
@@ -91,7 +99,7 @@ _______________
 - Fix of PortSpeedDirBrake::IsActive()
 - Accessory::usestateNone and Accessory::type unused, deleted.
 - ActionStack::CheckIndex() unused, deleted.
-- positional -> positionnal !
+- positionnal -> positional !
 - synchrone -> synchronous !
 - AccessoryLight::IsFlashing -> AccessoryLight->IsBlinking !
 - ActionStack::Purge -> ActionStack::Clear
@@ -237,7 +245,7 @@ _______________
 - Fonction loop simple qui gère tout !
 _______________
 - Use of event strategy already used in commanders.
-- Use chained list to simplify user programmation
+- Use chained list to simplify user programming
 - Use of default constructors to allow simple object declarations, and 'begin' functions to set good arguments.
 - Easy and simple function 'loop' handling everything.
 
@@ -266,24 +274,6 @@ Main include file of the library.*/
 // is very heavy in program memory. So to avoid problems
 // you can make this function available by uncomment the next line.
 //#define ACCESSORIES_PRINT_ACCESSORIES
-
-#ifdef DOXYGEN_SPECIFIC
-/** If this is defined, the library will do many checks during setup and execution, and print errors, warnings and
-information messages on console. These messages can take a lot of memory, so be careful about the free memory of
-your program if you activate debug mode.*/
-#define ACCESSORIES_DEBUG_MODE
-/** If this is defined, the Verbose mode lets you see all actions done by the  library, but with a real flood of
-text to the console... It has no effect if ACCESSORIES_DEBUG_MODE is not activated.*/
-#define ACCESSORIES_DEBUG_VERBOSE_MODE
-/** If this is defined, the function Accessories::printAccessories() will become available. This is useful to try
-to understand why a port, or an accessory is not corretly defined.
-This function uses a lot of memory, so activate it only if necessary, and be careful about your program's memory.
-You can use the define PRINT_ACCESSORIES() in your sketch instead of a call to Accessories::printAccessories().
-If ACCESSORIES_PRINT_ACCESSORIES is not defined, PRINT_ACCESSORIES is defined as empty, so you will not have a compilation error.*/
-#define ACCESSORIES_PRINT_ACCESSORIES
-/** If this is defined, the state of all the library will not be saved to EEPROM.*/
-#define NO_EEPROM
-#endif
 
 /** This is used internally by DIO2.h */
 #define  GPIO2_PREFER_SPEED    1
@@ -422,4 +412,22 @@ If ACCESSORIES_PRINT_ACCESSORIES is not defined, PRINT_ACCESSORIES is defined as
 #endif
 
 #include "Accessories.hpp"
+#endif
+
+#ifdef DOXYGEN_SPECIFIC
+/** If this is defined, the library will do many checks during setup and execution, and print errors, warnings and
+information messages on console. These messages can take a lot of memory, so be careful about the free memory of
+your program if you activate debug mode.*/
+#define ACCESSORIES_DEBUG_MODE
+/** If this is defined, the Verbose mode lets you see all actions done by the  library, but with a real flood of
+text to the console... It has no effect if ACCESSORIES_DEBUG_MODE is not activated.*/
+#define ACCESSORIES_DEBUG_VERBOSE_MODE
+/** If this is defined, the function Accessories::printAccessories() will become available. This is useful to try
+to understand why a port, or an accessory is not correctly defined.
+This function uses a lot of memory, so activate it only if necessary, and be careful about your program's memory.
+You can use the define PRINT_ACCESSORIES() in your sketch instead of a call to Accessories::printAccessories().
+If ACCESSORIES_PRINT_ACCESSORIES is not defined, PRINT_ACCESSORIES is defined as empty, so you will not have a compilation error.*/
+#define ACCESSORIES_PRINT_ACCESSORIES
+/** If this is defined, the state of all the library will not be saved to EEPROM.*/
+#define NO_EEPROM
 #endif

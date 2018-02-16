@@ -47,9 +47,9 @@ class ActionsStack
 		*/
 		unsigned char Add(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData = 0);
 		/**Array operator.
-		@param idx index of the action to get.
+		@param index index of the action to get.
 		*/
-		Action *operator[](unsigned char idx);
+		Action *operator[](unsigned char index);
 		/** Clears the complete stack.*/
 		void Clear();
 		/** Remove the given index of the stack.

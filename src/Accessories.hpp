@@ -6,12 +6,12 @@
 #include "Accessories.h"
 #include "AccessoriesCircularBuffer.hpp"
 
-/**Delay before saving. The saving on EEPROM is ony done when no other saving has been done since at least this delay.*/
+/**Delay before saving. The saving on EEPROM is only done when no other saving has been done since at least this delay.*/
 #define EEPROM_SAVE_DELAY	1000
 
 /**
 This is the main class of the library. All data and functions are static.
-There is no way to instanciate this class.
+There is no way to instantiate this class.
 */
 class Accessories
 {
@@ -51,7 +51,7 @@ public:
 	@return True if something rest to execute.
 	*/
 	static bool loop();
-	/**Wait until the delay without executing anu other event. All started movements will continue during the interval.
+	/**Wait until the delay without executing another event. All started movements will continue during the interval.
 	@param inDelay waiting delay in milliseconds.
 	*/
 	static void wait(unsigned long inDelay);
@@ -61,7 +61,7 @@ public:
 #endif
 
 #ifdef ACCESSORIES_DEBUG_MODE
-	/** Print on the console the given event in plain english.
+	/** Print on the console the given event in plain English.
 	@remark Only available if ACCESSORIES_DEBUG_MODE is defined.
 	*/
 	static void printEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventType, int inEventData);
@@ -78,7 +78,7 @@ public:
 	/** This define is empty if COMMANDERS_PRINT_COMMANDERS is not defined. */
 	#define PRINT_ACCESSORIES	Accessories::printAccessories();
 	/** Print the full list of commanders.
-	The list is printed on the console in a hierachical way, with details like buttons and events. There is also all data (pins, events)
+	The list is printed on the console in a hierarchical way, with details like buttons and events. There is also all data (pins, events)
 	associated with each item.
 	@remark Only available if COMMANDERS_PRINT_COMMANDERS is defined.
 	*/

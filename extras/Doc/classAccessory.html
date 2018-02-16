@@ -231,10 +231,10 @@ Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This is the base class for all the accessories.</p>
-<p>This class is a pure virtual class, so it cant be instanciated !</p>
+<p>This class is a pure virtual class, so it cant be instantiated !</p>
 <p>An accessory is a class driving a physical motor or light, receiving events to change its state. With each accessory is defined a port, giving power to the accessory. There is no accessory without port.</p>
 <p>Each accessory have one or more <a class="el" href="structMovingPosition.html">MovingPosition</a>, with each one defined by an Id. Each accessory have also a current state, a current speed and can have a current position. All these states are saved in EEPROM at each state change, with a protection to avoid more than one saving by second.</p>
-<p>The EEPROM area starting from EEPROMStart will be filled on EEPROMsize with the current version number (a byte), and the total number of accessories and groups. The fourth byte will be the checksum of the three starting bytes... If any of these four bytes are different from the actual values, the EEPROM will be considered as free. Two bytes are then added to store the size of one complete record, in order to be able to configurate the CircularBuffer.</p>
+<p>The EEPROM area starting from EEPROMStart will be filled on EEPROMsize with the current version number (a byte), and the total number of accessories and groups. The fourth byte will be the checksum of the three starting bytes... If any of these four bytes are different from the actual values, the EEPROM will be considered as free. Two bytes are then added to store the size of one complete record, in order to be able to configure the CircularBuffer.</p>
 <p>Following these bytes, there is the CircularBuffer of accessories. For each one the current state, the current position and the current speed will be saved. After that, each group save its current item id.</p>
 <pre class="fragment">+-+
 Version                 |V|
@@ -461,7 +461,7 @@ End of record.
 </div><div class="memdoc">
 <p>Reload all data from the EEPROM. </p><dl class="section remark"><dt>Remarks</dt><dd>Only for internal usage. </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classAccessoryServo.html#a8e7338a290d34c194e7d351a8d4abaa5">AccessoryServo</a>, <a class="el" href="classAccessoryMotor.html#a62e7b93e8aa7c42795889e94882756b8">AccessoryMotor</a>, and <a class="el" href="classAccessoryLight.html#a0c90712da6035d00724928abe3a5eab2">AccessoryLight</a>.</p>
+<p>Reimplemented in <a class="el" href="classAccessoryServo.html#a8e7338a290d34c194e7d351a8d4abaa5">AccessoryServo</a>, <a class="el" href="classAccessoryLight.html#a0c90712da6035d00724928abe3a5eab2">AccessoryLight</a>, and <a class="el" href="classAccessoryMotor.html#a62e7b93e8aa7c42795889e94882756b8">AccessoryMotor</a>.</p>
 
 </div>
 </div>
@@ -1729,7 +1729,7 @@ End of record.
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classAccessory.html">Accessory</a></li>
-    <li class="footer">Generated on mer. oct. 18 2017 17:44:46 for Accessories &nbsp; by
+    <li class="footer">Generated on ven. févr. 16 2018 22:27:32 for Accessories &nbsp; by
     <a href="http://www.copperspice.com/documentation-doxypress.html">
     <img class="footer" src="doxypress.png" alt="DoxyPress"/></a> 1.2.10 </li>
   </ul>

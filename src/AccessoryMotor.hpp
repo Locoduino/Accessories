@@ -28,7 +28,7 @@ enum DIRECTION
 };
 
 /**This class describes a classic rotative or linear motor.
-Thi is an abstract class, which cannot be instanciated.
+This is an abstract class, which cannot be instantiated.
 */
 class AccessoryMotor : public Accessory
 {

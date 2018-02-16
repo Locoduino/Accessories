@@ -116,6 +116,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ade0410a95919c69a748d8f808cac5710"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefb471d2774da0f2e8c5238e30ebadf4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessoryLight.html#aefb471d2774da0f2e8c5238e30ebadf4">begin</a> (<a class="el" href="classPort.html">Port</a> *inpPort, unsigned long inId, unsigned long inBlinkDuration = 0, int inIntensity = 255)</td></tr>
 <tr class="separator:aefb471d2774da0f2e8c5238e30ebadf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d67ba1db019b98ca1e496eca1406d66"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessoryLight.html#a7d67ba1db019b98ca1e496eca1406d66">SetBlinking</a> (unsigned long inBlinkingDelay)</td></tr>
+<tr class="separator:a7d67ba1db019b98ca1e496eca1406d66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7424d28cc2fbe012638edd837d4aaf6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessoryLight.html#ac7424d28cc2fbe012638edd837d4aaf6">SetFading</a> (uint8_t inStep, uint8_t inDelay)</td></tr>
 <tr class="separator:ac7424d28cc2fbe012638edd837d4aaf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79a2896772ebff649f3123d38e9b6ef8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessoryLight.html#a79a2896772ebff649f3123d38e9b6ef8">IsOn</a> () const </td></tr>
@@ -326,7 +328,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <p>Turn the light on and blink. </p>
 
-<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00071">71</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00075">75</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
 
 </div>
 </div>
@@ -431,7 +433,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <p>Checks if the light is blinking. </p><dl class="section return"><dt>Returns</dt><dd>true if the light is blinking. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00044">44</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00048">48</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
 
 </div>
 </div>
@@ -458,7 +460,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Checks if the light is fading. </p><dl class="section return"><dt>Returns</dt><dd>true if the light is fading. </dd></dl>
 <dl class="section remark"><dt>Remarks</dt><dd>A light can dim only with an analog pin. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00049">49</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00053">53</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
 
 </div>
 </div>
@@ -484,7 +486,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <p>Checks if the light is on. </p><dl class="section return"><dt>Returns</dt><dd>true if the light is on. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00040">40</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00044">44</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
 
 </div>
 </div>
@@ -510,7 +512,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <p>Turn the light off. </p>
 
-<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00069">69</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00073">73</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
 
 </div>
 </div>
@@ -536,7 +538,39 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <p>Turn the light on. </p>
 
-<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00067">67</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00071">71</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7d67ba1db019b98ca1e496eca1406d66"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AccessoryLight::SetBlinking </td>
+          <td>(</td>
+          <td class="paramtype">unsigned long&#160;</td>
+          <td class="paramname"><em>inBlinkingDelay</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the blinking delay. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inBlinkingDelay</td><td>Blinking delay in milliseconds. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00034">34</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
 
 </div>
 </div>
@@ -579,7 +613,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00035">35</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00039">39</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
 
 </div>
 </div>
@@ -613,7 +647,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classAccessory.html#a408602468720dbf84c1e3d27cc0385da">Accessory</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00061">61</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00065">65</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
 
 </div>
 </div>
@@ -641,7 +675,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="classAccessory.html#a9f524a5ba6ba7f33e814e687c2912181">Accessory</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00065">65</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AccessoryLight_8hpp_source.html#l00069">69</a> of file <a class="el" href="AccessoryLight_8hpp_source.html">AccessoryLight.hpp</a>.</p>
 
 </div>
 </div>
@@ -655,7 +689,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classAccessoryLight.html">AccessoryLight</a></li>
-    <li class="footer">Generated on mer. oct. 18 2017 17:44:46 for Accessories &nbsp; by
+    <li class="footer">Generated on ven. févr. 16 2018 22:27:32 for Accessories &nbsp; by
     <a href="http://www.copperspice.com/documentation-doxypress.html">
     <img class="footer" src="doxypress.png" alt="DoxyPress"/></a> 1.2.10 </li>
   </ul>

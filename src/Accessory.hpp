@@ -24,7 +24,7 @@ This enum is almost identical to the enum COMMANDERS_MOVE_TYPE in Commanders lib
 enum ACCESSORIES_MOVE_TYPE
 {
 	ACCESSORIES_MOVE_MORE = +1,		/**< Add an incremental value, like an encoder can do.*/
-	ACCESSORIES_MOVE_LESS = -1,		/**< Substract an incremental value, like an encoder can do.*/
+	ACCESSORIES_MOVE_LESS = -1,		/**< Subtract an incremental value, like an encoder can do.*/
 	ACCESSORIES_MOVE_STOP = 0,		/**< Stop the current movement.*/
 	ACCESSORIES_MOVE_LEFT = -2,		/**< Move to left side.*/
 	ACCESSORIES_MOVE_RIGHT = -3,	/**< Move to right side.*/
@@ -61,7 +61,7 @@ enum ACCESSORIES_EVENT_TYPE
 #define ACCESSORIESCONFIGADDRESS(data)		highByte((int)data)
 #define ACCESSORIESCONFIGVALUE(data)		lowByte((int)data)
 
-/**Defines three states for eah accessory. states can be redefined locally by macro to match with real goal...
+/**Defines three states for the accessory. States can be redefined locally by macro to match with real goal...
 STATE_SECOND is STATE_RIGHT for turnout or STATE_LIGHTBLINK for a light !*/
 enum ACC_STATE
 { 
@@ -80,7 +80,7 @@ struct MovingPosition
 /**
 This is the base class for all the accessories.
 
-This class is a pure virtual class, so it cant be instanciated !
+This class is a pure virtual class, so it cant be instantiated !
 
 An accessory is a class driving a physical motor or light, receiving events to change its state.
 With each accessory is defined a port, giving power to the accessory.
@@ -94,7 +94,7 @@ The EEPROM area starting from EEPROMStart will be filled on EEPROMsize with the 
 and the total number of accessories and groups. The fourth byte will be the checksum of the three
 starting bytes...
 If any of these four bytes are different from the actual values, the EEPROM will be considered as free.
-Two bytes are then added to store the size of one complete record, in order to be able to configurate the CircularBuffer.
+Two bytes are then added to store the size of one complete record, in order to be able to configure the CircularBuffer.
 
 Following these bytes, there is the CircularBuffer of accessories.
 For each one the current state, the current position and the current speed will be saved.

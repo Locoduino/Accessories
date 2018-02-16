@@ -61,7 +61,6 @@ void PortShieldL293d::MoveLeftDir(unsigned long inDuration)
 void PortShieldL293d::MoveRightDir(unsigned long inDuration)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
-	//Serial.print(this->pmotor->motornum);
 	Serial.print(F(" PortShieldL293d MoveRightDir() "));
 	if (inDuration != 0)
 	{
