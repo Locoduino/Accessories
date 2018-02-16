@@ -43,7 +43,7 @@ class GroupStateItem
 #endif
 };
 
-/**This class describes a list of accessories, iwth an associated state, under one and only one Id.
+/**This class describes a list of accessories, with an associated state, under one and only one Id.
 */
 class GroupState
 {
@@ -53,7 +53,7 @@ class GroupState
 		/**Item list of items.*/
 		ACCSCHAINEDLIST<GroupStateItem> Items;
 		/**If true, the movements of all accessories of the group will be done together.
-		If false, each accessory will wait the end of theprevious accessory movement (plus its delay) to start moving.
+		If false, each accessory will wait the end of the previous accessory movement (plus its delay) to start moving.
 		*/
 		bool Synchronous;
 
@@ -67,7 +67,7 @@ class GroupState
 		/**Full constructor.
 		@param inId Id of this state.
 		@param inSynchronous If true, the movements of all accessories of the group will be done together.
-		If false, each accessory will wait the end of theprevious accessory movement (plus its delay) to start moving. Default is true.
+		If false, each accessory will wait the end of the previous accessory movement (plus its delay) to start moving. Default is true.
 		*/
 		GroupState(unsigned long inId, bool inSynchronous = true);
 
@@ -157,13 +157,13 @@ class AccessoryGroup
 		*/
 		void AddRange(const AccessoryGroup &inGroup);
 
-		/**Gets a state by seraching an id.
+		/**Gets a state by searching an id.
 		@param inId Id to found.
 		@return found GroupState address or NULL.
 		*/
 		GroupState *GetByID(unsigned long inId) const;
 
-		/**Gets the item list from a given GroupState idenitifed by its id.
+		/**Gets the item list from a given GroupState identified by its id.
 		@param inId Id to found.
 		@return found GroupState item list or NULL.
 		*/

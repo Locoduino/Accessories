@@ -20,7 +20,7 @@
 #define FADING_FULL_DELAY	(this->fadingStep == 0 ? 0 : ((255UL / this->fadingStep)+1) * this->fadingDelay)
 
 /** This class describes a proxy for a basic light.
-This is the way to share identical functions and behaviours for many kind of light accessory.
+This is the way to share identical functions and behaviors for many kind of light accessory.
 A light basically can be on, off, blinking and / or fading (dim light).
 */
 class AccessoryBaseLight
@@ -79,7 +79,7 @@ class AccessoryBaseLight
 		*/
 		void Event(ACCESSORIES_EVENT_TYPE inEvent = ACCESSORIES_EVENT_MOVEPOSITIONID, int inData = 0);
 		/**Set the blinking mode, with a duration for a blink.
-		@param inBlinkingDelay Duration of the light on state. the same duration is applied for light off.
+		@param inBlinkingDelay Duration of the light on state. The same duration is applied for light off.
 		*/
 		inline void SetBlinking(unsigned long inBlinkingDelay) { this->blinkingDelay = inBlinkingDelay; }
 		/**Set the fading mode, defining its speed.

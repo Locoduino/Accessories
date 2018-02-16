@@ -103,6 +103,7 @@ var NAVTREE =
           [ "IsOn", "classAccessoryLight.html#a79a2896772ebff649f3123d38e9b6ef8", null ],
           [ "LightOff", "classAccessoryLight.html#a05f54b30feeaf8578644089a716a9bf9", null ],
           [ "LightOn", "classAccessoryLight.html#a1063143ac860df80816958a515d1faf5", null ],
+          [ "SetBlinking", "classAccessoryLight.html#a7d67ba1db019b98ca1e496eca1406d66", null ],
           [ "SetFading", "classAccessoryLight.html#ac7424d28cc2fbe012638edd837d4aaf6", null ],
           [ "SetState", "classAccessoryLight.html#a93b9f956387afcae98f89391db0c2d6c", null ],
           [ "Toggle", "classAccessoryLight.html#ab46a5519912b1589e24983b1789768eb", null ]
@@ -219,7 +220,7 @@ var NAVTREE =
           [ "Delete", "classActionsStack.html#a7ab206f5490b5169845ecf5ccef17ca9", null ],
           [ "GetActionToExecute", "classActionsStack.html#ae5e923c8c890313fe9fe67fae9497562", null ],
           [ "GetNumber", "classActionsStack.html#a2ba3fc8906482ba474a1034a81d443c6", null ],
-          [ "operator[]", "classActionsStack.html#a92c898ac34971204c6da70234a9cd568", null ]
+          [ "operator[]", "classActionsStack.html#ae6eefac077c23097a50329bfe0115fb6", null ]
         ] ],
         [ "GroupState", "classGroupState.html", [
           [ "GroupState", "classGroupState.html#abd63266166b098086d0ccebf98b0e269", null ],
@@ -549,7 +550,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AccessoriesCircularBuffer_8cpp_source.html",
-"classActionsStack.html#a7206851ec4f6accf0feafeb60000e2e5"
+"classActionsStack.html#a2ba3fc8906482ba474a1034a81d443c6"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

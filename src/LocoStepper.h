@@ -47,7 +47,7 @@
 /// \class LocoStepper LocoStepper.h <LocoStepper.h>
 /// \brief Support for stepper motors with acceleration etc.
 ///
-/// This defines a single 2 or 4 pin stepper motor, or stepper moter with fdriver chip, with optional
+/// This defines a single 2 or 4 pin stepper motor, or stepper motor with fdriver chip, with optional
 /// absolute positioning commands etc. Multiple	simultaneous steppers are supported, all moving 
 /// at different speeds. 
 ///
@@ -63,11 +63,11 @@
 /// Positions are specified by a signed long integer. At
 /// construction time, the current position of the motor is consider to be 0. Positive
 /// positions are clockwise from the initial position; negative positions are
-/// anticlockwise. The curent position can be altered for instance after
+/// anticlockwise. The current position can be altered for instance after
 /// initialization positioning.
 ///
 /// \par Caveats
-/// This is an open loop controller: If the motor stalls or is oversped,
+/// This is an open loop controller: If the motor stalls or is over-speed,
 /// LocoStepper will not have a correct 
 /// idea of where the motor really is (since there is no feedback of the motor's
 /// real position. We only know where we _think_ it is, relative to the
@@ -85,10 +85,10 @@ public:
     /// at different speeds and accelerations, provided you call their run()
     /// functions at frequent enough intervals. Current Position is set to 0, target
     /// position is set to 0.
-    /// The motor pins will be initialised to OUTPUT mode during the
+    /// The motor pins will be initialized to OUTPUT mode during the
     /// constructor by a call to enableOutputs().
 	/// inpSteps pointer argument gives the caller the possibility to fix himself the sequence
-	/// of pins activation. If nothing is specifed, a default value will be used:
+	/// of pins activation. If nothing is specified, a default value will be used:
 	/// \verbatim
 	///	B01, B11, B10, B00 
 	/// \endverbatim
@@ -97,10 +97,10 @@ public:
 	/// at different speeds and accelerations, provided you call their run()
 	/// functions at frequent enough intervals. Current Position is set to 0, target
 	/// position is set to 0.
-	/// The motor pins will be initialised to OUTPUT mode during the
+	/// The motor pins will be initialized to OUTPUT mode during the
 	/// constructor by a call to enableOutputs().
 	/// inpSteps pointer argument gives the caller the possibility to fix himself the sequence
-	/// of pins activation. If nothing is specifed, a default value will be used:
+	/// of pins activation. If nothing is specified, a default value will be used:
 	/// \verbatim
 	/// B1010, B0110, B0101, B1001
 	/// \endverbatim
@@ -119,7 +119,7 @@ public:
     void    move(long relative);
 
     /// Poll the motor and step it if a step is due. You must call this as
-    /// fequently as possible, but at least once per minimum step interval,
+    /// frequently as possible, but at least once per minimum step interval,
     /// preferably in your main loop.
     /// \return true if the motor is still going to the target position.
     boolean run();
@@ -151,7 +151,7 @@ public:
     /// in steps. Positive is clockwise from the 0 position.
     long    currentPosition();  
 
-    /// Resets the current position of the motor, so that wherever the mottor
+    /// Resets the current position of the motor, so that wherever the motor
     /// happens to be right now is considered to be the new position. Useful
     /// for setting a zero position on a stepper after an initial hardware
     /// positioning move.
@@ -163,7 +163,7 @@ public:
     /// Depending on the design of your electronics this may turn off
     /// the power to the motor coils, saving power.
     /// This is useful to support Arduino low power modes: disable the outputs
-    /// during sleep and then reenable with enableOutputs() before stepping
+    /// during sleep and then re-enable with enableOutputs() before stepping
     /// again.
     void    disableOutputs();
 
@@ -210,11 +210,11 @@ private:
     long           _currentPos;    // Steps
 
     /// The target position in steps. The LocoStepper library will move the
-    /// motor from teh _currentPos to the _targetPos, taking into account the
+    /// motor from the _currentPos to the _targetPos, taking into account the
     /// max speed, acceleration and deceleration
     long           _targetPos;     // Steps
 
-    /// The current motos speed in steps per second
+    /// The current motor speed in steps per second
     /// Positive is clockwise
     float          _speed;         // Steps per second
 

@@ -95,14 +95,26 @@ $(document).ready(function(){initNavTree('Revision.html','');});
   <div class="clear-floats"></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><dl class="section user"><dt>18/10/2017 V1.0.1</dt><dd><ul>
-<li>Mise en forme du numéro de version en 'semver' (Semantic Versioning 2.0.0).</li>
+<div class="textblock"><dl class="section user"><dt>16/02/2018 V1.0.2</dt><dd><ul>
+<li>Correction du clignotement dans <a class="el" href="classAccessoryBaseLight.html">AccessoryBaseLight</a></li>
+<li>Ajout de <a class="el" href="classAccessoryLight.html#a7d67ba1db019b98ca1e496eca1406d66">AccessoryLight::SetBlinking()</a></li>
+<li>Correction de la syntaxe de la documentation anglaise. <hr/>
+</li>
+<li>Fix of blinking in <a class="el" href="classAccessoryBaseLight.html">AccessoryBaseLight</a></li>
+<li>Added <a class="el" href="classAccessoryLight.html#a7d67ba1db019b98ca1e496eca1406d66">AccessoryLight::SetBlinking()</a></li>
+<li>Fix of English documentation syntax !</li>
+</ul>
+</dd></dl>
+<dl class="section user"><dt>18/10/2017 V1.0.1</dt><dd><ul>
+<li>Mise en forme du numéro de version en 'semver' (Semantic Versioning 2.0.0). <hr/>
+</li>
 <li>Version number converted to 'semver' format (Semantic Versioning 2.0.0).</li>
 </ul>
 </dd></dl>
 <dl class="section user"><dt>17/10/2017 1.01</dt><dd><ul>
 <li>Ajout de ArduiEmulator.zip dans extras</li>
-<li>Correction dans les moteurs qui ne bougaient plus.</li>
+<li>Correction dans les moteurs qui ne bougaient plus. <hr/>
+</li>
 <li>ArduiEmulator.zip added in extras.</li>
 <li>Fix of <a class="el" href="classAccessoryMotor.html">AccessoryMotor</a> moving...</li>
 </ul>
@@ -110,14 +122,16 @@ $(document).ready(function(){initNavTree('Revision.html','');});
 <dl class="section user"><dt>25/09/2017 1.0</dt><dd><ul>
 <li>Correction de l'allumage des leds en fading qui ne marchait plus...</li>
 <li>Ajout de <a class="el" href="classPort.html#a99e8526fed0e88d9f553767ef30860df">Port::GetPinType()</a></li>
-<li>Test dans <a class="el" href="classAccessoryBaseLight.html#a1e1a200e6f6e47e63d07059c91265a91">AccessoryBaseLight::SetFading()</a> que le port soit bien de type ANALOG.</li>
+<li>Test dans <a class="el" href="classAccessoryBaseLight.html#a1e1a200e6f6e47e63d07059c91265a91">AccessoryBaseLight::SetFading()</a> que le port soit bien de type ANALOG. <hr/>
+</li>
 <li>Fix of light with fading activated.</li>
 <li>Function <a class="el" href="classPort.html#a99e8526fed0e88d9f553767ef30860df">Port::GetPinType()</a> added.</li>
 <li>Check of pin type which must be ANALOG or ANALOG_INVERTED for fading lights.</li>
 </ul>
 </dd></dl>
 <dl class="section user"><dt>23/09/2017 0.71</dt><dd><ul>
-<li>Correction de l'allumage des leds qui ne marchait plus...</li>
+<li>Correction de l'allumage des leds qui ne marchait plus... <hr/>
+</li>
 <li>Fix of light turning on or off.</li>
 </ul>
 </dd></dl>
@@ -135,11 +149,8 @@ $(document).ready(function(){initNavTree('Revision.html','');});
 <li>AccessoryLight::IsFlashing -&gt; AccessoryLight-&gt;IsBlinking !</li>
 <li>ActionStack::Purge -&gt; ActionStack::Clear</li>
 <li>ActionStack::Purge(index) -&gt; ActionStack::Delete(index)</li>
-<li>PortServo::GetPin2() -&gt; <a class="el" href="classPortServo.html#aeefe2ccbaffc273f196d5a55cbcd0b0c">PortServo::GetDIOPin()</a></li>
-</ul>
-</dd></dl>
-<hr/>
-<ul>
+<li>PortServo::GetPin2() -&gt; <a class="el" href="classPortServo.html#aeefe2ccbaffc273f196d5a55cbcd0b0c">PortServo::GetDIOPin()</a> <hr/>
+</li>
 <li>New doc available with StartDoc.bat or extras/Doc/index.html</li>
 <li>Lots of data and functions passed to private.</li>
 <li>Lots of static functions fro <a class="el" href="classAccessories.html">Accessories</a> passed to <a class="el" href="classAccessory.html">Accessory</a>.</li>
@@ -148,13 +159,14 @@ $(document).ready(function(){initNavTree('Revision.html','');});
 <li>Fix of <a class="el" href="classPortSpeedDirBrake.html#a71eb18829608ad1bc184593c3a9ce7d5">PortSpeedDirBrake::IsActive()</a></li>
 <li>Accessory::usestateNone and Accessory::type unused, deleted.</li>
 <li>ActionStack::CheckIndex() unused, deleted.</li>
-<li>positional -&gt; positionnal !</li>
+<li>positionnal -&gt; positional !</li>
 <li>synchrone -&gt; synchronous !</li>
 <li>AccessoryLight::IsFlashing -&gt; AccessoryLight-&gt;IsBlinking !</li>
 <li>ActionStack::Purge -&gt; ActionStack::Clear</li>
 <li>ActionStack::Purge(index) -&gt; ActionStack::Delete(index)</li>
 <li>PortServo::GetPin2() -&gt; <a class="el" href="classPortServo.html#aeefe2ccbaffc273f196d5a55cbcd0b0c">PortServo::GetDIOPin()</a></li>
 </ul>
+</dd></dl>
 <dl class="section user"><dt>15/02/2017 0.60</dt><dd><ul>
 <li>Ajout de printMovingPositions()</li>
 <li>Ajout de ExternalMove() pour mettre en conformité l'état d'un moteur après une manoeuvre manuelle. <hr/>
@@ -309,7 +321,7 @@ $(document).ready(function(){initNavTree('Revision.html','');});
 <li>Fonction loop simple qui gère tout ! <hr/>
 </li>
 <li>Use of event strategy already used in commanders.</li>
-<li>Use chained list to simplify user programmation</li>
+<li>Use chained list to simplify user programming</li>
 <li>Use of default constructors to allow simple object declarations, and 'begin' functions to set good arguments.</li>
 <li>Easy and simple function 'loop' handling everything.</li>
 </ul>
@@ -325,7 +337,7 @@ $(document).ready(function(){initNavTree('Revision.html','');});
 <!-- Generated by DoxyPress 1.2.10 -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on mer. oct. 18 2017 17:44:46 for Accessories &nbsp; by
+    <li class="footer">Generated on ven. févr. 16 2018 22:27:32 for Accessories &nbsp; by
     <a href="http://www.copperspice.com/documentation-doxypress.html">
     <img class="footer" src="doxypress.png" alt="DoxyPress"/></a> 1.2.10 </li>
   </ul>

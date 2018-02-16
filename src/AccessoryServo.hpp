@@ -46,18 +46,18 @@ enum POWER_STATE
 
 /** This class describes a servo powered by a port. A servo has a minimum, a maximum and a current position.
 
-A movement can be splitted into small steps with a duration for each one. 
+A movement can be split into small steps with a duration for each one. 
 
 Use AddMinMaxMovingPositions() to define MovingPosition for minimum and maximum positions.
 Use AddMovingPosition() to define intermediate positions.
 
-To avoid erratic movements when the servo dont move, its power can be stopped by a pin connected to a relay or a transistor.
+To avoid erratic movements when the servo don't move, its power can be stopped by a pin connected to a relay or a transistor.
 In this case, the movement is:
 
 \verbatim
 MovePosition()
 
-Activate pin, power delay, full movement, power delay, Disactivate pin.
+Activate pin, power delay, full movement, power delay, Dis-activate pin.
 \endverbatim  
 */
 class AccessoryServo : public Accessory
@@ -138,7 +138,7 @@ class AccessoryServo : public Accessory
 
 		/**Sets the pin to control the servo power.
 		@param inPin pin to set to HIGH to activate servo power.
-		@param inDelay delay to wait after the activation before starting the movement, and after the end of the movement before unactivate the pin.
+		@param inDelay delay to wait after the activation before starting the movement, and after the end of the movement before inactivate the pin.
 		*/
 		void SetPowerCommand(int inPin, unsigned long inDelay = 100);
 

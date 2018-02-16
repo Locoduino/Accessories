@@ -115,7 +115,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a429a5a2adc4299a766469177f6a772b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class implements the Atmel solution to avoid writing in EEPROM always in the same area to improve lifetime of this memory : a Circular Buffer. See <a href="http://www.atmel.com/images/doc2526.pdf">http://www.atmel.com/images/doc2526.pdf</a> . Part of the pdf file :</p>
+<div class="textblock"><p>This class implements the Atmel solution to avoid writing in EEPROM always in the same area to improve lifetime of this memory : a Circular Buffer. See <a href="http://www.atmel.com/images/doc2526.pdf">http://www.atmel.com/images/doc2526.pdf</a> . Part of the PDF file :</p>
 <blockquote class="doxtable">
 <p>By having a circular buffer (O-buffer) in EEPROM it is possible to increase the number of times that a parameter can be stored in EEPROM. If the buffer has two levels the number of times that the parameter can be stored is twice the endurance of one single EEPROM cell: 200 k erase/writes. By using this approach it is possible to increase the number of times a parameter can be stored by increasing the O-buffer size. In other word, the idea is to distribute the storage of the parameter over several EEPROM locations to achieve increased parameter storage endurance. When using the Obuffer approach the parameter storage endurance equal the number of memory locations used in the O-buffer times the endurance of a single EEPROM location.</p>
 </blockquote>
@@ -190,7 +190,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Initialize the instance. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">inStartListPos</td><td>EEPROM address of the begginning of the memory used for the storage </td></tr>
+    <tr><td class="paramname">inStartListPos</td><td>EEPROM address of the beginning of the memory used for the storage </td></tr>
     <tr><td class="paramname">inItemSize</td><td>Size in bytes of one item to save. </td></tr>
     <tr><td class="paramname">inReplicaNumber</td><td>Number of copies of the element can be reserved for the buffer. 2 is a minimum, 255 a maximum. </td></tr>
   </table>
@@ -259,7 +259,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classAccessoriesCircularBuffer.html">AccessoriesCircularBuffer</a></li>
-    <li class="footer">Generated on mer. oct. 18 2017 17:44:46 for Accessories &nbsp; by
+    <li class="footer">Generated on ven. févr. 16 2018 22:27:32 for Accessories &nbsp; by
     <a href="http://www.copperspice.com/documentation-doxypress.html">
     <img class="footer" src="doxypress.png" alt="DoxyPress"/></a> 1.2.10 </li>
   </ul>

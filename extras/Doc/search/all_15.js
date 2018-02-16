@@ -1,7 +1,7 @@
 var searchData=
 [
   ['servo',['servo',['../classPortServo.html#a892b529df0ad7376695f9414e6fea5db',1,'PortServo']]],
-  ['setblinking',['SetBlinking',['../classAccessoryBaseLight.html#acce625a2eff7f353f1eec68a05177ac0',1,'AccessoryBaseLight::SetBlinking()'],['../classAccessoryLightMulti.html#a4908ded538e80f4bcf00121abc530e02',1,'AccessoryLightMulti::SetBlinking()']]],
+  ['setblinking',['SetBlinking',['../classAccessoryBaseLight.html#acce625a2eff7f353f1eec68a05177ac0',1,'AccessoryBaseLight::SetBlinking()'],['../classAccessoryLight.html#a7d67ba1db019b98ca1e496eca1406d66',1,'AccessoryLight::SetBlinking()'],['../classAccessoryLightMulti.html#a4908ded538e80f4bcf00121abc530e02',1,'AccessoryLightMulti::SetBlinking()']]],
   ['setcurrentposition',['setCurrentPosition',['../classLocoStepper.html#a0ff4c5df6aa76c31d05c357f48bf1223',1,'LocoStepper']]],
   ['setdebouncedelay',['SetDebounceDelay',['../classAccessory.html#a83da11bad71b628431ac86cc1cbaf60c',1,'Accessory']]],
   ['setduration',['SetDuration',['../classAccessory.html#a6e68b4693371383dfb026869af30d1d2',1,'Accessory']]],

@@ -36,9 +36,9 @@ void Accessories::begin(int inEEPROMStart, int inEEPROMSize)
 	delay(500);
 
 	Serial.println(F(""));
-	Serial.println(F("Accessories V1.0.1"));
+	Serial.println(F("Accessories V1.0.2"));
 	Serial.println(F("Developed by Thierry Paris."));
-	Serial.println(F("(c) Locoduino 2016-2017"));
+	Serial.println(F("(c) Locoduino 2016-2018"));
 	Serial.println(F(""));
 
 	Serial.println(F("*** Setup Accessories started."));
@@ -225,7 +225,7 @@ The EEPROM area starting from EEPROMStart, will be filled with the current versi
 and the total number of accessories and groups. The fourth byte will be the checksum of the three
 starting bytes...
 If any of these four bytes are different from the actual values, the EEPROM will be considered as free.
-Two bytes are then added to store the size of one complete record, in order to be able to configurate the CircularBuffer.
+Two bytes are then added to store the size of one complete record, in order to be able to configure the CircularBuffer.
 
 Following these bytes, there is the CircularBuffer of accessories.
 For each one the current state, the current position and the current speed will be saved.

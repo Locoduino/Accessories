@@ -28,6 +28,10 @@ class AccessoryLight : public Accessory
 		@param inIntensity Intensity of this light. Default is maximum, 255.
 		*/
 		void begin(Port *inpPort, unsigned long inId, unsigned long inBlinkDuration = 0, int inIntensity = 255);
+		/**Sets the blinking delay.
+		@param inBlinkingDelay Blinking delay in milliseconds.
+		*/
+		inline void SetBlinking(unsigned long inBlinkingDelay) { this->pLight->SetBlinking(inBlinkingDelay); }
 		/**Set the fading mode, defining its speed.
 		@param inStep Number of steps between light on and light off.
 		@param inDelay Duration of each step.

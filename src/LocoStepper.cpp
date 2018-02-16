@@ -120,7 +120,7 @@ long LocoStepper::currentPosition()
     return _currentPos;
 }
 
-// Useful during initialisations or after initial positioning
+// Useful during initializations or after initial positioning
 void LocoStepper::setCurrentPosition(long position)
 {
     _currentPos = position;

@@ -159,10 +159,11 @@ var NAVTREEINDEX0 =
 "classAccessoryLight.html#a6106c22cd5da50ec3908d41a917695c6":[1,0,5,2],
 "classAccessoryLight.html#a79a2896772ebff649f3123d38e9b6ef8":[1,0,5,7],
 "classAccessoryLight.html#a7d399a4f2d3cb2909a35f91fdfd2540e":[1,0,5,5],
-"classAccessoryLight.html#a93b9f956387afcae98f89391db0c2d6c":[1,0,5,11],
+"classAccessoryLight.html#a7d67ba1db019b98ca1e496eca1406d66":[1,0,5,10],
+"classAccessoryLight.html#a93b9f956387afcae98f89391db0c2d6c":[1,0,5,12],
 "classAccessoryLight.html#a9511861853b7de8f3b99ca43e49db16b":[1,0,5,4],
-"classAccessoryLight.html#ab46a5519912b1589e24983b1789768eb":[1,0,5,12],
-"classAccessoryLight.html#ac7424d28cc2fbe012638edd837d4aaf6":[1,0,5,10],
+"classAccessoryLight.html#ab46a5519912b1589e24983b1789768eb":[1,0,5,13],
+"classAccessoryLight.html#ac7424d28cc2fbe012638edd837d4aaf6":[1,0,5,11],
 "classAccessoryLight.html#ade0410a95919c69a748d8f808cac5710":[1,0,5,0],
 "classAccessoryLight.html#aefb471d2774da0f2e8c5238e30ebadf4":[1,0,5,1],
 "classAccessoryLightMulti.html":[1,0,6],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "classAction.html#a859b26dbab009b77f3d8c7902fd2d89b":[1,0,14,1],
 "classAction.html#ab3dc4941c77b71ba1425d852185b1f24":[1,0,14,0],
 "classActionsStack.html":[1,0,15],
-"classActionsStack.html#a12c3702836732893421ef6a75c504eda":[1,0,15,1],
-"classActionsStack.html#a2ba3fc8906482ba474a1034a81d443c6":[1,0,15,5]
+"classActionsStack.html#a12c3702836732893421ef6a75c504eda":[1,0,15,1]
 };

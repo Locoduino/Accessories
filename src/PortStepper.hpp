@@ -38,7 +38,7 @@ class PortStepper: public Port
 		@param inType kind of all the pins. Can be only DIGITAL or DIGITAL_INVERTED. Default is DIGITAL.
 		@param inpSteps specific step list. Default is NULL.
 		It gives the caller the possibility to fix himself the sequence of pins activation. If nothing
-		is specifed, a default value will be used:
+		is specified, a default value will be used:
 		\verbatim
 		B01, B11, B10, B00.
 		\endverbatim
@@ -52,7 +52,7 @@ class PortStepper: public Port
 		@param inType kind of all the pins. Can be only DIGITAL or DIGITAL_INVERTED. Default is DIGITAL.
 		@param inpSteps specific step list. Default is NULL.
 		It gives the caller the possibility to fix himself the sequence of pins activation. If nothing 
-		is specifed, a default value will be used:
+		is specified, a default value will be used:
 		\verbatim
 		B1010, B0110, B0101, B1001 for four wires stepper
 		\endverbatim
@@ -82,7 +82,7 @@ class PortStepper: public Port
 		*/
 		inline long currentPosition() { return this->pMotor->currentPosition(); }
 		/**Gets the target position.
-		@return target position. This is equal to current position if no movement is goining...
+		@return target position. This is equal to current position if no movement is going...
 		*/
 		inline long targetPosition() { return this->pMotor->targetPosition(); }
 		/**Gets the current position.

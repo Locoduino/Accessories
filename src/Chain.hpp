@@ -18,7 +18,7 @@ public:
 
 /** This class describes a chained list of items (https://en.wikipedia.org/wiki/Linked_list).
 It can be called also a linked list. This is an elegant way to build a list without any big allocation, bypassing
-the needs to estimate a minimum size and to increase or decrease this size during execution. The disavantage is a
+the needs to estimate a minimum size and to increase or decrease this size during execution. The disadvantage is a
 slower and more complex way to access to an item on the list, and a more complex way to add a new item.
 
 To start, a chained list needs a starting pointer referencing the first item of the list. After that, each item
@@ -54,7 +54,7 @@ public:
 	/**Reset the current item to the first of the list.*/
 	inline void StartCurrent() { this->pCurrentItem = this->pFirst; }
 	/**Checks if the current is NULL.
-	@return True if the curent item is NULL.
+	@return True if the current item is NULL.
 	*/
 	inline bool HasCurrent() { return this->pCurrentItem != NULL; }
 };
@@ -62,7 +62,7 @@ public:
 /** Macro to call a given function on all items in a list.
 @param T type of the item
 @param list	Chained/linked list to scan.
-@param func Function to call. Must be of type
+@param function Function to call. Must be of type
 void function(T *pItem);
 */
 #define CHAINED_ENUMERATE(T, list, func) ACCSCHAINEDLISTITEM<T> *pCurr = list.pFirst; while (pCurr != NULL) { func(pCurr->Obj); pCurr = pCurr->pNext; }

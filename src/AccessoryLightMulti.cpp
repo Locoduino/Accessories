@@ -39,7 +39,7 @@ void AccessoryLightMulti::begin(unsigned long inId, uint8_t inSize, unsigned lon
 	for (uint8_t i = 0; i < inSize; i++)
 	{
 		this->pLights[i].pOwner = this;
-		// This is the default value for the blinking delay, which can be overwriten by individual SetBlinking()
+		// This is the default value for the blinking delay, which can be overwritten by individual SetBlinking()
 		// on a particular light.
 		this->pLights[i].SetBlinking(inBlinkDuration);
 	}
