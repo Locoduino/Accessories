@@ -46,7 +46,7 @@ void PortTwoPinsEnable::MoveLeftDir(unsigned long inDuration)
 		this->Move(LOW, LOW, LOW);
 	}
 
-	this->state = PORT_LEFT;
+	this->SetPortState(PORT_LEFT);
 }
 
 void PortTwoPinsEnable::MoveRightDir(unsigned long inDuration)
@@ -75,7 +75,7 @@ void PortTwoPinsEnable::MoveRightDir(unsigned long inDuration)
 		this->Move(LOW, LOW, LOW);
 	}
 
-	this->state = PORT_RIGHT;
+	this->SetPortState(PORT_RIGHT);
 }
 
 void PortTwoPinsEnable::MoveStop()
@@ -89,7 +89,7 @@ void PortTwoPinsEnable::MoveStop()
 
 	this->Move(LOW, LOW, LOW);
 
-	this->state = PORT_STOP;
+	this->SetPortState(PORT_STOP);
 }
 
 void PortTwoPinsEnable::Move(int inValA, int inValB, int inValEnable)
@@ -104,9 +104,9 @@ void PortTwoPinsEnable::Move(int inValA, int inValB, int inValEnable)
 void PortTwoPinsEnable::printPort()
 {
 	Serial.print(F("[PortTwoPinsEnable pinA:"));
-	Port::printPortPin(this->pinA, this->pinType);
+	Port::printPortPin(this->pinA, this->GetPinType());
 	Serial.print(F(" pinB:"));
-	Port::printPortPin(this->pinB, this->pinType);
+	Port::printPortPin(this->pinB, this->GetPinType());
 	Serial.print(F(" enable:"));
 	Port::printPortPin(this->pinEnable, this->pinTypeEnable);
 	Serial.print(F("]"));

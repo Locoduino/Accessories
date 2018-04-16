@@ -51,12 +51,15 @@ void AccessoryLightMulti::AdjustMovingPositionBlinksSize(uint8_t inNewSize)
 {
 	if (this->pMovingPositionBlinks == NULL || inNewSize > this->GetMovingPositionSize())
 	{
-		int i;
+		int i = 0;
 		int *pNewMovingPositionBlinks = new int[inNewSize];
-		for (i = 0; i < this->GetMovingPositionSize(); i++)
-			pNewMovingPositionBlinks[i] = this->pMovingPositionBlinks[i];
+		if (pMovingPositionBlinks != NULL)
+			for (i = 0; i < this->GetMovingPositionSize(); i++)
+				pNewMovingPositionBlinks[i] = this->pMovingPositionBlinks[i];
+
 		for (; i < inNewSize; i++)
 			pNewMovingPositionBlinks[i] = 0;
+
 		if (this->pMovingPositionBlinks != NULL)
 			delete[] this->pMovingPositionBlinks;
 		this->pMovingPositionBlinks = pNewMovingPositionBlinks;
@@ -65,10 +68,11 @@ void AccessoryLightMulti::AdjustMovingPositionBlinksSize(uint8_t inNewSize)
 
 unsigned char AccessoryLightMulti::AddMovingPosition(unsigned long inIdMin, int inOnMask, int inBlinkMask)
 {
-	this->AdjustMovingPositionBlinksSize(this->GetMovingPositionSize()+1);
 	unsigned char pos = Accessory::AddMovingPosition(inIdMin, inOnMask);
-
+	
+	this->AdjustMovingPositionBlinksSize(this->GetMovingPositionSize());
 	this->pMovingPositionBlinks[pos] = inBlinkMask;
+
 	return pos;
 }
 
@@ -152,11 +156,11 @@ void AccessoryLightMulti::MoveBlink(int inOnMask, int inBlinkMask)
 
 void AccessoryLightMulti::Move(unsigned long inId)
 {
-	int positionIndex = this->IndexOfMovingPosition(inId);
+	int positionIndex = this->IndexOfMovingPositionById(inId);
 
 	if (positionIndex != -1)
 	{
-		int position = this->GetMovingPosition(inId);
+		int position = this->GetMovingPositionValueById(inId);
 		if (this->pMovingPositionBlinks != NULL)
 			MoveBlink(position, this->pMovingPositionBlinks[positionIndex]);
 		else
@@ -173,18 +177,78 @@ void AccessoryLightMulti::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEve
 { 
 	int positionIndex = -1;
 	if (inEvent == ACCESSORIES_EVENT_MOVEPOSITIONID)
-		positionIndex = this->IndexOfMovingPosition(inId);
+		positionIndex = this->IndexOfMovingPositionById(inId);
 	if (inEvent == ACCESSORIES_EVENT_MOVEPOSITIONINDEX)
 		positionIndex = inData;
 
 	if (positionIndex > -1)
 	{
 		this->SetLastMovingPosition(positionIndex);
-		this->MoveBlink(this->GetMovingPositionByIndex(positionIndex), this->pMovingPositionBlinks[positionIndex]);
+
+		if (this->pMovingPositionBlinks != NULL)
+			this->MoveBlink(this->GetMovingPositionValueByIndex(positionIndex), this->pMovingPositionBlinks[positionIndex]);
+		else
+			this->Move(this->GetMovingPositionValueByIndex(positionIndex));
 		return;
 	}
 
-	this->pLights->Event(inEvent, inData);
+	switch (inEvent)
+	{
+	case ACCESSORIES_EVENT_TOGGLE:
+		this->Toggle();
+		break;
+
+	case ACCESSORIES_EVENT_MOVE:
+		switch (inData)
+		{
+		case ACCESSORIES_MOVE_STRAIGHT:
+		case ACCESSORIES_MOVE_TOP:
+		case ACCESSORIES_MOVE_LEFT:
+		case ACCESSORIES_MOVE_DIVERGE:
+		case ACCESSORIES_MOVE_BOTTOM:
+		case ACCESSORIES_MOVE_RIGHT:
+		case ACCESSORIES_MOVE_ON:
+			this->LightOn();
+			break;
+		case ACCESSORIES_MOVE_OFF:
+		case ACCESSORIES_MOVE_STOP:
+			this->LightOff();
+			break;
+		case ACCESSORIES_MOVE_MORE:
+		case ACCESSORIES_MOVE_LESS:
+		{
+			for (uint8_t i = 0; i < this->lightsSize; i++) 
+			{
+				int oldValue = this->pLights[i].pPort->GetSpeed();
+				this->pLights[i].pPort->SetSpeed(oldValue + inData);
+				this->LightOn(i);
+				this->pLights[i].pPort->SetSpeed(oldValue);
+			}
+		}
+			break;
+		}
+		break;
+
+	case ACCESSORIES_EVENT_MOVEPOSITION:
+	{
+		for (uint8_t i = 0; i < this->lightsSize; i++)
+		{
+			int oldValue = this->pLights[i].pPort->GetSpeed();
+			this->pLights[i].pPort->SetSpeed(inData);
+			this->LightOn(i);
+			this->pLights[i].pPort->SetSpeed(oldValue);
+		}
+	}
+	break;
+
+	case ACCESSORIES_EVENT_SETSPEED:
+		for (uint8_t i = 0; i < this->lightsSize; i++)
+			this->pLights[i].pPort->SetSpeed(inData);
+		break;
+
+	default:
+		break;
+	}
 }
 
 #ifndef NO_EEPROM
@@ -227,9 +291,14 @@ void AccessoryLightMulti::printMovingPositions()
 		Serial.print(F(": id "));
 		Serial.print(this->GetMovingPositionIdByIndex(i));
 		Serial.print(F(" / pos "));
-		Serial.print(this->GetMovingPositionByIndex(i), BIN);
-		Serial.print(F(" / blink "));
-		Serial.println(this->pMovingPositionBlinks[i], BIN);
+		Serial.print(this->GetMovingPositionValueByIndex(i), BIN);
+		if (this->pMovingPositionBlinks != NULL)
+		{
+			Serial.print(F(" / blink "));
+			Serial.println(this->pMovingPositionBlinks[i], BIN);
+		}
+		else
+			Serial.println("");
 	}
 }
 #endif

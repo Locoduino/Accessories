@@ -20,6 +20,7 @@ AccessoryStepper		KEYWORD1
 
 GroupState 				KEYWORD1
 GroupStateItem 			KEYWORD1
+MovingPosition			KEYWORD1
 
 Port 					KEYWORD1
 PortOnePin 				KEYWORD1
@@ -56,6 +57,7 @@ GetState			KEYWORD2
 GetPreviousState	KEYWORD2
 AdjustMovingPositionsSize	KEYWORD2
 AddMovingPosition	KEYWORD2
+AddMovingPositions	KEYWORD2
 Event 				KEYWORD2
 RaiseEvent			KEYWORD2
 ReceiveEvent		KEYWORD2
@@ -72,6 +74,8 @@ LightOn				KEYWORD2
 LightOff			KEYWORD2
 Blink				KEYWORD2
 printAccessories	KEYWORD2
+SetFading			KEYWORD2
+SetBlinking			KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

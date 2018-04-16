@@ -149,6 +149,10 @@ void AccessoryStepper::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent,
 		this->pPort->SetSpeed(inData);
 		break;
 
+	case ACCESSORIES_EVENT_SETDURATION:
+		this->SetDuration(inData);
+		break;
+
 	default:
 		break;
 	}

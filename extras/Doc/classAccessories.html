@@ -113,6 +113,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a2d5536f4566bf3475f1d446802129790"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa99c21da1122ed8ef378c80149b0e68b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessories.html#aa99c21da1122ed8ef378c80149b0e68b">wait</a> (unsigned long inDelay)</td></tr>
 <tr class="separator:aa99c21da1122ed8ef378c80149b0e68b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab60fc29d09bdd6cc43facda823129152"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessories.html#ab60fc29d09bdd6cc43facda823129152">printEvent</a> (unsigned long inId, ACCESSORIES_EVENT_TYPE inEventType, int inEventData)</td></tr>
+<tr class="separator:ab60fc29d09bdd6cc43facda823129152"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab01bf769cc3625d1dc34086ca265875"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessories.html#aab01bf769cc3625d1dc34086ca265875">printAccessories</a> ()</td></tr>
+<tr class="separator:aab01bf769cc3625d1dc34086ca265875"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This is the main class of the library. All data and functions are static. There is no way to instantiate this class. </p>
@@ -184,7 +188,76 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Main loop function. This function will call all necessary internal loop functions for each accessory activated... </p><dl class="section return"><dt>Returns</dt><dd>True if something rest to execute. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Accessories_8cpp_source.html#l00147">147</a> of file <a class="el" href="Accessories_8cpp_source.html">Accessories.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Accessories_8cpp_source.html#l00156">156</a> of file <a class="el" href="Accessories_8cpp_source.html">Accessories.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aab01bf769cc3625d1dc34086ca265875"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Accessories::printAccessories </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Print the full list of commanders. The list is printed on the console in a hierarchical way, with details like buttons and events. There is also all data (pins, events) associated with each item. </p><dl class="section remark"><dt>Remarks</dt><dd>Only available if COMMANDERS_PRINT_COMMANDERS is defined. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="Accessories_8cpp_source.html#l00134">134</a> of file <a class="el" href="Accessories_8cpp_source.html">Accessories.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab60fc29d09bdd6cc43facda823129152"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Accessories::printEvent </td>
+          <td>(</td>
+          <td class="paramtype">unsigned long&#160;</td>
+          <td class="paramname"><em>inId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ACCESSORIES_EVENT_TYPE&#160;</td>
+          <td class="paramname"><em>inEventType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>inEventData</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Print on the console the given event in plain English. </p><dl class="section remark"><dt>Remarks</dt><dd>Only available if <a class="el" href="Accessories_8h.html#a86af2ac1eabdbc73d1f058b1bec663f2">ACCESSORIES_DEBUG_MODE</a> is defined. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="Accessories_8cpp_source.html#l00057">57</a> of file <a class="el" href="Accessories_8cpp_source.html">Accessories.cpp</a>.</p>
 
 </div>
 </div>
@@ -234,7 +307,7 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Accessories_8cpp_source.html#l00109">109</a> of file <a class="el" href="Accessories_8cpp_source.html">Accessories.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Accessories_8cpp_source.html#l00116">116</a> of file <a class="el" href="Accessories_8cpp_source.html">Accessories.cpp</a>.</p>
 
 </div>
 </div>
@@ -284,7 +357,7 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Accessories_8cpp_source.html#l00114">114</a> of file <a class="el" href="Accessories_8cpp_source.html">Accessories.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Accessories_8cpp_source.html#l00121">121</a> of file <a class="el" href="Accessories_8cpp_source.html">Accessories.cpp</a>.</p>
 
 </div>
 </div>
@@ -316,7 +389,7 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Accessories_8cpp_source.html#l00213">213</a> of file <a class="el" href="Accessories_8cpp_source.html">Accessories.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Accessories_8cpp_source.html#l00222">222</a> of file <a class="el" href="Accessories_8cpp_source.html">Accessories.cpp</a>.</p>
 
 </div>
 </div>
@@ -330,7 +403,7 @@ Static Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classAccessories.html">Accessories</a></li>
-    <li class="footer">Generated on ven. févr. 16 2018 22:27:32 for Accessories &nbsp; by
+    <li class="footer">Generated on lun. avr. 16 2018 17:39:36 for Accessories &nbsp; by
     <a href="http://www.copperspice.com/documentation-doxypress.html">
     <img class="footer" src="doxypress.png" alt="DoxyPress"/></a> 1.2.10 </li>
   </ul>

@@ -48,15 +48,15 @@ void Port::CheckPinNb(int inPin, PIN_TYPE inType, const __FlashStringHelper *inF
 
 Port::Port()
 {
-	this->pinType = DIGITAL;
-	this->state = PORT_STOP;
+	this->SetPinType(DIGITAL);
+	this->SetPortState(PORT_STOP);
 	this->speed = DEFAULTSPEED;
 }
 
 int Port::MapValue(int inValue, PIN_TYPE inType) const
 {
 	if (inType == UNDEFINED)
-		inType = this->pinType;
+		inType = this->GetPinType();
 
 	if (inType == ANALOG_INVERTED)
 		return 255 - inValue;
@@ -75,7 +75,7 @@ int Port::beginPin(int inPin, PIN_TYPE inType) const
 {
 	int pin = -1;
 	if (inType == UNDEFINED)
-		inType = this->pinType;
+		inType = this->GetPinType();
 	if (inType < ANALOG)
 	{
 		pin = Arduino_to_GPIO_pin(inPin);
@@ -92,7 +92,7 @@ int Port::beginPin(int inPin, PIN_TYPE inType) const
 void Port::MovePin(int inPin, int inValue, PIN_TYPE inType) const
 {
 	if (inType == UNDEFINED)
-		inType = this->pinType;
+		inType = this->GetPinType();
 
 	CHECKPIN(inPin, inType, "Incorrect pin number in MovePin");
 
@@ -123,7 +123,7 @@ PORT_STATE Port::MoveToggle(unsigned long inDuration)
 		MoveLeftDir(inDuration);
 	}
 		
-	return this->GetState();
+	return this->GetPortState();
 }
 
 void Port::MoveLeftDir(unsigned long inDuration, int inSpeed)

@@ -111,7 +111,7 @@ class AccessoryBaseLight
 #endif
 #ifdef ACCESSORIES_PRINT_ACCESSORIES
 	public:
-		/** Print thisaccessory on console.
+		/** Print this accessory on console.
 		@remark Only available if ACCESSORIES_PRINT_ACCESSORIES is defined.
 		*/
 		void printAccessory();

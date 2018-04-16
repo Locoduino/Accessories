@@ -39,19 +39,19 @@ class PortTwoPins : public Port
 		/**Gets the first Arduino pin.
 		@return Pin A number in Arduino mode.
 		*/
-		inline int GetPinA() const { if (pinType < ANALOG) return GPIO_to_Arduino_pin((GPIO_pin_t)this->pinA); return this->pinA; }
+		inline int GetPinA() const { if (this->GetPinType() < ANALOG) return GPIO_to_Arduino_pin((GPIO_pin_t)this->pinA); return this->pinA; }
 		/**Gets the first Arduino pin.
 		@return Pin A number in DIO2 mode.
 		*/
-		inline GPIO_pin_t GetDIOPinA() const { if (pinType < ANALOG) return (GPIO_pin_t)this->pinA; return DP_INVALID; }
+		inline GPIO_pin_t GetDIOPinA() const { if (this->GetPinType() < ANALOG) return (GPIO_pin_t)this->pinA; return DP_INVALID; }
 		/**Gets the second Arduino pin.
 		@return Pin B number in Arduino mode.
 		*/
-		inline int GetPinB() const { if (pinType < ANALOG) return GPIO_to_Arduino_pin((GPIO_pin_t)this->pinB); return this->pinB; }
+		inline int GetPinB() const { if (this->GetPinType() < ANALOG) return GPIO_to_Arduino_pin((GPIO_pin_t)this->pinB); return this->pinB; }
 		/**Gets the second Arduino pin.
 		@return Pin B number in DIO2 mode.
 		*/
-		inline GPIO_pin_t GetDIOPinB() const { if (pinType < ANALOG) return (GPIO_pin_t)this->pinB; return DP_INVALID; }
+		inline GPIO_pin_t GetDIOPinB() const { if (this->GetPinType() < ANALOG) return (GPIO_pin_t)this->pinB; return DP_INVALID; }
 
 		/**Sets the current state of the port to PORT_LEFT.
 		@param inDuration the pins will be activated to left for the given delay.

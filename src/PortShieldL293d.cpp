@@ -86,7 +86,6 @@ void PortShieldL293d::MoveStop()
 	this->pmotor->run(RELEASE);
 	this->state = PORT_STOP;
 }
-#endif
 
 #ifdef ACCESSORIES_PRINT_ACCESSORIES
 void PortShieldL293d::printPort()
@@ -97,5 +96,6 @@ void PortShieldL293d::printPort()
 	Serial.print((int)this->printedSpeed, DEC);
 	Serial.print(F("]"));
 }
+#endif
 #endif
 #endif

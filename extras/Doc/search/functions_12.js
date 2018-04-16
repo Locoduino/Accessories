@@ -7,5 +7,8 @@ var searchData=
   ['portspeeddirbrake',['PortSpeedDirBrake',['../classPortSpeedDirBrake.html#a04e036fed7d7e1019a3eeb2bf2eb9dca',1,'PortSpeedDirBrake']]],
   ['portstepper',['PortStepper',['../classPortStepper.html#a94a6f92105c2494d04f9f653a1bb156e',1,'PortStepper']]],
   ['porttwopins',['PortTwoPins',['../classPortTwoPins.html#a284ad13d89614b4397ea98bfb41eaad2',1,'PortTwoPins']]],
-  ['porttwopinsenable',['PortTwoPinsEnable',['../classPortTwoPinsEnable.html#a53730544356887941615c2dcecc47a15',1,'PortTwoPinsEnable']]]
+  ['porttwopinsenable',['PortTwoPinsEnable',['../classPortTwoPinsEnable.html#a53730544356887941615c2dcecc47a15',1,'PortTwoPinsEnable']]],
+  ['printaccessories',['printAccessories',['../classAccessories.html#aab01bf769cc3625d1dc34086ca265875',1,'Accessories']]],
+  ['printevent',['printEvent',['../classAccessories.html#ab60fc29d09bdd6cc43facda823129152',1,'Accessories']]],
+  ['printport',['printPort',['../classPortServo.html#a4d3b92a763e9afeff3192b26ac38b9a5',1,'PortServo']]]
 ];

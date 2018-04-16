@@ -18,6 +18,7 @@ Accessory::Accessory()
 	this->movingPositionsSize = 0;
 	this->movingPositionsAddCounter = 0;
 	this->pMovingPositions = NULL;
+	this->pMovingPositions_P = NULL;
 	this->lastMovingPosition = 255;
 	this->SetLastMoveTime();
 
@@ -28,6 +29,13 @@ Accessory::Accessory()
 
 void Accessory::AdjustMovingPositionsSize(uint8_t inNewSize)
 {
+#ifdef ACCESSORIES_DEBUG_MODE
+	if (this->pMovingPositions_P != NULL)
+	{
+		Serial.println(F("Warning : a PROGMEM Moving position list is already defined !"));
+	}
+#endif
+
 	if (inNewSize <= this->movingPositionsSize)
 		return;
 
@@ -56,22 +64,72 @@ uint8_t Accessory::AddMovingPosition(unsigned long inId, int inPosition)
 	return this->movingPositionsAddCounter - 1;
 }
 
-uint8_t Accessory::IndexOfMovingPosition(unsigned long inId) const
+// Returns the number of positions.
+uint8_t Accessory::AddMovingPositions(const MovingPosition *inMovingPositions_P)
 {
+#ifdef ACCESSORIES_DEBUG_MODE
+	if (this->pMovingPositions != NULL)
+	{
+		Serial.println(F("Warning : a Moving position list is already defined !"));
+	}
+#endif
+
+	this->pMovingPositions_P = inMovingPositions_P;
+
+	MovingPosition local;
+
+	int i = 0;
+	for (; i < 256; i++)
+	{
+		if (GetMovingPositionByIndex(i, &local)->Id == -1)
+			break;
+	}
+
+	this->movingPositionsSize = i;
+	this->movingPositionsAddCounter = -1;
+
+	return this->movingPositionsSize;
+}
+
+uint8_t Accessory::IndexOfMovingPositionById(unsigned long inId) const
+{
+	MovingPosition local;
 	for (int i = 0; i < this->movingPositionsSize; i++)
-		if (this->pMovingPositions[i].Id == inId)
+	{
+		this->GetMovingPositionByIndex(i, &local);
+		if (local.Id == inId)
 			return i;
+	}
 
 	return 255;
 }
 
-int Accessory::GetMovingPosition(unsigned long inId) const
+MovingPosition *Accessory::GetMovingPositionByIndex(uint8_t inIndex, MovingPosition *apPosition) const
+{
+	if (this->pMovingPositions != NULL)
+	{
+		apPosition->Id = this->pMovingPositions[inIndex].Id;
+		apPosition->Position = this->pMovingPositions[inIndex].Position;
+	}
+
+	if (this->pMovingPositions_P != NULL)
+	{
+		memcpy_P(apPosition, this->pMovingPositions_P + inIndex, sizeof(MovingPosition));
+	}
+
+	return apPosition;
+}
+
+MovingPosition *Accessory::GetMovingPositionById(unsigned long inId, MovingPosition *apPosition) const
 {
 	for (int i = 0; i < this->movingPositionsSize; i++)
-		if (this->pMovingPositions[i].Id == inId)
-			return this->pMovingPositions[i].Position;
+	{
+		this->GetMovingPositionByIndex(i, apPosition);
+		if (apPosition->Id == inId)
+			break;
+	}
 
-	return UNDEFINED_POS;
+	return apPosition;
 }
 
 void Accessory::StartAction()
@@ -199,13 +257,15 @@ int Accessory::EEPROMLoad(int inPos)
 #ifdef ACCESSORIES_PRINT_ACCESSORIES
 void Accessory::printMovingPositions()
 {
+	MovingPosition local;
 	for (int i = 0; i < this->movingPositionsSize; i++)
 	{
+		this->GetMovingPositionByIndex(i, &local);
 		Serial.print(i);
 		Serial.print(F(": id "));
-		Serial.print(this->pMovingPositions[i].Id);
+		Serial.print(local.Id);
 		Serial.print(F(" / pos "));
-		Serial.println(this->pMovingPositions[i].Position);
+		Serial.println(local.Position);
 	}
 }
 #endif
@@ -249,7 +309,7 @@ Accessory *Accessory::GetById(unsigned long inId)
 
 	while (pCurr != NULL)
 	{
-		if (pCurr->IndexOfMovingPosition(inId) != (uint8_t)-1)
+		if (pCurr->IndexOfMovingPositionById(inId) != (uint8_t)-1)
 			return pCurr;
 		pCurr = pCurr->GetNextAccessory();
 	}
@@ -282,7 +342,7 @@ bool Accessory::CanMove(unsigned long inId)
 	// previous time...
 	if (acc->GetMovingPositionSize() > 1)
 	{
-		bool move = acc->IndexOfMovingPosition(inId) != acc->GetLastMovingPosition();
+		bool move = acc->IndexOfMovingPositionById(inId) != acc->GetLastMovingPosition();
 #ifdef ACCESSORIES_DEBUG_MODE
 		if (!move)
 			Serial.println(F("Same position : Cant move !"));
@@ -290,16 +350,29 @@ bool Accessory::CanMove(unsigned long inId)
 		return move;
 	}
 
-	if (millis() - acc->GetLastMoveTime() <= acc->GetDebounceDelay())
+	return true;
+}
+
+bool Accessory::IsMovementPending()
+{
+	if (this->IsActionDelayPending())
+	{
+#ifdef ACCESSORIES_DEBUG_MODE
+		Serial.println(F("ActionPending : Cant move !"));
+#endif
+		return true;
+	}
+
+	if (millis() - this->GetLastMoveTime() <= this->GetDebounceDelay())
 	{
 #ifdef ACCESSORIES_DEBUG_MODE
 		Serial.println(F("Debounce : Cant move !"));
 #endif
-		return false;
+		return true;
 	}
 
-	acc->SetLastMoveTime();
-	return true;
+	this->SetLastMoveTime();
+	return false;
 }
 
 bool Accessory::Toggle(unsigned long inId)
@@ -326,7 +399,7 @@ bool Accessory::Toggle(unsigned long inId)
 		return true;
 	}
 
-	uint8_t pos = acc->IndexOfMovingPosition(inId);
+	uint8_t pos = acc->IndexOfMovingPositionById(inId);
 
 	if (pos == 255)
 	{
@@ -354,7 +427,7 @@ bool Accessory::MovePosition(unsigned long inId)
 		return false;
 	}
 
-	uint8_t pos = acc->IndexOfMovingPosition(inId);
+	uint8_t pos = acc->IndexOfMovingPositionById(inId);
 
 	if (pos == 255)
 	{
@@ -377,26 +450,26 @@ bool Accessory::MovePosition(unsigned long inId)
 	Serial.print(F("MovePosition : Accessory id "));
 	Serial.print(inId);
 	Serial.print(F(" to position "));
-	Serial.println(acc->GetMovingPosition(inId));
+	Serial.println(acc->GetMovingPositionValueById(inId));
 #endif
 
-	acc->MovePosition(acc->GetMovingPosition(inId));
+	acc->MovePosition(acc->GetMovingPositionValueById(inId));
 
 	return true;
 }
 
 void Accessory::ExecuteEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, int inData)
 {
-	if (!CanMove(inId) || (ActionsStack::FillingStack && inEvent != ACCESSORIES_EVENT_EXTERNALMOVE))
-	{
-		ActionsStack::Actions.Add(inId, inEvent, inData);
-		return;
-	}
-
 	Accessory *acc = GetById(inId);
 
 	if (acc != NULL)
 	{
+		if (acc->IsMovementPending() || (ActionsStack::FillingStack && inEvent != ACCESSORIES_EVENT_EXTERNALMOVE))
+		{
+			ActionsStack::Actions.Add(inId, inEvent, inData);
+			return;
+		}
+
 		if (inEvent == ACCESSORIES_EVENT_MOVEPOSITIONINDEX && (inData < 0 || inData >= acc->GetMovingPositionSize()))
 		{
 #ifdef ACCESSORIES_DEBUG_MODE

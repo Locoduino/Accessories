@@ -11,14 +11,13 @@ description: <Driver port for a servo on Arduino>
 PortServo::PortServo() : Port()
 {
 	this->pin = -1;
-	this->pinType = DIGITAL;
+	this->SetPinType(DIGITAL);
 }
 
 void PortServo::begin(int inPin)
 {
-	CHECKPIN(Arduino_to_GPIO_pin(inPin), this->pinType, "PortServo::begin");
+	CHECKPIN(Arduino_to_GPIO_pin(inPin), this->GetPinType(), "PortServo::begin");
 	this->pin = inPin;
-	this->servo.attach(this->pin);
 }
 
 void PortServo::beginByAccessory(int inStartingPosition)
@@ -31,12 +30,10 @@ void PortServo::beginByAccessory(int inStartingPosition)
 	Serial.println(inStartingPosition, DEC);
 #endif
 
-#ifdef ACCESSORIES_DEBUG_MODE
 	if (!this->servo.attached())
-		Serial.println(F("Invalid servo beginByAccessory()."));
-#endif
-
+		this->servo.attach(this->pin);
 	this->servo.write(inStartingPosition);
+	this->servo.detach();
 }
 
 void PortServo::MovePosition(unsigned long inDuration, int inEndPosition)
@@ -54,11 +51,15 @@ void PortServo::MovePosition(unsigned long inDuration, int inEndPosition)
 	Serial.print(F("to angle "));
 	Serial.println(inEndPosition);
 #endif
+	if (!this->servo.attached())
+		this->servo.attach(this->pin);
 	this->servo.write(inEndPosition);
 }
 
 int PortServo::GetPosition()
 {
+	if (!this->servo.attached())
+		this->servo.attach(this->pin);
 	return this->servo.read();
 }
 

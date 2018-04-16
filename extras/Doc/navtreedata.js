@@ -16,6 +16,7 @@ var NAVTREE =
           [ "Accessory", "classAccessory.html#a64e6260a68ac84d94394a2076746f98a", null ],
           [ "ActionEnded", "classAccessory.html#af693b11f2a3b1a7c93d7fa43e600f292", null ],
           [ "AddMovingPosition", "classAccessory.html#a57d1cb4de69eb625fc2bb82788591a22", null ],
+          [ "AddMovingPositions", "classAccessory.html#ae569748fc9b037a0bc3349dcf9aaab3f", null ],
           [ "AdjustMovingPositionsSize", "classAccessory.html#acd67b5953eb1b55a52a87a779574e3b6", null ],
           [ "begin", "classAccessory.html#af94464d9b49e5700d3c20d0cd206ac51", null ],
           [ "CanBePositional", "classAccessory.html#a212359e11100e5ee9af5bd94a64d8823", null ],
@@ -27,15 +28,15 @@ var NAVTREE =
           [ "GetDuration", "classAccessory.html#a8cfe1c1ca32753832146656755f6e7a7", null ],
           [ "GetLastMoveTime", "classAccessory.html#a933cd0907dc257b1f1047c33d41ceb2a", null ],
           [ "GetLastMovingPosition", "classAccessory.html#a292f4e066803d0f6f32a953216443c9d", null ],
-          [ "GetMovingPosition", "classAccessory.html#aa249535a3c36291764e38ab1e4ae4cee", null ],
-          [ "GetMovingPositionByIndex", "classAccessory.html#a62eee418f630f805d36f6005e0db1a9e", null ],
-          [ "GetMovingPositionIdByIndex", "classAccessory.html#a4f0410f39fa692494b51bc880714bdd1", null ],
+          [ "GetMovingPositionIdByIndex", "classAccessory.html#a6981cd38159a39095ef541b69c0648fb", null ],
           [ "GetMovingPositionSize", "classAccessory.html#ac4dc998e8f09ac7f94a3e06c56e8d5d4", null ],
+          [ "GetMovingPositionValueById", "classAccessory.html#aced947d0879bbec15579ca04a36a8dba", null ],
+          [ "GetMovingPositionValueByIndex", "classAccessory.html#afd785db89baf19829e715eac24c427fa", null ],
           [ "GetNextAccessory", "classAccessory.html#aa27a04b9e2a95729e491598cb34c6e47", null ],
           [ "GetPort", "classAccessory.html#ac2883977d969dcde8f078934b4a9ed12", null ],
           [ "GetPreviousState", "classAccessory.html#ae26158a4fc16855e72706b317c40f9e8", null ],
           [ "GetState", "classAccessory.html#a6b837b3afb75f5eadcde5e1742db5c7d", null ],
-          [ "IndexOfMovingPosition", "classAccessory.html#a224977dffaa54df56def6a7b15af0031", null ],
+          [ "IndexOfMovingPositionById", "classAccessory.html#af63f0e51f932fda9719d2d948391f492", null ],
           [ "IsActionDelayPending", "classAccessory.html#ae8c3ad3e37a2ba5914f419abd3e2426f", null ],
           [ "IsEmpty", "classAccessory.html#ac89f301db7c889f32aa8ab5534592975", null ],
           [ "IsFirst", "classAccessory.html#a05332408472b083ff1368172b79946be", null ],
@@ -45,7 +46,7 @@ var NAVTREE =
           [ "loop", "classAccessory.html#a5891e60944d8542a8bd1eb8862e5010e", null ],
           [ "Move", "classAccessory.html#a2ab6995aadf87dd3f7edf1d2f448ab85", null ],
           [ "MovePosition", "classAccessory.html#a3662f43014a6ec1f8719a687fe5c33ba", null ],
-          [ "ResetAction", "classAccessory.html#a3de65543a892b3418df72f54439605cb", null ],
+          [ "ResetAction", "classAccessory.html#a12eed8e001d933f7f7533665d6008f18", null ],
           [ "ResetStartingMillis", "classAccessory.html#a882c7616f0433475d65e1ac5e8ecf616", null ],
           [ "SetDebounceDelay", "classAccessory.html#a83da11bad71b628431ac86cc1cbaf60c", null ],
           [ "SetDuration", "classAccessory.html#a6e68b4693371383dfb026869af30d1d2", null ],
@@ -164,6 +165,7 @@ var NAVTREE =
           [ "CanBePositional", "classAccessoryServo.html#a508e4bd324b4784b1dbf3bc729906725", null ],
           [ "EEPROMLoad", "classAccessoryServo.html#a8e7338a290d34c194e7d351a8d4abaa5", null ],
           [ "Event", "classAccessoryServo.html#a3fce38eaa89e64a11a18644fcd2d0fca", null ],
+          [ "ExternalMove", "classAccessoryServo.html#afad47d837ab6e3e94115c8c179b4b72a", null ],
           [ "GetCurrentPosition", "classAccessoryServo.html#a8ba8df88782420e8b0ac8daaa08c839c", null ],
           [ "GetMaximumPosition", "classAccessoryServo.html#a6cf8090b153babc59ea4fd68e667b524", null ],
           [ "GetMinimumPosition", "classAccessoryServo.html#a8c7242a9a390a8ef84aaa6ffa4903d66", null ],
@@ -267,9 +269,9 @@ var NAVTREE =
           [ "beginByAccessory", "classPort.html#a101241b7b8e820f3d0da3c435ad1b66e", null ],
           [ "beginPin", "classPort.html#ad5c7ecf52b369e61dcc1353b81532bf5", null ],
           [ "GetPinType", "classPort.html#a99e8526fed0e88d9f553767ef30860df", null ],
+          [ "GetPortState", "classPort.html#a4611f0a893563e3f7b2990c336f0014f", null ],
           [ "GetPosition", "classPort.html#a807af3bdcf2f4bba25d4dd318601001c", null ],
           [ "GetSpeed", "classPort.html#aed93eb0b1e3fcb88843f6c5606d55621", null ],
-          [ "GetState", "classPort.html#a56425e29545c1c169c7efd76e6bf411c", null ],
           [ "IsLeftDir", "classPort.html#a365a8f66d81dd6a422868b1368845e23", null ],
           [ "IsRightDir", "classPort.html#a879a1cf8248f8c34b28f4125beb91a2d", null ],
           [ "IsStopped", "classPort.html#a3546799f364d76e7a15415566a3b0c0d", null ],
@@ -282,10 +284,11 @@ var NAVTREE =
           [ "MoveRightDir", "classPort.html#ac78e0a5b72fc16c1240cecb5d6fe2f7f", null ],
           [ "MoveStop", "classPort.html#a63cfeea67bec1eab18758d74cd435c00", null ],
           [ "MoveToggle", "classPort.html#a2372de3e7c26ba23f5977658c71888b7", null ],
+          [ "SetPinType", "classPort.html#a3ee7786e635862971fdae8f5a7820f17", null ],
+          [ "SetPortState", "classPort.html#ae5d80afa0c9c847eb0e088837c3e9bea", null ],
           [ "SetSpeed", "classPort.html#a676359ed59bf5091126fd96e1a04cafa", null ],
-          [ "pinType", "classPort.html#ad7ef0d65cab5721a7e2d9b2a71663eef", null ],
           [ "speed", "classPort.html#a8a53f78f0221c753527a92cb9cb0f68f", null ],
-          [ "state", "classPort.html#ad71ca654c312fdec59194e393411fce0", null ]
+          [ "type_state", "classPort.html#a16ff09734292b5357a9281907c3747d5", null ]
         ] ],
         [ "PortOnePin", "classPortOnePin.html", [
           [ "PortOnePin", "classPortOnePin.html#aa71aaae9344e82625ddb6226cbf28891", null ],
@@ -308,6 +311,8 @@ var NAVTREE =
           [ "GetPosition", "classPortServo.html#adf5231931fec08758d8287c079fe2bba", null ],
           [ "IsActive", "classPortServo.html#a1d9bc91888d14d4c04ce1db71eb6d8f6", null ],
           [ "MovePosition", "classPortServo.html#a362a0eba0e7219cca64cae736c407e1a", null ],
+          [ "MoveStop", "classPortServo.html#a4fbb0cac6cea487f3b56aea6ec4c8df6", null ],
+          [ "printPort", "classPortServo.html#a4d3b92a763e9afeff3192b26ac38b9a5", null ],
           [ "pin", "classPortServo.html#a7fea8a921f760510ee69b1f8f088db96", null ],
           [ "servo", "classPortServo.html#a892b529df0ad7376695f9414e6fea5db", null ]
         ] ],
@@ -462,8 +467,12 @@ var NAVTREE =
       [ "File List", "files.html", [
         [ "src", "dir_d41d8cd98f00b204e9800998ecf8427e.html", [
           [ "Accessories.h", "Accessories_8h.html", [
+            [ "ACCESSORIES_DEBUG_MODE", "Accessories_8h.html#a86af2ac1eabdbc73d1f058b1bec663f2", null ],
+            [ "ACCESSORIES_DEBUG_VERBOSE_MODE", "Accessories_8h.html#a4d9bb2b3533df730c78d34271232e871", null ],
+            [ "ACCESSORIES_PRINT_ACCESSORIES", "Accessories_8h.html#a2d8b55a1a0223b7ff1467185f61efba1", null ],
             [ "ACTION_STACK_SIZE", "Accessories_8h.html#a86cfc9976a2d87ddad58b877ccd66073", null ],
             [ "GPIO2_PREFER_SPEED", "Accessories_8h.html#abe48e551c87434efe75af8e7d4df457c", null ],
+            [ "NO_EEPROM", "Accessories_8h.html#a2c353a6d1e08fbc0dc9b12fa15fa0ef5", null ],
             [ "NO_EEPROM", "Accessories_8h.html#a2c353a6d1e08fbc0dc9b12fa15fa0ef5", null ]
           ] ],
           [ "LocoStepper.h", "LocoStepper_8h.html", [
@@ -550,7 +559,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AccessoriesCircularBuffer_8cpp_source.html",
-"classActionsStack.html#a2ba3fc8906482ba474a1034a81d443c6"
+"classAction.html#a0eb90dc3ae0778c2ed16b8d6c7e5efa3"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

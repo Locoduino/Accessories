@@ -59,6 +59,28 @@ MovePosition()
 
 Activate pin, power delay, full movement, power delay, Dis-activate pin.
 \endverbatim  
+
+Events handled:
+
+id       |         type          | data| effect
+---------|-----------------------|-----|--------------------
+servo id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_STRAIGHT | Moves the servo to minimum position...
+servo id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_TOP | Moves the servo to minimum position...
+servo id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_LEFT | Moves the servo to minimum position...
+servo id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_DIVERGE | Moves the servo to maximum position...
+servo id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_BOTTOM | Moves the servo to maximum position...
+servo id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_RIGHT | Moves the servo to maximum position...
+servo id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_MORE | Moves the servo of 1 degree.
+servo id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_LESS | Moves the servo of -1 degree.
+servo id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_STOP | Stops the servo.
+servo id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_OFF | Stops the servo.
+servo id | ACCESSORIES_EVENT_MOVEPOSITION | Value in degrees | Moves the servo to the given position.
+servo position id | ACCESSORIES_EVENT_TOGGLE ||Use the id to reach this moving position
+servo position id | ACCESSORIES_EVENT_MOVEPOSITIONID||Use the id to reach this moving position
+servo position id | ACCESSORIES_EVENT_MOVEPOSITIONINDEX|Index|Use the index to reach this moving position
+servo id | ACCESSORIES_EVENT_SETSPEED | New speed | Change the current speed.
+servo id | ACCESSORIES_EVENT_SETDURATION | New duration | Change the current duration. 0 for continual movement.
+servo id | ACCESSORIES_EVENT_EXTERNALMOVE | New state | Change the current state of the object, without doing any movement on the real motor.
 */
 class AccessoryServo : public Accessory
 {
@@ -176,11 +198,18 @@ class AccessoryServo : public Accessory
 		*/
 		ACC_STATE MoveToggle();
 
+		/**Change the state of the servo, to reflect a manual or external movement.
+		@param[in] inNewState new state.
+		*/
+		void ExternalMove(ACC_STATE inNewState) { this->SetStateRaw(inNewState); }
+
 	private:
 		void SetState(ACC_STATE instate);
 		inline ACC_STATE Toggle() { return MoveToggle(); }
 		bool ActionEnded();
 		void InternalMovePosition(int inPosition);
+		void PowerOn();
+		void PowerOff();
 
 #ifdef ACCESSORIES_PRINT_ACCESSORIES
 	public:

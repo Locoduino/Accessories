@@ -32,7 +32,7 @@ void AccessoryLight::Move(unsigned long inId)
 		return;
 	}
 
-	int position = this->IndexOfMovingPosition(inId);
+	int position = this->IndexOfMovingPositionById(inId);
 
 	if (position != -1)
 		this->SetState((ACC_STATE) position);
@@ -44,7 +44,7 @@ void AccessoryLight::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 	{
 		this->SetLastMovingPosition(inData);
 		int oldValue = this->pPort->GetSpeed();
-		this->pPort->SetSpeed(this->GetMovingPosition(inData));
+		this->pPort->SetSpeed(this->GetMovingPositionValueByIndex(inData));
 		this->LightOn();
 		this->pPort->SetSpeed(oldValue);
 		return;

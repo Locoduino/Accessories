@@ -1,0 +1,74 @@
+//-------------------------------------------------------------------
+#ifndef __PortMultiPins_H__
+#define __PortMultiPins_H__
+//-------------------------------------------------------------------
+
+#include "Port.hpp"
+
+/** This class describes a port for a simple accessory driven by some pins sharing the same attributes.
+Multiple lights can be driven by this kind of port.*/
+class PortMultiPins : public Port
+{
+	protected:
+		/**Main pin of this port.
+		ANALOG or ANALOG_INVERTED : Classic Arduino pin number
+		DIGITAL or DIGITAL_INVERTED : GPIO_pin_t casted in an integer.		
+		*/
+		int *pPin;
+
+	public:
+		/**Default constructor.*/
+		PortMultiPins();
+							  
+		/** Initialize the instance.
+		@param inPin array of pins to drive. The last one must be a -1 to mark the end of the list.
+		@param inType kind of all pins.
+		*/
+		void begin(int inPin[], PIN_TYPE inType);
+		
+		/**Sets the current speed of the port.
+		@param inSpeed new current speed of the port.
+		@return Previous speed.
+		@remark Speed is only available on ANALOG or ANALOG_INVERTED type of pin.
+		*/
+		int SetSpeed(int inSpeed);
+
+		/**Checks if this port is active. To be active, begin() must have been called.
+		@return true if the pin array address is not null.
+		*/
+		inline bool IsActive() const { return this->pPin != NULL; }
+		/**Gets the Arduino pin for the given index.
+		@return Pin number in Arduino mode.
+		*/
+		inline int GetPin(int inIndex) const { if (this->GetPinType() < ANALOG) return GPIO_to_Arduino_pin((GPIO_pin_t)(this->pPin[inIndex])); return this->pPin[inIndex];  }
+		/**Gets the Arduino pin for the given index.
+		@return Pin number in DIO2 mode.
+		*/
+		inline GPIO_pin_t GetDIOPin(int inIndex) const { if (this->GetPinType() >= ANALOG) return (GPIO_pin_t)this->pPin[inIndex]; return DP_INVALID; }
+		
+		/**Sets the current state of the given index pin to PORT_LEFT.
+		@param inIndex index of the pin to move.
+		@param inDuration the pins will be activated to left for the given delay.
+		*/
+		void MoveLeftDir(int inIndex, unsigned long inDuration = 0);
+		/**Sets the current state of the given index pin to PORT_RIGHT.
+		@param inIndex index of the pin to move.
+		@param inDuration the pins will be activated to right for the given delay.
+		*/
+		void MoveRightDir(int inIndex, unsigned long inDuration = 0);
+		/**Sets the current state of the given index pin to PORT_STOP.
+		@param inIndex index of the pin to move.
+		*/
+		void MoveStop(int inIndex);
+
+#ifdef ACCESSORIES_PRINT_ACCESSORIES
+		/** Print this port on console.
+		@remark Only available if ACCESSORIES_PRINT_ACCESSORIES is defined.
+		*/
+		void printPort();
+#endif
+};
+
+//-------------------------------------------------------------------
+#endif
+//-------------------------------------------------------------------

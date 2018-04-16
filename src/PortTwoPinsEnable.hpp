@@ -37,11 +37,11 @@ class PortTwoPinsEnable : public PortTwoPins
 		/**Gets the enable pin.
 		@return pin number in Arduino mode.
 		*/
-		inline int GetPinEnable() const { if (pinType < ANALOG) return GPIO_to_Arduino_pin((GPIO_pin_t)this->pinEnable); return this->pinEnable; }
+		inline int GetPinEnable() const { if (this->GetPinType() < ANALOG) return GPIO_to_Arduino_pin((GPIO_pin_t)this->pinEnable); return this->pinEnable; }
 		/**Gets the enable pin.
 		@return Pin A number in DIO2 mode.
 		*/
-		inline GPIO_pin_t GetDIOPinEnable() const { if (pinType < ANALOG) return (GPIO_pin_t)this->pinEnable; return DP_INVALID; }
+		inline GPIO_pin_t GetDIOPinEnable() const { if (this->GetPinType() < ANALOG) return (GPIO_pin_t)this->pinEnable; return DP_INVALID; }
 
 		/**Sets the current state of the port to PORT_LEFT.
 		@param inDuration the pins will be activated to left for the given delay.

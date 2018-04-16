@@ -8,7 +8,28 @@
 #ifndef NO_MOTOR
 #ifndef NO_MOTORTWOWAYS
 
-/**This class describes a motor with two moving directions : coil motor for turnout...*/
+/**This class describes a motor with two moving directions : coil motor for turnout...
+
+Events handled:
+
+id       |         type          | data| effect
+---------|-----------------------|-----|--------------------
+motor id | ACCESSORIES_EVENT_TOGGLE |  | Invert the motor position...
+motor id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_STRAIGHT | Moves the motor to left position...
+motor id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_TOP | Moves the motor to left position...
+motor id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_LEFT | Moves the motor to left position...
+motor id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_DIVERGE | Moves the motor to right position...
+motor id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_BOTTOM | Moves the motor to right position...
+motor id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_RIGHT | Moves the motor to right position...
+motor id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_STOP | Stops the motor.
+motor id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_OFF | Stops the motor.
+motor id | ACCESSORIES_EVENT_MOVEPOSITION | New state | Change the current state of the object.
+motor position id | ACCESSORIES_EVENT_MOVEPOSITIONID||Use the id to reach this moving position
+motor position id | ACCESSORIES_EVENT_MOVEPOSITIONINDEX|Index|Use the index to reach this moving position
+motor id | ACCESSORIES_EVENT_SETSPEED | New speed | Change the current speed.
+motor id | ACCESSORIES_EVENT_SETDURATION | New duration | Change the current duration. 0 for continual movement.
+motor id | ACCESSORIES_EVENT_EXTERNALMOVE | New state | Change the current state of the object, without doing any movement on the real motor.
+*/
 class AccessoryMotorTwoWays : public AccessoryMotor
 {
 	public:

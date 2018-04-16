@@ -9,7 +9,6 @@ var searchData=
   ['pindir',['pinDir',['../classPortSpeedDirBrake.html#add2e7b662584bf2be76875a8b822ec97',1,'PortSpeedDirBrake']]],
   ['pinenable',['pinEnable',['../classPortTwoPinsEnable.html#a560e6f9d7b54f819406f24a7c89049dd',1,'PortTwoPinsEnable']]],
   ['pinpwm',['pinPWM',['../classPortSpeedDirBrake.html#a56a36f4792539c57c2f50d969674271d',1,'PortSpeedDirBrake']]],
-  ['pintype',['pinType',['../classPort.html#ad7ef0d65cab5721a7e2d9b2a71663eef',1,'Port']]],
   ['pintypeenable',['pinTypeEnable',['../classPortTwoPinsEnable.html#ab8879570799f73285dbf4f845afadd02',1,'PortTwoPinsEnable']]],
   ['pmotor',['pMotor',['../classPortStepper.html#a61b4c9fd238a4caec4de03b60fc60d66',1,'PortStepper::pMotor()'],['../classPortShieldL293d.html#a1b3c5af1fe94b446db4cfa3a385b1f9a',1,'PortShieldL293d::pmotor()']]],
   ['pnext',['pNext',['../classACCSCHAINEDLISTITEM.html#a84d1cb369351e06476c50df50914f63f',1,'ACCSCHAINEDLISTITEM']]],

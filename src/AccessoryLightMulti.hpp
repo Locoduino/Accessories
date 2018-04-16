@@ -31,7 +31,29 @@ The moving positions are stored like any other Accessory in the MovingPosition l
 the base class Accessory itself. The blinking masks cannot be stored in the same structure,
 so a new list of blinking masks is created inside this class, and the indexes are 
 synchronized between the two lists.
+
+Events handled:
+
+id       |         type          | data| effect
+---------|-----------------------|-----|--------------------
+moving position id|ACCESSORIES_EVENT_MOVEPOSITIONID||Use the id to reach this moving position
+moving position id|ACCESSORIES_EVENT_MOVEPOSITIONINDEX|Index|Use the index to reach this moving position
+light id      | ACCESSORIES_EVENT_TOGGLE |  | toggle all lights on/off
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_STRAIGHT | All Lights On
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_TOP | All Lights On
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_LEFT | All Lights On
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_DIVERGE | All Lights On
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_BOTTOM | All Lights On
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_RIGHT | All Lights On
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_ON | All Lights On
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_STOP | All Lights Off
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_OFF | All Lights Off
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_MORE| Increase speed of 1 for all ligths
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_LESS| Decrease speed of 1 for all lights
+light id      | ACCESSORIES_EVENT_MOVEPOSITION | New speed | Set the all the lights On at the given speed, without changing the current speed.
+light id      | ACCESSORIES_EVENT_SETSPEED | New speed | Change the current speed for all lights
 */
+
 class AccessoryLightMulti : public Accessory
 {
 	private:

@@ -36,7 +36,7 @@ void Accessories::begin(int inEEPROMStart, int inEEPROMSize)
 	delay(500);
 
 	Serial.println(F(""));
-	Serial.println(F("Accessories V1.0.2"));
+	Serial.println(F("Accessories V1.1.0"));
 	Serial.println(F("Developed by Thierry Paris."));
 	Serial.println(F("(c) Locoduino 2016-2018"));
 	Serial.println(F(""));
@@ -98,8 +98,15 @@ void Accessories::printEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventT
 		Serial.print(F(" / "));
 		Serial.println(ACCESSORIESCONFIGVALUE(inEventData), DEC);
 		break;
-	//case ACCESSORIES_EVENT_SETSPEED:
-	//case ACCESSORIES_EVENT_SETSTARTPOSITION:
+	case ACCESSORIES_EVENT_SETSPEED:
+		Serial.print(F("SET SPEED : "));
+		Serial.println(inEventData);
+		break;
+	case ACCESSORIES_EVENT_SETDURATION:
+		Serial.print(F("SET DURATION : "));
+		Serial.println(inEventData);
+		break;
+		//case ACCESSORIES_EVENT_SETSTARTPOSITION:
 	default:
 		break;
 	}
@@ -136,9 +143,11 @@ void Accessories::printAccessories()
 	}
 	Serial.println(F("********* End of Accessories"));
 
+#ifndef NO_GROUP
 	Serial.println(F("********* Groups"));
 	AccessoryGroup::printGroups();
 	Serial.println(F("********* End of groups"));
+#endif
 }
 #endif
 
@@ -287,11 +296,15 @@ void Accessories::EEPROMSaveRaw()
 	int pos = EEPROMStart;
 
 	uint8_t accCount = Accessory::GetCount();
+#ifndef NO_GROUP
 	uint8_t grpCount = AccessoryGroup::GetCount();
+#endif
 
 	EEPROM.update(pos++, EEPROM_VERSION);
 	EEPROM.update(pos++, accCount);
+#ifndef NO_GROUP
 	EEPROM.update(pos++, grpCount);
+#endif
 
 	EEPROM.update(pos++, EEPROMSize / 256);
 	EEPROM.update(pos++, EEPROMSize % 256);
@@ -307,7 +320,9 @@ void Accessories::EEPROMSaveRaw()
 			pCurr = pCurr->GetNextAccessory();
 		}
 
+#ifndef NO_GROUP
 		EEPROMRecordSize = AccessoryGroup::EEPROMSaveAll(EEPROMRecordSize, true);
+#endif
 
 		circularBuffer.begin(pos+3, EEPROMRecordSize, (EEPROMSize - 10) / EEPROMRecordSize);
 		circularBuffer.clear();
@@ -316,7 +331,11 @@ void Accessories::EEPROMSaveRaw()
 	EEPROM.update(pos++, EEPROMRecordSize / 256);
 	EEPROM.update(pos++, EEPROMRecordSize % 256);
 
-	EEPROM.update(pos++, (uint8_t) (EEPROM_VERSION + accCount + grpCount + EEPROMSize + EEPROMRecordSize));
+	EEPROM.update(pos++, (uint8_t) (EEPROM_VERSION + accCount + 
+#ifndef NO_GROUP
+		grpCount +
+#endif
+		EEPROMSize + EEPROMRecordSize));
 
 	pos = circularBuffer.startWrite();
 	Accessory *pCurr = Accessory::GetFirstAccessory();
@@ -327,7 +346,9 @@ void Accessories::EEPROMSaveRaw()
 		pCurr = pCurr->GetNextAccessory();
 	}
 
+#ifndef NO_GROUP
 	pos = AccessoryGroup::EEPROMSaveAll(pos);
+#endif
 	EEPROMStartingDelay = 0;
 }
 
@@ -338,7 +359,9 @@ bool Accessories::EEPROMLoad()
 
 	int pos = EEPROMStart;
 	uint8_t accCount = Accessory::GetCount();
+#ifndef NO_GROUP
 	uint8_t grpCount = AccessoryGroup::GetCount();
+#endif
 
 	if (EEPROM.read(pos++) != EEPROM_VERSION)
 		return false;
@@ -346,7 +369,9 @@ bool Accessories::EEPROMLoad()
 	if (EEPROM.read(pos++) != accCount)
 		return false;
 
+#ifndef NO_GROUP
 	if (EEPROM.read(pos++) != grpCount)
+#endif
 		if (EEPROM.read(pos++) != accCount)
 			return false;
 
@@ -360,7 +385,11 @@ bool Accessories::EEPROMLoad()
 	b2 = EEPROM.read(pos++);
 	EEPROMRecordSize = b1 * 256 + b2;
 
-	if (EEPROM.read(pos++) != (uint8_t)(EEPROM_VERSION + accCount + grpCount + EEPROMSize + EEPROMRecordSize))
+	if (EEPROM.read(pos++) != (uint8_t)(EEPROM_VERSION + accCount + 
+#ifndef NO_GROUP
+		grpCount +
+#endif
+		EEPROMSize + EEPROMRecordSize))
 	{
 		EEPROMRecordSize = 0;
 		return false;
@@ -378,7 +407,9 @@ bool Accessories::EEPROMLoad()
 		pCurr = pCurr->GetNextAccessory();
 	}
 
+#ifndef NO_GROUP
 	pos = AccessoryGroup::EEPROMLoadAll(pos);
+#endif
 	EEPROMStartingDelay = 0;
 
 	return true;

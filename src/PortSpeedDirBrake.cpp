@@ -26,7 +26,7 @@ void PortSpeedDirBrake::begin(int inPinPWM, int inPinDir, int inPinBrake, PIN_TY
 	this->pinDir = Arduino_to_GPIO_pin(inPinDir);
 	this->pinBrake = Arduino_to_GPIO_pin(inPinBrake);
 
-	this->pinType = inPWMType;
+	this->SetPinType(inPWMType);
 	this->digitalType = inDigitalType;
 
 	this->beginPin(this->pinPWM);
@@ -36,7 +36,7 @@ void PortSpeedDirBrake::begin(int inPinPWM, int inPinDir, int inPinBrake, PIN_TY
 
 int PortSpeedDirBrake::MapDigitalValue(int inValue) const
 {
-	if (this->pinType == DIGITAL_INVERTED)
+	if (this->GetPinType() == DIGITAL_INVERTED)
 	{
 		if (inValue == LOW)
 			return HIGH;
@@ -59,7 +59,7 @@ void PortSpeedDirBrake::MoveLeftDir(unsigned long inDuration)
 	else
 		Serial.println("");
 #endif
-	this->state = PORT_LEFT;
+	this->SetPortState(PORT_LEFT);
 
 	this->MovePin(this->pinPWM, HIGH);
 	this->MovePin(this->pinDir, LOW, this->digitalType);
@@ -79,7 +79,7 @@ void PortSpeedDirBrake::MoveRightDir(unsigned long inDuration)
 	else
 		Serial.println("");
 #endif
-	this->state = PORT_RIGHT;
+	this->SetPortState(PORT_RIGHT);
 	this->MovePin(this->pinPWM, HIGH);
 	this->MovePin(this->pinDir, HIGH, this->digitalType);
 	this->MovePin(this->pinBrake, LOW, this->digitalType);
@@ -90,7 +90,7 @@ void PortSpeedDirBrake::MoveStop()
 #ifdef ACCESSORIES_DEBUG_MODE
 	Serial.println(F(" PortSpeedDirBrake MoveStop()"));
 #endif
-	this->state = PORT_STOP;
+	this->SetPortState(PORT_STOP);
 	this->MovePin(this->pinBrake, HIGH, this->digitalType);
 }
 
@@ -98,7 +98,7 @@ void PortSpeedDirBrake::MoveStop()
 void PortSpeedDirBrake::printPort()
 {
 	Serial.print(F("[PortSpeedDirBrake pinPWM:"));
-	Port::printPortPin(this->pinPWM, this->pinType);
+	Port::printPortPin(this->pinPWM, this->GetPinType());
 	Serial.print(F(" dir:"));
 	Port::printPortPin(this->pinDir, this->digitalType);
 	Serial.print(F(" brake:"));

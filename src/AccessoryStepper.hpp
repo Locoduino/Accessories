@@ -19,7 +19,28 @@ so this can be defined manually by the user for the PortStepper of this Accessor
 
 By construction, this kind of motor can only move with relative values. This class maintains a current position and is able
 to move this motor in absolute mode. To continue with construction facts, a stepper motor can have a tolerance for the movements.
-*/		
+
+Events handled :
+
+id | type | data | effect
+-------- - | ---------------------- - | ---- - | --------------------
+stepper id | ACCESSORIES_EVENT_TOGGLE || Move to the next position in moving positions array.
+stepper id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_STRAIGHT | Moves the stepper to minimum position...
+stepper id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_TOP | Stops the stepper.
+stepper id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_LEFT | Stops the stepper.
+stepper id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_DIVERGE | Stops the stepper.
+stepper id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_BOTTOM | Stops the stepper.
+stepper id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_RIGHT | Stops the stepper.
+stepper id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_STOP | Stops the stepper.
+stepper id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_OFF | Stops the stepper.
+stepper id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_MORE | Move to the next position in moving positions array.
+stepper id | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_LESS | Move to the previous position in moving positions array.
+stepper id | ACCESSORIES_EVENT_MOVEPOSITION | Absolute value to reach | Moves the stepper to the given position.
+stepper position id | ACCESSORIES_EVENT_MOVEPOSITIONID || Use the id to reach this moving position
+stepper position id | ACCESSORIES_EVENT_MOVEPOSITIONINDEX | Index | Use the index to reach this moving position
+stepper id | ACCESSORIES_EVENT_SETSPEED | New speed | Change the current speed.
+stepper id | ACCESSORIES_EVENT_SETDURATION | New duration | Change the current duration.
+*/
 class AccessoryStepper : public Accessory
 {
 	private:

@@ -95,7 +95,45 @@ $(document).ready(function(){initNavTree('Revision.html','');});
   <div class="clear-floats"></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><dl class="section user"><dt>16/02/2018 V1.0.2</dt><dd><ul>
+<div class="textblock"><dl class="section user"><dt>10/04/2018 V1.1.0</dt><dd><ul>
+<li>Correction des pb de compilation et EEPROM si NO_GROUP est défini.</li>
+<li>Ajout de AddMovingPositions() pour des MovingPositions déclarées en PROGMEM</li>
+<li>Transformation de CanMove() et IsMovementPending() plus adapté.</li>
+<li>Ajout d'un événement ACCESSORIES_EVENT_SETDURATION.</li>
+<li><a class="el" href="classAccessoryBaseLight.html">AccessoryBaseLight</a> : ajout du fading physiologique !</li>
+<li><a class="el" href="classAccessoryBaseLight.html">AccessoryBaseLight</a> : le clignotement a été corrigé.</li>
+<li>Ajout dans la doc de la liste des événements avec leur effet pour chaque accessoire.</li>
+<li>AccessoryMultiLight : Traitement correct des événements avec application à toutes les leds de l'accessoire.</li>
+<li><a class="el" href="classAccessoryMotor.html">AccessoryMotor</a> : Ajout du traitement de l'événement ACCESSORIES_EVENT_SETDURATION.</li>
+<li>AccessortServo : Ajout du traitement des événements ACCESSORIES_EVENT_SETDURATION et ACCESSORIES_EVENT_EXTERNALMOVE.</li>
+<li><a class="el" href="classAccessoryServo.html">AccessoryServo</a> : Correction des mouvements à faible vitesse</li>
+<li><a class="el" href="classAccessoryStepper.html">AccessoryStepper</a> : Ajout du traitement de l'événement ACCESSORIES_EVENT_SETDURATION.</li>
+<li><a class="el" href="classPort.html">Port</a> : Gain mémoire par fusionnement des deux attributs dans un seul octet.</li>
+<li><a class="el" href="classPortServo.html">PortServo</a> : MoveStop fait maintenant un detach() du servo.</li>
+<li><a class="el" href="classPortServo.html">PortServo</a> : MovePosition fait un attach du servo s'il n'est pas attaché.</li>
+<li><a class="el" href="classPortShieldL293d.html">PortShieldL293d</a> : Correction des pb de compilation si NO_SHIELDL293D est défini</li>
+<li>Ajout d'un exemple utilisant Commanders::EventsSequencer. <hr/>
+</li>
+<li>Fix compilation and EEPROM problems if NO_GROUP is defined.</li>
+<li>Added AddMovingPositions() for MovingPositions declared in PROGMEM.</li>
+<li>Change of Accessory::CanMove() to IsMovementPending() more pertinent.</li>
+<li>Added the event ACCESSORIES_EVENT_SETDURATION.</li>
+<li><a class="el" href="classAccessoryBaseLight.html">AccessoryBaseLight</a> : use of physiologic fading !</li>
+<li><a class="el" href="classAccessoryBaseLight.html">AccessoryBaseLight</a> : blinking has been fixed.</li>
+<li>In HTML documentation, adding of tables of events and their effects for each kind of accessory.</li>
+<li>AccessoryMultiLight : correct handling of events with application on all leds of the accessory.</li>
+<li><a class="el" href="classAccessoryMotor.html">AccessoryMotor</a> : Added handling of ACCESSORIES_EVENT_SETDURATION event.</li>
+<li>AccessortServo : Added handling of ACCESSORIES_EVENT_SETDURATION and ACCESSORIES_EVENT_EXTERNALMOVE events.</li>
+<li><a class="el" href="classAccessoryServo.html">AccessoryServo</a> : Fix slow moves.</li>
+<li><a class="el" href="classAccessoryStepper.html">AccessoryStepper</a> : Added handling of ACCESSORIES_EVENT_SETDURATION event.</li>
+<li><a class="el" href="classPort.html">Port</a> : Memory gained by using on byte for two flags.</li>
+<li><a class="el" href="classPortServo.html">PortServo</a> : MoveStop do now a detach() of the servo.</li>
+<li><a class="el" href="classPortServo.html">PortServo</a> : MovePosition do an attach() of the servo if not already done.</li>
+<li><a class="el" href="classPortShieldL293d.html">PortShieldL293d</a> : Fix compilation problem if NO_SHIELDL293D is defined.</li>
+<li>Added a new sample using Commanders::EventsSequencer.</li>
+</ul>
+</dd></dl>
+<dl class="section user"><dt>16/02/2018 V1.0.2</dt><dd><ul>
 <li>Correction du clignotement dans <a class="el" href="classAccessoryBaseLight.html">AccessoryBaseLight</a></li>
 <li>Ajout de <a class="el" href="classAccessoryLight.html#a7d67ba1db019b98ca1e496eca1406d66">AccessoryLight::SetBlinking()</a></li>
 <li>Correction de la syntaxe de la documentation anglaise. <hr/>
@@ -209,10 +247,10 @@ $(document).ready(function(){initNavTree('Revision.html','');});
 </dd></dl>
 <dl class="section user"><dt>19/11/2016 0.43</dt><dd><ul>
 <li>Passage en 'public' de toutes les fonctions de manipulations basiques des moteurs : MoveLeft, MoveRight, MoveStop, Toggle...</li>
-<li>Retrait de la compilation de CircularBuffer lorsque que NO_EEPROM est déclaré. <hr/>
+<li>Retrait de la compilation de CircularBuffer lorsque que <a class="el" href="Accessories_8h.html#a2c353a6d1e08fbc0dc9b12fa15fa0ef5">NO_EEPROM</a> est déclaré. <hr/>
 </li>
 <li>All basic functions of motors have been passed in 'public'.</li>
-<li>Part of code of CircularBuffer removed when NO_EEPROM is used.</li>
+<li>Part of code of CircularBuffer removed when <a class="el" href="Accessories_8h.html#a2c353a6d1e08fbc0dc9b12fa15fa0ef5">NO_EEPROM</a> is used.</li>
 </ul>
 </dd></dl>
 <dl class="section user"><dt>07/11/2016 0.41</dt><dd><ul>
@@ -233,12 +271,12 @@ $(document).ready(function(){initNavTree('Revision.html','');});
 <li>Disparition des tous les drivers ! Il n'y a plus que des ports...</li>
 <li>Ajout de la fonction Wait.</li>
 <li>Sauvegarde de l'état des accessoires dans l'EEPROM.</li>
-<li>Renommage de DEBUG_VERBOSE_MODE en ACCESSORIES_DEBUG_VERBOSE_MODE <hr/>
+<li>Renommage de DEBUG_VERBOSE_MODE en <a class="el" href="Accessories_8h.html#a4d9bb2b3533df730c78d34271232e871">ACCESSORIES_DEBUG_VERBOSE_MODE</a> <hr/>
 </li>
 <li>All 'Drivers' have been removed, replaced by Ports directly.</li>
 <li>Wait function added.</li>
 <li><a class="el" href="classAccessories.html">Accessories</a> states can be saved in EEPROM.</li>
-<li>Renaming of DEBUG_VERBOSE_MODE to ACCESSORIES_DEBUG_VERBOSE_MODE</li>
+<li>Renaming of DEBUG_VERBOSE_MODE to <a class="el" href="Accessories_8h.html#a4d9bb2b3533df730c78d34271232e871">ACCESSORIES_DEBUG_VERBOSE_MODE</a></li>
 </ul>
 </dd></dl>
 <dl class="section user"><dt>04/09/2016 0.20</dt><dd><ul>
@@ -253,7 +291,7 @@ $(document).ready(function(){initNavTree('Revision.html','');});
 <li>Renommage de DriverPortRelay en DriverPortMotor</li>
 <li>Renommage de DriverPortL298n en DriverPort2Pins</li>
 <li>Renommage de DriverPortServoArduino en DriverPortServoBase</li>
-<li>Renommage de DEBUG_MODE en ACCESSORIES_DEBUG_MODE</li>
+<li>Renommage de DEBUG_MODE en <a class="el" href="Accessories_8h.html#a86af2ac1eabdbc73d1f058b1bec663f2">ACCESSORIES_DEBUG_MODE</a></li>
 <li>Correction de ActionStack pour les servos. <hr/>
 </li>
 <li>No more internal begin() of Serial class, to avoid problems with the DUE.</li>
@@ -268,7 +306,7 @@ $(document).ready(function(){initNavTree('Revision.html','');});
 <li>Renaming of DriverPortRelay to DriverPortMotor</li>
 <li>Renaming of DriverPortL298n to DriverPort2Pins</li>
 <li>Renaming of DriverPortServoArduino to DriverPortServoBase</li>
-<li>Renaming of DEBUG_MODE to ACCESSORIES_DEBUG_MODE</li>
+<li>Renaming of DEBUG_MODE to <a class="el" href="Accessories_8h.html#a86af2ac1eabdbc73d1f058b1bec663f2">ACCESSORIES_DEBUG_MODE</a></li>
 <li>Fix ActionStack for servos.</li>
 </ul>
 </dd></dl>
@@ -337,7 +375,7 @@ $(document).ready(function(){initNavTree('Revision.html','');});
 <!-- Generated by DoxyPress 1.2.10 -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on ven. févr. 16 2018 22:27:32 for Accessories &nbsp; by
+    <li class="footer">Generated on lun. avr. 16 2018 17:39:36 for Accessories &nbsp; by
     <a href="http://www.copperspice.com/documentation-doxypress.html">
     <img class="footer" src="doxypress.png" alt="DoxyPress"/></a> 1.2.10 </li>
   </ul>

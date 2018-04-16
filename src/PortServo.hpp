@@ -49,6 +49,9 @@ class PortServo : public Port
 		@param inEndPosition final position to reach.
 		*/
 		void MovePosition(unsigned long inDuration, int inEndPosition);
+		/**Stop the servo : detach it.
+		*/
+		inline void MoveStop() { this->servo.detach(); }
 		/**Gets the current position of the port.
 		@return Current position of the port.
 		*/

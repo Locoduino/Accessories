@@ -61,12 +61,27 @@ This is a base class for all kind of ports, DO NOT INSTANCIATE IT !
 class Port
 {
 	protected:
-		/** Kind of pin, analog or digital, inverted or not.*/
-		PIN_TYPE pinType;
-		/** Current state of the port.*/
-		PORT_STATE state;
 		/** Speed of the port.*/
 		int speed;
+
+		/** Kind of pin, analog or digital, inverted or not. and Current state of the port.*/
+		byte type_state;
+
+
+public:
+		/**Gets the pin type.
+		*/
+		PIN_TYPE GetPinType() const { return (PIN_TYPE)(type_state & B00001111); }
+		/**Gets the current port state.
+		*/
+		PORT_STATE GetPortState() const { return (PORT_STATE)((type_state >> 4) & B00000011); }
+
+		/** Sets the pin type...
+		*/
+		void SetPinType(PIN_TYPE inType) { type_state = (int)inType | this->GetPortState() << 4; }
+		/** Sets the port state.
+		*/
+		void SetPortState(PORT_STATE inState) { type_state = this->GetPinType() | (int)inState << 4; }
 
 		/**Maps the given value to the kind of pin, inverted or not.
 		According to the INVERTED flag or not, activated pin can be LOW or HIGH for the Arduino...
@@ -104,14 +119,6 @@ class Port
 		*/
 		inline virtual void beginByAccessory(int inStartingPosition) {}
 
-		/**Gets the pin type of the port.
-		@return pin type of the port.
-		*/
-		inline PIN_TYPE GetPinType() const { return this->pinType; }
-		/**Gets the current state of the port.
-		@return current state of the port.
-		*/
-		inline PORT_STATE GetState() const { return this->state; }
 		/**Gets the current speed of the port.
 		@return current speed of the port.
 		@remark Speed is only available on ANALOG or ANALOG_INVERTED type of pin.
@@ -127,24 +134,24 @@ class Port
 		/**Checks if the current state of the port is PORT_LEFT.
 		@return true if the current state of the port is PORT_LEFT.
 		*/
-		inline bool IsLeftDir() const { return this->state == PORT_LEFT; }
+		inline bool IsLeftDir() const { return this->GetPortState() == PORT_LEFT; }
 		/**Checks if the current state of the port is PORT_RIGHT.
 		@return true if the current state of the port is PORT_RIGHT.
 		*/
-		inline bool IsRightDir() const { return this->state == PORT_RIGHT; }
+		inline bool IsRightDir() const { return this->GetPortState() == PORT_RIGHT; }
 		/**Checks if the current state of the port is PORT_STOP.
 		@return true if the current state of the port is PORT_STOP.
 		*/
-		inline bool IsStopped() const { return this->state == PORT_STOP; }
+		inline bool IsStopped() const { return this->GetPortState() == PORT_STOP; }
 		
 		/**Sets the current state of the port to PORT_LEFT.
 		@param inDuration the pins will be activated to left for the given delay.
 		*/
-		inline virtual void MoveLeftDir(unsigned long inDuration = 0) { this->state = PORT_LEFT; }
+		inline virtual void MoveLeftDir(unsigned long inDuration = 0) { this->SetPortState(PORT_LEFT); }
 		/**Sets the current state of the port to PORT_RIGHT.
 		@param inDuration the pins will be activated to right for the given delay.
 		*/
-		inline virtual void MoveRightDir(unsigned long inDuration = 0) { this->state = PORT_RIGHT; }
+		inline virtual void MoveRightDir(unsigned long inDuration = 0) { this->SetPortState(PORT_RIGHT); }
 		/**Sets the current state of the port to PORT_LEFT for a given duration, at the given speed.
 		@param inDuration the pins will be activated to left for the given delay.
 		@param inSpeed the pins will be activated with the given speed.
@@ -164,7 +171,7 @@ class Port
 		*/
 		PORT_STATE MoveToggle(unsigned long inDuration = 0);
 		/**Sets the current state of the port to PORT_STOP.	*/
-		inline virtual void MoveStop()	{ this->state = PORT_STOP; }
+		inline virtual void MoveStop()	{ this->SetPortState(PORT_STOP); }
 		/**Move the port to the given position using a given duration.
 		@param inDuration the movement should take the time of this delay.
 		@param inEndPosition final position to reach.

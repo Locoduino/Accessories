@@ -99,17 +99,21 @@ void AccessoryMotor::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 		break;
 
 	case ACCESSORIES_EVENT_MOVEPOSITIONID:
-		this->SetLastMovingPosition(this->IndexOfMovingPosition(inId));
-		this->SetState((ACC_STATE)this->GetMovingPosition(inId));
+		this->SetLastMovingPosition(this->IndexOfMovingPositionById(inId));
+		this->SetState((ACC_STATE)this->GetMovingPositionValueById(inId));
 		break;
 
 	case ACCESSORIES_EVENT_MOVEPOSITIONINDEX:
 		this->SetLastMovingPosition(inData);
-		this->SetState((ACC_STATE)this->GetMovingPositionByIndex(inData));
+		this->SetState((ACC_STATE)this->GetMovingPositionValueByIndex(inData));
 		break;
 
 	case ACCESSORIES_EVENT_SETSPEED:
 		this->pPort->SetSpeed(inData);
+		break;
+
+	case ACCESSORIES_EVENT_SETDURATION:
+		this->SetDuration(inData);
 		break;
 
 	case ACCESSORIES_EVENT_EXTERNALMOVE:
@@ -151,7 +155,7 @@ void AccessoryMotor::Move(unsigned long inId)
 		return;
 	}
 
-	int position = this->IndexOfMovingPosition(inId);
+	int position = this->IndexOfMovingPositionById(inId);
 
 	if (position != -1)
 		this->SetState((ACC_STATE)position);

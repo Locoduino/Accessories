@@ -150,10 +150,13 @@
     <ClCompile Include="..\..\Commanders\src\ButtonsCommanderPotentiometer.cpp" />
     <ClCompile Include="..\..\Commanders\src\ButtonsCommanderPush.cpp" />
     <ClCompile Include="..\..\Commanders\src\ButtonsCommanderSwitch.cpp" />
+    <ClCompile Include="..\..\Commanders\src\ButtonsCommanderSwitchOnePin.cpp" />
+    <ClCompile Include="..\..\Commanders\src\ButtonsCommanderSwitchTwoPins.cpp" />
     <ClCompile Include="..\..\Commanders\src\CANCommander.cpp" />
     <ClCompile Include="..\..\Commanders\src\Commander.cpp" />
     <ClCompile Include="..\..\Commanders\src\Commanders.cpp" />
     <ClCompile Include="..\..\Commanders\src\DccCommander.cpp" />
+    <ClCompile Include="..\..\Commanders\src\EventsSequencer.cpp" />
     <ClCompile Include="..\..\Commanders\src\EventStack.cpp" />
     <ClCompile Include="..\..\Commanders\src\I2CCommander.cpp" />
     <ClCompile Include="..\..\Commanders\src\TextInterpreter.cpp" />
@@ -194,6 +197,8 @@
     <ClInclude Include="..\..\Commanders\src\ButtonsCommanderPotentiometer.hpp" />
     <ClInclude Include="..\..\Commanders\src\ButtonsCommanderPush.hpp" />
     <ClInclude Include="..\..\Commanders\src\ButtonsCommanderSwitch.hpp" />
+    <ClInclude Include="..\..\Commanders\src\ButtonsCommanderSwitchOnePin.hpp" />
+    <ClInclude Include="..\..\Commanders\src\ButtonsCommanderSwitchTwoPins.hpp" />
     <ClInclude Include="..\..\Commanders\src\CANCommander.hpp" />
     <ClInclude Include="..\..\Commanders\src\Chain.hpp" />
     <ClInclude Include="..\..\Commanders\src\Commander.hpp" />
@@ -201,6 +206,7 @@
     <ClInclude Include="..\..\Commanders\src\Commanders.hpp" />
     <ClInclude Include="..\..\Commanders\src\DccCommander.hpp" />
     <ClInclude Include="..\..\Commanders\src\Events.h" />
+    <ClInclude Include="..\..\Commanders\src\EventsSequencer.hpp" />
     <ClInclude Include="..\..\Commanders\src\EventStack.hpp" />
     <ClInclude Include="..\..\Commanders\src\I2CCommander.hpp" />
     <ClInclude Include="..\..\Commanders\src\SerialCommander.hpp" />

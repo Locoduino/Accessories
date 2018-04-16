@@ -418,7 +418,7 @@
         ],
         "macro-expansion": false,
         "predefined-macros": [
-            "DOXYGEN_SPECIFIC\nACCESSORIES_PRINT_ACCESSORIES"
+            "DOXYGEN_SPECIFIC="
         ],
         "search-includes": true,
         "skip-function-macros": true

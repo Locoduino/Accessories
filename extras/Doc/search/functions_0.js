@@ -19,6 +19,7 @@ var searchData=
   ['additem',['AddItem',['../classACCSCHAINEDLIST.html#a57717781c95414794910f53b0500ea3d',1,'ACCSCHAINEDLIST']]],
   ['addminmaxmovingpositions',['AddMinMaxMovingPositions',['../classAccessoryServo.html#aa29ccb7c6cb0dd8e133a45c06e4019fd',1,'AccessoryServo']]],
   ['addmovingposition',['AddMovingPosition',['../classAccessory.html#a57d1cb4de69eb625fc2bb82788591a22',1,'Accessory::AddMovingPosition()'],['../classAccessoryLightMulti.html#a9cb4fc1241f7554a65ac7f5200d64a06',1,'AccessoryLightMulti::AddMovingPosition()']]],
+  ['addmovingpositions',['AddMovingPositions',['../classAccessory.html#ae569748fc9b037a0bc3349dcf9aaab3f',1,'Accessory']]],
   ['addrange',['AddRange',['../classAccessoryGroup.html#ae8a5619af703b0bab9b8fe7236e057d0',1,'AccessoryGroup']]],
   ['addstate',['AddState',['../classAccessoryGroup.html#a4cc4bd361ef72fe054ad75e9e007b9a0',1,'AccessoryGroup::AddState(GroupState *inpState)'],['../classAccessoryGroup.html#a68a7051a1ad6d5d389cd71e6f289ddf4',1,'AccessoryGroup::AddState(unsigned long inId, bool inSynchronous = true)']]],
   ['addstateitem',['AddStateItem',['../classAccessoryGroup.html#a0c773ab063b3d8dc175a4fdd4bc37dbf',1,'AccessoryGroup']]],

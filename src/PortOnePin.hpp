@@ -40,11 +40,11 @@ class PortOnePin : public Port
 		/**Gets the Arduino pin.
 		@return Pin number in Arduino mode.
 		*/
-		inline int GetPin() const { if (this->pinType < ANALOG) return GPIO_to_Arduino_pin((GPIO_pin_t)this->pin); return this->pin;  }
+		inline int GetPin() const { if (this->GetPinType() < ANALOG) return GPIO_to_Arduino_pin((GPIO_pin_t)this->pin); return this->pin;  }
 		/**Gets the Arduino pin.
 		@return Pin number in DIO2 mode.
 		*/
-		inline GPIO_pin_t GetDIOPin() const { if (this->pinType >= ANALOG) return (GPIO_pin_t)this->pin; return DP_INVALID; }
+		inline GPIO_pin_t GetDIOPin() const { if (this->GetPinType() >= ANALOG) return (GPIO_pin_t)this->pin; return DP_INVALID; }
 		
 		/**Sets the current state of the port to PORT_LEFT.
 		@param inDuration the pins will be activated to left for the given delay.

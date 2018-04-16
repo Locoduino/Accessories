@@ -55,6 +55,7 @@ enum ACCESSORIES_EVENT_TYPE
 	ACCESSORIES_EVENT_SETSTARTPOSITION = 21,/**< Change the starting position of the motor.*/
 	ACCESSORIES_EVENT_SETSPEED = 22,		/**< Change the speed for a motor or the intensity for a light.*/
 	ACCESSORIES_EVENT_EXTERNALMOVE = 23,	/**< Manually change the state for a motor without using the motor ! Does not apply to a light. New ACC_STATE must be in data.*/
+	ACCESSORIES_EVENT_SETDURATION = 24,		/**< Change the duration of a movement for a motor or the blinking delay for a light.*/
 };
 
 #define ACCESSORIESSCONFIG(address, value)	( ((int)address<<8) | value )
@@ -145,7 +146,12 @@ private:
 	
 	uint8_t movingPositionsSize;
 	uint8_t movingPositionsAddCounter;
+
+	// RAM storage for moving positions
 	MovingPosition *pMovingPositions;
+
+	// Program memory storage for moving positions
+	const MovingPosition *pMovingPositions_P;
 
 	unsigned long duration;
 	unsigned long startingMillis;
@@ -158,8 +164,22 @@ private:
 	static void Add(Accessory *inpAccessory);
 	static Accessory *GetById(unsigned long inId);
 	static bool CanMove(unsigned long inId);
+	bool IsMovementPending();
 	static bool Toggle(unsigned long inId);
 	static bool MovePosition(unsigned long inId);
+
+	/**Gets the position at the given index.
+	@param inIndex number of the wanted index.
+	@return Found MovingPosition or NULL if not found.
+	*/
+	MovingPosition *GetMovingPositionByIndex(uint8_t inIndex, MovingPosition *inPosition) const;
+	/**Gets the position with the given id.
+	@param inId Id to find.
+	@return Found MovingPosition or NULL if not found.
+	*/
+	MovingPosition *GetMovingPositionById(unsigned long inId, MovingPosition *inPosition) const;
+
+	bool IsPPointer() const { return this->pMovingPositions_P != NULL; }
 
 protected:
 	/**Port to drive the accessory.
@@ -229,14 +249,6 @@ public:
 	*/
 	inline bool IsSecond() const { return this->state == STATE_SECOND; }
 
-	/**Add one moving position to the accessory.
-	@param[in] inId new Id
-	@param[in] inPosition	Position for this id.
-	@return index of the new position in the positions list.
-	@remark the total number of MovingPosition must be set before with AdjustMovingPositionsSize().
-	*/
-	uint8_t AddMovingPosition(unsigned long inId, int inPosition);
-
 	/**Gets the debounce delay of the accessory, when relevant.
 	@return Previous debounce delay in milliseconds.
 	*/
@@ -278,6 +290,20 @@ public:	//but should be protected !
 	virtual int EEPROMLoad(int inPos);
 
 #endif
+	/**Add one moving position to the accessory.
+	@param[in] inId new Id
+	@param[in] inPosition	Position for this id.
+	@return index of the new position in the positions list.
+	@remark the total number of MovingPosition must be set before with AdjustMovingPositionsSize().
+	*/
+	uint8_t AddMovingPosition(unsigned long inId, int inPosition);
+
+	/**Add a list of moving positions declared with PROGMEM to the accessory.
+	@param[in] inMovingPositions_P list of MovingPosition defined with PROGMEM attribute.
+	@return number of positions in the list.
+	*/
+	uint8_t AddMovingPositions(const MovingPosition *inMovingPositions_P);
+
 	/**Sets the number of MovingPosition. If some MovingPosition was previously existing, they will be preserved.
 	@param inNewSize new size.
 	*/
@@ -286,31 +312,31 @@ public:	//but should be protected !
 	/**Checks if at least one MovingPosition has been defined.
 	@return true if there is at least one MovingPosition defined.
 	*/
-	inline bool IsEmpty() const { return this->pMovingPositions == NULL; }
+	inline bool IsEmpty() const { return this->pMovingPositions == NULL && this->pMovingPositions_P == NULL; }
 
 	/**Find the index of a MovingPosition from its Id.
 	@param inId	id of the MovingPosition to find.
 	@return index of the found MovingPosition or 255 if not found.
 	*/
-	uint8_t IndexOfMovingPosition(unsigned long inId) const;
+	uint8_t IndexOfMovingPositionById(unsigned long inId) const;
 
 	/**Gets the position associated with the given Id.
 	@param inId	id of the MovingPosition to find.
 	@return position or UNDEFINED_POS if not found..
 	*/
-	int GetMovingPosition(unsigned long inId) const;
+	inline int GetMovingPositionValueById(unsigned long inId) const { MovingPosition mp;  return this->GetMovingPositionById(inId, &mp)->Position; }
 
 	/**Gets the position at the given index of the list.
 	@param inIndex	index of the MovingPosition in the list.
 	@return position.
 	*/
-	inline int GetMovingPositionByIndex(int inIndex) const { return this->pMovingPositions[inIndex].Position; }
+	inline int GetMovingPositionValueByIndex(uint8_t inIndex) const { MovingPosition mp;  return this->GetMovingPositionByIndex(inIndex, &mp)->Position; }
 
 	/**Gets the id of the MovingPosition at the given index of the list.
 	@param inIndex	index of the MovingPosition in the list.
 	@return Id of this position.
 	*/
-	inline unsigned long GetMovingPositionIdByIndex(int inIndex) const { return this->pMovingPositions[inIndex].Id; }
+	inline unsigned long GetMovingPositionIdByIndex(uint8_t inIndex) const { MovingPosition mp;  return this->GetMovingPositionByIndex(inIndex, &mp)->Id; }
 
 	/**Gets the last position reached by this accessory.
 	@return last position reached by the accessory, or 255 if it never moved.
@@ -459,7 +485,7 @@ public:	//but should be protected !
 	/** Print the MovingPosition list on console.
 	@remark Only available if ACCESSORIES_PRINT_ACCESSORIES is defined.
 	*/
-	void Accessory::printMovingPositions();
+	void printMovingPositions();
 #endif
 };
 

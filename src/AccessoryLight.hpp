@@ -10,7 +10,28 @@
 
 #ifndef NO_LIGHT
 
-/** This class describes a single light accessory.*/
+/** This class describes a single light accessory.
+
+Events handled:
+
+id       |         type          | data| effect
+---------|-----------------------|-----|--------------------
+light id|ACCESSORIES_EVENT_MOVEPOSITIONID||toggle on/off
+light id      | ACCESSORIES_EVENT_TOGGLE |  | toggle on/off
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_STRAIGHT | Light on
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_TOP | Light on
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_LEFT | Light on
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_DIVERGE | Light on
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_BOTTOM | Light on
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_RIGHT | Light on
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_ON | Light on
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_STOP | Light off
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_OFF | Light off
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_MORE| Increase speed of 1
+light id      | ACCESSORIES_EVENT_MOVE | ACCESSORIES_MOVE_LESS| Decrease speed of 1
+light id      | ACCESSORIES_EVENT_MOVEPOSITION | New speed | Set the light On at the given speed, without changing the current speed.
+light id      | ACCESSORIES_EVENT_SETSPEED | New speed | Change the current speed
+*/
 
 class AccessoryLight : public Accessory
 {

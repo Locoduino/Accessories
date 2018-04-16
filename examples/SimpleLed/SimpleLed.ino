@@ -47,12 +47,14 @@ void setup()
 	// Drivers setups
 
     // one light is connected to the arduino.
-	port.begin(12, DIGITAL);
+	port.begin(12, ANALOG);
 	
 	// Accessories setups
 
     // Assign Dcc code for each accessory.
 	light.begin(&port, ACTION);
+	light.SetBlinking(3000);
+	//light.SetFading(20, 20);
 }
 
 void loop()

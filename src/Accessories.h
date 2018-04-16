@@ -40,6 +40,43 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 10/04/2018 V1.1.0
+- Correction des pb de compilation et EEPROM si NO_GROUP est défini.
+- Ajout de AddMovingPositions() pour des MovingPositions déclarées en PROGMEM
+- Transformation de CanMove() et IsMovementPending() plus adapté.
+- Ajout d'un événement ACCESSORIES_EVENT_SETDURATION.
+- AccessoryBaseLight : ajout du fading physiologique !
+- AccessoryBaseLight : le clignotement a été corrigé.
+- Ajout dans la doc de la liste des événements avec leur effet pour chaque accessoire.
+- AccessoryMultiLight : Traitement correct des événements avec application à toutes les leds de l'accessoire.
+- AccessoryMotor : Ajout du traitement de l'événement ACCESSORIES_EVENT_SETDURATION.
+- AccessortServo : Ajout du traitement des événements ACCESSORIES_EVENT_SETDURATION et ACCESSORIES_EVENT_EXTERNALMOVE.
+- AccessoryServo : Correction des mouvements à faible vitesse
+- AccessoryStepper : Ajout du traitement de l'événement ACCESSORIES_EVENT_SETDURATION.
+- Port : Gain mémoire par fusionnement des deux attributs dans un seul octet.
+- PortServo : MoveStop fait maintenant un detach() du servo.
+- PortServo : MovePosition fait un attach du servo s'il n'est pas attaché.
+- PortShieldL293d : Correction des pb de compilation si NO_SHIELDL293D est défini
+- Ajout d'un exemple utilisant Commanders::EventsSequencer.
+_______________
+- Fix compilation and EEPROM problems if NO_GROUP is defined.
+- Added AddMovingPositions() for MovingPositions declared in PROGMEM.
+- Change of Accessory::CanMove() to IsMovementPending() more pertinent.
+- Added the event ACCESSORIES_EVENT_SETDURATION.
+- AccessoryBaseLight : use of physiologic fading !
+- AccessoryBaseLight : blinking has been fixed.
+- In HTML documentation, adding of tables of events and their effects for each kind of accessory.
+- AccessoryMultiLight : correct handling of events with application on all leds of the accessory.
+- AccessoryMotor : Added handling of ACCESSORIES_EVENT_SETDURATION event.
+- AccessortServo : Added handling of ACCESSORIES_EVENT_SETDURATION and ACCESSORIES_EVENT_EXTERNALMOVE events.
+- AccessoryServo : Fix slow moves.
+- AccessoryStepper : Added handling of ACCESSORIES_EVENT_SETDURATION event.
+- Port : Memory gained by using on byte for two flags.
+- PortServo : MoveStop do now a detach() of the servo.
+- PortServo : MovePosition do an attach() of the servo if not already done.
+- PortShieldL293d : Fix compilation problem if NO_SHIELDL293D is defined.
+- Added a new sample using Commanders::EventsSequencer.
+
 \par 16/02/2018 V1.0.2
 - Correction du clignotement dans AccessoryBaseLight
 - Ajout de AccessoryLight::SetBlinking()
@@ -415,6 +452,8 @@ Main include file of the library.*/
 #endif
 
 #ifdef DOXYGEN_SPECIFIC
+// DO NOT CHANGE THESE LINES IN THIS BLOCK 'DOXYGEN_SPECIFIC' : Only here for documentation !
+
 /** If this is defined, the library will do many checks during setup and execution, and print errors, warnings and
 information messages on console. These messages can take a lot of memory, so be careful about the free memory of
 your program if you activate debug mode.*/

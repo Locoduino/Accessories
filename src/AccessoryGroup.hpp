@@ -116,7 +116,13 @@ class GroupState
 };
 
 /**This class describes a group of accessories.
-Each group defines some GroupState to set multiple accessories states with only one Id.*/
+Each group defines some GroupState to set multiple accessories states with only one Id.
+Events handled :
+
+id | type | data | effect
+-------- - | ---------------------- - | ---- - | --------------------
+Group state id |all|| Execute the group state
+*/
 class AccessoryGroup
 {
 	private:

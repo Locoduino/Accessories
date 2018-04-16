@@ -43,9 +43,23 @@ void AccessoryServo::SetPowerCommand(int inPin, unsigned long inDelay)
 	this->powerCommandPin = Arduino_to_GPIO_pin(inPin);
 
 	pinMode2f(this->powerCommandPin, OUTPUT);
-	digitalWrite2f(this->powerCommandPin, HIGH);
+	this->PowerOn();
 
 	this->powerDelay = inDelay;
+}
+
+void AccessoryServo::PowerOn()
+{
+	if (this->powerCommandPin != DP_INVALID)
+		digitalWrite2f(this->powerCommandPin, HIGH);
+}
+
+void AccessoryServo::PowerOff()
+{
+	if (this->powerCommandPin != DP_INVALID)
+		digitalWrite2f(this->powerCommandPin, LOW);
+
+	this->pPort->MoveStop();
 }
 
 void AccessoryServo::MoveMinimum()
@@ -122,8 +136,8 @@ void AccessoryServo::Move(unsigned long inId)
 		return;
 	}
 
-	this->SetLastMovingPosition(this->IndexOfMovingPosition(inId));
-	int position = this->GetMovingPosition(inId);
+	this->SetLastMovingPosition(this->IndexOfMovingPositionById(inId));
+	int position = this->GetMovingPositionValueById(inId);
 
 	if (position == MINIMUM || position == MAXIMUM)
 		this->SetState((ACC_STATE)position);
@@ -143,10 +157,6 @@ void AccessoryServo::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 {
 	switch (inEvent)
 	{
-	case ACCESSORIES_EVENT_TOGGLE:
-		this->Move(inId);
-		break;
-
 	case ACCESSORIES_EVENT_MOVE:
 		switch (inData)
 		{
@@ -184,6 +194,7 @@ void AccessoryServo::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 		this->MovePosition(inData);
 		break;
 
+	case ACCESSORIES_EVENT_TOGGLE:
 	case ACCESSORIES_EVENT_MOVEPOSITIONID:
 		this->Move(inId);
 		break;
@@ -194,6 +205,14 @@ void AccessoryServo::Event(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent, i
 
 	case ACCESSORIES_EVENT_SETSPEED:
 		this->pPort->SetSpeed(inData);
+		break;
+
+	case ACCESSORIES_EVENT_SETDURATION:
+		this->SetDuration(inData);
+		break;
+
+	case ACCESSORIES_EVENT_EXTERNALMOVE:
+		this->ExternalMove((ACC_STATE)inData);
 		break;
 
 	default:
@@ -269,27 +288,27 @@ bool AccessoryServo::ActionEnded()
 
 	if (this->powerCommandPin == DP_INVALID || this->powerState == PowerRunning)
 	{
-		//if (millis() - this->GetActionStartingMillis() > this->GetDuration())
+		if (this->targetSpeed == 0)
 		{
-			if (this->targetSpeed == 0)
+			// Abort
+			this->targetPosition = -1;
+			ActionsStack::FillingStack = false;
+			if (this->powerState == PowerRunning && this->powerCommandPin != DP_INVALID)
 			{
-				// Abort
-				this->targetPosition = -1;
-				ActionsStack::FillingStack = false;
-				if (this->powerState == PowerRunning && this->powerCommandPin != DP_INVALID)
-				{
 #ifdef ACCESSORIES_DEBUG_MODE
-					Serial.println(F("AccessoryServo after running"));
+				Serial.println(F("AccessoryServo after running"));
 #endif
-					this->powerState = PowerAfterRunning;
-					StartAction();
-					return false;
-				}
-
-				this->ResetAction();
-				return true;
+				this->powerState = PowerAfterRunning;
+				StartAction();
+				return false;
 			}
 
+			this->ResetAction();
+			return true;
+		}
+
+		if (millis() - this->GetActionStartingMillis() > this->GetDuration())
+		{
 			this->currentPosition += this->targetSpeed;
 			this->pPort->MovePosition(this->GetDuration(), this->currentPosition);
 
@@ -320,7 +339,7 @@ bool AccessoryServo::ActionEnded()
 #ifdef ACCESSORIES_DEBUG_MODE
 			Serial.println(F("AccessoryServo start power command"));
 #endif
-			digitalWrite2f(this->powerCommandPin, LOW);
+			this->PowerOff();
 			this->powerState = PowerBeforeRunning;
 			StartAction();
 			return false;
@@ -345,7 +364,7 @@ bool AccessoryServo::ActionEnded()
 				Serial.println(F("AccessoryServo end running"));
 #endif
 				this->powerState = PowerNoAction;
-				digitalWrite2f(this->powerCommandPin, HIGH);
+				this->PowerOn();
 				this->ResetAction();
 				return true;
 			}
@@ -371,12 +390,10 @@ int AccessoryServo::EEPROMLoad(int inPos)
 {
 	inPos = this->Accessory::EEPROMLoad(inPos);
 
-	if (this->powerCommandPin != DP_INVALID)
-		digitalWrite2f(this->powerCommandPin, HIGH);
+	this->PowerOn();
 	this->pPort->MovePosition(0, this->currentPosition);
 	delay(200);	//can be done here because we are in setup timing...
-	if (this->powerCommandPin != DP_INVALID)
-		digitalWrite2f(this->powerCommandPin, LOW);
+	this->PowerOff();
 
 	return inPos;
 }
@@ -386,13 +403,7 @@ int AccessoryServo::EEPROMLoad(int inPos)
 void AccessoryServo::printAccessory()
 {
 	Serial.print(F("    Servo : "));
-	for (int i = 0; i < this->GetMovingPositionSize(); i++)
-	{
-		Serial.print(F(" / ID "));
-		Serial.print(this->GetMovingPositionIdByIndex(i));
-		Serial.print(F(" - "));
-		Serial.print(this->GetMovingPositionByIndex(i));
-	}
+	this->printMovingPositions();
 
 	if (this->GetPort() != NULL)
 	{
