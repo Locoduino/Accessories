@@ -61,8 +61,8 @@ void AccessoryStepper::Move(unsigned long inId)
 		return;
 	}
 
-	this->SetLastMovingPosition(this->IndexOfMovingPosition(inId));
-	this->MovePosition(this->GetMovingPosition(inId));
+	this->SetLastMovingPosition(this->IndexOfMovingPositionById(inId));
+	this->MovePosition(this->GetMovingPositionValueById(inId));
 }
 
 void AccessoryStepper::MovePosition(int inAbsolutePosition)
@@ -190,7 +190,7 @@ void AccessoryStepper::printAccessory()
 		Serial.print(F(" / ID "));
 		Serial.print(this->GetMovingPositionIdByIndex(i));
 		Serial.print(F(" - pos "));
-		Serial.print(this->GetMovingPositionByIndex(i));
+		Serial.print(this->GetMovingPositionValueByIndex(i));
 	}
 
 	Serial.print(F(" / StepsNumber "));

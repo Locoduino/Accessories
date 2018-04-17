@@ -40,6 +40,13 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 17/04/2018 V1.1.1
+- Correction des pb de compilation de AccessoryStepper.
+- Correction des pb de compilation de PortShieldL293d.
+_______________
+- Fix compilation problems of AccessoryStepper.
+- Fix compilation problems of PortShieldL293d.
+
 \par 10/04/2018 V1.1.0
 - Correction des pb de compilation et EEPROM si NO_GROUP est défini.
 - Ajout de AddMovingPositions() pour des MovingPositions déclarées en PROGMEM

@@ -55,7 +55,7 @@ void PortShieldL293d::MoveLeftDir(unsigned long inDuration)
 		this->pmotor->run(RELEASE);
 	}
 
-	this->state = PORT_LEFT;
+	this->SetPortState(PORT_LEFT);
 }
 
 void PortShieldL293d::MoveRightDir(unsigned long inDuration)
@@ -78,13 +78,13 @@ void PortShieldL293d::MoveRightDir(unsigned long inDuration)
 		this->pmotor->run(RELEASE);
 	}
 
-	this->state = PORT_RIGHT;
+	this->SetPortState(PORT_RIGHT);
 }
 
 void PortShieldL293d::MoveStop()
 {
 	this->pmotor->run(RELEASE);
-	this->state = PORT_STOP;
+	this->SetPortState(PORT_STOP);
 }
 
 #ifdef ACCESSORIES_PRINT_ACCESSORIES
