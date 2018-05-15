@@ -40,6 +40,11 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 15/05/2018 V1.1.2
+- Correction de debounceDelay qui restait non initialisée (merci lapive).
+_______________
+- Fix debounceDelay value not initialized.
+
 \par 17/04/2018 V1.1.1
 - Correction des pb de compilation de AccessoryStepper.
 - Correction des pb de compilation de PortShieldL293d.
