@@ -220,9 +220,9 @@ var NAVTREE =
           [ "Add", "classActionsStack.html#a12c3702836732893421ef6a75c504eda", null ],
           [ "Clear", "classActionsStack.html#a7206851ec4f6accf0feafeb60000e2e5", null ],
           [ "Delete", "classActionsStack.html#a7ab206f5490b5169845ecf5ccef17ca9", null ],
-          [ "GetActionToExecute", "classActionsStack.html#ae5e923c8c890313fe9fe67fae9497562", null ],
+          [ "GetActionToExecute", "classActionsStack.html#a1934da7e8807b4ceb50d6c95af30380a", null ],
           [ "GetNumber", "classActionsStack.html#a2ba3fc8906482ba474a1034a81d443c6", null ],
-          [ "operator[]", "classActionsStack.html#ae6eefac077c23097a50329bfe0115fb6", null ]
+          [ "operator[]", "classActionsStack.html#a79a0497efe942d3980bbb95be6dd908d", null ]
         ] ],
         [ "GroupState", "classGroupState.html", [
           [ "GroupState", "classGroupState.html#abd63266166b098086d0ccebf98b0e269", null ],

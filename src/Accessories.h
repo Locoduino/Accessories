@@ -40,6 +40,11 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 26/05/2018 V1.1.3
+- Correction de perte mémoire dans ActionsStack (merci encore lapive).
+_______________
+- Fix memory leak in ActionsStack.
+
 \par 15/05/2018 V1.1.2
 - Correction de debounceDelay qui restait non initialisée (merci lapive).
 _______________

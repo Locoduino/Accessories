@@ -49,7 +49,7 @@ class ActionsStack
 		/**Array operator.
 		@param index index of the action to get.
 		*/
-		Action *operator[](unsigned char index);
+		inline Action *operator[](unsigned char index) { return this->pList[index]; }
 		/** Clears the complete stack.*/
 		void Clear();
 		/** Remove the given index of the stack.
@@ -57,9 +57,9 @@ class ActionsStack
 		*/
 		void Delete(int inIndex);
 		/**Get an action to execute.
-		@return action address or NULL
+		@return action index or 255
 		*/
-		Action *GetActionToExecute();
+		unsigned char GetActionToExecute();
 		/**Get the number of available actions to execute.
 		@return action number.
 		*/

@@ -34,6 +34,11 @@ unsigned char ActionsStack::Add(unsigned long inId, ACCESSORIES_EVENT_TYPE inEve
 	{
 		if (this->pList[i] == NULL)
 		{
+#ifdef ACCESSORIES_DEBUG_MODE
+			Serial.print(F("Action "));
+			Serial.print(i);
+			Serial.println(F(" added !"));
+#endif
 			this->pList[i] = new Action(inId, inEvent, inData);
 			return i;
 		}
@@ -42,24 +47,23 @@ unsigned char ActionsStack::Add(unsigned long inId, ACCESSORIES_EVENT_TYPE inEve
 	return this->size + 1;	// action lost, the stack is full !
 }
 
-Action *ActionsStack::GetActionToExecute()
+unsigned char ActionsStack::GetActionToExecute()
 {
 	for (int i = 0; i < this->size; i++)
-	{
 		if (this->pList[i] != NULL)
-		{
-			Action *ret = this->pList[i];
-			this->pList[i] = NULL;
-			return ret;
-		}
-	}
+			return i;
 
-	return NULL;
+	return 255;	// no action to execute
 }
 
 // Returns the index of the new added action.
 void ActionsStack::Delete(int inIndex)
 {
+#ifdef ACCESSORIES_DEBUG_MODE
+	Serial.print(F("Action "));
+	Serial.print(inIndex);
+	Serial.println(F(" deleted !"));
+#endif
 	if (this->pList[inIndex] != NULL)
 	{
 		delete this->pList[inIndex];
@@ -86,9 +90,4 @@ int ActionsStack::GetNumber() const
 	}
 
 	return count;
-}
-
-Action *ActionsStack::operator[](unsigned char inIndex)
-{
-	return this->pList[inIndex];
 }

@@ -36,7 +36,7 @@ void Accessories::begin(int inEEPROMStart, int inEEPROMSize)
 	delay(500);
 
 	Serial.println(F(""));
-	Serial.println(F("Accessories V1.1.2"));
+	Serial.println(F("Accessories V1.1.3"));
 	Serial.println(F("Developed by Thierry Paris."));
 	Serial.println(F("(c) Locoduino 2016-2018"));
 	Serial.println(F(""));
@@ -205,9 +205,13 @@ bool Accessories::loop()
 	if (Accessory::IsActionPending())
 		return true;
 
-	Action *act = ActionsStack::Actions.GetActionToExecute();
-	if (act != NULL)
+	unsigned char actionIndex = ActionsStack::Actions.GetActionToExecute();
+	if (actionIndex != 255)
+	{
+		Action *act = ActionsStack::Actions[actionIndex];
 		Accessory::ExecuteEvent(act->Id, act->Event, act->Data);
+		ActionsStack::Actions.Delete(actionIndex);
+	}
 
 	// If nothing more to do, Save EEPROM if needed.
 
