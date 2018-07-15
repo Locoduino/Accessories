@@ -472,8 +472,15 @@ var NAVTREE =
             [ "ACCESSORIES_PRINT_ACCESSORIES", "Accessories_8h.html#a2d8b55a1a0223b7ff1467185f61efba1", null ],
             [ "ACTION_STACK_SIZE", "Accessories_8h.html#a86cfc9976a2d87ddad58b877ccd66073", null ],
             [ "GPIO2_PREFER_SPEED", "Accessories_8h.html#abe48e551c87434efe75af8e7d4df457c", null ],
+            [ "LIBRARY_VERSION", "Accessories_8h.html#a8650e6793d46032c617bb7b824f90bfd", null ],
             [ "NO_EEPROM", "Accessories_8h.html#a2c353a6d1e08fbc0dc9b12fa15fa0ef5", null ],
-            [ "NO_EEPROM", "Accessories_8h.html#a2c353a6d1e08fbc0dc9b12fa15fa0ef5", null ]
+            [ "NO_EEPROM", "Accessories_8h.html#a2c353a6d1e08fbc0dc9b12fa15fa0ef5", null ],
+            [ "NO_GROUP", "Accessories_8h.html#a9f261279a53dfe33021f00801df5709b", null ],
+            [ "NO_LIGHT", "Accessories_8h.html#a38a47004a559a1297ad8b41bdd8fcac7", null ],
+            [ "NO_MOTOR", "Accessories_8h.html#a8641bb03349748d52582ac8a930b94e5", null ],
+            [ "NO_SERVO", "Accessories_8h.html#ac8e956257ac9434762a0b5e9d08ffe06", null ],
+            [ "NO_SHIELDL293D", "Accessories_8h.html#a4e253d9d166837236efc71def209692c", null ],
+            [ "NO_STEPPER", "Accessories_8h.html#ad0142a868db0e3819b2f8c54e924f91e", null ]
           ] ],
           [ "LocoStepper.h", "LocoStepper_8h.html", [
             [ "LocoStepper", "classLocoStepper.html", [
@@ -559,7 +566,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AccessoriesCircularBuffer_8cpp_source.html",
-"classAction.html#a0eb90dc3ae0778c2ed16b8d6c7e5efa3"
+"classAccessoryStepper.html#a6a9c8ee91bfe04900699166b096af1d3"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

@@ -183,7 +183,9 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Constructor. You can have multiple simultaneous steppers, all moving at different speeds and accelerations, provided you call their <a class="el" href="classLocoStepper.html#ae4045493f8395d7b3dc0a8e1477b3596">run()</a> functions at frequent enough intervals. Current Position is set to 0, target position is set to 0. The motor pins will be initialized to OUTPUT mode during the constructor by a call to <a class="el" href="classLocoStepper.html#a10a8e0c2464a99df13ff50f675e7b4e0">enableOutputs()</a>. inpSteps pointer argument gives the caller the possibility to fix himself the sequence of pins activation. If nothing is specified, a default value will be used: </p><pre class="fragment">/// B01, B11, B10, B00 
+<p>Constructor. You can have multiple simultaneous steppers, all moving at different speeds and accelerations, provided you call their <a class="el" href="classLocoStepper.html#ae4045493f8395d7b3dc0a8e1477b3596">run()</a> functions at frequent enough intervals. Current Position is set to 0, target position is set to 0. The motor pins will be initialized to OUTPUT mode during the constructor by a call to <a class="el" href="classLocoStepper.html#a10a8e0c2464a99df13ff50f675e7b4e0">enableOutputs()</a>. </p><pre class="fragment">inpSteps pointer argument gives the caller the possibility to fix himself the sequence
+of pins activation. If nothing is specified, a default value will be used:
+</pre> <pre class="fragment">/// B01, B11, B10, B00 
 /// </pre> 
 <p class="definition">Definition at line <a class="el" href="LocoStepper_8cpp_source.html#l00021">21</a> of file <a class="el" href="LocoStepper_8cpp_source.html">LocoStepper.cpp</a>.</p>
 
@@ -587,7 +589,7 @@ Protected Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classLocoStepper.html">LocoStepper</a></li>
-    <li class="footer">Generated on sam. mai 26 2018 11:22:35 for Accessories &nbsp; by
+    <li class="footer">Generated on dim. juil. 15 2018 13:59:22 for Accessories &nbsp; by
     <a href="http://www.copperspice.com/documentation-doxypress.html">
     <img class="footer" src="doxypress.png" alt="DoxyPress"/></a> 1.2.10 </li>
   </ul>

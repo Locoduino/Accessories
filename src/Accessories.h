@@ -40,6 +40,17 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 15/07/2018 V1.1.4
+- Correction du format de Keywords.txt
+- Création de LIBRARY_VERSION
+- Mise en conformité de la partie doc HTML avec DOXYGEN_SPECIFIC
+- Ajout du fichier LICENSE
+_______________
+- Fix Keywords.txt format.
+- LIBRARY_VERSION created
+- Update of DOXYGEN_SPECIFIC part for HTML documentation.
+- Add of LICENSE file
+
 \par 26/05/2018 V1.1.3
 - Correction de perte mémoire dans ActionsStack (merci encore lapive).
 _______________
@@ -312,6 +323,8 @@ _______________
 /** @file Accessories.h
 Main include file of the library.*/
 
+#define LIBRARY_VERSION		"Accessories V1.1.4"
+
 ////////////////////////////////////////////////////////
 // Add a '//' at the beginning of the line to be in 
 // release mode.
@@ -400,6 +413,53 @@ Main include file of the library.*/
 //#define NO_LIGHT
 //#define NO_SHIELDL293D
 
+#ifdef DOXYGEN_SPECIFIC
+		// DO NOT CHANGE THESE LINES IN THIS BLOCK 'DOXYGEN_SPECIFIC' : Only here for documentation !
+
+		/** If this is defined, groups part of the library is removed from the compilation. 
+		It can result in a smaller memory footprint for the final program.*/
+		#define NO_GROUP
+		/** If this is defined, all the motors part of the library is removed from the compilation. 
+		It can result in a smaller memory footprint for the final program.*/
+		#define NO_MOTOR
+		/** If this is defined, the servo part of the library is removed from the compilation. 
+		It can result in a smaller memory footprint for the final program.*/
+		#define NO_SERVO
+		/** If this is defined, the stepper motor part of the library is removed from the compilation. 
+		It can result in a smaller memory footprint for the final program.*/
+		#define NO_STEPPER
+		/** If this is defined, all the lights part of the library is removed from the compilation. 
+		It can result in a smaller memory footprint for the final program.*/
+		#define NO_LIGHT
+		/** If this is defined, the Arduino Shield L293D part of the library is removed from the compilation. 
+		It can result in a smaller memory footprint for the final program.*/
+		#define NO_SHIELDL293D
+		/** If this is defined, the state of all the library will not be saved to EEPROM.*/
+		#define NO_EEPROM
+
+		#undef NO_GROUP
+		#undef NO_MOTOR
+		#undef NO_SERVO
+		#undef NO_STEPPER
+		#undef NO_LIGHT
+		#undef NO_SHIELDL293D
+		#undef NO_EEPROM
+
+		/** If this is defined, the library will do many checks during setup and execution, and print errors, warnings and
+		information messages on console. These messages can take a lot of memory, so be careful about the free memory of
+		your program if you activate debug mode.*/
+		#define ACCESSORIES_DEBUG_MODE
+		/** If this is defined, the Verbose mode lets you see all actions done by the  library, but with a real flood of
+		text to the console... It has no effect if ACCESSORIES_DEBUG_MODE is not activated.*/
+		#define ACCESSORIES_DEBUG_VERBOSE_MODE
+		/** If this is defined, the function Accessories::printAccessories() will become available. This is useful to try
+		to understand why a port, or an accessory is not correctly defined.
+		This function uses a lot of memory, so activate it only if necessary, and be careful about your program's memory.
+		You can use the define PRINT_ACCESSORIES() in your sketch instead of a call to Accessories::printAccessories().
+		If ACCESSORIES_PRINT_ACCESSORIES is not defined, PRINT_ACCESSORIES is defined as empty, so you will not have a compilation error.*/
+		#define ACCESSORIES_PRINT_ACCESSORIES
+#endif
+
 #ifndef VISUALSTUDIO
 #define NO_EEPROM
 #endif
@@ -466,24 +526,4 @@ Main include file of the library.*/
 #endif
 
 #include "Accessories.hpp"
-#endif
-
-#ifdef DOXYGEN_SPECIFIC
-// DO NOT CHANGE THESE LINES IN THIS BLOCK 'DOXYGEN_SPECIFIC' : Only here for documentation !
-
-/** If this is defined, the library will do many checks during setup and execution, and print errors, warnings and
-information messages on console. These messages can take a lot of memory, so be careful about the free memory of
-your program if you activate debug mode.*/
-#define ACCESSORIES_DEBUG_MODE
-/** If this is defined, the Verbose mode lets you see all actions done by the  library, but with a real flood of
-text to the console... It has no effect if ACCESSORIES_DEBUG_MODE is not activated.*/
-#define ACCESSORIES_DEBUG_VERBOSE_MODE
-/** If this is defined, the function Accessories::printAccessories() will become available. This is useful to try
-to understand why a port, or an accessory is not correctly defined.
-This function uses a lot of memory, so activate it only if necessary, and be careful about your program's memory.
-You can use the define PRINT_ACCESSORIES() in your sketch instead of a call to Accessories::printAccessories().
-If ACCESSORIES_PRINT_ACCESSORIES is not defined, PRINT_ACCESSORIES is defined as empty, so you will not have a compilation error.*/
-#define ACCESSORIES_PRINT_ACCESSORIES
-/** If this is defined, the state of all the library will not be saved to EEPROM.*/
-#define NO_EEPROM
 #endif
