@@ -75,12 +75,12 @@ private:
 
 public:
 #ifdef ACCESSORIES_PRINT_ACCESSORIES
-	/** This define is empty if COMMANDERS_PRINT_COMMANDERS is not defined. */
+	/** This define is empty if ACCESSORIES_PRINT_ACCESSORIES is not defined. */
 	#define PRINT_ACCESSORIES	Accessories::printAccessories();
-	/** Print the full list of commanders.
-	The list is printed on the console in a hierarchical way, with details like buttons and events. There is also all data (pins, events)
+	/** Print the full list of declared accessories.
+	The list is printed on the console in a hierarchical way, with details like accessories and ports. There is also all data (pins, events)
 	associated with each item.
-	@remark Only available if COMMANDERS_PRINT_COMMANDERS is defined.
+	@remark Only available if ACCESSORIES_PRINT_ACCESSORIES is defined.
 	*/
 	static void printAccessories();
 #else

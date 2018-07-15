@@ -239,33 +239,33 @@ Protected Attributes</h2></td></tr>
 <p>The EEPROM area starting from EEPROMStart will be filled on EEPROMsize with the current version number (a byte), and the total number of accessories and groups. The fourth byte will be the checksum of the three starting bytes... If any of these four bytes are different from the actual values, the EEPROM will be considered as free. Two bytes are then added to store the size of one complete record, in order to be able to configure the CircularBuffer.</p>
 <p>Following these bytes, there is the CircularBuffer of accessories. For each one the current state, the current position and the current speed will be saved. After that, each group save its current item id.</p>
 <pre class="fragment">+-+
-Version                 |V|
-Accessory number        |A|
-Group number            |G|
-header checksum         |C|
-size byte 1             |s1]
-size byte 2             |s2]
+Version         |V|
+Accessory number    |A|
+Group number      |G|
+header checksum     |C|
+size byte 1       |s1]
+size byte 2       |s2]
 +-+
-Circular buffer         | |
+Circular buffer     | |
 +-+
 End of file.
 </pre><p>And the Circular buffer is :</p>
 <pre class="fragment">+-+
-Acc 1 : State           |S|
-Acc 1 : Position        |P|
-Acc 1 : Speed           |s|
+Acc 1 : State     |S|
+Acc 1 : Position    |P|
+Acc 1 : Speed     |s|
 +-+
-Acc 2 : State           |S|
-Acc 2 : Position        |P|
-Acc 2 : Speed           |s|
+Acc 2 : State     |S|
+Acc 2 : Position    |P|
+Acc 2 : Speed     |s|
 +-+
-Acc 3 : State           |S|
-Acc 3 : Position        |P|
-Acc 3 : Speed           |s|
-...                     +-+
-Group 1 : current ID    |I|
-Group 3 : current ID    |I|
-Group 3 : current ID    |I|
+Acc 3 : State     |S|
+Acc 3 : Position    |P|
+Acc 3 : Speed     |s|
+...           +-+
+Group 1 : current ID  |I|
+Group 3 : current ID  |I|
+Group 3 : current ID  |I|
 +-+
 End of record.
 </pre> 
@@ -1764,7 +1764,7 @@ End of record.
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classAccessory.html">Accessory</a></li>
-    <li class="footer">Generated on sam. mai 26 2018 11:22:35 for Accessories &nbsp; by
+    <li class="footer">Generated on dim. juil. 22 2018 10:21:43 for Accessories &nbsp; by
     <a href="http://www.copperspice.com/documentation-doxypress.html">
     <img class="footer" src="doxypress.png" alt="DoxyPress"/></a> 1.2.10 </li>
   </ul>

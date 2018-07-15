@@ -12,3 +12,5 @@ src/AccessoriesEventStack\.cpp
 src/AccessoriesEventStack\.hpp
 
 *.tmp
+
+desktop\.ini

@@ -165,7 +165,7 @@
         "strip-from-path": [
             ""
         ],
-        "tab-size": 4
+        "tab-size": 2
     },
     "index": {
         "alpha-index": true,
