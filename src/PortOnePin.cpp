@@ -1,7 +1,7 @@
 /*************************************************************
 project: <Accessories>
 author: <Thierry PARIS>
-description: <Driver port for a relay>
+description: <Driver port with only one pin>
 *************************************************************/
 
 #include "Accessories.h"

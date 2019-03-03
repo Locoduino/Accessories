@@ -64,7 +64,11 @@ class Port
 		/** Speed of the port.*/
 		int speed;
 
-		/** Kind of pin, analog or digital, inverted or not. and Current state of the port.*/
+		/** Kind of pin, analog or digital, inverted or not. and Current state of the port.
+		Both values are stored inside the same byte of the form B00sskkkk
+		where ss is two bits defining the state, and kkkk four bits for the kind of pin.
+		The two last bits 00 are not used for the moment.
+		*/
 		byte type_state;
 
 
