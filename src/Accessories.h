@@ -40,6 +40,15 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 31/05/2019 V1.2.0
+- Ajout des PortExpanders
+- Intégration de la nouvelle version d'ArduiEmulator.
+- Création d'un projet autonome à utiliser dans une solution VS2019.
+_______________
+- Add of PortExpanders
+- Integration of the new version of the ArduiEmulator.					 
+- Creation of a stand alone project to insert in VS2019 solutions.
+
 \par 15/07/2018 V1.1.4
 - Correction du format de Keywords.txt
 - Création de LIBRARY_VERSION
@@ -323,7 +332,7 @@ _______________
 /** @file Accessories.h
 Main include file of the library.*/
 
-#define LIBRARY_VERSION		"Accessories V1.1.4"
+#define LIBRARY_VERSION		"Accessories V1.2.0"
 
 ////////////////////////////////////////////////////////
 // Add a '//' at the beginning of the line to be in 
@@ -412,6 +421,9 @@ Main include file of the library.*/
 //#define NO_STEPPER
 //#define NO_LIGHT
 //#define NO_SHIELDL293D
+//#define NO_EXPANDER
+//#define NO_EXPANDER_SX1509
+//#define NO_EXPANDER_74HC595
 
 #ifdef DOXYGEN_SPECIFIC
 		// DO NOT CHANGE THESE LINES IN THIS BLOCK 'DOXYGEN_SPECIFIC' : Only here for documentation !
@@ -436,6 +448,12 @@ Main include file of the library.*/
 		#define NO_SHIELDL293D
 		/** If this is defined, the state of all the library will not be saved to EEPROM.*/
 		#define NO_EEPROM
+		/** If this is defined, the expander sources will not be included in compilation.*/
+		#define NO_EXPANDER
+		/** If this is defined, the expander sources for SX1509 device will not be included in compilation.*/
+		#define NO_EXPANDER_SX1509
+		/** If this is defined, the expander sources for circuit 74HC595 device will not be included in compilation.*/
+		#define NO_EXPANDER_74HC595
 
 		#undef NO_GROUP
 		#undef NO_MOTOR
@@ -474,6 +492,11 @@ Main include file of the library.*/
 	#ifndef NO_MOTORTWOWAYS
 		#define NO_MOTORTWOWAYS
 	#endif
+#endif
+
+#ifdef NO_EXPANDER
+#define NO_EXPANDER_SX1509
+#define NO_EXPANDER_74HC595
 #endif
 
 // For Accessories library, L293D is not compatible with Arduino Due for the moment...
@@ -523,6 +546,16 @@ Main include file of the library.*/
 
 #ifndef NO_STEPPER
 #include "PortStepper.hpp"
+#endif
+
+#ifndef NO_EXPANDER
+	#include "PortExpander.hpp"
+	#ifndef NO_EXPANDER_SX1509
+		#include "PortExpanderSX1509.hpp"
+	#endif
+	#ifndef NO_EXPANDER_74HC595
+		#include "PortExpander74HC595.hpp"
+	#endif
 #endif
 
 #include "Accessories.hpp"

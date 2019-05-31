@@ -8,8 +8,8 @@ http://git.framasoft.org/locoduino.org/Accessories/wikis/home both in french and
 
 == License ==
 
-Copyright (c) 2015-2018 Locoduino.org. All right reserved.
-Copyright (c) 2015-2018 Thierry Paris.  All right reserved.
+Copyright (c) 2015-2019 Locoduino.org. All right reserved.
+Copyright (c) 2015-2019 Thierry Paris.  All right reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public

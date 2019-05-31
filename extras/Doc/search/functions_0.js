@@ -24,5 +24,6 @@ var searchData=
   ['addstate',['AddState',['../classAccessoryGroup.html#a4cc4bd361ef72fe054ad75e9e007b9a0',1,'AccessoryGroup::AddState(GroupState *inpState)'],['../classAccessoryGroup.html#a68a7051a1ad6d5d389cd71e6f289ddf4',1,'AccessoryGroup::AddState(unsigned long inId, bool inSynchronous = true)']]],
   ['addstateitem',['AddStateItem',['../classAccessoryGroup.html#a0c773ab063b3d8dc175a4fdd4bc37dbf',1,'AccessoryGroup']]],
   ['adjustmovingpositionblinkssize',['AdjustMovingPositionBlinksSize',['../classAccessoryLightMulti.html#a4858bce0c40dcd22c889260fe3aef472',1,'AccessoryLightMulti']]],
-  ['adjustmovingpositionssize',['AdjustMovingPositionsSize',['../classAccessory.html#acd67b5953eb1b55a52a87a779574e3b6',1,'Accessory']]]
+  ['adjustmovingpositionssize',['AdjustMovingPositionsSize',['../classAccessory.html#acd67b5953eb1b55a52a87a779574e3b6',1,'Accessory']]],
+  ['analogwrite',['analogWrite',['../classPortExpander.html#aa82edd227aa15e50dcd401f47d5bb9e5',1,'PortExpander::analogWrite(int inPin, int inValue) = 0'],['../classPortExpander.html#a9f7deb784e443fddae9f66db1efc6fe8',1,'PortExpander::analogWrite(int inPin, int inExpId, int inValue)'],['../classPortExpander74HC595.html#ad462bb69ece68b7643529bdf315087e6',1,'PortExpander74HC595::analogWrite()'],['../classPortExpanderSX1509.html#a739e6a067e4ddce9e057ac67ad812010',1,'PortExpanderSX1509::analogWrite()']]]
 ];

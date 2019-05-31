@@ -121,7 +121,7 @@ void Accessories::RaiseEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEvent,
 void Accessories::ReceiveEvent(unsigned long inId, ACCESSORIES_EVENT_TYPE inEventType, int inEventData)
 {
 #ifdef VISUALSTUDIO
-	ArduiEmulator::ArduinoForm::_eventLog("Received", inId, inEventType, inEventData);
+	_eventLog(_T("Received"), inId, inEventType, inEventData);
 #endif
 
 	Accessory::ExecuteEvent(inId, inEventType, inEventData);

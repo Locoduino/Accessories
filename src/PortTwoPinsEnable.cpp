@@ -23,9 +23,9 @@ void PortTwoPinsEnable::begin(int inPinA, int inPinB, PIN_TYPE inType, int inPin
 void PortTwoPinsEnable::MoveLeftDir(unsigned long inDuration)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
-	Serial.print(this->GetPinA());
+	Port::printPortPin(this->pinA, this->GetPinType());
 	Serial.print(F(" / "));
-	Serial.print(this->GetPinB());
+	Port::printPortPin(this->pinB, this->GetPinType());
 	Serial.print(F(" PortTwoPinsEnable MoveLeftDir() "));
 	if (inDuration != 0)
 	{
@@ -52,9 +52,9 @@ void PortTwoPinsEnable::MoveLeftDir(unsigned long inDuration)
 void PortTwoPinsEnable::MoveRightDir(unsigned long inDuration)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
-	Serial.print(this->GetPinA());
+	Port::printPortPin(this->pinA, this->GetPinType());
 	Serial.print(F(" / "));
-	Serial.print(this->GetPinB());
+	Port::printPortPin(this->pinB, this->GetPinType());
 	Serial.print(F(" PortTwoPinsEnable MoveRightDir() "));
 	if (inDuration != 0)
 	{
@@ -81,9 +81,9 @@ void PortTwoPinsEnable::MoveRightDir(unsigned long inDuration)
 void PortTwoPinsEnable::MoveStop()
 {
 #ifdef ACCESSORIES_DEBUG_MODE
-	Serial.print(this->GetPinA());
+	Port::printPortPin(this->pinA, this->GetPinType());
 	Serial.print(F(" / "));
-	Serial.print(this->GetPinB());
+	Port::printPortPin(this->pinB, this->GetPinType());
 	Serial.println(F(" PortTwoPinsEnable MoveStop() "));
 #endif
 

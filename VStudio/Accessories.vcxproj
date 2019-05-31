@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{7B26BA45-2AF4-4EB1-8780-D28E09B51759}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Accessories</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);VISUALSTUDIO;ACCESSORIES_PRINT_ACCESSORIES;ACCESSORIES_DEBUG_MODE</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(VisualStudioDir)\..\Arduino\ArduiEmulatorWin\ArduiEmulatorLib;../../DIO2/VStudio/; ../src;../vstudio</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions);VISUALSTUDIO</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(VisualStudioDir)\..\Arduino\ArduiEmulator\ArduiEmulator</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\Accessories.h" />
+    <ClInclude Include="..\src\Accessories.hpp" />
+    <ClInclude Include="..\src\AccessoriesCircularBuffer.hpp" />
+    <ClInclude Include="..\src\Accessory.hpp" />
+    <ClInclude Include="..\src\AccessoryBaseLight.hpp" />
+    <ClInclude Include="..\src\AccessoryGroup.hpp" />
+    <ClInclude Include="..\src\AccessoryLight.hpp" />
+    <ClInclude Include="..\src\AccessoryLightMulti.hpp" />
+    <ClInclude Include="..\src\AccessoryMotor.hpp" />
+    <ClInclude Include="..\src\AccessoryMotorOneWay.hpp" />
+    <ClInclude Include="..\src\AccessoryMotorTwoWays.hpp" />
+    <ClInclude Include="..\src\AccessoryServo.hpp" />
+    <ClInclude Include="..\src\AccessoryStepper.hpp" />
+    <ClInclude Include="..\src\ActionsStack.hpp" />
+    <ClInclude Include="..\src\Chain.hpp" />
+    <ClInclude Include="..\src\LocoStepper.h" />
+    <ClInclude Include="..\src\Port.hpp" />
+    <ClInclude Include="..\src\PortExpander.hpp" />
+    <ClInclude Include="..\src\PortExpander74HC595.hpp" />
+    <ClInclude Include="..\src\PortExpanderSX1509.hpp" />
+    <ClInclude Include="..\src\PortOnePin.hpp" />
+    <ClInclude Include="..\src\PortServo.hpp" />
+    <ClInclude Include="..\src\PortShieldL293d.hpp" />
+    <ClInclude Include="..\src\PortSpeedDirBrake.hpp" />
+    <ClInclude Include="..\src\PortStepper.hpp" />
+    <ClInclude Include="..\src\PortTwoPins.hpp" />
+    <ClInclude Include="..\src\PortTwoPinsEnable.hpp" />
+    <ClInclude Include="ShiftRegister74HC595.h" />
+    <ClInclude Include="SparkFunSX1509.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ArduiEmulatorWin\ArduiEmulatorLib\ArduiEmulatorLib.vcxproj">
+      <Project>{2cedff9d-11ac-46b3-92b0-8b43cbccffac}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DIO2\VStudio\DIO2.vcxproj">
+      <Project>{cc4048d1-7ac0-4d3d-98a3-2922d996b5ab}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\Accessories.cpp" />
+    <ClCompile Include="..\src\AccessoriesCircularBuffer.cpp" />
+    <ClCompile Include="..\src\Accessory.cpp" />
+    <ClCompile Include="..\src\AccessoryBaseLight.cpp" />
+    <ClCompile Include="..\src\AccessoryGroup.cpp" />
+    <ClCompile Include="..\src\AccessoryLight.cpp" />
+    <ClCompile Include="..\src\AccessoryLightMulti.cpp" />
+    <ClCompile Include="..\src\AccessoryMotor.cpp" />
+    <ClCompile Include="..\src\AccessoryMotorOneWay.cpp" />
+    <ClCompile Include="..\src\AccessoryMotorTwoWays.cpp" />
+    <ClCompile Include="..\src\AccessoryServo.cpp" />
+    <ClCompile Include="..\src\AccessoryStepper.cpp" />
+    <ClCompile Include="..\src\ActionsStack.cpp" />
+    <ClCompile Include="..\src\LocoStepper.cpp" />
+    <ClCompile Include="..\src\Port.cpp" />
+    <ClCompile Include="..\src\PortExpander.cpp" />
+    <ClCompile Include="..\src\PortExpander74HC595.cpp" />
+    <ClCompile Include="..\src\PortExpanderSX1509.cpp" />
+    <ClCompile Include="..\src\PortOnePin.cpp" />
+    <ClCompile Include="..\src\PortServo.cpp" />
+    <ClCompile Include="..\src\PortShieldL293d.cpp" />
+    <ClCompile Include="..\src\PortSpeedDirBrake.cpp" />
+    <ClCompile Include="..\src\PortStepper.cpp" />
+    <ClCompile Include="..\src\PortTwoPins.cpp" />
+    <ClCompile Include="..\src\PortTwoPinsEnable.cpp" />
+    <ClCompile Include="ShiftRegister74HC595.cpp" />
+    <ClCompile Include="SparkFunSX1509.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

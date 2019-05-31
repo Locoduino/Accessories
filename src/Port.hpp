@@ -17,7 +17,6 @@ enum PIN_TYPE
 };
 
 /**	Describes the state of a port.*/
-
 enum PORT_STATE 
 { 
 	PORT_STOP,		/**< The port is topped.*/

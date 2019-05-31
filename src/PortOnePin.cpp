@@ -25,7 +25,7 @@ int PortOnePin::SetSpeed(int inSpeed)
 	if (inSpeed != 0 && inSpeed != 255 && this->GetPinType() < ANALOG)
 	{
 		Serial.print(F(" PortOnePin "));
-		Serial.print(this->GetPin());
+		Port::printPortPin(this->pin, this->GetPinType());
 		Serial.print(F(" SetSpeed() error : The port must be ANALOG or ANALOG_INVERTED !"));
 	}
 #endif
@@ -36,7 +36,7 @@ void PortOnePin::MoveLeftDir(unsigned long inDuration)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F(" PortOnePin "));
-	Serial.print(this->GetPin());
+	Port::printPortPin(this->pin, this->GetPinType());
 	Serial.print(F(" MoveLeftDir() "));
 	if (inDuration != 0)
 	{
@@ -55,7 +55,7 @@ void PortOnePin::MoveRightDir(unsigned long inDuration)
 {
 #ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F(" PortOnePin "));
-	Serial.print(this->GetPin());
+	Port::printPortPin(this->pin, this->GetPinType());
 	Serial.print(F(" MoveRightDir() "));
 	if (inDuration != 0)
 	{
@@ -74,7 +74,7 @@ void PortOnePin::MoveStop()
 {
 #ifdef ACCESSORIES_DEBUG_MODE
 	Serial.print(F(" PortOnePin "));
-	Serial.print(this->GetPin());
+	Port::printPortPin(this->pin, this->GetPinType());
 	Serial.println(F(" MoveStop()"));
 #endif
 	this->SetPortState(PORT_STOP);

@@ -290,6 +290,28 @@ var NAVTREE =
           [ "speed", "classPort.html#a8a53f78f0221c753527a92cb9cb0f68f", null ],
           [ "type_state", "classPort.html#a16ff09734292b5357a9281907c3747d5", null ]
         ] ],
+        [ "PortExpander", "classPortExpander.html", [
+          [ "PortExpander", "classPortExpander.html#a5e3e9a5f56457f881a23d68ded44bd00", null ],
+          [ "analogWrite", "classPortExpander.html#aa82edd227aa15e50dcd401f47d5bb9e5", null ],
+          [ "begin", "classPortExpander.html#a8d7709bb87a2fc99e707dfdfa33e21b4", null ],
+          [ "beginPin", "classPortExpander.html#ab99f95eb8436670f9ddd8247b14404f3", null ],
+          [ "digitalWrite", "classPortExpander.html#a585826486aa2db07987b0dc5f7c18430", null ],
+          [ "id", "classPortExpander.html#a056e37f8e6c69319dbffecb64f8f64cb", null ]
+        ] ],
+        [ "PortExpander74HC595", "classPortExpander74HC595.html", [
+          [ "PortExpander74HC595", "classPortExpander74HC595.html#aa2e23e981032b702a562d72a961f16a7", null ],
+          [ "analogWrite", "classPortExpander74HC595.html#ad462bb69ece68b7643529bdf315087e6", null ],
+          [ "begin", "classPortExpander74HC595.html#afd9319642b9a2e5278da76c287d99163", null ],
+          [ "beginPin", "classPortExpander74HC595.html#af69089f9dab89bcec7a49ae4886e9a7a", null ],
+          [ "digitalWrite", "classPortExpander74HC595.html#a761ada29bce307f039fbd75aff7bb9c4", null ]
+        ] ],
+        [ "PortExpanderSX1509", "classPortExpanderSX1509.html", [
+          [ "PortExpanderSX1509", "classPortExpanderSX1509.html#ae616bf3b9a8098492932d5f71d3a727e", null ],
+          [ "analogWrite", "classPortExpanderSX1509.html#a739e6a067e4ddce9e057ac67ad812010", null ],
+          [ "begin", "classPortExpanderSX1509.html#a6c14426dcac9f877383cf6a06c93ac35", null ],
+          [ "beginPin", "classPortExpanderSX1509.html#aa386d92903f36710552f38f1e7ea2248", null ],
+          [ "digitalWrite", "classPortExpanderSX1509.html#a01b19ec99fe8510205a0998f186489ed", null ]
+        ] ],
         [ "PortOnePin", "classPortOnePin.html", [
           [ "PortOnePin", "classPortOnePin.html#aa71aaae9344e82625ddb6226cbf28891", null ],
           [ "begin", "classPortOnePin.html#a94cbf664a152586b39d6084ec64aec70", null ],
@@ -418,6 +440,10 @@ var NAVTREE =
           [ "PortTwoPins", "classPortTwoPins.html", [
             [ "PortTwoPinsEnable", "classPortTwoPinsEnable.html", null ]
           ] ]
+        ] ],
+        [ "PortExpander", "classPortExpander.html", [
+          [ "PortExpander74HC595", "classPortExpander74HC595.html", null ],
+          [ "PortExpanderSX1509", "classPortExpanderSX1509.html", null ]
         ] ]
       ] ],
       [ "Class Members", "functions_all.html", [
@@ -475,6 +501,11 @@ var NAVTREE =
             [ "LIBRARY_VERSION", "Accessories_8h.html#a8650e6793d46032c617bb7b824f90bfd", null ],
             [ "NO_EEPROM", "Accessories_8h.html#a2c353a6d1e08fbc0dc9b12fa15fa0ef5", null ],
             [ "NO_EEPROM", "Accessories_8h.html#a2c353a6d1e08fbc0dc9b12fa15fa0ef5", null ],
+            [ "NO_EXPANDER", "Accessories_8h.html#a04d2d83a3c841fead03ebbbb29167160", null ],
+            [ "NO_EXPANDER_74HC595", "Accessories_8h.html#ae882e984dbcae7a7105204ef41b7e5d9", null ],
+            [ "NO_EXPANDER_74HC595", "Accessories_8h.html#ae882e984dbcae7a7105204ef41b7e5d9", null ],
+            [ "NO_EXPANDER_SX1509", "Accessories_8h.html#a9c8409d31b5733c062c4463b8ad71b80", null ],
+            [ "NO_EXPANDER_SX1509", "Accessories_8h.html#a9c8409d31b5733c062c4463b8ad71b80", null ],
             [ "NO_GROUP", "Accessories_8h.html#a9f261279a53dfe33021f00801df5709b", null ],
             [ "NO_LIGHT", "Accessories_8h.html#a38a47004a559a1297ad8b41bdd8fcac7", null ],
             [ "NO_MOTOR", "Accessories_8h.html#a8641bb03349748d52582ac8a930b94e5", null ],
@@ -544,6 +575,12 @@ var NAVTREE =
         [ "LocoStepper.h", "LocoStepper_8h_source.html", null ],
         [ "Port.cpp", "Port_8cpp_source.html", null ],
         [ "Port.hpp", "Port_8hpp_source.html", null ],
+        [ "PortExpander.cpp", "PortExpander_8cpp_source.html", null ],
+        [ "PortExpander.hpp", "PortExpander_8hpp_source.html", null ],
+        [ "PortExpander74HC595.cpp", "PortExpander74HC595_8cpp_source.html", null ],
+        [ "PortExpander74HC595.hpp", "PortExpander74HC595_8hpp_source.html", null ],
+        [ "PortExpanderSX1509.cpp", "PortExpanderSX1509_8cpp_source.html", null ],
+        [ "PortExpanderSX1509.hpp", "PortExpanderSX1509_8hpp_source.html", null ],
         [ "PortOnePin.cpp", "PortOnePin_8cpp_source.html", null ],
         [ "PortOnePin.hpp", "PortOnePin_8hpp_source.html", null ],
         [ "PortServo.cpp", "PortServo_8cpp_source.html", null ],
@@ -566,7 +603,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AccessoriesCircularBuffer_8cpp_source.html",
-"classAccessoryStepper.html#a6a9c8ee91bfe04900699166b096af1d3"
+"classAccessoryServo.html#ab47b783dff3fd9cfd7049e8840edce65"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
