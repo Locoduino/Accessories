@@ -38,7 +38,7 @@ void Accessories::begin(int inEEPROMStart, int inEEPROMSize)
 	Serial.println(F(""));
 	Serial.println(F(LIBRARY_VERSION));
 	Serial.println(F("Developed by Thierry Paris."));
-	Serial.println(F("(c) Locoduino 2016-2018"));
+	Serial.println(F("(c) Locoduino 2016-2019"));
 	Serial.println(F(""));
 
 	Serial.println(F("*** Setup Accessories started."));
@@ -172,6 +172,12 @@ bool Accessories::loop()
 			pCurr = pCurr->GetNextAccessory();
 		}
 
+#ifndef NO_EXPANDER
+
+		PortExpander::CheckAllExpanderPins();
+
+#endif
+
 #endif
 		pLoopAccessory = Accessory::GetFirstAccessory();
 
@@ -221,13 +227,6 @@ bool Accessories::loop()
 #endif
 
 	return false;
-}
-
-void Accessories::wait(unsigned long inWaitDelay)
-{
-	unsigned long start = millis();
-	while (millis() < start + inWaitDelay)
-		Accessories::loop();
 }
 
 #ifndef NO_EEPROM

@@ -111,7 +111,7 @@ int Port::beginPin(int inPin, PIN_TYPE inType) const
 	unsigned long expanderId = EXPANDER_PORT_EXPID(inPin);
 	if (expanderId > 0)
 	{
-#ifdef ARDUINO_DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 		PortExpander::CheckExpanderId(expanderId);
 #endif
 		int pinExp = EXPANDER_PORT_PIN(inPin);
@@ -143,10 +143,13 @@ void Port::MovePin(int inPin, int inValue, PIN_TYPE inType) const
 	CHECKPIN(inPin, inType, "Incorrect pin number in MovePin");
 
 #ifndef NO_EXPANDER
-	unsigned long expanderId = EXPANDER_PORT_EXPID(inPin);
+	unsigned long expanderId = 0;
+	if (GPIO_to_Arduino_pin((GPIO_pin_t)inPin) == -1)
+		expanderId = EXPANDER_PORT_EXPID(inPin);
+
 	if (expanderId > 0)
 	{
-#ifdef ARDUINO_DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_MODE
 		PortExpander::CheckExpanderId(expanderId);
 #endif
 		int pinExp = EXPANDER_PORT_PIN(inPin);

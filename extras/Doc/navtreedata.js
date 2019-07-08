@@ -296,6 +296,7 @@ var NAVTREE =
           [ "begin", "classPortExpander.html#a8d7709bb87a2fc99e707dfdfa33e21b4", null ],
           [ "beginPin", "classPortExpander.html#ab99f95eb8436670f9ddd8247b14404f3", null ],
           [ "digitalWrite", "classPortExpander.html#a585826486aa2db07987b0dc5f7c18430", null ],
+          [ "GetPinsNumber", "classPortExpander.html#ab9649a50718736c4b411c6bbee246910", null ],
           [ "id", "classPortExpander.html#a056e37f8e6c69319dbffecb64f8f64cb", null ]
         ] ],
         [ "PortExpander74HC595", "classPortExpander74HC595.html", [
@@ -303,14 +304,16 @@ var NAVTREE =
           [ "analogWrite", "classPortExpander74HC595.html#ad462bb69ece68b7643529bdf315087e6", null ],
           [ "begin", "classPortExpander74HC595.html#afd9319642b9a2e5278da76c287d99163", null ],
           [ "beginPin", "classPortExpander74HC595.html#af69089f9dab89bcec7a49ae4886e9a7a", null ],
-          [ "digitalWrite", "classPortExpander74HC595.html#a761ada29bce307f039fbd75aff7bb9c4", null ]
+          [ "digitalWrite", "classPortExpander74HC595.html#a761ada29bce307f039fbd75aff7bb9c4", null ],
+          [ "GetPinsNumber", "classPortExpander74HC595.html#abc0c8e085522b94a049632679c04636c", null ]
         ] ],
         [ "PortExpanderSX1509", "classPortExpanderSX1509.html", [
           [ "PortExpanderSX1509", "classPortExpanderSX1509.html#ae616bf3b9a8098492932d5f71d3a727e", null ],
           [ "analogWrite", "classPortExpanderSX1509.html#a739e6a067e4ddce9e057ac67ad812010", null ],
           [ "begin", "classPortExpanderSX1509.html#a6c14426dcac9f877383cf6a06c93ac35", null ],
           [ "beginPin", "classPortExpanderSX1509.html#aa386d92903f36710552f38f1e7ea2248", null ],
-          [ "digitalWrite", "classPortExpanderSX1509.html#a01b19ec99fe8510205a0998f186489ed", null ]
+          [ "digitalWrite", "classPortExpanderSX1509.html#a01b19ec99fe8510205a0998f186489ed", null ],
+          [ "GetPinsNumber", "classPortExpanderSX1509.html#a664c61c40776dce4ba87d6e562eb099a", null ]
         ] ],
         [ "PortOnePin", "classPortOnePin.html", [
           [ "PortOnePin", "classPortOnePin.html#aa71aaae9344e82625ddb6226cbf28891", null ],
@@ -464,8 +467,7 @@ var NAVTREE =
           [ "p", "functions_all_p.html", null ],
           [ "r", "functions_all_r.html", null ],
           [ "s", "functions_all_s.html", null ],
-          [ "t", "functions_all_t.html", null ],
-          [ "w", "functions_all_w.html", null ]
+          [ "t", "functions_all_t.html", null ]
         ] ],
         [ "Functions", "functions_func_a.html", [
           [ "a", "functions_func_a.html", null ],
@@ -483,8 +485,7 @@ var NAVTREE =
           [ "p", "functions_func_p.html", null ],
           [ "r", "functions_func_r.html", null ],
           [ "s", "functions_func_s.html", null ],
-          [ "t", "functions_func_t.html", null ],
-          [ "w", "functions_func_w.html", null ]
+          [ "t", "functions_func_t.html", null ]
         ] ],
         [ "Variables", "functions_vars.html", null ]
       ] ]

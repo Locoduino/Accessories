@@ -98,8 +98,6 @@ $(document).ready(function(){initNavTree('classPortExpanderSX1509.html','');});
   <div class="clear-floats"></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>#include &quot;<a class="el" href="PortExpanderSX1509_8hpp_source.html">PortExpanderSX1509.hpp</a>&quot;</code></p>
 <div class="dynheader">
 Inheritance diagram for PortExpanderSX1509:</div>
 <div class="dyncontent">
@@ -112,7 +110,8 @@ Inheritance diagram for PortExpanderSX1509:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6c14426dcac9f877383cf6a06c93ac35"><td class="memItemLeft" align="right" valign="top">byte&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPortExpanderSX1509.html#a6c14426dcac9f877383cf6a06c93ac35">begin</a> (int inId, byte inAddress)</td></tr>
+<tr class="memitem:a6c14426dcac9f877383cf6a06c93ac35"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6c14426dcac9f877383cf6a06c93ac35"></a>
+byte&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> (int inId, byte inAddress)</td></tr>
 <tr class="separator:a6c14426dcac9f877383cf6a06c93ac35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa386d92903f36710552f38f1e7ea2248"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPortExpanderSX1509.html#aa386d92903f36710552f38f1e7ea2248">beginPin</a> (int inPin, PIN_TYPE inType)</td></tr>
 <tr class="separator:aa386d92903f36710552f38f1e7ea2248"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,6 +119,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a01b19ec99fe8510205a0998f186489ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a739e6a067e4ddce9e057ac67ad812010"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPortExpanderSX1509.html#a739e6a067e4ddce9e057ac67ad812010">analogWrite</a> (int inPin, int inValue)</td></tr>
 <tr class="separator:a739e6a067e4ddce9e057ac67ad812010"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a664c61c40776dce4ba87d6e562eb099a"><td class="memItemLeft" align="right" valign="top">byte&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPortExpanderSX1509.html#a664c61c40776dce4ba87d6e562eb099a">GetPinsNumber</a> ()</td></tr>
+<tr class="separator:a664c61c40776dce4ba87d6e562eb099a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae616bf3b9a8098492932d5f71d3a727e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPortExpanderSX1509.html#ae616bf3b9a8098492932d5f71d3a727e">PortExpanderSX1509</a> ()</td></tr>
 <tr class="separator:ae616bf3b9a8098492932d5f71d3a727e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classPortExpander"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classPortExpander')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classPortExpander.html">PortExpander</a></td></tr>
@@ -148,9 +149,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
 <tr class="separator:a056e37f8e6c69319dbffecb64f8f64cb inherit pro_attribs_classPortExpander"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class describes a SX1509 circuit as an expander: a circuit which provides 16 outputs digital or analog. Each expander is identified by a number : the id. Only output pins are used in <a class="el" href="classAccessories.html">Accessories</a>. This expander can provide digital and analog (pwm) output. </p>
-
-<p class="definition">Definition at line <a class="el" href="PortExpanderSX1509_8hpp_source.html#l00015">15</a> of file <a class="el" href="PortExpanderSX1509_8hpp_source.html">PortExpanderSX1509.hpp</a>.</p>
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="PortExpanderSX1509_8hpp_source.html#l00012">12</a> of file <a class="el" href="PortExpanderSX1509_8hpp_source.html">PortExpanderSX1509.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ae616bf3b9a8098492932d5f71d3a727e"></a>
 <div class="memitem">
@@ -212,40 +212,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a6c14426dcac9f877383cf6a06c93ac35"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">byte PortExpanderSX1509::begin </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>inId</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">byte&#160;</td>
-          <td class="paramname"><em>inAddress</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Initialize the instance of the expander. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">inId</td><td>id of expander (to be used associated to pin). </td></tr>
-    <tr><td class="paramname">inAddress</td><td>I2C address used to communicate. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the connection has been established, otherwise false. </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="aa386d92903f36710552f38f1e7ea2248"></a>
 <div class="memitem">
 <div class="memproto">
@@ -279,8 +245,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
 </div><div class="memdoc">
 <p>Initialize one pin of the expander. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">inPin</td><td>number of the pin. should be between 0 and 15. </td></tr>
-    <tr><td class="paramname">inType</td><td>type of the output of this pin : only DIGITAL or ANALOG here. </td></tr>
+    <tr><td class="paramname">inPin</td><td>number of the pin. should be between 0 and the maximum number of expander pins. </td></tr>
+    <tr><td class="paramname">inType</td><td>type of the output of this pin : DIGITAL or ANALMOG (pwm). </td></tr>
   </table>
   </dd>
 </dl>
@@ -332,6 +298,34 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a664c61c40776dce4ba87d6e562eb099a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">byte PortExpanderSX1509::GetPinsNumber </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets the total number of pins of the expander. </p><dl class="section return"><dt>Returns</dt><dd>Number of pins. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classPortExpander.html#ab9649a50718736c4b411c6bbee246910">PortExpander</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="PortExpanderSX1509_8hpp_source.html#l00022">22</a> of file <a class="el" href="PortExpanderSX1509_8hpp_source.html">PortExpanderSX1509.hpp</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Mes documents/Trusty/Arduino/Libraries/Accessories/src/<a class="el" href="PortExpanderSX1509_8hpp_source.html">PortExpanderSX1509.hpp</a></li>
 </ul>
@@ -341,7 +335,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classPortExpanderSX1509.html">PortExpanderSX1509</a></li>
-    <li class="footer">Generated on ven. mai 31 2019 21:39:31 for Accessories &nbsp; by
+    <li class="footer">Generated on lun. juil. 8 2019 17:09:27 for Accessories &nbsp; by
     <a href="http://www.copperspice.com/documentation-doxypress.html">
     <img class="footer" src="doxypress.png" alt="DoxyPress"/></a> 1.2.10 </li>
   </ul>

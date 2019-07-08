@@ -22,14 +22,15 @@
 //#include "../examples/SimpleLedMulti/SimpleLedMulti.ino"
 //#include "../examples/Stepper/Stepper.ino"
 //#include "../examples/LMD18200/LMD18200.ino"
-//#include "../examples/74HC595/74HC595.ino"
-#include "../examples/SX1509/SX1509.ino"
+#include "../examples/74HC595/74HC595.ino"
+//#include "../examples/SX1509/SX1509.ino"
 //#include "../examples/locoduino.org/programme1/programme1.ino"
 //#include "../examples/locoduino.org/programme2/programme2.ino"
 //#include "../examples/locoduino.org/programme3/programme3.ino"
 //#include "../examples/locoduino.org/programme4/programme4.ino"
 //#include "../examples/locoduino.org/programme5/programme5.ino"
-//#include "../examples/locoduino.org/programme6/programme6.ino"
+////#include "../examples/locoduino.org/programme6/programme6.ino"
+//#include "../../../TPC/Leds/Leds.ino"
 
 //#include "TestExe.ino"
 

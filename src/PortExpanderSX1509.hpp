@@ -19,6 +19,7 @@ class PortExpanderSX1509 : public PortExpander
 		void beginPin(int inPin, PIN_TYPE inType);
 		void digitalWrite(int inPin, int inValue);
 		void analogWrite(int inPin, int inValue);
+		byte GetPinsNumber() { return 16;	}
 
 	public:
 		/**Default constructor.*/

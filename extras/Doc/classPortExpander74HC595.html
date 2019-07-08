@@ -120,6 +120,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a761ada29bce307f039fbd75aff7bb9c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad462bb69ece68b7643529bdf315087e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPortExpander74HC595.html#ad462bb69ece68b7643529bdf315087e6">analogWrite</a> (int inPin, int inValue)</td></tr>
 <tr class="separator:ad462bb69ece68b7643529bdf315087e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc0c8e085522b94a049632679c04636c"><td class="memItemLeft" align="right" valign="top">byte&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPortExpander74HC595.html#abc0c8e085522b94a049632679c04636c">GetPinsNumber</a> ()</td></tr>
+<tr class="separator:abc0c8e085522b94a049632679c04636c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2e23e981032b702a562d72a961f16a7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPortExpander74HC595.html#aa2e23e981032b702a562d72a961f16a7">PortExpander74HC595</a> ()</td></tr>
 <tr class="separator:aa2e23e981032b702a562d72a961f16a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classPortExpander"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classPortExpander')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classPortExpander.html">PortExpander</a></td></tr>
@@ -148,7 +150,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
 <tr class="separator:a056e37f8e6c69319dbffecb64f8f64cb inherit pro_attribs_classPortExpander"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class describes a shift register 74HC595 as an expander: a circuit which provides 8 output per circuit, and which can be linked to another 74HC595 to increase the number of output pins whitout increasing the number of pins used by the Arduino ! Each expander is identified by a number : the id. Only output pins are used in <a class="el" href="classAccessories.html">Accessories</a>. This expander can only provide digital output. </p>
+<div class="textblock"><p>This class describes a shift register 74HC595 as an expander: a circuit wich provides 8 pins per circuit, and which can be linked to another circuit to increase the number of output pins whitout increasing the number of pins of the Arduino used ! Each expander is identified by a number : the id. Only output pins are used in <a class="el" href="classAccessories.html">Accessories</a>. This expander can only provide digital output. </p>
 
 <p class="definition">Definition at line <a class="el" href="PortExpander74HC595_8hpp_source.html#l00015">15</a> of file <a class="el" href="PortExpander74HC595_8hpp_source.html">PortExpander74HC595.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -354,6 +356,34 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="abc0c8e085522b94a049632679c04636c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">byte PortExpander74HC595::GetPinsNumber </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets the total number of pins. </p>
+
+<p>Reimplemented from <a class="el" href="classPortExpander.html#ab9649a50718736c4b411c6bbee246910">PortExpander</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="PortExpander74HC595_8hpp_source.html#l00050">50</a> of file <a class="el" href="PortExpander74HC595_8hpp_source.html">PortExpander74HC595.hpp</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Mes documents/Trusty/Arduino/Libraries/Accessories/src/<a class="el" href="PortExpander74HC595_8hpp_source.html">PortExpander74HC595.hpp</a></li>
 </ul>
@@ -363,7 +393,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classPortExpander74HC595.html">PortExpander74HC595</a></li>
-    <li class="footer">Generated on ven. mai 31 2019 21:39:31 for Accessories &nbsp; by
+    <li class="footer">Generated on lun. juil. 8 2019 17:09:27 for Accessories &nbsp; by
     <a href="http://www.copperspice.com/documentation-doxypress.html">
     <img class="footer" src="doxypress.png" alt="DoxyPress"/></a> 1.2.10 </li>
   </ul>

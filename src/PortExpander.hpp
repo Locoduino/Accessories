@@ -53,6 +53,10 @@ class PortExpander
 		@param inValue New analog value of the pin. Should be between 0 and 255.
 		*/
 		virtual void analogWrite(int inPin, int inValue) = 0;
+		/** Gets the total number of pins of the expander.
+		@return Number of pins.
+		*/
+		inline virtual byte GetPinsNumber() { return 0; }
 
 	public:
 		/**Default constructor.*/
@@ -77,7 +81,9 @@ class PortExpander
 		*/
 		static void analogWrite(int inPin, int inExpId, int inValue);
 
+
 #ifdef ACCESSORIES_DEBUG_MODE
+		static void CheckAllExpanderPins();
 		static void CheckExpanderId(int inId);
 #endif
 };

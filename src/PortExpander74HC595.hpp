@@ -16,6 +16,7 @@ class PortExpander74HC595: public PortExpander
 {
 	private:
 		ShiftRegister74HC595 *psr; // Create an 74HC595 object to be used throughout
+		byte numberOfShiftRegisters;
 
 	public:
 		/** Initialize the instance of the expander.
@@ -44,6 +45,9 @@ class PortExpander74HC595: public PortExpander
 		@remark No effect on this chip.
 		*/
 		void analogWrite(int inPin, int inValue);
+		/** Gets the total number of pins.
+		*/
+		byte GetPinsNumber() { return 8 * this->numberOfShiftRegisters; }
 
 	public:
 		/**Default constructor.*/

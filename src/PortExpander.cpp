@@ -42,6 +42,26 @@ PortExpander *PortExpander::GetById(int inId)
 }
 
 #ifdef ACCESSORIES_DEBUG_MODE
+void PortExpander::CheckAllExpanderPins()
+{
+	PortExpander* pCurr = PortExpander::pFirstExpander;
+
+	while (pCurr != NULL)
+	{
+		for (int i = 0; i < pCurr->GetPinsNumber(); i++)
+			if (GPIO_to_Arduino_pin((GPIO_pin_t)EXPANDER_PIN(pCurr->id, i)) != -1)
+			{
+				Serial.print(F("Warning : the pin "));
+				Serial.print(i);
+				Serial.print(F(" of the Expander "));
+				Serial.print(pCurr->id);
+				Serial.println(F(" cannot be used : conflict with internal pin numbering."));
+			}
+
+		pCurr = pCurr->GetNextExpander();
+	}
+}
+
 void PortExpander::CheckExpanderId(int inId)
 {
 	PortExpander *pExp = PortExpander::GetById(inId);
@@ -57,6 +77,15 @@ void PortExpander::CheckExpanderId(int inId)
 
 void PortExpander::beginPin(int inPin, int inExpId, PIN_TYPE inType)
 {
+	if (GPIO_to_Arduino_pin((GPIO_pin_t)EXPANDER_PIN(inExpId, inPin)) != -1)
+	{
+		Serial.print(F("Warning : the pin "));
+		Serial.print(inPin);
+		Serial.print(F(" of the Expander "));
+		Serial.print(inExpId);
+		Serial.println(F(" cannot be used : conflict with internal pin numbering."));
+	}
+
 	PortExpander *pCurr = PortExpander::GetById(inExpId);
 	if (pCurr != NULL)
 		pCurr->beginPin(inPin, inType);

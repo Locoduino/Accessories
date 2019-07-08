@@ -51,10 +51,6 @@ public:
 	@return True if something rest to execute.
 	*/
 	static bool loop();
-	/**Wait until the delay without executing another event. All started movements will continue during the interval.
-	@param inDelay waiting delay in milliseconds.
-	*/
-	static void wait(unsigned long inDelay);
 #ifndef NO_EEPROM
 	/** Save all necessary data to EEPROM.*/
 	static void EEPROMSave();

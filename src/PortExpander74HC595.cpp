@@ -7,11 +7,12 @@ PortExpander74HC595::PortExpander74HC595()
 	this->psr = NULL;
 }
 
-byte PortExpander74HC595::begin(int inId, int numberOfShiftRegisters, int serialDataPin, int clockPin, int latchPin)
+byte PortExpander74HC595::begin(int inId, int inNumberOfShiftRegisters, int serialDataPin, int clockPin, int latchPin)
 {
 	this->id = inId;
 
-	this->psr = new ShiftRegister74HC595(numberOfShiftRegisters, serialDataPin, clockPin, latchPin);
+	this->numberOfShiftRegisters = inNumberOfShiftRegisters;
+	this->psr = new ShiftRegister74HC595(inNumberOfShiftRegisters, serialDataPin, clockPin, latchPin);
 	if (this->psr != NULL)
 	{
 		PortExpander::Add(this);

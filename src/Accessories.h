@@ -40,6 +40,19 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 08/07/2019 V1.2.1
+- Correction de la présence de ARDUINO_DEBUG_MODe qui n'existe pas !
+- Ajout d'un test dans Port::MovePin() pour identifier un GPIO_pin_t par rapport à un pin expander.
+- Ajout d'un test au lancement pour vérifier que toutes les pins des expandeurs chargés ne rentrent pas en collision avec les GPIO_pin_t.
+- Suppression de la fonction (dangereuse) Accessories::wait(). Elle faisit bien un loop de accessories, mais pas du reste du loop du .ino !
+- Une fonction GetPinsNumber() a été ajoutée sur les expanders.
+_______________
+- ARDUINO_DEBUG_MODE, unknown define, has been removed.
+- In Port::MovePin(), a test has been added to check the difference between expander pin and GPIO_pin_t pin.
+- A new test has been added at the end of main setup() function to check compatibility between all expander pins and GPIO_pin_t.
+- The function Accessories::wait() has benn removed. It was dangerous to use it because only the Accessories::loop() were called, and not all the stuff in the .ino main loop() !
+- A new virtual function GetPinsNumber() has been added to the expander class.
+
 \par 31/05/2019 V1.2.0
 - Ajout des PortExpanders
 - Intégration de la nouvelle version d'ArduiEmulator.
@@ -332,7 +345,7 @@ _______________
 /** @file Accessories.h
 Main include file of the library.*/
 
-#define LIBRARY_VERSION		"Accessories V1.2.0"
+#define LIBRARY_VERSION		"Accessories V1.2.1"
 
 ////////////////////////////////////////////////////////
 // Add a '//' at the beginning of the line to be in 
