@@ -14,7 +14,10 @@ void Port::CheckPinNb(int inPin, PIN_TYPE inType, const char *inFunc)
 
 #ifndef NO_EXPANDER
 	// Check for expander id validity and pin number
-	unsigned long expanderId = EXPANDER_PORT_EXPID(inPin);
+	unsigned long expanderId = 0;
+	if (GPIO_to_Arduino_pin((GPIO_pin_t)inPin) == -1)
+		expanderId = EXPANDER_PORT_EXPID(inPin);
+
 	if (expanderId > 0)
 	{
 		PortExpander::CheckExpanderId(expanderId);
@@ -47,7 +50,10 @@ void Port::CheckPinNb(int inPin, PIN_TYPE inType, const __FlashStringHelper* inF
 
 #ifndef NO_EXPANDER
 	// Check for expander id validity and pin number
-	unsigned long expanderId = EXPANDER_PORT_EXPID(inPin);
+	unsigned long expanderId = 0;
+	if (GPIO_to_Arduino_pin((GPIO_pin_t)inPin) == -1)
+		expanderId = EXPANDER_PORT_EXPID(inPin);
+
 	if (expanderId > 0)
 	{
 		PortExpander::CheckExpanderId(expanderId);
@@ -108,7 +114,10 @@ int Port::beginPin(int inPin, PIN_TYPE inType) const
 
 #ifndef NO_EXPANDER
 	// Check for expander id validity and pin number
-	unsigned long expanderId = EXPANDER_PORT_EXPID(inPin);
+	unsigned long expanderId = 0;
+	if (GPIO_to_Arduino_pin((GPIO_pin_t)inPin) == -1)
+		expanderId = EXPANDER_PORT_EXPID(inPin);
+
 	if (expanderId > 0)
 	{
 #ifdef ACCESSORIES_DEBUG_MODE
@@ -228,7 +237,10 @@ void Port::printPortPin(int inPin, PIN_TYPE inType)
 {
 	Serial.print(" ");
 #ifndef NO_EXPANDER
-	unsigned long expanderId = EXPANDER_PORT_EXPID(inPin);
+	unsigned long expanderId = 0;
+	if (GPIO_to_Arduino_pin((GPIO_pin_t)inPin) == -1)
+			expanderId = EXPANDER_PORT_EXPID(inPin);
+
 	if (expanderId > 0)
 	{
 		Serial.print(expanderId);

@@ -46,7 +46,7 @@ void AccessoryBaseLight::SetState(ACC_STATE inState)
 	if (inState == LIGHTBLINK && this->blinkingDelay == 0)
 		inState = LIGHTON;
 
-#ifdef ACCESSORIES_DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	Serial.print(F("AccessoryBaseLight SetState "));
 	Serial.println(inState == LIGHTON ? "ON" : inState == LIGHTOFF ? "OFF" : "BLINK");
 #endif
@@ -113,17 +113,11 @@ void AccessoryBaseLight::LightOffRaw()
 
 void AccessoryBaseLight::LightOn()
 {
-#ifdef ACCESSORIES_DEBUG_MODE
-	Serial.println(F("AccessoryBaseLight ON"));
-#endif
 	this->SetState(LIGHTON);
 }
 
 void AccessoryBaseLight::LightOff()
 {
-#ifdef ACCESSORIES_DEBUG_MODE
-	Serial.println(F("AccessoryBaseLight OFF"));
-#endif
 	this->SetState(LIGHTOFF);
 }
 
@@ -199,21 +193,17 @@ void AccessoryBaseLight::StartAction()
 		this->startingMillis = millis();
 	}
 
-#ifdef ACCESSORIES_DEBUG_MODE
 #ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	Serial.print(F("AccessoryBaseLight start action "));
 	Serial.println(this->startingMillis);
-#endif
 #endif
 }
 
 bool AccessoryBaseLight::ActionEnded()
 {
-#ifdef ACCESSORIES_DEBUG_MODE
 #ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	if (this->pOwner->IsActionDelayPending())
 		Serial.println(F("End action of light."));
-#endif
 #endif
 	this->pOwner->ResetAction();
 
@@ -223,7 +213,6 @@ bool AccessoryBaseLight::ActionEnded()
 	if (this->state == LIGHTOFF && this->currentState == LIGHT_OFF)
 		return true;
 
-#ifdef ACCESSORIES_DEBUG_MODE
 #ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	Serial.print(F("Light current state : "));
 	switch (this->currentState)
@@ -241,7 +230,6 @@ bool AccessoryBaseLight::ActionEnded()
 		Serial.println(F("Descending"));
 		break;
 	}
-#endif
 #endif
 	switch (this->currentState)
 	{

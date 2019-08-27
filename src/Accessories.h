@@ -40,6 +40,15 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 27/08/2019 V1.2.2
+- Remplacement de LIBRARY_VERSION par ACCESSORIES_LIBRARY_VERSION
+- Le mode debug avec ACCESSORIES_DEBUG_MODE est maintenant limité aux messages d'erreur. Si l'on veut plus, il faut activer aussi ACCESSORIES_DEBUG_VERBOSE_MODE
+- Correction d'un problème de numéro d'expander quand ils sont activés dans Port.cpp
+_______________
+- LIBRARY_VERSION define has been replaced by ACCESSORIES_LIBRARY_VERSION
+- The mode debug with ARDUINO_DEBUG_MODE is now limited to error messages. To see more, activate also ACCESSORIES_DEBUG_VERBOSE_MODE
+- Fix of an expander number error in Port.cpp .
+
 \par 08/07/2019 V1.2.1
 - Correction de la présence de ARDUINO_DEBUG_MODe qui n'existe pas !
 - Ajout d'un test dans Port::MovePin() pour identifier un GPIO_pin_t par rapport à un pin expander.
@@ -345,7 +354,7 @@ _______________
 /** @file Accessories.h
 Main include file of the library.*/
 
-#define LIBRARY_VERSION		"Accessories V1.2.1"
+#define ACCESSORIES_LIBRARY_VERSION		"Accessories V1.2.2"
 
 ////////////////////////////////////////////////////////
 // Add a '//' at the beginning of the line to be in 

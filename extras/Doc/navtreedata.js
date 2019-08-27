@@ -496,10 +496,10 @@ var NAVTREE =
           [ "Accessories.h", "Accessories_8h.html", [
             [ "ACCESSORIES_DEBUG_MODE", "Accessories_8h.html#a86af2ac1eabdbc73d1f058b1bec663f2", null ],
             [ "ACCESSORIES_DEBUG_VERBOSE_MODE", "Accessories_8h.html#a4d9bb2b3533df730c78d34271232e871", null ],
+            [ "ACCESSORIES_LIBRARY_VERSION", "Accessories_8h.html#af3f2ca889b50263758daea896c09008b", null ],
             [ "ACCESSORIES_PRINT_ACCESSORIES", "Accessories_8h.html#a2d8b55a1a0223b7ff1467185f61efba1", null ],
             [ "ACTION_STACK_SIZE", "Accessories_8h.html#a86cfc9976a2d87ddad58b877ccd66073", null ],
             [ "GPIO2_PREFER_SPEED", "Accessories_8h.html#abe48e551c87434efe75af8e7d4df457c", null ],
-            [ "LIBRARY_VERSION", "Accessories_8h.html#a8650e6793d46032c617bb7b824f90bfd", null ],
             [ "NO_EEPROM", "Accessories_8h.html#a2c353a6d1e08fbc0dc9b12fa15fa0ef5", null ],
             [ "NO_EEPROM", "Accessories_8h.html#a2c353a6d1e08fbc0dc9b12fa15fa0ef5", null ],
             [ "NO_EXPANDER", "Accessories_8h.html#a04d2d83a3c841fead03ebbbb29167160", null ],

@@ -21,7 +21,7 @@ void PortOnePin::begin(int inPin, PIN_TYPE inType)
 
 int PortOnePin::SetSpeed(int inSpeed)
 {
-#ifdef ACCESSORIES_DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	if (inSpeed != 0 && inSpeed != 255 && this->GetPinType() < ANALOG)
 	{
 		Serial.print(F(" PortOnePin "));
@@ -34,7 +34,7 @@ int PortOnePin::SetSpeed(int inSpeed)
 
 void PortOnePin::MoveLeftDir(unsigned long inDuration)
 {
-#ifdef ACCESSORIES_DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	Serial.print(F(" PortOnePin "));
 	Port::printPortPin(this->pin, this->GetPinType());
 	Serial.print(F(" MoveLeftDir() "));
@@ -53,7 +53,7 @@ void PortOnePin::MoveLeftDir(unsigned long inDuration)
 
 void PortOnePin::MoveRightDir(unsigned long inDuration)
 {
-#ifdef ACCESSORIES_DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	Serial.print(F(" PortOnePin "));
 	Port::printPortPin(this->pin, this->GetPinType());
 	Serial.print(F(" MoveRightDir() "));
@@ -72,7 +72,7 @@ void PortOnePin::MoveRightDir(unsigned long inDuration)
 
 void PortOnePin::MoveStop()
 {
-#ifdef ACCESSORIES_DEBUG_MODE
+#ifdef ACCESSORIES_DEBUG_VERBOSE_MODE
 	Serial.print(F(" PortOnePin "));
 	Port::printPortPin(this->pin, this->GetPinType());
 	Serial.println(F(" MoveStop()"));
