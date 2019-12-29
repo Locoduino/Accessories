@@ -36,7 +36,10 @@ public:
 
 void SignalArduinoPattern::beginSignal(uint8_t inNbLeds, const int *inpPins, int inStartingDcc, int inBlinkDuration, const uint8_t *inPatterns, const uint8_t *inpRealStates)
 {
+	// declare the list of leds
 	begin(0, inNbLeds, 0);
+
+	// create the ports for each led.
 	for (int led = 0; led < inNbLeds; led++)
 	{
 		PortOnePin *pPort = new PortOnePin();
@@ -75,13 +78,14 @@ void SignalArduinoPattern::Move(unsigned long inId)
 	for (unsigned char led = 0; led < this->GetSize(); led++)
 		this->LightOff(led);
 
+	// Build a string "................"
 	char symbText[16];
 	for (int i = 0; i < 16-1; i++)
 		symbText[i] = '.';
 
 	symbText[15] = 0;
 
-	// Change affected leds in the list
+	// Change the string according to the affected leds in the list
 	for (int led = 0; led < PATTERN_NB_LEDS_MAX; led++)
 	{
 		uint8_t c = pgm_read_byte(this->pPatterns + (etat * PATTERN_NB_LEDS_MAX) + pospattern++);
@@ -156,77 +160,91 @@ int SignalArduinoPattern::GetStatesNumber(const uint8_t *pStates)
 //
 //-------------------------------------------------------------------
 
-// La norme SCNF veut qu'il y ait quatre leds allumées au maximum, oeilleton compris.
+// La norme SNCF veut qu'il y ait quatre lumières allumées au maximum sur le signal, oeilleton compris.
 // La liste décrit, 4 par 4, les numéros des leds allumées : positif allumé,
 // supérieur à 100 clignotant, 0 inutilisé. Ce qui signifie que les numéros commencent à 1.
 // Le code texte sur chaque ligne "--x---------" symbolise plus clairement les états.
 // Enfin les numéros de chaque ligne sont notés de 0 à 15. Ils vont être réutilisés plus tard.
 
 const uint8_t SignalFrStates[] PROGMEM = {
-						//  123456789012
-	3, 0, 0, 0,			// "--x---------"   0: voie libre
-	103, 0, 0, 0,		// "--B---------"   1: voie libre limitée à 160km/h	
-	101, 0, 0, 0,		// "B-----------"   2: Avertissement arrêt très proche.	
-	1, 0, 0, 0,			// "x-----------"   3: Avertissement arrêt.	
-	102, 0, 0, 0,		// "-B----------"   4: Conduite à vue à 15Km/h maxi	
-	2, 12, 0, 0,		// "-x---------x"   5: arrêt intégral, franchissable selon conditions	
-	2, 5, 0, 0,			// "-x--x-------"   6: carré, arrêt intégral, non franchissable.	
-	6, 7, 0, 0,			// "-----xx-----"   7: Vitesse réduite à 30	
-	7, 9, 0, 0,			// "------x-x---"   8: Rappel de vitesse réduite à 30	
-	1, 7, 9, 12,		// "x-----x-x--x"   9: Rappel de vitesse réduite à 30 + avertissement	
-	101, 7, 9, 12,		// "B-----x-x--x"  10: Rappel de vitesse réduite à 30 + avertissement	
-	106, 107, 0, 0,		// "-----BB-----"  11: Vitesse réduite à 60	
-	101, 106, 107, 12,	// "B----BB----x"  12: Vitesse réduite à 60 + avertissement	
-	107, 109, 0, 0,		// "------B-B---"  13: Rappel de vitesse réduite à 60	
-	1, 107, 109, 12,	// "x-----B-B--x"  14: Rappel de vitesse réduite à 60 + avertissement	
-	101, 107, 109, 12,	// "B-----B-B--x"  15: Rappel de vitesse réduite à 60 + avertissement
-						//  123456789012
-	PATTERN_END_LIST	// end of the list !
+                     //  123456789012
+	3, 0, 0, 0,        // "--x---------"   0: voie libre
+	103, 0, 0, 0,      // "--B---------"   1: voie libre limitée à 160km/h	
+	101, 0, 0, 0,      // "B-----------"   2: Avertissement arrêt très proche.	
+	1, 0, 0, 0,        // "x-----------"   3: Avertissement arrêt.	
+	102, 0, 0, 0,      // "-B----------"   4: Conduite à vue à 15Km/h maxi	
+	2, 12, 0, 0,       // "-x---------x"   5: arrêt intégral, franchissable selon conditions	
+	2, 5, 0, 0,        // "-x--x-------"   6: carré, arrêt intégral, non franchissable.	
+	6, 7, 0, 0,        // "-----xx-----"   7: Vitesse réduite à 30	
+	7, 9, 0, 0,        // "------x-x---"   8: Rappel de vitesse réduite à 30	
+	1, 7, 9, 12,       // "x-----x-x--x"   9: Rappel de vitesse réduite à 30 + avertissement	
+	101, 7, 9, 12,     // "B-----x-x--x"  10: Rappel de vitesse réduite à 30 + avertissement	
+	106, 107, 0, 0,    // "-----BB-----"  11: Vitesse réduite à 60	
+	101, 106, 107, 12, // "B----BB----x"  12: Vitesse réduite à 60 + avertissement	
+	107, 109, 0, 0,    // "------B-B---"  13: Rappel de vitesse réduite à 60	
+	1, 107, 109, 12,   // "x-----B-B--x"  14: Rappel de vitesse réduite à 60 + avertissement	
+	101, 107, 109, 12, // "B-----B-B--x"  15: Rappel de vitesse réduite à 60 + avertissement
+                     //  123456789012
+	PATTERN_END_LIST
+};
+
+struct state
+{
+	uint8_t num;
+	unsigned long Id;
 };
 
 // Pour chaque type de feu, il n'y a que certains états de la liste ci-dessus qui sont utilisables.
+// Une seconde liste, parallèle à la première contient les identifiants DCC qui serviront à activer ces états.
 
-const uint8_t SignalFr3[] PROGMEM = { 0, 1, 2, 3, 4, PATTERN_END_LIST };
-const uint8_t SignalFr5[] PROGMEM = { 0, 1, 2, 3, 4, 5, 6, PATTERN_END_LIST };
-const uint8_t SignalFr7[] PROGMEM = { 0, 1, 2, 3, 4, 5, 6, 7, 11, 12, PATTERN_END_LIST };
-const uint8_t SignalFr9[] PROGMEM = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, PATTERN_END_LIST };
+const uint8_t SignalFr3[] PROGMEM          = { 0,             1,             2,            3,            4,            PATTERN_END_LIST };
+const unsigned long SignalFr3Ids[] PROGMEM = { DCCINT(10, 0), DCCINT(10,1),  DCCINT(11,0), DCCINT(11,1), DCCINT(12,0), PATTERN_END_LIST };
+
+const uint8_t SignalFr5[] PROGMEM          = { 0,             1,             2,            3,            4,            5,            6,            PATTERN_END_LIST };
+const unsigned long SignalFr5Ids[] PROGMEM = { DCCINT(10, 0), DCCINT(10,1),  DCCINT(11,0), DCCINT(11,1), DCCINT(12,0), DCCINT(12,1), DCCINT(13,0), PATTERN_END_LIST };
+
+const uint8_t SignalFr7[] PROGMEM          = { 0,             1,             2,            3,            4,            5,            6,            7,            11,           12,           PATTERN_END_LIST };
+const unsigned long SignalFr7Ids[] PROGMEM = { DCCINT(10, 0), DCCINT(10,1),  DCCINT(11,0), DCCINT(11,1), DCCINT(12,0), DCCINT(12,1), DCCINT(13,0), DCCINT(13,1), DCCINT(14,0), DCCINT(14,1), PATTERN_END_LIST };
+
+const uint8_t SignalFr9[] PROGMEM          = { 0,             1,             2,            3,            4,            5,            6,            7,            8,            9,            10,           11,           12,           13,           14,           15,           PATTERN_END_LIST };
+const unsigned long SignalFr9Ids[] PROGMEM = { DCCINT(10, 0), DCCINT(10,1),  DCCINT(11,0), DCCINT(11,1), DCCINT(12,0), DCCINT(12,1), DCCINT(13,0), DCCINT(13,1), DCCINT(14,0), DCCINT(14,1), DCCINT(15,0), DCCINT(15,1), DCCINT(16,0), DCCINT(16,1), DCCINT(17,0), DCCINT(17,1), PATTERN_END_LIST };
 
 // Liste des états pour un feu rond.
 
 const uint8_t SignalFrStatesRound[] PROGMEM = {
-	//  123456789012
-	3, 0, 0, 0,	// "--x---------"	0: voie libre
-	103, 0, 0, 0,	// "--B---------"	1: voie libre limitée à 160km/h
-	101, 0, 0, 0,	// "B-----------"	2: Avertissement arrêt très proche.
-	1, 0, 0, 0,	// "x-----------"	3: Avertissement arrêt.
-	10, 11, 0, 0,	// "---------xx-"	4: Conduite à vue (signal rond seulement)
-	6, 7, 0, 0,	// "-----xx-----"	5: Vitesse réduite à 30
-	106, 107, 0, 0,	// "-----BB-----"	6: Vitesse réduite à 60
-	101, 106, 107, 0,	// "B----BB-----"	7: Vitesse réduite à 60 + avertissement
-						//  123456789012
-	PATTERN_END_LIST	// end of the list !
+                    //  123456789012
+	3, 0, 0, 0,       // "--x---------"	0: voie libre
+	103, 0, 0, 0,     // "--B---------"	1: voie libre limitée à 160km/h
+	101, 0, 0, 0,     // "B-----------"	2: Avertissement arrêt très proche.
+	1, 0, 0, 0,       // "x-----------"	3: Avertissement arrêt.
+	10, 11, 0, 0,     // "---------xx-"	4: Conduite à vue (signal rond seulement)
+	6, 7, 0, 0,       // "-----xx-----"	5: Vitesse réduite à 30
+	106, 107, 0, 0,   // "-----BB-----"	6: Vitesse réduite à 60
+	101, 106, 107, 0, // "B----BB-----"	7: Vitesse réduite à 60 + avertissement
+                    //  123456789012
+	PATTERN_END_LIST
 };
 
 // Tous les états sont utilisables, à priori.
 
-const uint8_t SignalFrRound[] PROGMEM = { 0, 1, 2, 3, 4, 5, 6, 7, PATTERN_END_LIST };
-
-// Four leds on only. First led is 1. Negative led number will blink.
+const uint8_t SignalFrRound[] PROGMEM          = { 0,             1,             2,            3,            4,            5,            6,            7,            PATTERN_END_LIST };
+const unsigned long SignalFrRoundIds[] PROGMEM = { DCCINT(10, 0), DCCINT(10,1),  DCCINT(11,0), DCCINT(11,1), DCCINT(12,0), DCCINT(12,1), DCCINT(13,0), DCCINT(13,1), PATTERN_END_LIST };
 
 // Liste des états pour un feu horizontal.
 
 const uint8_t SignalFrStatesHorizontal[] PROGMEM = {
-	//  123456789012
-	1, 0, 0, 0,		// "x-----------" 	0: Vitesse de manoeuvre (feu horizontal)
-	101, 0, 0, 0,	// "B-----------" 	1: Vitesse de manoeuvre réduite (feu horizontal)
-	2, 0, 0, 0,		// "-x----------" 	2: idem AbsoluteStop mais sur un signal horizontal ou deux feux.
-					//  123456789012
-	PATTERN_END_LIST	// End of the list
+                //  123456789012
+	1, 0, 0, 0,   // "x-----------" 	0: Vitesse de manoeuvre (feu horizontal)
+	101, 0, 0, 0, // "B-----------" 	1: Vitesse de manoeuvre réduite (feu horizontal)
+	2, 0, 0, 0,   // "-x----------" 	2: idem AbsoluteStop mais sur un signal horizontal ou deux feux.
+                //  123456789012
+	PATTERN_END_LIST
 };
 
 // Tous les états sont utilisables, à priori.
 
-const uint8_t SignalFrHorizontal[] PROGMEM = { 0, 1, 2, PATTERN_END_LIST };
+const uint8_t SignalFrHorizontal[] PROGMEM          = { 0,             1,             2,            PATTERN_END_LIST };
+const unsigned long SignalFrHorizontalIds[] PROGMEM = { DCCINT(10, 0), DCCINT(10,1),  DCCINT(11,0), PATTERN_END_LIST };
 
 SignalArduinoPattern signal;
 
@@ -242,6 +260,7 @@ ButtonsCommanderPush push;
 
 // Drivers
 
+// Lets try Signal9Fr...
 #define signalPattern	SignalFr9
 #define NB_LEDS			12
 
@@ -250,6 +269,8 @@ int pins[NB_LEDS] = { 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33 };
 void ReceiveEvent(unsigned long inId, COMMANDERS_EVENT_TYPE inEventType, int inEventData)
 {
 	int id = DCCID(inId);
+
+	// Checks if the DCC address is fro this signal !
 	if (id >= DCCSTART && id < DCCSTART + (SignalArduinoPattern::GetStatesNumber(signalPattern) + 1) / 2)
 		signal.Move(inId);
 
@@ -282,6 +303,7 @@ void setup()
 	int nb_etats = SignalArduinoPattern::GetStatesNumber(signalPattern);
 
 	// Ce petit bouton va permettre de passer en revue tous les codes dcc des feux en séquence...
+	// On va dont créer un événement pour chaque état.
 	
 	int dcc = DCCSTART;
 	bool etat = false;
