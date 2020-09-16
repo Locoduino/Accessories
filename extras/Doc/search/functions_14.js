@@ -12,7 +12,7 @@ var searchData=
   ['setnextaccessory',['SetNextAccessory',['../classAccessory.html#a1d8deba14ebc355146c2ff26b4e4669c',1,'Accessory']]],
   ['setpintype',['SetPinType',['../classPort.html#a3ee7786e635862971fdae8f5a7820f17',1,'Port']]],
   ['setportstate',['SetPortState',['../classPort.html#ae5d80afa0c9c847eb0e088837c3e9bea',1,'Port']]],
-  ['setpowercommand',['SetPowerCommand',['../classAccessoryServo.html#a3bd387a1bcb96c2606b25587f8fa0d37',1,'AccessoryServo']]],
+  ['setpowercommand',['SetPowerCommand',['../classAccessoryServo.html#a420c778dcd49ce9d8c643a4c2e173b68',1,'AccessoryServo']]],
   ['setspeed',['SetSpeed',['../classPort.html#a676359ed59bf5091126fd96e1a04cafa',1,'Port::SetSpeed()'],['../classPortOnePin.html#a58109bb13f5fe5d3e0d56a394790e43d',1,'PortOnePin::SetSpeed()'],['../classPortShieldL293d.html#ad40ad4a8cc43e383b7b5d8cb1813b2ea',1,'PortShieldL293d::SetSpeed()'],['../classLocoStepper.html#ae5c23466938595842934a2331cfeb21e',1,'LocoStepper::setSpeed()']]],
   ['setstartingmillis',['SetStartingMillis',['../classAccessory.html#ac5208f338b6ea9a5b5fd554c4e1ec60e',1,'Accessory']]],
   ['setstate',['SetState',['../classAccessory.html#a408602468720dbf84c1e3d27cc0385da',1,'Accessory::SetState()'],['../classAccessoryLight.html#a93b9f956387afcae98f89391db0c2d6c',1,'AccessoryLight::SetState()'],['../classAccessoryMotor.html#a3d013b0eaa9e9420bbd11d79529a474d',1,'AccessoryMotor::SetState()']]],

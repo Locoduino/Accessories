@@ -3,6 +3,8 @@ var searchData=
   ['port',['Port',['../classPort.html',1,'']]],
   ['portexpander',['PortExpander',['../classPortExpander.html',1,'']]],
   ['portexpander74hc595',['PortExpander74HC595',['../classPortExpander74HC595.html',1,'']]],
+  ['portexpandermcp23017',['PortExpanderMCP23017',['../classPortExpanderMCP23017.html',1,'']]],
+  ['portexpanderpca9505_5f06',['PortExpanderPCA9505_06',['../classPortExpanderPCA9505__06.html',1,'']]],
   ['portexpandersx1509',['PortExpanderSX1509',['../classPortExpanderSX1509.html',1,'']]],
   ['portonepin',['PortOnePin',['../classPortOnePin.html',1,'']]],
   ['portservo',['PortServo',['../classPortServo.html',1,'']]],

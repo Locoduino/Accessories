@@ -40,6 +40,13 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 13/09/2020 V1.2.3
+- Ajout des expandeurs PCA9505_06 et MCP23017
+- Suite à la modification de la bibliothèque ShiftRegister74HC595, la classe PortExpander74HC595 a été adaptée.
+_______________
+- Add of expanders PCA9505_06 and MCP23017
+- To conform to the last evolution of the library ShiftRegister74HC595, the class PortExpander74HC595 has been adapted.
+
 \par 27/08/2019 V1.2.2
 - Remplacement de LIBRARY_VERSION par ACCESSORIES_LIBRARY_VERSION
 - Le mode debug avec ACCESSORIES_DEBUG_MODE est maintenant limité aux messages d'erreur. Si l'on veut plus, il faut activer aussi ACCESSORIES_DEBUG_VERBOSE_MODE
@@ -354,7 +361,7 @@ _______________
 /** @file Accessories.h
 Main include file of the library.*/
 
-#define ACCESSORIES_LIBRARY_VERSION		"Accessories V1.2.2"
+#define ACCESSORIES_LIBRARY_VERSION		"Accessories V1.2.3"
 
 ////////////////////////////////////////////////////////
 // Add a '//' at the beginning of the line to be in 
@@ -446,6 +453,8 @@ Main include file of the library.*/
 //#define NO_EXPANDER
 //#define NO_EXPANDER_SX1509
 //#define NO_EXPANDER_74HC595
+//#define NO_EXPANDER_PCA9505_06
+//#define NO_EXPANDER_MCP23017
 
 #ifdef DOXYGEN_SPECIFIC
 		// DO NOT CHANGE THESE LINES IN THIS BLOCK 'DOXYGEN_SPECIFIC' : Only here for documentation !
@@ -476,6 +485,10 @@ Main include file of the library.*/
 		#define NO_EXPANDER_SX1509
 		/** If this is defined, the expander sources for circuit 74HC595 device will not be included in compilation.*/
 		#define NO_EXPANDER_74HC595
+		/** If this is defined, the expander sources for circuit PCA9505 or PCA9506 device will not be included in compilation.*/
+		#define NO_EXPANDER_PCA9505_06
+		/** If this is defined, the expander sources for circuit MCP23017 device will not be included in compilation.*/
+		#define NO_EXPANDER_MCP23017
 
 		#undef NO_GROUP
 		#undef NO_MOTOR
@@ -519,6 +532,8 @@ Main include file of the library.*/
 #ifdef NO_EXPANDER
 #define NO_EXPANDER_SX1509
 #define NO_EXPANDER_74HC595
+#define NO_EXPANDER_PCA9505_06
+#define NO_EXPANDER_MCP23017
 #endif
 
 // For Accessories library, L293D is not compatible with Arduino Due for the moment...
@@ -576,7 +591,13 @@ Main include file of the library.*/
 		#include "PortExpanderSX1509.hpp"
 	#endif
 	#ifndef NO_EXPANDER_74HC595
-		#include "PortExpander74HC595.hpp"
+		#include "PortExpander74HC595.h"
+	#endif
+	#ifndef NO_EXPANDER_PCA9505_06
+		#include "PortExpanderPCA9505_06.hpp"
+	#endif
+	#ifndef NO_EXPANDER_MCP23017
+		#include "PortExpanderMCP23017.hpp"
 	#endif
 #endif
 

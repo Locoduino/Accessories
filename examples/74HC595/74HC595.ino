@@ -8,8 +8,8 @@ description: <Sample for 74HC595 port expander usage>
 
 AccessoryLight light0, light1, light2;
 
-// List of the ports on the Arduino. Light Ports are handled in analog mode for fading.
-PortExpander74HC595 expander;
+// List of the ports on the Arduino.
+PortExpander74HC595<1> *expander;
 #define EXPANDER_ID	10
 
 PortOnePin PortLight0;
@@ -29,7 +29,8 @@ void setup()
 
 	// Ports setups
 
-	expander.begin(EXPANDER_ID, 1, 2, 3, 4);
+	expander = new PortExpander74HC595<1>();
+	expander->begin(EXPANDER_ID, 2, 3, 4);
 
 	PortLight0.begin(EXPANDER_PIN(EXPANDER_ID, 0), DIGITAL);
 	PortLight1.begin(EXPANDER_PIN(EXPANDER_ID, 4), DIGITAL);
@@ -42,11 +43,6 @@ void setup()
 	light1.begin(&PortLight1, 2, 550);
 	light2.begin(&PortLight2, 3, 1500);
 	
-	// Declare light fading/dimming.
-	//light0.SetFading(20, 10);
-	//light1.SetFading(20, 10);
-	//light2.SetFading(20, 10);
-
 	light0.Blink();
 	light1.Blink();
 	light2.Blink();

@@ -103,7 +103,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);VISUALSTUDIO;ACCESSORIES_PRINT_ACCESSORIES;ACCESSORIES_DEBUG_MODE</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);VISUALSTUDIO;ACCESSORIES_PRINT_ACCESSORIES;ACCESSORIES_DEBUG_MODE;ARDUINO=10813</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(VisualStudioDir)\..\Arduino\ArduiEmulatorWin\ArduiEmulatorLib;../../DIO2/VStudio/; ../src;../vstudio</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -170,7 +170,9 @@
     <ClInclude Include="..\src\LocoStepper.h" />
     <ClInclude Include="..\src\Port.hpp" />
     <ClInclude Include="..\src\PortExpander.hpp" />
-    <ClInclude Include="..\src\PortExpander74HC595.hpp" />
+    <ClInclude Include="..\src\PortExpander74HC595.h" />
+    <ClInclude Include="..\src\PortExpanderMCP23017.hpp" />
+    <ClInclude Include="..\src\PortExpanderPCA9505_06.hpp" />
     <ClInclude Include="..\src\PortExpanderSX1509.hpp" />
     <ClInclude Include="..\src\PortOnePin.hpp" />
     <ClInclude Include="..\src\PortServo.hpp" />
@@ -179,7 +181,10 @@
     <ClInclude Include="..\src\PortStepper.hpp" />
     <ClInclude Include="..\src\PortTwoPins.hpp" />
     <ClInclude Include="..\src\PortTwoPinsEnable.hpp" />
+    <ClInclude Include="Adafruit_MCP23017.h" />
+    <ClInclude Include="PCA9505_9506.h" />
     <ClInclude Include="ShiftRegister74HC595.h" />
+    <ClInclude Include="ShiftRegister74HC595.hpp" />
     <ClInclude Include="SparkFunSX1509.h" />
   </ItemGroup>
   <ItemGroup>
@@ -207,7 +212,9 @@
     <ClCompile Include="..\src\LocoStepper.cpp" />
     <ClCompile Include="..\src\Port.cpp" />
     <ClCompile Include="..\src\PortExpander.cpp" />
-    <ClCompile Include="..\src\PortExpander74HC595.cpp" />
+    <ClInclude Include="..\src\PortExpander74HC595.hpp" />
+    <ClCompile Include="..\src\PortExpanderMCP23017.cpp" />
+    <ClCompile Include="..\src\PortExpanderPCA9505_06.cpp" />
     <ClCompile Include="..\src\PortExpanderSX1509.cpp" />
     <ClCompile Include="..\src\PortOnePin.cpp" />
     <ClCompile Include="..\src\PortServo.cpp" />
@@ -216,6 +223,8 @@
     <ClCompile Include="..\src\PortStepper.cpp" />
     <ClCompile Include="..\src\PortTwoPins.cpp" />
     <ClCompile Include="..\src\PortTwoPinsEnable.cpp" />
+    <ClCompile Include="Adafruit_MCP23017.cpp" />
+    <ClCompile Include="PCA9505_9506.cpp" />
     <ClCompile Include="ShiftRegister74HC595.cpp" />
     <ClCompile Include="SparkFunSX1509.cpp" />
   </ItemGroup>

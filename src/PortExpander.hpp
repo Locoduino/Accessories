@@ -40,7 +40,7 @@ class PortExpander
 		inline virtual byte begin() { return 0; }
 		/** Initialize one pin of the expander.
 		@param inPin number of the pin. should be between 0 and the maximum number of expander pins.
-		@param inType type of the output of this pin : DIGITAL or ANALMOG (pwm).
+		@param inType type of the output of this pin : DIGITAL or ANALOG (pwm).
 		*/
 		virtual void beginPin(int inPin, PIN_TYPE inType) = 0;
 		/** Set the state of one pin of the expander.
