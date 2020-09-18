@@ -183,7 +183,7 @@ void Port::MovePin(int inPin, int inValue, PIN_TYPE inType) const
 			else
 				analogWrite(inPin, this->MapValue(0, inType));
 #ifndef NO_EXPANDER
-}
+	}
 #endif
 }
 
@@ -232,7 +232,9 @@ void Port::MoveRightDir(unsigned long inDuration, int inSpeed)
 void Port::printPort()
 {
 }
+#endif
 
+#ifdef ACCESSORIES_DEBUG_MODE
 void Port::printPortPin(int inPin, PIN_TYPE inType)
 {
 	Serial.print(" ");

@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"classAccessoryMotor.html#a4794a99fd916b61fc9ce7750cb418657":[1,0,7,8],
 "classAccessoryMotor.html#a56bd54e8b46f77566c2bf312101c26df":[1,0,7,11],
 "classAccessoryMotor.html#a6062d1224526f7a183ad71b77bdb9a9d":[1,0,7,2],
 "classAccessoryMotor.html#a62e7b93e8aa7c42795889e94882756b8":[1,0,7,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "functions_all_a.html":[1,3,0],
 "functions_all_b.html":[1,3,0,1],
 "functions_all_c.html":[1,3,0,2],
-"functions_all_d.html":[1,3,0,3],
-"functions_all_e.html":[1,3,0,4]
+"functions_all_d.html":[1,3,0,3]
 };

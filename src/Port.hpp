@@ -200,8 +200,11 @@ public:
 		@remark Only available if ACCESSORIES_PRINT_ACCESSORIES is defined.
 		*/
 		virtual void printPort();
+#endif
+
+#ifdef ACCESSORIES_DEBUG_MODE
 		/** Print a pin on console.
-		@remark Only available if ACCESSORIES_PRINT_ACCESSORIES is defined.
+		@remark Only available if ACCESSORIES_DEBUG_MODE is defined.
 		*/
 		static void printPortPin(int inPin, PIN_TYPE inType);
 #endif

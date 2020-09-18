@@ -40,6 +40,11 @@ and you are not prepared to distribute and share the source code of your
 application. Contact info@open.com.au for details.
 
 \page Revision History
+\par 18/09/2020 V1.2.4
+- Correction d'un mélange ACCESSORIES_PRINT_ACCESSORIES / ACCESSORIES_DEBUG_MODE pour Port::printPortPin()
+_______________
+- Fix a mix of ACCESSORIES_PRINT_ACCESSORIES / ACCESSORIES_DEBUG_MODE for Port::printPortPin() .
+
 \par 13/09/2020 V1.2.3
 - Ajout des expandeurs PCA9505_06 et MCP23017
 - Suite à la modification de la bibliothèque ShiftRegister74HC595, la classe PortExpander74HC595 a été adaptée.
@@ -361,12 +366,12 @@ _______________
 /** @file Accessories.h
 Main include file of the library.*/
 
-#define ACCESSORIES_LIBRARY_VERSION		"Accessories V1.2.3"
+#define ACCESSORIES_LIBRARY_VERSION		"Accessories V1.2.4"
 
 ////////////////////////////////////////////////////////
 // Add a '//' at the beginning of the line to be in 
 // release mode.
-//#define ACCESSORIES_DEBUG_MODE
+#define ACCESSORIES_DEBUG_MODE
 
 ///////////////////////////////////////////////////////
 // Verbose mode lets you see all actions done by the 

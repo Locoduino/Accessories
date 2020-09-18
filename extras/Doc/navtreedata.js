@@ -541,6 +541,7 @@ var NAVTREE =
         [ "src", "dir_d41d8cd98f00b204e9800998ecf8427e.html", [
           [ "Accessories.h", "Accessories_8h.html", [
             [ "ACCESSORIES_DEBUG_MODE", "Accessories_8h.html#a86af2ac1eabdbc73d1f058b1bec663f2", null ],
+            [ "ACCESSORIES_DEBUG_MODE", "Accessories_8h.html#a86af2ac1eabdbc73d1f058b1bec663f2", null ],
             [ "ACCESSORIES_DEBUG_VERBOSE_MODE", "Accessories_8h.html#a4d9bb2b3533df730c78d34271232e871", null ],
             [ "ACCESSORIES_LIBRARY_VERSION", "Accessories_8h.html#af3f2ca889b50263758daea896c09008b", null ],
             [ "ACCESSORIES_PRINT_ACCESSORIES", "Accessories_8h.html#a2d8b55a1a0223b7ff1467185f61efba1", null ],
@@ -660,8 +661,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AFMotor_8cpp_source.html",
-"classAccessoryMotor.html#a56bd54e8b46f77566c2bf312101c26df",
-"functions_all_f.html"
+"classAccessoryMotor.html#a4794a99fd916b61fc9ce7750cb418657",
+"functions_all_e.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
